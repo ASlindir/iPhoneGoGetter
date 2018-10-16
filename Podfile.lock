@@ -1,0 +1,172 @@
+PODS:
+  - Bolts (1.9.0):
+    - Bolts/AppLinks (= 1.9.0)
+    - Bolts/Tasks (= 1.9.0)
+  - Bolts/AppLinks (1.9.0):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.9.0)
+  - CHIPageControl (0.1.6):
+    - CHIPageControl/Aji (= 0.1.6)
+    - CHIPageControl/Aleppo (= 0.1.6)
+    - CHIPageControl/Chimayo (= 0.1.6)
+    - CHIPageControl/Fresno (= 0.1.6)
+    - CHIPageControl/Jalapeno (= 0.1.6)
+    - CHIPageControl/Jaloro (= 0.1.6)
+    - CHIPageControl/Paprika (= 0.1.6)
+    - CHIPageControl/Puya (= 0.1.6)
+  - CHIPageControl/Aji (0.1.6)
+  - CHIPageControl/Aleppo (0.1.6)
+  - CHIPageControl/Chimayo (0.1.6)
+  - CHIPageControl/Fresno (0.1.6)
+  - CHIPageControl/Jalapeno (0.1.6)
+  - CHIPageControl/Jaloro (0.1.6)
+  - CHIPageControl/Paprika (0.1.6)
+  - CHIPageControl/Puya (0.1.6)
+  - Crashlytics (3.10.5):
+    - Fabric (~> 1.7.9)
+  - DACircularProgress (2.3.1)
+  - Fabric (1.7.9)
+  - FacebookCore (0.3.1):
+    - Bolts (~> 1.8)
+    - FBSDKCoreKit (~> 4.33)
+  - FacebookLogin (0.3.1):
+    - Bolts (~> 1.8)
+    - FacebookCore (~> 0.3.1)
+    - FBSDKCoreKit (~> 4.33)
+    - FBSDKLoginKit (~> 4.33)
+  - FacebookShare (0.3.1):
+    - Bolts (~> 1.8)
+    - FacebookCore (~> 0.3.1)
+    - FBSDKCoreKit (~> 4.33)
+    - FBSDKShareKit (~> 4.33)
+  - FBSDKCoreKit (4.34.0):
+    - Bolts (~> 1.7)
+  - FBSDKLoginKit (4.34.0):
+    - FBSDKCoreKit
+  - FBSDKShareKit (4.34.0):
+    - FBSDKCoreKit (~> 4.34.0)
+  - Firebase/Auth (5.4.0):
+    - Firebase/CoreOnly
+    - FirebaseAuth (= 5.0.2)
+  - Firebase/Core (5.4.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (= 5.0.1)
+  - Firebase/CoreOnly (5.4.0):
+    - FirebaseCore (= 5.0.5)
+  - Firebase/Database (5.4.0):
+    - Firebase/CoreOnly
+    - FirebaseDatabase (= 5.0.2)
+  - Firebase/Messaging (5.4.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (= 3.0.3)
+  - Firebase/Storage (5.4.0):
+    - Firebase/CoreOnly
+    - FirebaseStorage (= 3.0.0)
+  - FirebaseAnalytics (5.0.1):
+    - FirebaseCore (~> 5.0)
+    - FirebaseInstanceID (~> 3.0)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - nanopb (~> 0.3)
+  - FirebaseAuth (5.0.2):
+    - FirebaseCore (~> 5.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - FirebaseCore (5.0.5):
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseDatabase (5.0.2):
+    - FirebaseCore (~> 5.0)
+    - leveldb-library (~> 1.18)
+  - FirebaseInstanceID (3.1.1):
+    - FirebaseCore (~> 5.0)
+  - FirebaseMessaging (3.0.3):
+    - FirebaseCore (~> 5.0)
+    - FirebaseInstanceID (~> 3.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - Protobuf (~> 3.1)
+  - FirebaseStorage (3.0.0):
+    - FirebaseCore (~> 5.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GoogleToolboxForMac/Defines (2.1.4)
+  - GoogleToolboxForMac/Logger (2.1.4):
+    - GoogleToolboxForMac/Defines (= 2.1.4)
+  - GoogleToolboxForMac/NSData+zlib (2.1.4):
+    - GoogleToolboxForMac/Defines (= 2.1.4)
+  - GTMSessionFetcher/Core (1.1.15)
+  - IQKeyboardManagerSwift (6.1.0)
+  - Koloda (4.3.1):
+    - pop (~> 1.0)
+  - leveldb-library (1.20)
+  - nanopb (0.3.8):
+    - nanopb/decode (= 0.3.8)
+    - nanopb/encode (= 0.3.8)
+  - nanopb/decode (0.3.8)
+  - nanopb/encode (0.3.8)
+  - NVActivityIndicatorView (4.3.0):
+    - NVActivityIndicatorView/Presenter (= 4.3.0)
+  - NVActivityIndicatorView/Presenter (4.3.0)
+  - pop (1.0.10)
+  - Protobuf (3.6.0)
+  - SDWebImage (4.4.1):
+    - SDWebImage/Core (= 4.4.1)
+  - SDWebImage/Core (4.4.1)
+  - SwiftyGif (4.1.0)
+  - TTGSnackbar (1.7.3)
+  - UIImage+ImageCompress (0.0.1)
+
+DEPENDENCIES:
+  - CHIPageControl (~> 0.1.3)
+  - Crashlytics
+  - DACircularProgress
+  - Fabric
+  - FacebookCore
+  - FacebookLogin
+  - FacebookShare
+  - Firebase/Auth
+  - Firebase/Core
+  - Firebase/Database
+  - Firebase/Messaging
+  - Firebase/Storage
+  - IQKeyboardManagerSwift
+  - Koloda
+  - NVActivityIndicatorView
+  - SDWebImage (~> 4.1)
+  - SwiftyGif
+  - TTGSnackbar
+  - UIImage+ImageCompress
+
+SPEC CHECKSUMS:
+  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  CHIPageControl: 21b85bb8c7d4d1d15fc4f353e1eb095eb75de5f1
+  Crashlytics: 7f2e38d302d9da96475b3d64d86fb29e31a542b7
+  DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
+  Fabric: a2917d3895e4c1569b9c3170de7320ea1b1e6661
+  FacebookCore: 33078ef1d7d76b73f7e8c990dca7d3ea6db8d22f
+  FacebookLogin: 6f15bf4fefd7a8865abbfa8fcd7f3dfd87aa275f
+  FacebookShare: c9ee8e5399d961fda00ded9befccacfe04fccf93
+  FBSDKCoreKit: 0ff57f093b85c8c9d5aba697d3edf68a8960ce78
+  FBSDKLoginKit: 8c78f57a145afb756e4755e69195ebe08a42466e
+  FBSDKShareKit: 511d1dfc71204c0a8d69e6c5e3c964dcf0d4f3d9
+  Firebase: d66f4f29c23f22d96808d9abc174d81d8eee968f
+  FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
+  FirebaseAuth: 096e457cdd4274412a66c4a35874787e411f5a03
+  FirebaseCore: 42b3267233bd21a5abd54117ccc38ca3dd0f8e83
+  FirebaseDatabase: 27be5ac5bc75e0b17537b2bbfada8258addcc8cd
+  FirebaseInstanceID: f3f0657372592ecdfdfe2cac604a5a75758376a6
+  FirebaseMessaging: f43eb0c0e1da096e659de6f713038e74862a62cd
+  FirebaseStorage: 7ca4bb7b58a25fa647b04f524033fc7cb7eb272b
+  GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
+  GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
+  IQKeyboardManagerSwift: f5004f5860d9a8ed23a7ef7a156ae168828eb018
+  Koloda: 0d39b2aa188ccd1fac48d752acaf9802e683c625
+  leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
+  nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  NVActivityIndicatorView: 963f62bf9f993fcf23218e55958e5b1761b9504c
+  pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
+  Protobuf: 0fc0ad8bec688b2a3017a139953e01374fedbd5f
+  SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
+  SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
+  TTGSnackbar: a66e929fd17d662152ec0964990a86e966310edb
+  UIImage+ImageCompress: 6b38489f38075d569d9f25d72af7ecf5c84c1057
+
+PODFILE CHECKSUM: 45972d1f740fb51ecf2c06746caf83e7b644e9a4
+
+COCOAPODS: 1.4.0

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RangeSlider" customModule="Slindir" customModuleProvider="target">
+            <connections>
+                <outlet property="maxThumb" destination="GKx-6j-zs3" id="e2i-v8-Os0"/>
+                <outlet property="maxThumbLayout" destination="MbO-oN-X0H" id="Xtz-Mc-5uW"/>
+                <outlet property="maxTrackLayout" destination="VXR-1G-mSh" id="BvS-Fc-eN6"/>
+                <outlet property="minThumb" destination="xrq-mh-QU0" id="Ut2-Hq-6Bh"/>
+                <outlet property="minThumbLayout" destination="mA1-om-LDc" id="0bW-xe-92C"/>
+                <outlet property="minTrackLayout" destination="oq2-t2-PDF" id="IGk-lt-DZd"/>
+                <outlet property="track" destination="nbo-gd-oot" id="UW6-Og-NLd"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view userInteractionEnabled="NO" contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="364" height="31"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7e6-UD-QyN">
+                    <rect key="frame" x="0.0" y="14" width="364" height="3"/>
+                    <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="Uov-SK-Cep"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nbo-gd-oot">
+                    <rect key="frame" x="0.0" y="14" width="364" height="3"/>
+                    <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="sL9-a3-r0h"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RSHandle" translatesAutoresizingMaskIntoConstraints="NO" id="xrq-mh-QU0">
+                    <rect key="frame" x="0.0" y="-6.5" width="34" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="34" id="ozm-3T-CNK"/>
+                        <constraint firstAttribute="height" constant="44" id="yeK-Fb-GfF"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RSHandle" translatesAutoresizingMaskIntoConstraints="NO" id="GKx-6j-zs3">
+                    <rect key="frame" x="330" y="-6.5" width="34" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="34" id="7Ax-E6-xVa"/>
+                        <constraint firstAttribute="height" constant="44" id="js5-7B-pVO"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="7e6-UD-QyN" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="08j-dQ-JW9"/>
+                <constraint firstAttribute="trailing" secondItem="7e6-UD-QyN" secondAttribute="trailing" id="CR5-oE-vcH"/>
+                <constraint firstItem="GKx-6j-zs3" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Eqc-B0-hom"/>
+                <constraint firstItem="nbo-gd-oot" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="HXp-Ze-f1E"/>
+                <constraint firstAttribute="trailing" secondItem="GKx-6j-zs3" secondAttribute="trailing" id="MbO-oN-X0H"/>
+                <constraint firstItem="xrq-mh-QU0" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="UQ9-Gg-As9"/>
+                <constraint firstAttribute="trailing" secondItem="nbo-gd-oot" secondAttribute="trailing" id="VXR-1G-mSh"/>
+                <constraint firstItem="7e6-UD-QyN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="lre-WC-oOS"/>
+                <constraint firstItem="xrq-mh-QU0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="mA1-om-LDc"/>
+                <constraint firstItem="nbo-gd-oot" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="oq2-t2-PDF"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="455" y="154.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="RSHandle" width="88" height="88"/>
+    </resources>
+</document>

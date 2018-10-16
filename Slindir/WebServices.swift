@@ -1,0 +1,272 @@
+//
+//  WebServices.swift
+//  Slindir
+//
+//  Created by OSX on 05/10/17.
+//  Copyright © 2017 Batth. All rights reserved.
+//
+
+import Foundation
+import UIKit
+
+public let baseUrl = "http://slindirapp.com/web-services/index.php"
+public let mediaUrl = "http://slindirapp.com/web-services/media/"
+
+enum Model: String{
+    
+    case user = "user"
+    
+    case quiz = "quiz"
+    
+    case match = "match"
+    
+    case friend = "friend"
+    
+    case chat = "chat"
+    
+    case report = "report"
+    
+    case dislike = "dislike"
+}
+
+enum ServiceType: String {
+    case post = "POST"
+    case get = "GET"
+}
+
+enum Services: String {
+//Login and Save User Details API's
+    case login                              = "login"
+    
+    case updateProfile                      = "update-profile"
+    
+    case userDetails                        = "get-user-details"
+    
+    case saveUserInterests                  = "save-user-activities"
+    
+//Quiz API's
+    case fetchQuizQuestions                 = "fetch-quiz-questions"
+    case saveUserQuiz                       = "save-user-quiz"
+    case fetchUserQuiz                      = "fetch-user-quiz"
+    
+//Match API
+    case fetchMatchedProfile                = "fetch-matched-profiles"
+    
+//Set User Location API
+    case setLocation                        = "set-user-location"
+    
+//Friends API's
+    case sendFriendRequest                  = "send-friend-request"
+    
+    case dislikeUser                          = "dislike-user"
+    
+/// This enum is used for accept friends Request with action "accept" moreover same enum is used for decline or Unfriend Request. Use action as "decline"
+    case acceptFriendRequest                = "accept-decline-friend-request"
+    
+    case fetchFriendList                    = "fetch-friends-list"
+    
+    case uploadFile                         = "upload-file"
+    
+    case blockUser                          = "block-user"
+    
+    case reportUser                         = "report-user"
+    
+    case logout                             = "logout"
+    
+    case deleteAccount                      = "delete-account"
+    
+    case chatMessage                        = "new-message-received"
+
+    case deviceToken                        = "save-device-token"
+    
+    case moveUserToPermanentList            = "move-users-to-permanent-list"
+    
+    case requestNewActivities               = "request-new-activities"
+
+    case endUserDetail                      = "get-end-user-details"
+    
+    case uploadVideoAndThumbnail            = "upload-profile-video"
+}
+
+class WebServices: NSObject {
+
+    static let service = WebServices()
+    
+    func webServicePostRequest(_ servcieType: ServiceType,_ model: Model, _ methods:Services ,_ parameters: Dictionary<String, Any>?, successHandler success:@escaping (_ response: Dictionary<String, Any>?) -> Void, errorHandler serviceError:@escaping (_ error: Error?) -> Void){
+        
+        let fullUrlString = "\(baseUrl)?model=\(model)&type=\(methods.rawValue)"
+        
+        let url = URL(string: fullUrlString)
+        var request = URLRequest(url: url!)
+        request.httpMethod = servcieType.rawValue
+        do{
+            if let params = parameters{
+                request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+            }
+        }catch let err{
+            print(err)
+        }
+        
+        let urlSessionConfiguration = URLSessionConfiguration.default
+        let urlSession = URLSession(configuration: urlSessionConfiguration, delegate: nil, delegateQueue: OperationQueue.main)
+        let urlSessionData = urlSession.dataTask(with: request) { (data, response, error) in
+            if error == nil{
+                do{
+                    print(String.init(data: data!, encoding: .utf8)!)
+                    print(response!)
+                    if let jsonData = data{
+                        let json = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as! Dictionary<String, Any>
+                        success(json)
+                    }else{
+                        success(nil)
+                    }
+                }catch let err{
+                    serviceError(err)
+                }
+            }else{
+                serviceError(error)
+            }
+        }
+        urlSessionData.resume()
+    }
+    
+    func webServicePostFileRequest(_ servcieType: ServiceType,_ model: Model, _ methods:Services,_ type:String,_ fileData:Data,_ parameters: Dictionary<String, Any>?, successHandler success:@escaping (_ response: Dictionary<String, Any>?) -> Void, errorHandler serviceError:@escaping (_ error: Error?) -> Void){
+        
+        let fullUrlString = "\(baseUrl)?model=\(model)&type=\(methods.rawValue)"
+        
+        let url = URL(string: fullUrlString)
+        var request = URLRequest(url: url!)
+        request.httpMethod = servcieType.rawValue
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        var fileName = String(format:"image%d.jpg",Int(NSTimeIntervalSince1970))
+        var mimeType:String = "image/jpg"
+        if type == "video" {
+            mimeType = "application/octet-stream"
+            fileName = String(format:"video%d.mp4",Int(NSTimeIntervalSince1970))
+        }
+        request.httpBody = createBody(parameters: parameters as! [String : String],
+                                boundary: boundary,
+                                data: fileData,
+                                mimeType: mimeType,
+                                filename: fileName)
+        
+        let urlSessionConfiguration = URLSessionConfiguration.default
+        let urlSession = URLSession(configuration: urlSessionConfiguration, delegate: nil, delegateQueue: OperationQueue.main)
+        let urlSessionData = urlSession.dataTask(with: request) { (data, response, error) in
+            if error == nil{
+                do{
+                    if let jsonData = data{
+                        let json = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as! Dictionary<String, Any>
+                        success(json)
+                    }else{
+                        success(nil)
+                    }
+                }catch let err{
+                    serviceError(err)
+                }
+            }else{
+                serviceError(error)
+            }
+        }
+        urlSessionData.resume()
+    }
+    
+    func createBody(parameters: [String: String],
+                    boundary: String,
+                    data: Data,
+                    mimeType: String,
+                    filename: String) -> Data {
+        let body = NSMutableData()
+        
+        let boundaryPrefix = "--\(boundary)\r\n"
+        
+        for (key, value) in parameters {
+            body.appendString(boundaryPrefix)
+            body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+            body.appendString("\(value)\r\n")
+        }
+        
+        body.appendString(boundaryPrefix)
+        body.appendString("Content-Disposition: form-data; name=\"file\"; filename=\"\(filename)\"\r\n")
+        body.appendString("Content-Type: \(mimeType)\r\n\r\n")
+        body.append(data)
+        body.appendString("\r\n")
+        body.appendString("--".appending(boundary.appending("--")))
+        
+        return body as Data
+    }
+    
+    func webServicePostVideoFileAndThumbnailRequest(_ servcieType: ServiceType,_ model: Model, _ methods:Services,_ fileData:Data,_ imageData:Data,_ parameters: Dictionary<String, Any>?, successHandler success:@escaping (_ response: Dictionary<String, Any>?) -> Void, errorHandler serviceError:@escaping (_ error: Error?) -> Void){
+        
+        let fullUrlString = "\(baseUrl)?model=\(model)&type=\(methods.rawValue)"
+        
+        let url = URL(string: fullUrlString)
+        var request = URLRequest(url: url!)
+        request.httpMethod = servcieType.rawValue
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        let fileName = String(format:"image%d.jpg",Int(NSTimeIntervalSince1970))
+        
+        let body = NSMutableData()
+        
+        let boundaryPrefix = "--\(boundary)\r\n"
+        
+        for (key, value) in parameters! {
+            body.appendString(boundaryPrefix)
+            body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+            body.appendString("\(value)\r\n")
+        }
+        
+        body.appendString(boundaryPrefix)
+        body.appendString("Content-Disposition: form-data; name=\"profileVideoThumbnail\"; filename=\"\(fileName)\"\r\n")
+        body.appendString("Content-Type: image/jpg\r\n\r\n")
+        body.append(imageData)
+        body.appendString("\r\n")
+        
+        let videoFileName = String(format:"video%d.mp4",Int(NSTimeIntervalSince1970))
+        
+        body.appendString(boundaryPrefix)
+        body.appendString("Content-Disposition: form-data; name=\"profileVideo\"; filename=\"\(videoFileName)\"\r\n")
+        body.appendString("Content-Type: application/octet-stream\r\n\r\n")
+        body.append(fileData)
+        body.appendString("\r\n")
+        body.appendString("--".appending(boundary.appending("--")))
+        
+        request.httpBody = body as Data
+        
+        let urlSessionConfiguration = URLSessionConfiguration.default
+        let urlSession = URLSession(configuration: urlSessionConfiguration, delegate: nil, delegateQueue: OperationQueue.main)
+        let urlSessionData = urlSession.dataTask(with: request) { (data, response, error) in
+            if error == nil{
+                do{
+                    if let jsonData = data{
+                        print(String(data: jsonData, encoding: String.Encoding.utf8) as String!)
+
+                        let json = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as! Dictionary<String, Any>
+                        success(json)
+                    }else{
+                        success(nil)
+                    }
+                }catch let err{
+                    serviceError(err)
+                }
+            }else{
+                serviceError(error)
+            }
+        }
+        urlSessionData.resume()
+    }
+
+}
+
+extension NSMutableData {
+    func appendString(_ string: String) {
+        let data = string.data(using: String.Encoding.utf8, allowLossyConversion: false)
+        append(data!)
+    }
+}

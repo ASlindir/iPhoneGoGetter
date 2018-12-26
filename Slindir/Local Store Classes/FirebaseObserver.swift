@@ -87,7 +87,7 @@ class FirebaseObserver: NSObject {
                     }
                 }
                 else {
-                    self.showMessageView(String(format:"%@ has sent you a photo message.",name), messageData as! [AnyHashable : Any])
+                    self.showMessageView(String(format:"%@ has sent you a photo message.",name!), messageData as! [AnyHashable : Any])
                 }
             }
         })

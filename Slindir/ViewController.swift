@@ -167,7 +167,7 @@ class ViewController: UIViewController {
         self.playCircularIcon()
         var videoUrl = Bundle.main.url(forResource: "SlindirIntro", withExtension: "mp4")
         
-        if UIScreen.main.bounds.size.height == 812 {
+        if UIScreen.main.bounds.size.height >= 812 {
             videoUrl = Bundle.main.url(forResource: "SlindirIntro_iPhoneX", withExtension: "mp4")
             self.playerController.view.frame = CGRect(x:-20, y:-20, width: UIScreen.main.bounds.size.width + 40, height: UIScreen.main.bounds.size.height + 40)
         }
@@ -279,7 +279,7 @@ class ViewController: UIViewController {
         
       //  loginManager.loginBehavior = .web;
         
-        loginManager.logIn(readPermissions: [.publicProfile,.email,.userBirthday,.userPhotos, .userGender, .userFriends,.custom("user_age_range")], viewController: self) { (loginResults) in
+        loginManager.logIn(readPermissions: [.publicProfile,.email,.userBirthday,.userPhotos, .userGender,.custom("user_age_range")], viewController: self) { (loginResults) in
             DispatchQueue.main.async {
                 switch loginResults{
                 case .failed(let err):

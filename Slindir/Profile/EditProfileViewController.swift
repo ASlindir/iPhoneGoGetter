@@ -252,7 +252,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             }
         }
         
-        if UIScreen.main.bounds.size.height == 812 {
+        if UIScreen.main.bounds.size.height >= 812 {
             self.heightNavigation.constant = 100
         }
         self.widthVwCamera.constant = UIScreen.main.bounds.width - 110
@@ -1140,8 +1140,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         Loader.startLoader(true)
         var parameters = Dictionary<String, Any!>()
         parameters["user_fb_id"] = facebookID
-    
-        WebServices.service.webServicePostVideoFileAndThumbnailRequest(.post, .user, .uploadVideoAndThumbnail, data, imageData, parameters, successHandler: { (response) in
+    WebServices.service.webServicePostVideoFileAndThumbnailRequest(.post, .user, .uploadVideoAndThumbnail, data, imageData, parameters, successHandler: { (response) in
             self.getUserDetails(false)
             Loader.stopLoader()
         }) { (error) in

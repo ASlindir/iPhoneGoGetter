@@ -73,6 +73,11 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     @IBOutlet weak var constraintTableViewHeight: NSLayoutConstraint!
     @IBOutlet      var heightPersonalityView: NSLayoutConstraint!
     @IBOutlet weak var heightNavigation: NSLayoutConstraint!
+    @IBOutlet weak var topViewFrontConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var heightRatioVideoVw: NSLayoutConstraint!
+    @IBOutlet weak var heightVideoVw: NSLayoutConstraint!
+    
     
     @IBOutlet weak var blurView: UIVisualEffectView!
     @IBOutlet weak var blurViewSetting: UIVisualEffectView!
@@ -312,11 +317,13 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             selectedQuestionDict[key] = "0"
         }
         
-        if UIScreen.main.bounds.size.width == 414 {
+        if UIScreen.main.bounds.size.height == 736 {
+            self.topViewFrontConstraint.constant = 120
             self.lblActiveCenterY.constant = 55
             self.view.layoutIfNeeded()
         }
-        else if UIScreen.main.bounds.size.height == 812 {
+        else if UIScreen.main.bounds.size.height >= 812 {
+            self.topViewFrontConstraint.constant = 140
             self.lblActiveCenterY.constant = 40
             self.heightNavigation.constant = 100
             self.view.layoutIfNeeded()
@@ -1211,7 +1218,12 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     func startTitleLogoAnimation(){
         DispatchQueue.main.asyncAfter(deadline: .now()) {
             self.constraintTopViewHeight.constant = UIScreen.main.bounds.height
-            self.constraintLogoCenter.constant = -40
+            if UIScreen.main.bounds.size.height == 736 {
+                self.constraintLogoCenter.constant = -10
+            }
+            else {
+                self.constraintLogoCenter.constant = -40
+            }
             self.constraintLogoLeading.constant = 112
             self.constraintLogoTrailing.constant = 112
             self.viewLblBackground.layer.backgroundColor = UIColor.white.cgColor
@@ -2194,13 +2206,28 @@ extension ProfileViewController: KolodaViewDataSource {
         
         self.imgVwVideoThumb.image = UIImage()
         if let detail = details["profile_video"] as? String {
-            videoUrl = String(format:"%@%@", mediaUrl, detail)
-           // self.perform(#selector(self.thumbnailFromVideoServerURL(url:)), with: URL(string:self.videoUrl)!, afterDelay: 0.1)
-            self.imgVwVideoThumb.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,(details["profile_thumbnail"] as? String)!)), placeholderImage: nil)
-            self.viewVideo.isHidden = false
+            if detail == "" {
+                self.viewVideo.isHidden = true
+                self.heightVideoVw.isActive = true
+                self.heightRatioVideoVw.isActive = false
+                self.heightVideoVw.constant = 0
+                self.view.layoutIfNeeded()
+            }
+            else {
+                self.heightVideoVw.isActive = false
+                self.heightRatioVideoVw.isActive = true
+                videoUrl = String(format:"%@%@", mediaUrl, detail)
+                // self.perform(#selector(self.thumbnailFromVideoServerURL(url:)), with: URL(string:self.videoUrl)!, afterDelay: 0.1)
+                self.imgVwVideoThumb.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,(details["profile_thumbnail"] as? String)!)), placeholderImage: nil)
+                self.viewVideo.isHidden = false
+            }
         }
         else {
             self.viewVideo.isHidden = true
+            self.heightVideoVw.isActive = true
+            self.heightRatioVideoVw.isActive = false
+            self.heightVideoVw.constant = 0
+            self.view.layoutIfNeeded()
         }
        
         self.favoriteTeamArray = [String]()

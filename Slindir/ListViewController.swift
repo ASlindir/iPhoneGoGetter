@@ -37,7 +37,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
         NotificationCenter.default.addObserver(self, selector: #selector(chatNotificationRecived), name: NSNotification.Name(rawValue: NSNotification.Name.RawValue("chatListNotification")), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(newMatchNotificationRecived), name: NSNotification.Name(rawValue: NSNotification.Name.RawValue("newMatchListNotification")), object: nil)
 
-        if UIScreen.main.bounds.size.height == 812 {
+        if UIScreen.main.bounds.size.height >= 812 {
             self.heightNavigation.constant = 100
             self.view.layoutIfNeeded()
         }

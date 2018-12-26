@@ -217,8 +217,14 @@ extension UIViewController{
                                 }                                
                         }
                     }
-                    
-
+                    if let detail = details["profile_video"] as? String {
+                        if detail == "" {
+                           self.deleteOldVideoFromDocumentDirectory()
+                        }
+                    }
+                    else {
+                        self.deleteOldVideoFromDocumentDirectory()
+                    }
                 }
             }else{
                 if jsonData!["message"] as? String == "No Associated Facebook ID Found!" {

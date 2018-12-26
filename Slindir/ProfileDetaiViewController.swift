@@ -85,6 +85,9 @@ let personalDetail = LocalStore.store.getUserDetails()
     @IBOutlet weak var lineBelowPersonality: UIImageView!
     @IBOutlet weak var tableViewFavTeams: UITableView!
     @IBOutlet weak var btnBack: UIButton!
+    
+    @IBOutlet weak var heightRatioVideoVw: NSLayoutConstraint!
+    @IBOutlet weak var heightVideoVw: NSLayoutConstraint!
 
     var showBrainGame:Bool = false
     var videoUrl:String = ""
@@ -98,7 +101,7 @@ let personalDetail = LocalStore.store.getUserDetails()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        if UIScreen.main.bounds.size.height == 812 {
+        if UIScreen.main.bounds.size.height >= 812 {
             self.heightNavigation.constant = 100
             self.view.layoutIfNeeded()
         }
@@ -579,12 +582,28 @@ let personalDetail = LocalStore.store.getUserDetails()
         
         self.imgVwVideoThumb.image = UIImage()
         if let detail = details["profile_video"] as? String {
-            videoUrl = String(format:"%@%@", mediaUrl, detail)
-            self.imgVwVideoThumb.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,(details["profile_thumbnail"] as? String)!)), placeholderImage: nil)
-            self.viewVideo.isHidden = false
+            if detail == "" {
+                self.viewVideo.isHidden = true
+                self.heightVideoVw.isActive = true
+                self.heightRatioVideoVw.isActive = false
+                self.heightVideoVw.constant = 0
+                self.view.layoutIfNeeded()
+            }
+            else {
+                self.heightVideoVw.isActive = false
+                self.heightRatioVideoVw.isActive = true
+                videoUrl = String(format:"%@%@", mediaUrl, detail)
+                // self.perform(#selector(self.thumbnailFromVideoServerURL(url:)), with: URL(string:self.videoUrl)!, afterDelay: 0.1)
+                self.imgVwVideoThumb.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,(details["profile_thumbnail"] as? String)!)), placeholderImage: nil)
+                self.viewVideo.isHidden = false
+            }
         }
         else {
             self.viewVideo.isHidden = true
+            self.heightVideoVw.isActive = true
+            self.heightRatioVideoVw.isActive = false
+            self.heightVideoVw.constant = 0
+            self.view.layoutIfNeeded()
         }
         
         self.favoriteTeamArray = [String]()

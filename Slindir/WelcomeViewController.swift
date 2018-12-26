@@ -67,14 +67,11 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        if UIScreen.main.bounds.size.width == 414 {
-            self.topTapUntapLbl.constant = 120
-            self.view.layoutIfNeeded()
-        }
-        else if UIScreen.main.bounds.size.height == 812 {
+        if UIScreen.main.bounds.size.height >= 736 {
             self.topTapUntapLbl.constant = 140
             self.view.layoutIfNeeded()
         }
+
         addDataInArray()
         addTheRequestActivityView()
         //getDataFromFB()

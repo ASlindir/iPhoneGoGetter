@@ -86,8 +86,8 @@ let personalDetail = LocalStore.store.getUserDetails()
     @IBOutlet weak var tableViewFavTeams: UITableView!
     @IBOutlet weak var btnBack: UIButton!
     
-    @IBOutlet weak var heightRatioVideoVw: NSLayoutConstraint!
-    @IBOutlet weak var heightVideoVw: NSLayoutConstraint!
+    var selectedCardScrollVw = UIScrollView()
+    var selectedCardVw = CardsView()
 
     var showBrainGame:Bool = false
     var videoUrl:String = ""
@@ -583,27 +583,14 @@ let personalDetail = LocalStore.store.getUserDetails()
         self.imgVwVideoThumb.image = UIImage()
         if let detail = details["profile_video"] as? String {
             if detail == "" {
-                self.viewVideo.isHidden = true
-                self.heightVideoVw.isActive = true
-                self.heightRatioVideoVw.isActive = false
-                self.heightVideoVw.constant = 0
-                self.view.layoutIfNeeded()
             }
             else {
-                self.heightVideoVw.isActive = false
-                self.heightRatioVideoVw.isActive = true
                 videoUrl = String(format:"%@%@", mediaUrl, detail)
                 // self.perform(#selector(self.thumbnailFromVideoServerURL(url:)), with: URL(string:self.videoUrl)!, afterDelay: 0.1)
                 self.imgVwVideoThumb.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,(details["profile_thumbnail"] as? String)!)), placeholderImage: nil)
-                self.viewVideo.isHidden = false
             }
         }
         else {
-            self.viewVideo.isHidden = true
-            self.heightVideoVw.isActive = true
-            self.heightRatioVideoVw.isActive = false
-            self.heightVideoVw.constant = 0
-            self.view.layoutIfNeeded()
         }
         
         self.favoriteTeamArray = [String]()
@@ -713,16 +700,18 @@ let personalDetail = LocalStore.store.getUserDetails()
     
     @objc func showImagesInFullView(_ gesture: UITapGestureRecognizer) {
         let scrollVw = gesture.view as? UIScrollView
+        selectedCardScrollVw = scrollVw!
         let index = Int(scrollVw!.contentOffset.y/scrollVw!.frame.size.height)
         let vwCard = scrollVw?.superview as? CardsView
+        selectedCardVw = vwCard!
         let count:Int = (vwCard?.arrayImages.count)!
         for i in 0..<count {
             let imgVw = self.view.viewWithTag(i + 201) as! UIImageView
             imgVw.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, (vwCard?.arrayImages[i])!)), placeholderImage: UIImage.init(named: "placeholder"))
         }
         
-        self.scrollVwFullImage.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * CGFloat(count))
-        self.scrollVwFullImage.contentOffset = CGPoint(x: 0, y: UIScreen.main.bounds.size.height * CGFloat(index))
+        self.scrollVwFullImage.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: self.scrollVwFullImage.frame.size.height * CGFloat(count))
+        self.scrollVwFullImage.contentOffset = CGPoint(x: 0, y: self.scrollVwFullImage.frame.size.height * CGFloat(index))
         self.view.bringSubview(toFront: self.vwScrollImage)
     }
     
@@ -772,6 +761,11 @@ let personalDetail = LocalStore.store.getUserDetails()
                 scrollViewBottom.contentOffset.y = scrollViewBottom.contentSize.height - scrollViewBottom.bounds.height
             }
         }
+        else if scrollView == self.scrollVwFullImage {
+            let index = Int(self.scrollVwFullImage!.contentOffset.y/self.scrollVwFullImage!.frame.size.height)
+            self.selectedCardScrollVw.contentOffset = CGPoint(x: 0, y: self.selectedCardScrollVw.frame.size.height * CGFloat(index))
+            self.selectedCardVw.pageControl.progress = Double(scrollView.contentOffset.y/scrollView.frame.size.height)
+        }
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -792,4 +786,3 @@ let personalDetail = LocalStore.store.getUserDetails()
         return age!
     }
 }
-    

@@ -11,7 +11,7 @@ import Photos
 import AVKit
 import MobileCoreServices
 import Crashlytics
-import FacebookLogin
+import FBSDKCoreKit
 import SDWebImage
 import AVFoundation
 import UIImage_ImageCompress
@@ -688,15 +688,23 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 
                 if i == 0 {
                     openCameraView.imgViewProfile.image = profileImages[i] as? UIImage
-                    if (personalDetail[String(format:"profile_pic")] as? String) == "" {
+                    if let profile_pic = personalDetail[String(format:"profile_pic")] as? String {
+                        if profile_pic == "" {
+                            openCameraView.imgViewCamera.isHidden = false
+                            openCameraView.imgViewProfile.isHidden = true
+                            openCameraView.lblRecordVideo.text = "ADD PHOTO"
+                        }
+                        else {
+                            openCameraView.imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, personalDetail[String(format:"profile_pic")] as! String)), placeholderImage: UIImage.init(named: "placeholder"))
+                            openCameraView.imgViewCamera.isHidden = true
+                            openCameraView.imgViewProfile.isHidden = false
+                            openCameraView.lblRecordVideo.text = "CHANGE PHOTO"
+                        }
+                    }else{
                         openCameraView.imgViewCamera.isHidden = false
                         openCameraView.imgViewProfile.isHidden = true
                         openCameraView.lblRecordVideo.text = "ADD PHOTO"
-                    }else{
-                        openCameraView.imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, personalDetail[String(format:"profile_pic")] as! String)), placeholderImage: UIImage.init(named: "placeholder"))
-                        openCameraView.imgViewCamera.isHidden = true
-                        openCameraView.imgViewProfile.isHidden = false
-                        openCameraView.lblRecordVideo.text = "CHANGE PHOTO"
+                        
                     }
                 }
                 else {
@@ -1909,7 +1917,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         let alertController = UIAlertController(title: NSLocalizedString("Confirmation", comment:""), message: "Are you sure you want to logout?", preferredStyle: .alert)
         alertController.addAction(action(NSLocalizedString("Yes", comment: ""), .destructive, actionHandler: { (alertAction) in
             self.callLogoutWebService()
-            LoginManager().logOut()
+           // LoginManager().logOut()
             LocalStore.store.clearDataAllData()
             FirebaseObserver.observer.firstLoad = false
             self.deleteOldVideoFromDocumentDirectory()
@@ -1929,7 +1937,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         alertController.addAction(action(NSLocalizedString("Yes", comment: ""), .destructive, actionHandler: { (alertAction) in
             FirebaseObserver.observer.deleteFirebaseAccount()
             self.callDeleteAccountWebService()
-            LoginManager().logOut()
+          //  LoginManager().logOut()
             FirebaseObserver.observer.firstLoad = false
             self.deleteOldVideoFromDocumentDirectory()
             LocalStore.store.clearDataAllData()

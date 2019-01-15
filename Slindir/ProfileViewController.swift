@@ -9,7 +9,6 @@
 import UIKit
 import Koloda
 import MessageUI
-import FacebookShare
 import AVFoundation
 import AVKit
 import pop
@@ -74,10 +73,6 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     @IBOutlet      var heightPersonalityView: NSLayoutConstraint!
     @IBOutlet weak var heightNavigation: NSLayoutConstraint!
     @IBOutlet weak var topViewFrontConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var heightRatioVideoVw: NSLayoutConstraint!
-    @IBOutlet weak var heightVideoVw: NSLayoutConstraint!
-    
     
     @IBOutlet weak var blurView: UIVisualEffectView!
     @IBOutlet weak var blurViewSetting: UIVisualEffectView!
@@ -158,6 +153,9 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     @IBOutlet weak var vwAlert: UIView!
     @IBOutlet weak var lblAlert: UILabel!
     @IBOutlet weak var btnGotIt: UIButton!
+    
+    var selectedCardScrollVw = UIScrollView()
+    var selectedCardVw = CardsView()
     
     var greenQuestions = [UIImage]()
     var redQuestions = [UIImage]()
@@ -1105,6 +1103,11 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 }
             }
         }
+        else if scrollView == self.scrollVwFullImage {
+            let index = Int(self.scrollVwFullImage!.contentOffset.y/self.scrollVwFullImage!.frame.size.height)
+            self.selectedCardScrollVw.contentOffset = CGPoint(x: 0, y: self.selectedCardScrollVw.frame.size.height * CGFloat(index))
+            self.selectedCardVw.pageControl.progress = Double(scrollView.contentOffset.y/scrollView.frame.size.height)
+        }
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -1721,20 +1724,20 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     }
     
 //MARK:-   Facebook Share Method
-    func showAppInviteDialoge(for appInvite: AppInvite){
-        do{
-            try AppInvite.Dialog.show(from: self, invite: appInvite, completion: { (result) in
-                switch result{
-                case .success(let result):
-                    print("App Invite sent with result \(result)")
-                case .failed(let error):
-                    print("Failed to send invite with error \(error)")
-                }
-            })
-        }catch let error{
-            print("Failed to show app invite dialog with error \(error)")
-        }
-    }
+//    func showAppInviteDialoge(for appInvite: AppInvite){
+//        do{
+//            try AppInvite.Dialog.show(from: self, invite: appInvite, completion: { (result) in
+//                switch result{
+//                case .success(let result):
+//                    print("App Invite sent with result \(result)")
+//                case .failed(let error):
+//                    print("Failed to send invite with error \(error)")
+//                }
+//            })
+//        }catch let error{
+//            print("Failed to show app invite dialog with error \(error)")
+//        }
+//    }
     
     @IBAction func playVideo(_ sender: Any) {
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
@@ -2207,27 +2210,17 @@ extension ProfileViewController: KolodaViewDataSource {
         self.imgVwVideoThumb.image = UIImage()
         if let detail = details["profile_video"] as? String {
             if detail == "" {
-                self.viewVideo.isHidden = true
-                self.heightVideoVw.isActive = true
-                self.heightRatioVideoVw.isActive = false
-                self.heightVideoVw.constant = 0
-                self.view.layoutIfNeeded()
+                
             }
             else {
-                self.heightVideoVw.isActive = false
-                self.heightRatioVideoVw.isActive = true
                 videoUrl = String(format:"%@%@", mediaUrl, detail)
                 // self.perform(#selector(self.thumbnailFromVideoServerURL(url:)), with: URL(string:self.videoUrl)!, afterDelay: 0.1)
                 self.imgVwVideoThumb.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,(details["profile_thumbnail"] as? String)!)), placeholderImage: nil)
-                self.viewVideo.isHidden = false
+                
             }
         }
         else {
-            self.viewVideo.isHidden = true
-            self.heightVideoVw.isActive = true
-            self.heightRatioVideoVw.isActive = false
-            self.heightVideoVw.constant = 0
-            self.view.layoutIfNeeded()
+            
         }
        
         self.favoriteTeamArray = [String]()
@@ -2339,16 +2332,18 @@ extension ProfileViewController: KolodaViewDataSource {
     @objc func showImagesInFullView(_ gesture: UITapGestureRecognizer) {
     
         let scrollVw = gesture.view as? UIScrollView
+        selectedCardScrollVw = scrollVw!
         let index = Int(scrollVw!.contentOffset.y/scrollVw!.frame.size.height)
         let vwCard = scrollVw?.superview as? CardsView
+        selectedCardVw = vwCard!
         let count:Int = (vwCard?.arrayImages.count)!
         for i in 0..<count {
             let imgVw = self.view.viewWithTag(i + 201) as! UIImageView
             imgVw.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, (vwCard?.arrayImages[i])!)), placeholderImage: UIImage.init(named: "placeholder"))
         }
         
-        self.scrollVwFullImage.contentOffset = CGPoint(x: 0, y: UIScreen.main.bounds.size.height * CGFloat(index))
-        self.scrollVwFullImage.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * CGFloat(count))
+        self.scrollVwFullImage.contentOffset = CGPoint(x: 0, y: self.scrollVwFullImage.frame.size.height * CGFloat(index))
+        self.scrollVwFullImage.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: self.scrollVwFullImage.frame.size.height * CGFloat(count))
         self.view.bringSubview(toFront: self.vwScrollImage)
     }
     

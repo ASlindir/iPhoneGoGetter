@@ -7,11 +7,10 @@
 //
 
 import UIKit
-import FacebookCore
+import FBSDKCoreKit
 import FirebaseDatabase
 import FirebaseAuth
 import Firebase
-import FacebookLogin
 
 class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITabBarControllerDelegate {
 
@@ -46,7 +45,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
     @IBOutlet weak var constraintLogoTrailing: NSLayoutConstraint!
     
     var userDetails:Dictionary<String,Any>?
-    var accesToken: AccessToken?
+    var accesToken: FBSDKAccessToken?
     
     var arrayTitles = [String]()
     var arrayImages = [UIImage]()
@@ -365,6 +364,13 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
                 else {
                     
                     parameters["dob"] = textField?.text
+                    
+                    let df = DateFormatter()
+                    df.dateFormat = "yyyy-MM-dd"
+                    df.timeZone = NSTimeZone(abbreviation: "GMT")! as TimeZone
+                    df.locale = Locale.init(identifier: "en_US_POSIX")
+                    let ageComponents = Calendar.current.dateComponents([.year], from: df.date(from: (textField?.text)!) ?? Date(), to: Date())
+                    dateOfBirth = ageComponents.year!
                     
                     if dateOfBirth > 70 || dateOfBirth < 18 {
                         Loader.stopLoader()
@@ -795,21 +801,16 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         showAlertWithCustomButtons("Selected Activities", "You have selected \(activitiesString!)", yesAction,noAction)
         
     }
+    //(graphPath: "me", parameters: ["fields":"id,name,email,birthday,age_range,gender,first_name,friends,picture.type(large).width(1080).height(1080),photos{images}"], accessToken: token, httpMethod: .GET, apiVersion: .defaultVersion)
 //MARK:-  Get data from Facebook
     func getDataFromFB(){
         Loader.startLoader(true)
 //        Loader.startLoader(true)
         if let token = accesToken {
-            GraphRequest(graphPath: "me", parameters: ["fields":"id,name,email,birthday,age_range,gender,first_name,friends,picture.type(large).width(1080).height(1080),photos{images}"], accessToken: token, httpMethod: .GET, apiVersion: .defaultVersion).start({ (response: HTTPURLResponse?, result) in
-                
-                switch result {
-                    
-                case .failed(let error):
-                    print("error in graph request:", error)
-                    break
-                case .success(let graphResponse):
-                    if let responseDictionary = graphResponse.dictionaryValue {
-                        print(responseDictionary)
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"id,name,email,birthday,age_range,gender,first_name,friends,picture.type(large).width(1080).height(1080),photos{images}"], tokenString: token.tokenString, version: nil, httpMethod: nil)?.start(completionHandler: { (connection, result, error) in
+                if error == nil {
+                    if let responseDictionary = result as? [String:Any]{
+                        //print(responseDictionary)
                         let name = responseDictionary["first_name"] as! String
                         if let friends = responseDictionary["friends"] as? [String:Any]{
                             let summary = friends["summary"] as? [String:Any]
@@ -817,18 +818,18 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
                             if total_count! < 10 {
                                 Loader.stopLoader()
                                 
-                                                let alertController = UIAlertController(title: "", message: "We are sorry but you do not have a qualified facebook account to join our service. Please try again with a verified Facebook account.", preferredStyle: UIAlertControllerStyle.alert)
-
-                                                let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
-                                                    (result : UIAlertAction) -> Void in
-                                                    let loginManager = LoginManager()
-                                                    loginManager.logOut()
-                                                    self.navigationController?.popViewController(animated: true)
-                                                }
-
-                                                alertController.addAction(okAction)
-                                                self.present(alertController, animated: true, completion: nil)
-                                                return
+                                let alertController = UIAlertController(title: "", message: "We are sorry but you do not have a qualified facebook account to join our service. Please try again with a verified Facebook account.", preferredStyle: UIAlertControllerStyle.alert)
+                                
+                                let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+                                    (result : UIAlertAction) -> Void in
+//                                    let loginManager = LoginManager()
+//                                    loginManager.logOut()
+                                    self.navigationController?.popViewController(animated: true)
+                                }
+                                
+                                alertController.addAction(okAction)
+                                self.present(alertController, animated: true, completion: nil)
+                                return
                             }
                             else {
                                 //Firebase Login

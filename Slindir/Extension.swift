@@ -12,7 +12,6 @@ import FirebaseDatabase
 import FirebaseAuth
 import AVFoundation
 import Firebase
-import FacebookLogin
 
 //MARK:-  UIImageView Extension
 let imageCache = NSCache<AnyObject, AnyObject>()
@@ -234,7 +233,7 @@ extension UIViewController{
                             return
                         }
                     }
-                    LoginManager().logOut()
+                   // LoginManager().logOut()
                     LocalStore.store.clearDataAllData()
                     FirebaseObserver.observer.firstLoad = false
                     self.deleteOldVideoFromDocumentDirectory()

@@ -5,10 +5,11 @@ target 'Slindir' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
+  pod 'FacebookSDK'
+  pod 'FBSDKLoginKit'
+  pod 'FacebookCore'
 	pod 'SDWebImage', '~> 4.1'
 	pod 'SwiftyGif'
-	pod 'FacebookCore'
-	pod 'FacebookLogin'
 	pod 'Koloda'
 	pod 'NVActivityIndicatorView'
 	pod 'CHIPageControl', '~> 0.1.3'
@@ -18,15 +19,11 @@ target 'Slindir' do
 	pod 'Firebase/Database'
     pod 'Firebase/Messaging'
 	pod 'IQKeyboardManagerSwift'
-	pod 'Fabric'
-	pod 'Crashlytics'
-	pod 'FacebookShare'
-    pod 'Fabric'
-    pod 'Crashlytics'
+    pod 'Fabric', '1.8'
+    pod 'Crashlytics', '3.11'
     pod 'UIImage+ImageCompress'
     pod 'DACircularProgress'
     pod 'TTGSnackbar'
-    
   # Pods for Slindir
 
   target 'SlindirTests' do

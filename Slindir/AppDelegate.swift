@@ -8,14 +8,15 @@
 
 import UIKit
 import CoreData
-import FacebookCore
-import FacebookLogin
+import FBSDKCoreKit
 import Firebase
 import IQKeyboardManagerSwift
 import Fabric
 import Crashlytics
 import CoreLocation
 import UserNotifications
+import FacebookCore
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
@@ -39,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         startDate = Date()
             
-        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         FirebaseApp.configure()
         
@@ -366,7 +367,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        AppEventsLogger.activate(application)
         if LocalStore.store.isLogin() {
             FirebaseObserver.observer.observeFriendList()
             FirebaseObserver.observer.observeFriendsRemoved()
@@ -384,7 +384,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        return SDKApplicationDelegate.shared.application(app, open: url, options: options)
+        return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
     }
     
     // MARK: - Core Data stack

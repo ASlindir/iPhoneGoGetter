@@ -14,11 +14,9 @@ import SwiftyGif
 import AVFoundation
 import AVKit
 import MediaPlayer
-import FacebookCore
-import FacebookLogin
-import FirebaseAuth
+import FBSDKCoreKit
 import FBSDKLoginKit
-import FacebookShare
+import FirebaseAuth
 
 class ViewController: UIViewController {
 
@@ -273,40 +271,32 @@ class ViewController: UIViewController {
         
         self.playerController.player?.pause()
         
-        let loginManager = LoginManager()
-       loginManager.logOut()
+        let loginManager = FBSDKLoginManager()
+        loginManager.logOut()
         let timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.showDemoView), userInfo: nil, repeats: false)
         
       //  loginManager.loginBehavior = .web;
         
-        loginManager.logIn(readPermissions: [.publicProfile,.email,.userBirthday,.userPhotos, .userGender,.custom("user_age_range")], viewController: self) { (loginResults) in
-            DispatchQueue.main.async {
-                switch loginResults{
-                case .failed(let err):
-                    print(err)
-                    timer.invalidate()
-                    self.view.sendSubview(toBack: self.vwDemo)
-                    break
-                case .cancelled:
-                    timer.invalidate()
-                    print("User cancelled login.")
-                    self.view.sendSubview(toBack: self.vwDemo)
-                    break
-                case .success(grantedPermissions: _, declinedPermissions: _,token: let  accessToken):
-                    timer.invalidate()
-                    self.view.sendSubview(toBack: self.vwDemo)
-                    print("token Permission:- \(accessToken.authenticationToken)")
-                    print("Access Token :- ",FBSDKAccessToken.current().tokenString)
-                    let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
-                    
-                    let welcomeController = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
-                    welcomeController.accesToken = accessToken
-                    welcomeController.credential = credential
-                    self.navigationController?.pushViewController(welcomeController, animated: false)
-                    break
-                 
-                }
+        loginManager.logIn(withReadPermissions: ["public_profile","email","user_birthday","user_photos", "user_gender","user_age_range"], from: self) { (loginResults, error) in
+            let fbloginresult : FBSDKLoginManagerLoginResult = loginResults!
+            if (loginResults?.isCancelled)!{
+                timer.invalidate()
+                self.view.sendSubview(toBack: self.vwDemo)
+                return
             }
+            if(fbloginresult.grantedPermissions.contains("email")) {
+                timer.invalidate()
+                self.view.sendSubview(toBack: self.vwDemo)
+//                print("token Permission:- \(accessToken.authenticationToken)")
+//                print("Access Token :- ",FBSDKAccessToken.current().tokenString)
+                let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+                
+                let welcomeController = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
+                welcomeController.accesToken = FBSDKAccessToken.current()
+                welcomeController.credential = credential
+                self.navigationController?.pushViewController(welcomeController, animated: false)
+            }
+           
         }
     }
     

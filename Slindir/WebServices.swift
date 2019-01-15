@@ -186,7 +186,7 @@ class WebServices: NSObject {
         for (key, value) in parameters {
             body.appendString(boundaryPrefix)
             body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
-            body.appendString("\(value)\r\n")
+            body.appendString(String(format:"%@\r\n",value as! String))
         }
         
         body.appendString(boundaryPrefix)
@@ -219,7 +219,7 @@ class WebServices: NSObject {
         for (key, value) in parameters! {
             body.appendString(boundaryPrefix)
             body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
-            body.appendString("\(value)\r\n")
+            body.appendString(String(format:"%@\r\n",value as! String))
         }
         
         body.appendString(boundaryPrefix)
@@ -227,9 +227,9 @@ class WebServices: NSObject {
         body.appendString("Content-Type: image/jpg\r\n\r\n")
         body.append(imageData)
         body.appendString("\r\n")
-        
+
         let videoFileName = String(format:"video%d.mp4",Int(NSTimeIntervalSince1970))
-        
+
         body.appendString(boundaryPrefix)
         body.appendString("Content-Disposition: form-data; name=\"profileVideo\"; filename=\"\(videoFileName)\"\r\n")
         body.appendString("Content-Type: application/octet-stream\r\n\r\n")
@@ -245,7 +245,7 @@ class WebServices: NSObject {
             if error == nil{
                 do{
                     if let jsonData = data{
-                        print(String(data: jsonData, encoding: String.Encoding.utf8) as String!)
+                        print(String(data: jsonData, encoding: String.Encoding.utf8) ?? "")
 
                         let json = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as! Dictionary<String, Any>
                         success(json)

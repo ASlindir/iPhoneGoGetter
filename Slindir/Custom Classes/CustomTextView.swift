@@ -25,7 +25,7 @@ class CustomTextView: UITextView {
     private struct Constants {
         static let defaultiOSPlaceholderColor = UIColor(red: 0.0, green: 0.0, blue: 0.0980392, alpha: 0.22)
     }
-    open let placeholderLabel: UILabel = UILabel()
+    public let placeholderLabel: UILabel = UILabel()
     
     private var placeholderLabelConstraints = [NSLayoutConstraint]()
     
@@ -91,7 +91,7 @@ class CustomTextView: UITextView {
     }
     
     private func commonInit() {
-        NotificationCenter.default.addObserver(self, selector: #selector(textDidChange), name: NSNotification.Name.UITextViewTextDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(textDidChange), name: UITextView.textDidChangeNotification, object: nil)
         
         placeholderLabel.font = font
         placeholderLabel.textColor = placeholderColor
@@ -126,6 +126,6 @@ class CustomTextView: UITextView {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self,  name: NSNotification.Name.UITextViewTextDidChange,  object: nil)
+        NotificationCenter.default.removeObserver(self,  name: UITextView.textDidChangeNotification,  object: nil)
     }
 }

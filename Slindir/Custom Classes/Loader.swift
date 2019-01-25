@@ -41,8 +41,8 @@ class Loader: NSObject {
     
 //MARK:-  Private Methods
     private func settingTheConstraints(_ rootView: UIWindow){
-        rootView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: [:], views: ["v0":blackView]))
-        rootView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: [:], views: ["v0":blackView]))
+        rootView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: [:], views: ["v0":blackView]))
+        rootView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: [:], views: ["v0":blackView]))
         loaderView.centerXAnchor.constraint(equalTo: blackView.centerXAnchor).isActive = true
         loaderView.centerYAnchor.constraint(equalTo: blackView.centerYAnchor).isActive = true
         loaderView.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -64,7 +64,7 @@ class Loader: NSObject {
             }
             if let rootView = UIApplication.shared.keyWindow {
                 Loader.sharedLoader.blackView.alpha = 0
-                rootView.bringSubview(toFront: Loader.sharedLoader.loaderView)
+                rootView.bringSubviewToFront(Loader.sharedLoader.loaderView)
                 UIView.animate(withDuration: duration, animations: {
                     Loader.sharedLoader.blackView.alpha = 1
                 }, completion: { (completed) in
@@ -85,7 +85,7 @@ class Loader: NSObject {
             }
             if let rootView = UIApplication.shared.keyWindow {
                 Loader.sharedLoader.blackView.alpha = 0
-                rootView.bringSubview(toFront: Loader.sharedLoader.loaderView)
+                rootView.bringSubviewToFront(Loader.sharedLoader.loaderView)
                 UIView.animate(withDuration: duration, animations: {
                     Loader.sharedLoader.blackView.alpha = 1
                 }, completion: { (completed) in

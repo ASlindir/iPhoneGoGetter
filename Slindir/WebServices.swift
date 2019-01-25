@@ -186,7 +186,7 @@ class WebServices: NSObject {
         for (key, value) in parameters {
             body.appendString(boundaryPrefix)
             body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
-            body.appendString(String(format:"%@\r\n",value as! String))
+            body.appendString(String(format:"%@\r\n",value ))
         }
         
         body.appendString(boundaryPrefix)

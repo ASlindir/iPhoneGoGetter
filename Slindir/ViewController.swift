@@ -83,7 +83,7 @@ class ViewController: UIViewController {
         super.viewDidLayoutSubviews()
         btnFacebook.layer.cornerRadius = btnFacebook.frame.size.height/2
         mask.frame = viewFade.bounds
-        if playerController.player?.status == AVPlayerStatus.readyToPlay {
+        if playerController.player?.status == AVPlayer.Status.readyToPlay {
             playerController.player?.play()
         }
     }
@@ -103,7 +103,7 @@ class ViewController: UIViewController {
     
     @objc func playerItemDidReachEnd(_ notification: Notification){
         let playerItem = notification.object as! AVPlayerItem
-        playerItem.seek(to: kCMTimeZero)
+        playerItem.seek(to: CMTime.zero)
     }
     
 //MARK:-  Local Methods
@@ -177,7 +177,7 @@ class ViewController: UIViewController {
         self.playerController.showsPlaybackControls = false
         player.actionAtItemEnd = .none
         player.play()
-        self.addChildViewController(self.playerController)
+        self.addChild(self.playerController)
         self.viewPlayer?.addSubview(self.playerController.view)
          //
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd(_ :)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
@@ -252,14 +252,14 @@ class ViewController: UIViewController {
     func fadeOut() {
         CATransaction.begin()
         CATransaction.setValue(Double(0.8), forKey: kCATransactionAnimationDuration)
-        let timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        let timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
         CATransaction.setAnimationTimingFunction(timingFunction)
         (viewFade.layer.mask as? CAGradientLayer)?.locations = locations(a: 1, b: 1, c: 1, d: 1) as? [NSNumber]
         CATransaction.commit()
     }
     
     @objc func showDemoView() {
-        self.view.bringSubview(toFront: self.vwDemo)
+        self.view.bringSubviewToFront(self.vwDemo)
     }
     
 //MARK:-  IBAction Methods
@@ -281,12 +281,12 @@ class ViewController: UIViewController {
             let fbloginresult : FBSDKLoginManagerLoginResult = loginResults!
             if (loginResults?.isCancelled)!{
                 timer.invalidate()
-                self.view.sendSubview(toBack: self.vwDemo)
+                self.view.sendSubviewToBack(self.vwDemo)
                 return
             }
             if(fbloginresult.grantedPermissions.contains("email")) {
                 timer.invalidate()
-                self.view.sendSubview(toBack: self.vwDemo)
+                self.view.sendSubviewToBack(self.vwDemo)
 //                print("token Permission:- \(accessToken.authenticationToken)")
 //                print("Access Token :- ",FBSDKAccessToken.current().tokenString)
                 let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
@@ -301,7 +301,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func BtnTermsAndConditions(_ sender: Any) {
-        UIApplication.shared.open((URL(string: "http://slindir.com/terms-of-use/")!), options: [:], completionHandler: nil)
+        UIApplication.shared.open((URL(string: "http://slindir.com/terms-of-use/")!), options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
     }
     
 }
@@ -449,4 +449,9 @@ extension ViewController : SwiftyGifDelegate {
     
     func gifDidStop(sender: UIImageView) {
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

@@ -37,9 +37,8 @@ class FirebaseObserver: NSObject {
             df.locale = Locale.init(identifier: "en_US_POSIX")
             for i in 0..<snapshotData.allKeys.count {
                 let message = snapshotData.allValues[i] as! NSDictionary
-                if let date = df.date(from: message.value(forKey: "time") as! String) as? Date {
-                }
-                else {
+                let date = df.date(from: message.value(forKey: "time") as! String)
+                if (date != nil){
                     df.dateFormat = "yyyy-MM-dd HH:mm:ss"
                 }
                 let newMessage:NSMutableDictionary  = message as! NSMutableDictionary
@@ -60,7 +59,7 @@ class FirebaseObserver: NSObject {
             UserDefaults.standard.setValue(dictData, forKey: "ChatUser")
             UserDefaults.standard.synchronize()
             
-            if let id = messageData["senderId"] as? String, let name = messageData["senderName"] as? String, let text = messageData["text"] as? String , text.characters.count > 0, (((messageData["photoURL"] as? String) == nil)) {
+            if let id = messageData["senderId"] as? String, let name = messageData["senderName"] as? String, let text = messageData["text"] as? String , text.count > 0, (((messageData["photoURL"] as? String) == nil)) {
                 if del.currentController.isKind(of: ChatViewController.self) {
                     if id != self.user_id{
                         UserDefaults.standard.set(true, forKey: "chatNotification")
@@ -111,7 +110,7 @@ class FirebaseObserver: NSObject {
                 UserDefaults.standard.setValue(dictData, forKey: "ChatUser")
                 UserDefaults.standard.synchronize()
                 
-                if let id = messageData["senderId"] as! String!, let name = messageData["senderName"] as! String!, let text = messageData["text"] as! String! , text.characters.count > 0{
+                if let id = messageData["senderId"] as! String!, let name = messageData["senderName"] as! String!, let text = messageData["text"] as! String! , text.count > 0{
                     if id != self.user_id{
                         if del.currentController.isKind(of: ChatViewController.self) {
                             UserDefaults.standard.set(true, forKey: "chatNotification")
@@ -205,7 +204,7 @@ class FirebaseObserver: NSObject {
         newMessageRefHandle = userRef?.observe(.childRemoved, with: { (snapshot) in
             let friendData = snapshot.value as! Dictionary<String, Any>
             print("Friends :- ",friendData)
-            if let name = friendData["name"] as! String!, name.characters.count > 0{
+            if let name = friendData["name"] as! String!, name.count > 0{
                 if friendData["id"] as? String == self.user_id{
                 }else{
                     if let index = self.friendArray.index(where: { (friend) -> Bool in
@@ -257,7 +256,7 @@ class FirebaseObserver: NSObject {
         snackbar.messageTextColor = UIColor.white
         snackbar.messageTextFont = UIFont.init(name: "OpenSans-Semibold", size: 16)!
         snackbar.messageTextAlign = .center
-        snackbar.contentInset = UIEdgeInsetsMake(40, 8, 20, 8)
+        snackbar.contentInset = UIEdgeInsets.init(top: 40, left: 8, bottom: 20, right: 8)
         snackbar.topMargin = 0
         snackbar.leftMargin = 0
         snackbar.rightMargin = 0

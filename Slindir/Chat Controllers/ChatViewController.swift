@@ -86,7 +86,7 @@ class ChatViewController: JSQMessagesViewController{
         collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSize(width: 30, height: 30)
         
         self.senderId = user_id//Auth.auth().currentUser?.uid
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         
         
         
@@ -166,7 +166,7 @@ class ChatViewController: JSQMessagesViewController{
         UIApplication.shared.applicationIconBadgeNumber = 0
         let data = UserDefaults.standard.object(forKey:"ChatUser")
         if let messageData = NSKeyedUnarchiver.unarchiveObject(with: data as! Data) as? Dictionary<String, Any> {
-            if let sender_id = messageData["senderId"] as! String!, let name = messageData["senderName"] as! String!, let text = messageData["text"] as! String! , text.characters.count > 0{
+            if let sender_id = messageData["senderId"] as! String!, let name = messageData["senderName"] as! String!, let text = messageData["text"] as! String! , text.count > 0{
                 if sender_id != self.receiver_id! {
                     self.showMessageView(String(format:"%@: %@",name, text), messageData)
                 }
@@ -246,7 +246,7 @@ class ChatViewController: JSQMessagesViewController{
         let message = messages[indexPath.row]
         cell.avatarImageView.layer.cornerRadius = 15
         cell.avatarImageView.clipsToBounds = true
-        cell.avatarImageView.contentMode = UIViewContentMode.scaleAspectFill
+        cell.avatarImageView.contentMode = UIView.ContentMode.scaleAspectFill
         
         if message.isMediaMessage{
             if message.senderId == senderId {
@@ -274,11 +274,11 @@ class ChatViewController: JSQMessagesViewController{
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellBottomLabelAt indexPath: IndexPath!) -> NSAttributedString! {
         let message = messages[indexPath.row]
         if message.senderId == senderId {
-            let attributes = [NSAttributedStringKey.foregroundColor:UIColor.white, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 12)]
+            let attributes = [NSAttributedString.Key.foregroundColor:UIColor.white, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 12)]
             return NSAttributedString.init(string: Date().offset(from: message.date), attributes: attributes)
         }
         else {
-            let attributes = [NSAttributedStringKey.foregroundColor:UIColor.black, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 12)]
+            let attributes = [NSAttributedString.Key.foregroundColor:UIColor.black, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 12)]
             return NSAttributedString.init(string: Date().offset(from: message.date), attributes: attributes)
         }
         
@@ -400,8 +400,8 @@ class ChatViewController: JSQMessagesViewController{
         df.locale = Locale.init(identifier: "en_US_POSIX")
         newMessageRefHandle = messageQuery.observe(.childAdded, with: { (snapshot) in
             let messageData = snapshot.value as! [String: Any]
-            if let id = messageData["senderId"] as? String, let name = messageData["senderName"] as? String, let text = messageData["text"] as? String , text.characters.count > 0, (messageData["photoURL"]  == nil), let dateStr = messageData["time"] as? String, dateStr.characters.count > 0{
-                if let date = df.date(from: dateStr)! as? Date {
+            if let id = messageData["senderId"] as? String, let name = messageData["senderName"] as? String, let text = messageData["text"] as? String , text.count > 0, (messageData["photoURL"]  == nil), let dateStr = messageData["time"] as? String, dateStr.count > 0{
+                if df.date(from: dateStr) != nil {
                 }
                 else {
                     df.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -415,7 +415,7 @@ class ChatViewController: JSQMessagesViewController{
                 messageItem["unread"] = "0"
                 self.updateReadUnreadMessages(messageItem)
             }
-            else if let id = messageData["senderId"] as? String, let photoURL = messageData["photoURL"] as? String, let dateStr = messageData["time"] as? String, dateStr.characters.count > 0{
+            else if let id = messageData["senderId"] as? String, let photoURL = messageData["photoURL"] as? String, let dateStr = messageData["time"] as? String, dateStr.count > 0{
                 if let mediaItem = JSQPhotoMediaItem(maskAsOutgoing: id == self.senderId){
                     self.addPhotoMessage(withId: id, key: snapshot.key, mediaItem: mediaItem, date: df.date(from: dateStr)!)
                     if photoURL.hasPrefix("gs://"){
@@ -518,7 +518,7 @@ class ChatViewController: JSQMessagesViewController{
         let reciverChatId = "\(self.receiver_id!)_\(user_id)"
         let chatref = friendRef.child(user_id).child(chatId).childByAutoId()
         let itemRef = chatref
-        let newItemRef = friendRef.child(self.receiver_id!).child(reciverChatId).child(chatref.key)
+        let newItemRef = friendRef.child(self.receiver_id!).child(reciverChatId).child(chatref.key!)
         var profile_pic = ""
         if let pic = currentUserDict["profile_pic"] as? String  {
             profile_pic =  pic
@@ -773,7 +773,7 @@ class ChatViewController: JSQMessagesViewController{
                 let blocked_user = self.receiver_id
                 let parameters = ["user_fb_id": userId , "block_user_fb_id":blocked_user, "type":"block"]
                 
-                WebServices.service.webServicePostRequest(.post, .user, .blockUser, parameters, successHandler: { (response) in
+                WebServices.service.webServicePostRequest(.post, .user, .blockUser, parameters as Dictionary<String, Any>, successHandler: { (response) in
                     let jsonDict = response
                     let status = jsonDict!["status"] as! String
                     if status == "success"{
@@ -806,7 +806,7 @@ class ChatViewController: JSQMessagesViewController{
         let report_user = self.receiver_id
         let parameters = ["user_fb_id": userId , "report_user_fb_id":report_user, "reason":reason, "reporting_to": "slindirapp@gmail.com"]
         
-        WebServices.service.webServicePostRequest(.post, .report, .reportUser, parameters, successHandler: { (response) in
+        WebServices.service.webServicePostRequest(.post, .report, .reportUser, parameters as Dictionary<String, Any>, successHandler: { (response) in
             let jsonDict = response
             let status = jsonDict!["status"] as! String
             if status == "success"{
@@ -835,7 +835,7 @@ class ChatViewController: JSQMessagesViewController{
         snackbar.messageTextColor = UIColor.white
         snackbar.messageTextFont = UIFont.init(name: "OpenSans-Semibold", size: 16)!
         snackbar.messageTextAlign = .center
-        snackbar.contentInset = UIEdgeInsetsMake(40, 8, 20, 8)
+        snackbar.contentInset = UIEdgeInsets.init(top: 40, left: 8, bottom: 20, right: 8)
         snackbar.topMargin = 0
         snackbar.leftMargin = 0
         snackbar.rightMargin = 0
@@ -874,11 +874,14 @@ class ChatViewController: JSQMessagesViewController{
 
 //MARK:-  UIImagePickerController delegate
 extension ChatViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
         
         picker.dismiss(animated: true, completion: nil)
         
-        if let photoRefernceUrl = info[UIImagePickerControllerReferenceURL] as? URL{
+        if let photoRefernceUrl = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.referenceURL)] as? URL{
             let assets = PHAsset.fetchAssets(withALAssetURLs: [photoRefernceUrl], options: nil)
             let asset = assets.firstObject
             
@@ -890,7 +893,7 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
                     let timeInterval = "\(Int64(Date.timeIntervalSinceReferenceDate * 1000))/"
                     let refernceUrl = "\(photoRefernceUrl.lastPathComponent)"
                     let path = auth + timeInterval + refernceUrl
-                    let imageData = UIImageJPEGRepresentation(info[UIImagePickerControllerOriginalImage] as! UIImage, 0.7)!
+                    let imageData = (info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as! UIImage).jpegData(compressionQuality: 0.7)!
                         
                     self.storageRef.child(path).putData(imageData, metadata: nil, completion: { (metaData, error) in
                         if let err = error{
@@ -903,9 +906,9 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
                 })
             }
         }else{
-            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+            let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as! UIImage
             if let (key,newKey) = sendPhotoMessage(){
-                let imageData = UIImageJPEGRepresentation(image, 1)
+                let imageData = image.jpegData(compressionQuality: 1)
                 let time = Int64(Date.timeIntervalSinceReferenceDate * 1000)
                 let imagePath = Auth.auth().currentUser!.uid + "\(time).jpg"
                 let metaData = StorageMetadata()
@@ -930,3 +933,13 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
 
 
 //MARK:-  Want Help Visit Here: - https://www.raywenderlich.com/140836/firebase-tutorial-real-time-chat-2
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
+}

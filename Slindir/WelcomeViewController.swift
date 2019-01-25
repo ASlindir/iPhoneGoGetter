@@ -127,8 +127,8 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
     
     func addTheRequestActivityView(){
         self.view.addSubview(viewBlack)
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(rawValue:0), metrics: [:], views: ["v0":viewBlack]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: NSLayoutFormatOptions(rawValue:0), metrics: [:], views: ["v0":viewBlack]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutConstraint.FormatOptions(rawValue:0), metrics: [:], views: ["v0":viewBlack]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: NSLayoutConstraint.FormatOptions(rawValue:0), metrics: [:], views: ["v0":viewBlack]))
         
         self.view.addSubview(viewRequestActivities)
         viewRequestActivities.translatesAutoresizingMaskIntoConstraints = false
@@ -139,16 +139,16 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         viewRequestActivities.shadow(0.8, 3, .black, CGSize(width: 1, height: 1))
         self.viewRequestActivities.alpha = 0
         self.viewBlack.alpha = 0
-        self.view.sendSubview(toBack: viewRequestActivities)
-        self.view.sendSubview(toBack: viewBlack)
+        self.view.sendSubviewToBack(viewRequestActivities)
+        self.view.sendSubviewToBack(viewBlack)
         self.btnSendMail.shadowButton(0.4, 2, .black, CGSize(width: 3, height: 3))
         self.btnCancelMail.shadowButton(0.4, 2, .black, CGSize(width: 3, height: 3))
         
     }
     
     func showRequestActivityView(){
-        self.view.bringSubview(toFront: viewBlack)
-        self.view.bringSubview(toFront: viewRequestActivities)
+        self.view.bringSubviewToFront(viewBlack)
+        self.view.bringSubviewToFront(viewRequestActivities)
         self.viewRequestActivities.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
         self.viewRequestActivities.alpha = 1
         UIView.animate(withDuration: 0.3, animations: {
@@ -185,8 +185,8 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         }) { (completed) in
             self.viewRequestActivities.alpha = 0
             self.viewBlack.alpha = 0
-            self.view.sendSubview(toBack: self.viewRequestActivities)
-            self.view.sendSubview(toBack: self.viewBlack)
+            self.view.sendSubviewToBack(self.viewRequestActivities)
+            self.view.sendSubviewToBack(self.viewBlack)
         }
     }
     
@@ -242,7 +242,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         let facebookID = LocalStore.store.getFacebookID()
         let facebookDetails = LocalStore.store.getFacebookDetails()
         print(facebookDetails as Any)
-        var parameters = Dictionary<String, Any!>()
+        var parameters = Dictionary<String, Any?>()
 
         parameters["profile_pic"] = ""
         if let picture = facebookDetails!["picture"] as? [String:Any]{
@@ -374,9 +374,9 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
                     
                     if dateOfBirth > 70 || dateOfBirth < 18 {
                         Loader.stopLoader()
-                        let alertController = UIAlertController(title: "", message: "We are sorry but you do not have a qualified age to join our service.", preferredStyle: UIAlertControllerStyle.alert)
+                        let alertController = UIAlertController(title: "", message: "We are sorry but you do not have a qualified age to join our service.", preferredStyle: UIAlertController.Style.alert)
                         
-                        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+                        let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {
                             (result : UIAlertAction) -> Void in
                             self.navigationController?.popViewController(animated: true)
                         }
@@ -387,7 +387,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
                     }//
                     print("Parameters \(parameters)")
                     
-                    WebServices.service.webServicePostRequest(.post, .user, .login, parameters, successHandler: { (response) in
+                    WebServices.service.webServicePostRequest(.post, .user, .login, parameters as Dictionary<String, Any>, successHandler: { (response) in
                         let jsonData = response
                         let status = jsonData!["status"] as! String
                         
@@ -494,9 +494,9 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         
         if dateOfBirth > 70 || dateOfBirth < 18 {
             Loader.stopLoader()
-            let alertController = UIAlertController(title: "", message: "We are sorry but you do not have a qualified age to join our service.", preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title: "", message: "We are sorry but you do not have a qualified age to join our service.", preferredStyle: UIAlertController.Style.alert)
             
-            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+            let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {
                 (result : UIAlertAction) -> Void in
                 self.navigationController?.popViewController(animated: true)
             }
@@ -507,7 +507,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         }//
         print("Parameters \(parameters)")
         
-        WebServices.service.webServicePostRequest(.post, .user, .login, parameters, successHandler: { (response) in
+        WebServices.service.webServicePostRequest(.post, .user, .login, parameters as Dictionary<String, Any>, successHandler: { (response) in
             let jsonData = response
             let status = jsonData!["status"] as! String
             
@@ -623,14 +623,14 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
     func saveUserIntrests(_ intrests: [String]){
         let facebookID = LocalStore.store.getFacebookID()
         let interestString = intrests.joined(separator: ",")
-        var parameters = Dictionary<String, Any!>()
+        var parameters = Dictionary<String, Any?>()
         parameters["user_fb_id"] = facebookID
         parameters["activities"] = interestString
         print("Parameters \(parameters)")
 //        Loader.startLoader(true)
         Loader.sharedLoader.statLoader(true)
 //        DispatchQueue.global(qos: .background).async {
-            WebServices.service.webServicePostRequest(.post, .user, .saveUserInterests, parameters, successHandler: { (response) in
+        WebServices.service.webServicePostRequest(.post, .user, .saveUserInterests, parameters as Dictionary<String, Any>, successHandler: { (response) in
                 Loader.stopLoader()
                 let jsonData = response
                 let status = jsonData!["status"] as! String
@@ -754,7 +754,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
 //MARK:-  UICollection View Footer View
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "ActivityCollectionReusableView", for: indexPath) as! ActivityCollectionReusableView
+        let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "ActivityCollectionReusableView", for: indexPath) as! ActivityCollectionReusableView
         footerView.btnRequestActivity.addTarget(self, action: #selector(requestActivities), for: .touchUpInside)
         footerView.btnContinue.addTarget(self, action: #selector(changeTheActivities), for: .touchUpInside)
         footerView.layoutIfNeeded()
@@ -818,9 +818,9 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
                             if total_count! < 10 {
                                 Loader.stopLoader()
                                 
-                                let alertController = UIAlertController(title: "", message: "We are sorry but you do not have a qualified facebook account to join our service. Please try again with a verified Facebook account.", preferredStyle: UIAlertControllerStyle.alert)
+                                let alertController = UIAlertController(title: "", message: "We are sorry but you do not have a qualified facebook account to join our service. Please try again with a verified Facebook account.", preferredStyle: UIAlertController.Style.alert)
                                 
-                                let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+                                let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {
                                     (result : UIAlertAction) -> Void in
 //                                    let loginManager = LoginManager()
 //                                    loginManager.logOut()
@@ -932,7 +932,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         self.view.endEditing(true)
         self.hideRequestView()
-        var parameters = Dictionary<String, Any!>()
+        var parameters = Dictionary<String, Any?>()
         
         let txt1 = self.view.viewWithTag(100) as! CustomTextField
         let txt2 = self.view.viewWithTag(101) as! CustomTextField
@@ -949,7 +949,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         parameters["activity4"] = txt4.text
         print(parameters)
         
-        WebServices.service.webServicePostRequest(.post, .user, .requestNewActivities, parameters, successHandler: { (response) in
+        WebServices.service.webServicePostRequest(.post, .user, .requestNewActivities, parameters as Dictionary<String, Any>, successHandler: { (response) in
             
             
         }, errorHandler: { (error) in

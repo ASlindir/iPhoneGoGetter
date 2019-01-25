@@ -204,11 +204,11 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         FirebaseObserver.observer.observeMessages()
         FirebaseObserver.observer.observeNewChat()
         
-        openCameraView1 = Bundle.main.loadNibNamed("OpenCameraView", owner: self, options: nil)![0] as! OpenCameraView
-        openCameraView2 = Bundle.main.loadNibNamed("OpenCameraView", owner: self, options: nil)![0] as! OpenCameraView
-        openCameraView3 = Bundle.main.loadNibNamed("OpenCameraView", owner: self, options: nil)![0] as! OpenCameraView
-        openCameraView4 = Bundle.main.loadNibNamed("OpenCameraView", owner: self, options: nil)![0] as! OpenCameraView
-        openCameraView5 = Bundle.main.loadNibNamed("OpenCameraView", owner: self, options: nil)![0] as! OpenCameraView
+        openCameraView1 = Bundle.main.loadNibNamed("OpenCameraView", owner: self, options: nil)![0] as? OpenCameraView
+        openCameraView2 = Bundle.main.loadNibNamed("OpenCameraView", owner: self, options: nil)![0] as? OpenCameraView
+        openCameraView3 = Bundle.main.loadNibNamed("OpenCameraView", owner: self, options: nil)![0] as? OpenCameraView
+        openCameraView4 = Bundle.main.loadNibNamed("OpenCameraView", owner: self, options: nil)![0] as? OpenCameraView
+        openCameraView5 = Bundle.main.loadNibNamed("OpenCameraView", owner: self, options: nil)![0] as? OpenCameraView
         
         self.btnReminder.isHidden = true
         navigationController?.navigationBar.isHidden = true
@@ -794,19 +794,19 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     
 //MARK:-  UIKeyboard Methdos
     func upTheKeyboard(){
-        NotificationCenter.default.addObserver(self, selector: #selector(hideShowKeyboard(_ :)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(hideShowKeyboard(_ :)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(hideShowKeyboard(_ :)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(hideShowKeyboard(_ :)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc func hideShowKeyboard(_ notification: Notification){
         
         if let userDetails = notification.userInfo{
-            let keyboardRect = (userDetails[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+            let keyboardRect = (userDetails[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
             var keyboardHeight:CGFloat = 0
-            keyboardHeight = notification.name == NSNotification.Name.UIKeyboardWillShow ? (keyboardRect?.size.height)! : 0
+            keyboardHeight = notification.name == UIResponder.keyboardWillShowNotification ? (keyboardRect?.size.height)! : 0
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear, animations: {
-                self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, keyboardHeight, 0)
-                self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, keyboardHeight, 0)
+                self.scrollView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+                self.scrollView.scrollIndicatorInsets = UIEdgeInsets.init(top: 0, left: 0, bottom: keyboardHeight, right: 0)
             }, completion: { (completed) in
                 
             })
@@ -829,7 +829,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     //MARK:-  UITextView Delegates
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
-        let numberOfChars = newText.characters.count
+        let numberOfChars = newText.count
         return numberOfChars < 302
     }
     
@@ -848,7 +848,8 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         btnGotIt.alpha = 0
         viewWhite.backgroundColor = UIColor.white.withAlphaComponent(0.8)
         
-        constraintViewWhiteTop.constant = -UIScreen.main.bounds.size.height + (self.viewTop.frame.size.height)
+//        constraintViewWhiteTop.constant = -UIScreen.main.bounds.size.height + (self.viewTop.frame.size.height)
+        constraintViewWhiteTop.constant = self.viewTop.frame.size.height
         self.constraintViewWhiteHeight.constant = UIScreen.main.bounds.height - (self.viewTop.frame.size.height)
         self.view.layoutIfNeeded()
     }
@@ -1094,8 +1095,8 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     func showSettingAlert(){
         let settingAction = action("Settings", .default) { (action) in
             let path = Bundle.main.bundleIdentifier
-            let urlString = "\(UIApplicationOpenSettingsURLString)+\(path!)"
-            UIApplication.shared.open(URL(string: urlString)!, options: [:], completionHandler: nil)
+            let urlString = "\(UIApplication.openSettingsURLString)+\(path!)"
+            UIApplication.shared.open(URL(string: urlString)!, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
         }
         let cancelAction = action("Cancel", .cancel) { (action) in
             
@@ -1107,7 +1108,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         if self.profileImages[0] is AVPlayer{
             let player = self.profileImages[0] as! AVPlayer
             videoCompleted = false
-            player.seek(to: kCMTimeZero)
+            player.seek(to: CMTime.zero)
         }
     }
 
@@ -1128,12 +1129,12 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     func postImageWithImage(image:UIImage, fileName:String, type:String) {
         let facebookID = LocalStore.store.getFacebookID()
         Loader.startLoader(true)
-        var parameters = Dictionary<String, Any!>()
+        var parameters = Dictionary<String, Any?>()
         parameters["user_fb_id"] = facebookID
         parameters["file_type"] = fileName
-        let postData = UIImageJPEGRepresentation(image, 0.4)
+        let postData = image.jpegData(compressionQuality: 0.4)
       
-        WebServices.service.webServicePostFileRequest(.post, .user, .uploadFile, type, postData!, parameters, successHandler: { (response) in
+        WebServices.service.webServicePostFileRequest(.post, .user, .uploadFile, type, postData!, parameters as Dictionary<String, Any>, successHandler: { (response) in
             print(response as Any)
             self.getUserDetails(false)
             Loader.stopLoader()
@@ -1146,9 +1147,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     func postVideoWithData(data:Data, imageData:Data) {
         let facebookID = LocalStore.store.getFacebookID()
         Loader.startLoader(true)
-        var parameters = Dictionary<String, Any!>()
+        var parameters = Dictionary<String, Any?>()
         parameters["user_fb_id"] = facebookID
-    WebServices.service.webServicePostVideoFileAndThumbnailRequest(.post, .user, .uploadVideoAndThumbnail, data, imageData, parameters, successHandler: { (response) in
+        WebServices.service.webServicePostVideoFileAndThumbnailRequest(.post, .user, .uploadVideoAndThumbnail, data, imageData, parameters as Dictionary<String, Any>, successHandler: { (response) in
             self.getUserDetails(false)
             Loader.stopLoader()
         }) { (error) in
@@ -2023,12 +2024,12 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         
         videoURL = url.absoluteString
         
-        do {
+ /* fhc       do {
             let videoData = try Data(contentsOf:url)
           //  self.postVideoWithData(data: videoData, fileName: "profile_video", type: "video")
         } catch  {
             print("exception catch at block - while uploading video")
-        }
+        } end fhc */
     }
     
 //MARK:-  Profile Delegate
@@ -2040,13 +2041,16 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
     }
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let mediaType = info[UIImagePickerControllerMediaType]
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
+        let mediaType = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.mediaType)]
         if let type = mediaType{
             if type is String{
                 let stringType = type as! String
                 if stringType == kUTTypeMovie as String{
-                    let urlOfVideo =  info[UIImagePickerControllerMediaURL] as? URL
+                    let urlOfVideo =  info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.mediaURL)] as? URL
                     if let url = urlOfVideo{
                         DispatchQueue.main.async {
                             self.playView(url)
@@ -2073,7 +2077,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                                         DispatchQueue.main.async {
                                             self.deleteOldVideoFromDocumentDirectory()
                                             self.writeVideoToDocumentDirectory(compressedData)
-                                            self.postVideoWithData(data: compressedData as Data, imageData: UIImageJPEGRepresentation(self.imgViewProfile.image!, 1.0)!)
+                                            self.postVideoWithData(data: compressedData as Data, imageData: self.imgViewProfile.image!.jpegData(compressionQuality: 1.0)!)
                                         }
                                     }
                                     print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
@@ -2091,22 +2095,22 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                     self.viewVideoProfile.isHidden = true
                     let vwCamera:UIView = self.scrollVwCamera.viewWithTag((selectedIndexPath?.row)!)!
                     let openViewCamera:OpenCameraView = vwCamera.subviews[0] as! OpenCameraView
-                    openViewCamera.imgViewProfile.image = info[UIImagePickerControllerEditedImage] as? UIImage
+                    openViewCamera.imgViewProfile.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
                     openViewCamera.lblRecordVideo.text = "CHANGE PHOTO"
                     if (self.selectedIndexPath?.item)! - 11 == 0 {
                          DispatchQueue.main.async {
-                            self.postImageWithImage(image: info[UIImagePickerControllerEditedImage] as! UIImage, fileName: "profile_pic", type: "image")
+                            self.postImageWithImage(image: info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as! UIImage, fileName: "profile_pic", type: "image")
                             self.personalDetail["profile_pic"] = ""
                         }
                     }
                     else {
                          DispatchQueue.main.async {
-                            self.postImageWithImage(image: info[UIImagePickerControllerEditedImage] as! UIImage, fileName: String(format:"image%d",(self.selectedIndexPath?.item)!-11), type: "image")
+                            self.postImageWithImage(image: info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as! UIImage, fileName: String(format:"image%d",(self.selectedIndexPath?.item)!-11), type: "image")
                             self.personalDetail[String(format:"image%d",(self.selectedIndexPath?.item)! - 11)] = ""
                         }
                     }
                     
-                    profileImages[(selectedIndexPath!.item) - 12] = info[UIImagePickerControllerEditedImage] as! UIImage
+                    profileImages[(selectedIndexPath!.item) - 12] = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as! UIImage
                 }
             }
         }
@@ -2258,7 +2262,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                                     self.deleteOldVideoFromDocumentDirectory()
                                     self.writeVideoToDocumentDirectory(compressedData)
                                     
-                                    self.postVideoWithData(data: compressedData as Data, imageData: UIImageJPEGRepresentation(self.imgViewProfile.image!, 1.0)!)
+                                    self.postVideoWithData(data: compressedData as Data, imageData: self.imgViewProfile.image!.jpegData(compressionQuality: 1.0)!)
                                 }
                             }
                             print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
@@ -2296,7 +2300,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         let asset = AVURLAsset(url: url, options: nil)
         let generator = AVAssetImageGenerator(asset: asset)
         generator.appliesPreferredTrackTransform = true
-        let thumbTime: CMTime = CMTimeMakeWithSeconds(0, 1)
+        let thumbTime: CMTime = CMTimeMakeWithSeconds(0, preferredTimescale: 1)
         let maxSize = CGSize(width: 320, height: 180)
         generator.maximumSize = maxSize
         generator.generateCGImagesAsynchronously(forTimes: [NSValue(time: thumbTime)], completionHandler: { (requestedTime, im, actualTime, result, error) in
@@ -2386,4 +2390,19 @@ extension EditProfileViewController: PHPhotoLibraryChangeObserver {
             }
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

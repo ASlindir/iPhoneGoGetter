@@ -35,8 +35,8 @@ class SettingCollectionViewCell: UICollectionViewCell {
         viewVideoProfile.addSubview(videoController.view)
         videoController.showsPlaybackControls = false
         videoController.view.translatesAutoresizingMaskIntoConstraints = false
-        viewVideoProfile.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: [:], views: ["v0":videoController.view]))
-        viewVideoProfile.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: [:], views: ["v0":videoController.view]))
+        viewVideoProfile.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: [:], views: ["v0":videoController.view]))
+        viewVideoProfile.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: [:], views: ["v0":videoController.view]))
     }
     
 }

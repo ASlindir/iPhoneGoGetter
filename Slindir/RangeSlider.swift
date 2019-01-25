@@ -50,7 +50,7 @@ import UIKit
     fileprivate func loadNib() {
         let view = UINib(nibName: "RangeSlider", bundle: Bundle(for: type(of: self))).instantiate(withOwner: self, options: nil).first as! UIView
         view.frame = bounds
-        view.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        view.autoresizingMask = [UIView.AutoresizingMask.flexibleWidth, UIView.AutoresizingMask.flexibleHeight]
         addSubview(view)
     }
     

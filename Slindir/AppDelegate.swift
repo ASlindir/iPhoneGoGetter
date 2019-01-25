@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var startDate:Date!
     var endDate:Date!
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UserDefaults.standard.set(true, forKey: "UpdateImages")
         UserDefaults.standard.synchronize()
         
@@ -110,7 +110,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         else {
             let yesAction = self.currentController.action("Go to Settings?", .default) { (action) in
                 //UIApplication.shared.open(URL(string:"prefs:root=LOCATION_SERVICES")!, options: [:], completionHandler: nil)
-                guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
+                guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
                     return
                 }
                 
@@ -148,7 +148,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func sendDeviceTokenToServer() {
         let facebookID = LocalStore.store.getFacebookID()
         
-        var parameters = Dictionary<String, Any!>()
+        var parameters = Dictionary<String, Any?>()
         parameters["user_fb_id"] = facebookID
         
         if let deviceId = UserDefaults.standard.value(forKey: "device_token") as? String  {
@@ -158,7 +158,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             parameters["device_id"] = "asdasdasdasdas"
         }
         
-        WebServices.service.webServicePostRequest(.post, .user, .deviceToken, parameters, successHandler: { (response) in
+        WebServices.service.webServicePostRequest(.post, .user, .deviceToken, parameters as Dictionary<String, Any>, successHandler: { (response) in
             
             
         }, errorHandler: { (error) in
@@ -316,7 +316,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {        
         let yesAction = self.currentController.action("Go to Settings?", .default) { (action) in
             //UIApplication.shared.open(URL(string:"prefs:root=LOCATION_SERVICES")!, options: [:], completionHandler: nil)
-            guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
                 return
             }
             
@@ -332,12 +332,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     func saveUserLocation() {
-        var parameters = Dictionary<String, Any!>()
+        var parameters = Dictionary<String, Any?>()
         parameters["user_fb_id"] = LocalStore.store.getFacebookID()
         parameters["latitude"] = String(format:"%f", self.latitude)
         parameters["longitude"] = String(format:"%f", self.longitude)
         
-        WebServices.service.webServicePostRequest(.post, .user, .setLocation, parameters, successHandler: { (response) in
+        WebServices.service.webServicePostRequest(.post, .user, .setLocation, parameters as Dictionary<String, Any>, successHandler: { (response) in
             self.currentController.getUserDetails(false)
         }, errorHandler: { (error) in
         })
@@ -382,7 +382,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         self.saveContext()
     }
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
         return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
     }

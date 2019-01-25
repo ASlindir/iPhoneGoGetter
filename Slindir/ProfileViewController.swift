@@ -74,6 +74,10 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     @IBOutlet weak var heightNavigation: NSLayoutConstraint!
     @IBOutlet weak var topViewFrontConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var heightRatioVideoVw: NSLayoutConstraint!
+    @IBOutlet weak var heightVideoVw: NSLayoutConstraint!
+    
+    
     @IBOutlet weak var blurView: UIVisualEffectView!
     @IBOutlet weak var blurViewSetting: UIVisualEffectView!
     @IBOutlet weak var blurViewLogo: UIVisualEffectView!
@@ -232,7 +236,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         viewEditPreferences.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(editPrefernces)))
         
         tableViewQuestions.estimatedRowHeight = 212
-        tableViewQuestions.rowHeight = UITableViewAutomaticDimension
+        tableViewQuestions.rowHeight = UITableView.automaticDimension
         
         let tapGestureBottomView = UITapGestureRecognizer(target: self, action: #selector(hideTheBottomView(_ :)))
         viewScrollContent.addGestureRecognizer(tapGestureBottomView)
@@ -274,7 +278,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                     self.startSettingIconRotation()
                 }
                 self.startProfileViewAnimation()
-                self.view.bringSubview(toFront: self.viewCards)
+                self.view.bringSubviewToFront(self.viewCards)
                 Loader.startLoader(true)
                 self.getTheMatchingProfiles()
             }else{
@@ -450,7 +454,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     }
     
     func showBrainGameView() {
-        self.view.bringSubview(toFront: self.vwBrain)
+        self.view.bringSubviewToFront(self.vwBrain)
         lbl1Brain.alpha = 0
         lbl2Brain.alpha = 0
         lbl3Brain.alpha = 0
@@ -529,7 +533,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     
     @objc func showMatchingProfileView() {
         self.vwMatch.isHidden = false
-        self.view.bringSubview(toFront: self.vwMatch)
+        self.view.bringSubviewToFront(self.vwMatch)
         
         let data = UserDefaults.standard.object(forKey:"matchedUser")
         if let requiredData = NSKeyedUnarchiver.unarchiveObject(with: data as! Data) as? Dictionary<String, Any> {
@@ -817,7 +821,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         self.vwCardRight.pageControlMessage.transform = CGAffineTransform(rotationAngle: angle)
         self.vwCardRight.pageControlProfileDetail.transform = CGAffineTransform(rotationAngle: angle)
         self.vwCardRight.pageControlUndo.transform = CGAffineTransform(rotationAngle: angle)
-        self.vwCardRight.bringSubview(toFront: self.vwCardRight.vwRight)
+        self.vwCardRight.bringSubviewToFront(self.vwCardRight.vwRight)
         
         let rightGesture = UIPanGestureRecognizer.init(target: self, action: #selector(panGestureRecognized(_:)))
         self.vwCardRight.addGestureRecognizer(rightGesture)
@@ -835,7 +839,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         self.vwCardMessage.pageControl.transform = CGAffineTransform(rotationAngle: angle)
         self.vwCardMessage.pageControlProfileDetail.transform = CGAffineTransform(rotationAngle: angle)
         self.vwCardMessage.pageControlUndo.transform = CGAffineTransform(rotationAngle: angle)
-        self.vwCardMessage.bringSubview(toFront: self.vwCardMessage.vwMessage)
+        self.vwCardMessage.bringSubviewToFront(self.vwCardMessage.vwMessage)
 
         
         self.vwCardLeft = Bundle.main.loadNibNamed("Cards", owner: self, options: nil)![0] as! CardsView
@@ -851,7 +855,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         self.vwCardLeft.pageControl.transform = CGAffineTransform(rotationAngle: angle)
         self.vwCardLeft.pageControlProfileDetail.transform = CGAffineTransform(rotationAngle: angle)
         self.vwCardLeft.pageControlUndo.transform = CGAffineTransform(rotationAngle: angle)
-        self.vwCardLeft.bringSubview(toFront: self.vwCardLeft.vwLeft)
+        self.vwCardLeft.bringSubviewToFront(self.vwCardLeft.vwLeft)
 
         let leftGesture = UIPanGestureRecognizer.init(target: self, action: #selector(panGestureRecognized(_:)))
         self.vwCardLeft.addGestureRecognizer(leftGesture)
@@ -869,7 +873,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         self.vwCardProfile.pageControl.transform = CGAffineTransform(rotationAngle: angle)
         self.vwCardProfile.pageControlProfileDetail.transform = CGAffineTransform(rotationAngle: angle)
         self.vwCardProfile.pageControlUndo.transform = CGAffineTransform(rotationAngle: angle)
-        self.vwCardProfile.bringSubview(toFront: self.vwCardProfile.vwProfileDetail)
+        self.vwCardProfile.bringSubviewToFront(self.vwCardProfile.vwProfileDetail)
         
         self.vwCardUndo = Bundle.main.loadNibNamed("Cards", owner: self, options: nil)![0] as! CardsView
         self.vwCardUndo.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height:  UIScreen.main.bounds.size.height - 80)
@@ -884,7 +888,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         self.vwCardUndo.pageControl.transform = CGAffineTransform(rotationAngle: angle)
         self.vwCardUndo.pageControlProfileDetail.transform = CGAffineTransform(rotationAngle: angle)
         self.vwCardUndo.pageControlUndo.transform = CGAffineTransform(rotationAngle: angle)
-        self.vwCardUndo.bringSubview(toFront: self.vwCardUndo.vwUndo)
+        self.vwCardUndo.bringSubviewToFront(self.vwCardUndo.vwUndo)
 
         
         self.vwCardLeft.isUserInteractionEnabled = false
@@ -1168,9 +1172,9 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         btnRemindMeLater.shadowButton(0.2, 2, .black, CGSize(width: 2, height: 2))
         
         tableViewQuestions.estimatedRowHeight = 154
-        tableViewQuestions.rowHeight = UITableViewAutomaticDimension
+        tableViewQuestions.rowHeight = UITableView.automaticDimension
         tableViewFavTeams.estimatedRowHeight = 44
-        tableViewFavTeams.rowHeight = UITableViewAutomaticDimension
+        tableViewFavTeams.rowHeight = UITableView.automaticDimension
         
         self.constraintScrollViewTop.constant = UIScreen.main.bounds.height
         self.constraintScrollViewBottom.constant = -UIScreen.main.bounds.height
@@ -1476,7 +1480,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         UIView.animate(withDuration: 0.5, animations: {
             self.view.layoutIfNeeded()
         }) { (completed:Bool) in
-            self.view.bringSubview(toFront: self.viewCards)
+            self.view.bringSubviewToFront(self.viewCards)
             self.startSettingIconRotation()
             self.startProfileViewAnimation();
             self.viewTopFront.alpha = 0
@@ -1496,7 +1500,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
         
         // exclude some activity types from the list (optional)
-        activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+        activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.airDrop, UIActivity.ActivityType.postToFacebook ]
         
         // present the view controller
         self.present(activityViewController, animated: true, completion: nil)
@@ -1521,7 +1525,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
         
         // exclude some activity types from the list (optional)
-        activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+        activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.airDrop, UIActivity.ActivityType.postToFacebook ]
         
         // present the view controller
         self.present(activityViewController, animated: true, completion: nil)
@@ -1530,7 +1534,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     @IBAction func btnSayHello(_ sender: Any) {
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         self.vwMatch.isHidden = true
-        self.view.sendSubview(toBack: self.vwMatch)
+        self.view.sendSubviewToBack(self.vwMatch)
         
         let listController = self.storyboard?.instantiateViewController(withIdentifier: "ListViewController")
         navigationController?.pushViewController(listController!, animated: true)
@@ -1539,7 +1543,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     @IBAction func btnMayBeLater(_ sender: Any) {
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         self.vwMatch.isHidden = true
-        self.view.sendSubview(toBack: self.vwMatch)
+        self.view.sendSubviewToBack(self.vwMatch)
         UserDefaults.standard.set(false, forKey: "matchedNotification")
         UserDefaults.standard.synchronize()
     }
@@ -1640,7 +1644,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                     self.vwBrain?.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                     self.vwBrain.alpha = 0
                 }, completion: { (completed: Bool) in
-                    self.view.sendSubview(toBack: self.vwBrain)
+                    self.view.sendSubviewToBack(self.vwBrain)
                 })
             }
         }
@@ -1695,7 +1699,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 UIView.animate(withDuration: 0.2, animations: {
                     self.vwAlert.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
                 }) { (completion) in
-                    self.view.sendSubview(toBack: self.vwAlert)
+                    self.view.sendSubviewToBack(self.vwAlert)
                 }
             }
         }
@@ -1841,7 +1845,7 @@ extension ProfileViewController: KolodaViewDelegate {
         let parameters = ["user_fb_id": userId , "dislike_user_fb_id":blocked_user]
         
         WebServices.service.webServicePostRequest(.post, .dislike, .dislikeUser, parameters, successHandler: { (response) in
-            print(response)
+            print(response ?? "empty response")
         }) { (error) in
         }
     }
@@ -1882,7 +1886,7 @@ extension ProfileViewController: KolodaViewDelegate {
             }
             let rotationStrength = min(dragDistance.x / (gestureRecognizer.view?.frame.width)!, rotationMax)
             let rotationAngle = animationDirectionY * self.rotationAngle * rotationStrength
-            let scaleStrength = 1 - ((1 - scaleMin) * fabs(rotationStrength))
+            let scaleStrength = 1 - ((1 - scaleMin) * abs(rotationStrength))
             let scale = max(scaleStrength, scaleMin)
             
             var transform = CATransform3DIdentity
@@ -2000,7 +2004,7 @@ extension ProfileViewController: KolodaViewDataSource {
         
         if let tip = self.cardsArray[index]["tipText"] as? String {
             view?.lblTip.text = tip
-            view?.bringSubview(toFront: (view?.vwTip)!)
+            view?.bringSubviewToFront((view?.vwTip)!)
             view?.imgVwTip.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/0.49))
             return view
         }
@@ -2080,7 +2084,7 @@ extension ProfileViewController: KolodaViewDataSource {
             let btn = btns[index]
             let image = UIImage(named: imageFullName)
             btn?.setImage(image, for: .normal)
-            btn?.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+            btn?.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         }
         
         
@@ -2145,7 +2149,7 @@ extension ProfileViewController: KolodaViewDataSource {
                 self.lblAlert.text = "Accidentally swipe the wrong way? Undo here to make the right move."
         }
         
-        self.view.bringSubview(toFront: self.vwAlert)
+        self.view.bringSubviewToFront(self.vwAlert)
         self.vwAlert.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
 
         UIView.animate(withDuration: 0.5, animations: {
@@ -2168,9 +2172,9 @@ extension ProfileViewController: KolodaViewDataSource {
         if (details["tipText"] as? String) != nil {
             return
         }
-        let personalDetail = LocalStore.store.getUserDetails()
-
-        
+ 
+        //fhc       let personalDetail = LocalStore.store.getUserDetails()
+       
         let name = details["user_name"] as! String
         let age = String(format:"%d", self.calculateAge(birthday: details["dob"] as! String))
 
@@ -2344,11 +2348,11 @@ extension ProfileViewController: KolodaViewDataSource {
         
         self.scrollVwFullImage.contentOffset = CGPoint(x: 0, y: self.scrollVwFullImage.frame.size.height * CGFloat(index))
         self.scrollVwFullImage.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: self.scrollVwFullImage.frame.size.height * CGFloat(count))
-        self.view.bringSubview(toFront: self.vwScrollImage)
+        self.view.bringSubviewToFront(self.vwScrollImage)
     }
     
     @IBAction func closeScrollVw(_ sender: Any) {
-        self.view.sendSubview(toBack: self.vwScrollImage)
+        self.view.sendSubviewToBack(self.vwScrollImage)
     }
     
     @objc func thumbnailFromVideoServerURL(url:URL) {
@@ -2361,7 +2365,7 @@ extension ProfileViewController: KolodaViewDataSource {
             let asset = AVURLAsset(url: url, options: nil)
             let generator = AVAssetImageGenerator(asset: asset)
             generator.appliesPreferredTrackTransform = true
-            let thumbTime: CMTime = CMTimeMakeWithSeconds(0, 30)
+            let thumbTime: CMTime = CMTimeMakeWithSeconds(0, preferredTimescale: 30)
             let maxSize = CGSize(width: 320, height: 320)
             generator.maximumSize = maxSize
             generator.generateCGImagesAsynchronously(forTimes: [NSValue(time: thumbTime)], completionHandler: { (requestedTime, im, actualTime, result, error) in
@@ -2580,4 +2584,4 @@ class QuestionTableViewCell: UITableViewCell {
 
 class TeamCell: UITableViewCell{
     @IBOutlet weak var lblTeam: UILabel!
-}
+}			

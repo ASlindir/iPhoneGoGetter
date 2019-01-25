@@ -273,13 +273,13 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
         label.textColor = UIColor(red: 0, green: 166/255, blue: 175/255, alpha: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(label)
-        headerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: NSLayoutFormatOptions(rawValue:0), metrics: [:], views: ["v0":label]))
+        headerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: NSLayoutConstraint.FormatOptions(rawValue:0), metrics: [:], views: ["v0":label]))
         
         let countView = UIView()
         //countView.backgroundColor = UIColor(red: 0, green: 166/255, blue: 175/255, alpha: 1)
         headerView.addSubview(countView)
         countView.translatesAutoresizingMaskIntoConstraints = false
-        headerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[v0]-10-[v1]", options: NSLayoutFormatOptions(rawValue:0), metrics: [:], views: ["v0":label,"v1":countView]))
+        headerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[v0]-10-[v1]", options: NSLayoutConstraint.FormatOptions(rawValue:0), metrics: [:], views: ["v0":label,"v1":countView]))
         headerView.addConstraint(NSLayoutConstraint(item: countView, attribute: .centerY, relatedBy: .equal, toItem: headerView, attribute: .centerY, multiplier: 1, constant: 0))
         countView.heightAnchor.constraint(equalToConstant: 24).isActive = true
         
@@ -312,9 +312,8 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell") as! MessagesTableViewCell
         cell.lblName.text = friends[indexPath.row].name
-        if let profile_pic = friends[indexPath.row].profilePic as? String {
-            cell.imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic)), placeholderImage: UIImage.init(named: "placeholder"))
-        }
+        let profile_pic = friends[indexPath.row].profilePic
+        cell.imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic)), placeholderImage: UIImage.init(named: "placeholder"))
         
         cell.imgViewProfile.layer.cornerRadius = 42.5
         
@@ -504,7 +503,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
             let friendData = snapshot.value as! Dictionary<String, Any>
             print("Friends :- ",friendData)
             let id = snapshot.key
-            if let name = friendData["name"] as! String!, name.characters.count > 0{
+            if let name = friendData["name"] as! String!, name.count > 0{
                 let user_id = LocalStore.store.getFacebookID()
                 if friendData["id"] as? String == user_id {
                 }else{
@@ -548,7 +547,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
             let friendData = snapshot.value as! Dictionary<String, Any>
             print("Friends :- ",friendData)
             let id = snapshot.key
-            if let name = friendData["name"] as! String!, name.characters.count > 0{
+            if let name = friendData["name"] as! String!, name.count > 0{
                 let user_id = LocalStore.store.getFacebookID()
                 if user_id != "" {
                     if friendData["id"] as? String == user_id{

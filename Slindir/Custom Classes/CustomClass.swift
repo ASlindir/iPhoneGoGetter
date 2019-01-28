@@ -51,7 +51,8 @@ class CustomClass: NSObject {
                 }
                 audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: music!))
                 audioPlayer?.volume = 1
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient, mode:AVAudioSession.Mode.default);
+//                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient);
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient, mode:AVAudioSession.Mode.spokenAudio);
                 try AVAudioSession.sharedInstance().setActive(true)
                 audioPlayer?.play()
             }catch let err{

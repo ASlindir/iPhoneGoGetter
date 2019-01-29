@@ -117,7 +117,6 @@
 		B4A85F401F6943FA003BAD4A /* games.gif in Resources */ = {isa = PBXBuildFile; fileRef = B4A85F3E1F6943FA003BAD4A /* games.gif */; };
 		B4A85F441F694DDC003BAD4A /* PermanentMarker.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4A85F421F694DDC003BAD4A /* PermanentMarker.ttf */; };
 		B4A85F451F694DDC003BAD4A /* Pink T-shirt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4A85F431F694DDC003BAD4A /* Pink T-shirt.ttf */; };
-		B4A85F471F6954CD003BAD4A /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A85F461F6954CD003BAD4A /* WelcomeViewController.swift */; };
 		B4B51A5D1FA20AD600045445 /* SettingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B51A5C1FA20AD600045445 /* SettingCollectionViewCell.swift */; };
 		B4D245821F7CC31E001A1DE8 /* Cards.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4D245811F7CC31E001A1DE8 /* Cards.xib */; };
 		B4D4C3FB1F692E2900D72133 /* ForActiveSmall.gif in Resources */ = {isa = PBXBuildFile; fileRef = B4D4C3FA1F692E2900D72133 /* ForActiveSmall.gif */; };
@@ -130,6 +129,7 @@
 		B4EF53641FA98A010065926D /* CustomCellCenterFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53631FA98A010065926D /* CustomCellCenterFlowLayout.swift */; };
 		B4EF53651FA994E10065926D /* swipeLEFT.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B4EF53611FA985770065926D /* swipeLEFT.mp3 */; };
 		B4EF53661FA994E40065926D /* swipeRight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B4EF53621FA985770065926D /* swipeRight.mp3 */; };
+		CCED00E221FFC331009F0525 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCED00E121FFC331009F0525 /* WelcomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -334,7 +334,6 @@
 		B4A85F3E1F6943FA003BAD4A /* games.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = games.gif; sourceTree = "<group>"; };
 		B4A85F421F694DDC003BAD4A /* PermanentMarker.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PermanentMarker.ttf; sourceTree = "<group>"; };
 		B4A85F431F694DDC003BAD4A /* Pink T-shirt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pink T-shirt.ttf"; sourceTree = "<group>"; };
-		B4A85F461F6954CD003BAD4A /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		B4B51A5C1FA20AD600045445 /* SettingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingCollectionViewCell.swift; path = "Custom Cells/SettingCollectionViewCell.swift"; sourceTree = "<group>"; };
 		B4D245811F7CC31E001A1DE8 /* Cards.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Cards.xib; sourceTree = "<group>"; };
 		B4D4C3FA1F692E2900D72133 /* ForActiveSmall.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = ForActiveSmall.gif; sourceTree = "<group>"; };
@@ -348,6 +347,7 @@
 		B4EF53621FA985770065926D /* swipeRight.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = swipeRight.mp3; sourceTree = "<group>"; };
 		B4EF53631FA98A010065926D /* CustomCellCenterFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomCellCenterFlowLayout.swift; path = "Custom Classes/CustomCellCenterFlowLayout.swift"; sourceTree = "<group>"; };
 		C57A96D960408742C6134D14 /* Pods-Slindir.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Slindir.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Slindir/Pods-Slindir.debug.xcconfig"; sourceTree = "<group>"; };
+		CCED00E121FFC331009F0525 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WelcomeViewController.swift; path = /Users/fredfcovely/Desktop/IphoneSlindirv3/Slindir/WelcomeViewController.swift; sourceTree = "<absolute>"; };
 		CE3C63750FBA69036D4ED443 /* Pods_Slindir.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Slindir.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -680,7 +680,7 @@
 				B493E53E1F94A60E00C58F66 /* Webservices */,
 				B42E1B2B1F66A169009B68E2 /* AppDelegate.swift */,
 				B42E1B2D1F66A169009B68E2 /* ViewController.swift */,
-				B4A85F461F6954CD003BAD4A /* WelcomeViewController.swift */,
+				CCED00E121FFC331009F0525 /* WelcomeViewController.swift */,
 				B43614E81F7509B10057A1D2 /* EditProfileViewController.swift */,
 				B403784C1F6BDF25009C9D34 /* ProfileViewController.swift */,
 				B448C2D91F7E11E800A776D7 /* RecordVideoController.swift */,
@@ -931,13 +931,13 @@
 					};
 					B42E1B3E1F66A169009B68E2 = {
 						CreatedOnToolsVersion = 8.3.2;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 						TestTargetID = B42E1B271F66A169009B68E2;
 					};
 					B42E1B491F66A169009B68E2 = {
 						CreatedOnToolsVersion = 8.3.2;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 						TestTargetID = B42E1B271F66A169009B68E2;
 					};
@@ -1165,6 +1165,7 @@
 				0D06B89020C2E7A6002E1703 /* JSQMessagesCollectionViewLayoutAttributes.m in Sources */,
 				0D06B88620C2E7A6002E1703 /* JSQMessagesAvatarImageFactory.m in Sources */,
 				B40C11D11F7D19540030F9E7 /* ProfileImageViewCell.swift in Sources */,
+				CCED00E221FFC331009F0525 /* WelcomeViewController.swift in Sources */,
 				B43A62C51FBD4E0700FE15C4 /* MessagesTableViewCell.swift in Sources */,
 				0D06B8A120C2E7A6002E1703 /* JSQMessagesInputToolbar.m in Sources */,
 				0D06B89320C2E7A6002E1703 /* JSQMediaItem.m in Sources */,
@@ -1216,7 +1217,6 @@
 				0D06B89520C2E7A6002E1703 /* JSQMessagesAvatarImage.m in Sources */,
 				0D06B89220C2E7A6002E1703 /* JSQLocationMediaItem.m in Sources */,
 				B42A87441FA893020053B7A7 /* ProfileActivitiesCell.swift in Sources */,
-				B4A85F471F6954CD003BAD4A /* WelcomeViewController.swift in Sources */,
 				B43614E71F74F40E0057A1D2 /* CustomSlider.swift in Sources */,
 				B47E3F4A1F95C5E100A3E046 /* Loader.swift in Sources */,
 				B42A659C1F9F127B00639F6B /* FriendsListViewController.swift in Sources */,
@@ -1469,8 +1469,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = batth.SlindirTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Slindir.app/Slindir";
 			};
 			name = Debug;
@@ -1486,8 +1485,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = batth.SlindirTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Slindir.app/Slindir";
 			};
 			name = Release;
@@ -1502,8 +1500,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = batth.SlindirUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_TARGET_NAME = Slindir;
 			};
 			name = Debug;
@@ -1518,8 +1515,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = batth.SlindirUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_TARGET_NAME = Slindir;
 			};
 			name = Release;

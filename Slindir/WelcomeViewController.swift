@@ -13,9 +13,9 @@ import FirebaseAuth
 import Firebase
 
 class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITabBarControllerDelegate {
-
-//MARK:-  IBOutlets , Variables and Constants
-
+    
+    //MARK:-  IBOutlets , Variables and Constants
+    
     @IBOutlet weak var imgViewBackground: UIImageView!
     
     @IBOutlet weak var lblName: UILabel!
@@ -65,12 +65,12 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         if UIScreen.main.bounds.size.height >= 736 {
             self.topTapUntapLbl.constant = 140
             self.view.layoutIfNeeded()
         }
-
+        
         addDataInArray()
         addTheRequestActivityView()
         //getDataFromFB()
@@ -103,10 +103,10 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         }
         
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         let del:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         del.currentController = self
     }
@@ -116,14 +116,14 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         btnLetsStarted.layer.cornerRadius = btnLetsStarted.frame.size.height/2
     }
     
-//MARK:-  Memory Management
+    //MARK:-  Memory Management
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-
-//MARK:-  Local Methoda
+    
+    //MARK:-  Local Methoda
     
     func addTheRequestActivityView(){
         self.view.addSubview(viewBlack)
@@ -204,24 +204,24 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
             LocalStore.store.saveName = textName
             LocalStore.store.login = true
             let nameText = "WELCOME, \(textName)"
-            lblName.animate(newText: nameText, characterDelay: 0.1) { (completed:Bool) in 
+            lblName.animate(newText: nameText, characterDelay: 0.1) { (completed:Bool) in
                 
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                UIView.transition(with: self.imgViewBackground, duration: 1, options: .transitionCrossDissolve, animations: {
-//                    //self.imgViewBackground.image = #imageLiteral(resourceName: "blurBackground")
-//                }) { (completed: Bool) in
-                    self.btnLetsStarted.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-                    self.lblDescription.transform = CGAffineTransform(scaleX: 0, y: 0)
-                   // UIView.animate(withDuration: 0.4, animations: {
-                        self.btnLetsStarted.transform = .identity
-                        self.btnLetsStarted.alpha = 1
-                        self.lblDescription.transform = .identity
-                       // self.lblDescription.alpha = 1
-//                    }, completion: { (completed: Bool) in
-//
-                 //   })
-               // }
+                //                UIView.transition(with: self.imgViewBackground, duration: 1, options: .transitionCrossDissolve, animations: {
+                //                    //self.imgViewBackground.image = #imageLiteral(resourceName: "blurBackground")
+                //                }) { (completed: Bool) in
+                self.btnLetsStarted.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+                self.lblDescription.transform = CGAffineTransform(scaleX: 0, y: 0)
+                // UIView.animate(withDuration: 0.4, animations: {
+                self.btnLetsStarted.transform = .identity
+                self.btnLetsStarted.alpha = 1
+                self.lblDescription.transform = .identity
+                // self.lblDescription.alpha = 1
+                //                    }, completion: { (completed: Bool) in
+                //
+                //   })
+                // }
             }
         }
     }
@@ -236,14 +236,14 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
     
     
     
-//MARK:-  WebService Methods
+    //MARK:-  WebService Methods
     
     func loginWithFacebook(){
         let facebookID = LocalStore.store.getFacebookID()
         let facebookDetails = LocalStore.store.getFacebookDetails()
         print(facebookDetails as Any)
         var parameters = Dictionary<String, Any?>()
-
+        
         parameters["profile_pic"] = ""
         if let picture = facebookDetails!["picture"] as? [String:Any]{
             if let data = picture["data"] as? [String: Any]{
@@ -300,10 +300,10 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         }
         
         //if let location = facebookDetails!["location"] as? NSDictionary {
-            //let name = location["name"] as! String
-           // parameters["location"] = name
+        //let name = location["name"] as! String
+        // parameters["location"] = name
         //}else {
-           // parameters["location"] = ""
+        // parameters["location"] = ""
         //}
         
         parameters["image1"] = ""
@@ -340,7 +340,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
             df.locale = Locale.init(identifier: "en_US_POSIX")
             let dateOfBirthStr: String = df.string(from: dateFormat1!)
             parameters["dob"] = dateOfBirthStr
-
+            
             let ageComponents = Calendar.current.dateComponents([.year], from: dateFormat1!, to: Date())
             dateOfBirth = ageComponents.year!
         }
@@ -439,11 +439,11 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
                                     }
                                     else {
                                         Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                        AnalyticsParameterItemID: "id-GenderFemale",
-                                        AnalyticsParameterItemName: String(format:"Gender: %@", parameters["gender"] as! CVarArg)
-                                        ])
+                                            AnalyticsParameterItemID: "id-GenderFemale",
+                                            AnalyticsParameterItemName: String(format:"Gender: %@", parameters["gender"] as! CVarArg)
+                                            ])
                                     }
-                                  
+                                    
                                     if self.calculateAge(birthday:parameters["dob"] as! String) < 25{
                                         Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
                                             AnalyticsParameterItemID: "id-Age-Under-25",
@@ -567,12 +567,12 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
                                 AnalyticsParameterItemName: String(format:"Gender: %@", parameters["gender"] as! CVarArg)
                                 ])
                         }
-                            else {
+                        else {
                             Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                            AnalyticsParameterItemID: "id-GenderFemale",
-                            AnalyticsParameterItemName: String(format:"Gender: %@", parameters["gender"] as! CVarArg)
-                            ])
-                            }
+                                AnalyticsParameterItemID: "id-GenderFemale",
+                                AnalyticsParameterItemName: String(format:"Gender: %@", parameters["gender"] as! CVarArg)
+                                ])
+                        }
                         if self.calculateAge(birthday:parameters["dob"] as! String) < 25{
                             Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
                                 AnalyticsParameterItemID: "id-Age-Under-25",
@@ -611,7 +611,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
                     }
                 }
             }else{
-                 Loader.stopLoader()
+                Loader.stopLoader()
             }
         }, errorHandler: { (error) in
             Loader.stopLoader()
@@ -627,37 +627,37 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         parameters["user_fb_id"] = facebookID
         parameters["activities"] = interestString
         print("Parameters \(parameters)")
-//        Loader.startLoader(true)
+        //        Loader.startLoader(true)
         Loader.sharedLoader.statLoader(true)
-//        DispatchQueue.global(qos: .background).async {
+        //        DispatchQueue.global(qos: .background).async {
         WebServices.service.webServicePostRequest(.post, .user, .saveUserInterests, parameters as Dictionary<String, Any>, successHandler: { (response) in
-                Loader.stopLoader()
-                let jsonData = response
-                let status = jsonData!["status"] as! String
-                if status == "success"{
-                    DispatchQueue.global(qos: .background).async {
-                        self.getUserDetails(true)
-                    }
-                    DispatchQueue.main.async {
-                        if self.isPresent{
-                            self.dismiss(animated: true, completion: nil)
-                        }else{
-                            let editProfileController = self.storyboard?.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
-                            self.navigationController?.pushViewController(editProfileController, animated: true)
-                        }
-                    }
-                }else{
-                    self.showAlertWithOneButton("Error!", "Please check your internet connection", "OK")
+            Loader.stopLoader()
+            let jsonData = response
+            let status = jsonData!["status"] as! String
+            if status == "success"{
+                DispatchQueue.global(qos: .background).async {
+                    self.getUserDetails(true)
                 }
-            }, errorHandler: { (error) in
-                Loader.stopLoader()
+                DispatchQueue.main.async {
+                    if self.isPresent{
+                        self.dismiss(animated: true, completion: nil)
+                    }else{
+                        let editProfileController = self.storyboard?.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
+                        self.navigationController?.pushViewController(editProfileController, animated: true)
+                    }
+                }
+            }else{
                 self.showAlertWithOneButton("Error!", "Please check your internet connection", "OK")
-            })
-      //  }
+            }
+        }, errorHandler: { (error) in
+            Loader.stopLoader()
+            self.showAlertWithOneButton("Error!", "Please check your internet connection", "OK")
+        })
+        //  }
     }
     
     
-//MARK:-  UICollectionView Data Source 
+    //MARK:-  UICollectionView Data Source
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -675,7 +675,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         cell.layoutIfNeeded()
         cell.lblTitle.text = arrayTitles[indexPath.row]
         cell.imgViewCircle.layer.cornerRadius = cell.imgViewCircle.frame.size.width / 2
-     
+        
         if selectedIndex.contains(arrayTitles[indexPath.row]) {
             cell.imgViewCircle.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
             cell.lblTitle.isHidden = true
@@ -689,8 +689,8 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         return cell
     }
     
-//MARK:-  UICollection View Delegates
-
+    //MARK:-  UICollection View Delegates
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if CustomClass.sharedInstance.isAudioPlay!{
@@ -734,10 +734,10 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
             }
         }
     }
-
     
-//MARK:-  UICollection View Flow Layout Delegates
-
+    
+    //MARK:-  UICollection View Flow Layout Delegates
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = collectionView.frame.size.width/3
         return CGSize(width: size, height: size)
@@ -751,8 +751,8 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         return 0
     }
     
-//MARK:-  UICollection View Footer View
-
+    //MARK:-  UICollection View Footer View
+    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "ActivityCollectionReusableView", for: indexPath) as! ActivityCollectionReusableView
         footerView.btnRequestActivity.addTarget(self, action: #selector(requestActivities), for: .touchUpInside)
@@ -760,7 +760,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         footerView.layoutIfNeeded()
         footerView.btnRequestActivity.layer.cornerRadius = footerView.btnRequestActivity.frame.size.height/2
         footerView.btnContinue.layer.cornerRadius = footerView.btnContinue.frame.size.height/2
-
+        
         if !isPresent{
             footerView.btnContinue.isHidden = true
         }else{
@@ -768,7 +768,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         }
         return footerView
     }
-//MARK:-  Local Methods
+    //MARK:-  Local Methods
     @objc func requestActivities(){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         self.showRequestActivityView()
@@ -802,10 +802,10 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         
     }
     //(graphPath: "me", parameters: ["fields":"id,name,email,birthday,age_range,gender,first_name,friends,picture.type(large).width(1080).height(1080),photos{images}"], accessToken: token, httpMethod: .GET, apiVersion: .defaultVersion)
-//MARK:-  Get data from Facebook
+    //MARK:-  Get data from Facebook
     func getDataFromFB(){
         Loader.startLoader(true)
-//        Loader.startLoader(true)
+        //        Loader.startLoader(true)
         if let token = accesToken {
             FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"id,name,email,birthday,age_range,gender,first_name,friends,picture.type(large).width(1080).height(1080),photos{images}"], tokenString: token.tokenString, version: nil, httpMethod: nil)?.start(completionHandler: { (connection, result, error) in
                 if error == nil {
@@ -822,8 +822,8 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
                                 
                                 let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {
                                     (result : UIAlertAction) -> Void in
-//                                    let loginManager = LoginManager()
-//                                    loginManager.logOut()
+                                    //                                    let loginManager = LoginManager()
+                                    //                                    loginManager.logOut()
                                     self.navigationController?.popViewController(animated: true)
                                 }
                                 
@@ -879,7 +879,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     
-//MARK:-  IBAction Methods
+    //MARK:-  IBAction Methods
     
     @IBAction func btnLetsStart(_ sender: Any?){
         self.collectonView.isHidden = true
@@ -898,7 +898,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
             constraintLogoTrailing.constant = 110
         }
         
-
+        
         viewButtonsAndDesc.backgroundColor = .white
         viewButtonsAndDesc.alpha = 0.4
         UIView.animate(withDuration: 3, delay: 0, options: .curveEaseOut, animations: {
@@ -906,11 +906,11 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         })
         
         self.imgViewBackground.image = #imageLiteral(resourceName: "blurBackground")
-
+        
         UIView.animate(withDuration: 0.8, animations: {
             self.viewButtonsAndDesc.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
             self.viewButtonsAndDesc.alpha = 0
-
+            
         }) { (completed: Bool) in
             UIView.animate(withDuration: 0.4, animations: {
                 self.lblIntro.alpha = 1
@@ -990,9 +990,9 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
 class WelcomeCollectionCell: UICollectionViewCell {
     
     @IBOutlet weak var imgViewCircle: UIImageView!
-
+    
     @IBOutlet weak var lblTitle: UILabel!
-
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

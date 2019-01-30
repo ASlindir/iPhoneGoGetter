@@ -1420,7 +1420,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.slindir.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d53f3b74-6431-4d52-80a4-ea357b70e38f";
+				PROVISIONING_PROFILE = Automatic;
+				"PROVISIONING_PROFILE[arch=*]" = Automatic;
 				PROVISIONING_PROFILE_SPECIFIER = FHCDevDebug;
 				SWIFT_OBJC_BRIDGING_HEADER = "Slindir/Slindir-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1438,7 +1439,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_ENTITLEMENTS = Slindir/Slindir.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 72NZF773GZ;
@@ -1448,7 +1449,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.slindir.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d53f3b74-6431-4d52-80a4-ea357b70e38f";
+				PROVISIONING_PROFILE = Automatic;
 				PROVISIONING_PROFILE_SPECIFIER = AdHocFHCDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "Slindir/Slindir-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

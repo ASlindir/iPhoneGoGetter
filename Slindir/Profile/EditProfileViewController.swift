@@ -11,7 +11,7 @@ import Photos
 import AVKit
 import MobileCoreServices
 import Crashlytics
-import FacebookLogin
+import FBSDKCoreKit
 import SDWebImage
 import AVFoundation
 import UIImage_ImageCompress
@@ -19,7 +19,7 @@ import MessageUI
 
 class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryViewControllerDelegates, UINavigationControllerDelegate, UIImagePickerControllerDelegate, RecordVideoDelegate, ProfileViewControllerDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, UITextViewDelegate, MFMailComposeViewControllerDelegate{
     
-//MARK:-  IBOutlets, Variables and Constants
+    //MARK:-  IBOutlets, Variables and Constants
     
     var playerViewController:AVPlayerViewController!
     
@@ -43,9 +43,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     @IBOutlet weak var imgViewStandard: UIImageView!
     @IBOutlet weak var imgViewMetric: UIImageView!
     
-   // @IBOutlet weak var txtFldName: UITextField!
-   // @IBOutlet weak var txtFldAge: UITextField!
-   // @IBOutlet weak var txtFldAddress: UITextField!
+    // @IBOutlet weak var txtFldName: UITextField!
+    // @IBOutlet weak var txtFldAge: UITextField!
+    // @IBOutlet weak var txtFldAddress: UITextField!
     @IBOutlet weak var txtFldTeam1: UITextField!
     @IBOutlet weak var txtFldTeam2: UITextField!
     @IBOutlet weak var txtFldTeam3: UITextField!
@@ -53,7 +53,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     @IBOutlet weak var txtFldOccupation: UITextField!
     
     @IBOutlet weak var txtViewDesc: UITextView!
-
+    
     @IBOutlet weak var switchKids: UISwitch!
     @IBOutlet weak var switchWantKids: UISwitch!
     @IBOutlet weak var switchNotifications: UISwitch!
@@ -115,7 +115,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     @IBOutlet weak var stackViewDescription: UIStackView!
     @IBOutlet weak var stackViewUnit: UIStackView!
     @IBOutlet weak var stackViewBtn: UIStackView!
-
+    
     @IBOutlet var indicator: UIActivityIndicatorView!
     @IBOutlet var heightSlider: CustomSlider!
     @IBOutlet var lblHeight: UILabel!
@@ -162,11 +162,11 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     var isSound:Bool = false
     var isNotification:Bool = false
     
-//    var targetSize: CGSize {
-//        let scale = UIScreen.main.scale
-//        return CGSize(width: UIScreen.main.bounds.width - 110 * scale,
-//                      height: collectionView.bounds.height * scale)
-//    }
+    //    var targetSize: CGSize {
+    //        let scale = UIScreen.main.scale
+    //        return CGSize(width: UIScreen.main.bounds.width - 110 * scale,
+    //                      height: collectionView.bounds.height * scale)
+    //    }
     
     var arrayKids:[String] = []
     var lookingFor:[String] = []
@@ -192,10 +192,10 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     @IBOutlet weak var lblVideoHeader: UILabel!
     var isVideoLabelBlinked:Bool = false
     
-     override func viewDidLoad() {
+    override func viewDidLoad() {
         //self.indicator.isHidden = true
         super.viewDidLoad()
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(updateLocation), name: NSNotification.Name(rawValue: NSNotification.Name.RawValue("UpdateLocation")), object: nil)
         
         UserDefaults.standard.set(true, forKey: "updateSettings")
@@ -221,21 +221,21 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         
         
         if !LocalStore.store.notFirstTime() {
-//            LocalStore.store.appNotFirstTime = true
+            //            LocalStore.store.appNotFirstTime = true
             scrollView.isScrollEnabled = false
             scrollView.isUserInteractionEnabled = false
-//            txtFldName.isUserInteractionEnabled = false
-//            txtFldAge.isUserInteractionEnabled = false
-//            txtFldAddress.isUserInteractionEnabled = false
+            //            txtFldName.isUserInteractionEnabled = false
+            //            txtFldAge.isUserInteractionEnabled = false
+            //            txtFldAddress.isUserInteractionEnabled = false
             viewWhite.isHidden = false
             viewWhite.alpha = 1
         }else{
             self.view.alpha = 0
             scrollView.isScrollEnabled = true
             scrollView.isUserInteractionEnabled = true
-//            txtFldName.isUserInteractionEnabled = true
-//            txtFldAge.isUserInteractionEnabled = true
-//            txtFldAddress.isUserInteractionEnabled = true
+            //            txtFldName.isUserInteractionEnabled = true
+            //            txtFldAge.isUserInteractionEnabled = true
+            //            txtFldAddress.isUserInteractionEnabled = true
             viewWhite.isHidden = true
             viewWhite.alpha = 0
         }
@@ -359,13 +359,13 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             self.heightSlider.isUserInteractionEnabled = true
         }
     }
-
+    
     @objc func updateLocation() {
         if !LocalStore.store.notFirstTime() {
             return
         }
         personalDetail = LocalStore.store.getUserDetails()
-         username = ""
+        username = ""
         if let name = personalDetail["user_name"] as? String {
             username = name
         }
@@ -386,17 +386,17 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         
         ageStr = String(format:"%d",age)
         if let location = personalDetail["location"] as? String{
-                if location != "" {
-                    //self.lblSecondComma.text = ","
-                    lblName.text = String(format:"%@, %d, %@",username,age,location)
-                }
-                else {
-                    lblName.text = String(format:"%@, %d",username,age)
-                    //self.lblSecondComma.text = ""
-                }
-            locationStr = location
-                //self.lblAddress.text = location
+            if location != "" {
+                //self.lblSecondComma.text = ","
+                lblName.text = String(format:"%@, %d, %@",username,age,location)
             }
+            else {
+                lblName.text = String(format:"%@, %d",username,age)
+                //self.lblSecondComma.text = ""
+            }
+            locationStr = location
+            //self.lblAddress.text = location
+        }
     }
     
     @objc func settingThePersonalDetail(){
@@ -404,7 +404,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         UserDefaults.standard.synchronize()
         personalDetail = LocalStore.store.getUserDetails()
         print(personalDetail)
-
+        
         if let aboutme = personalDetail["about_me"] as? String {
             print("About Me :- ",aboutme)
             self.txtViewDesc.text = aboutme
@@ -428,15 +428,15 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         if let name = personalDetail["user_name"] as? String {
             if let location = personalDetail["location"] as? String{
                 if !LocalStore.store.notFirstTime() {
-                   // LocalStore.store.appNotFirstTime = true
+                    // LocalStore.store.appNotFirstTime = true
                     settingNameAgeAddress(name, String(format: "%d",age), location)
                 }
                 else {
                     lblName.text = String(format:"%@, %d, %@",name,age,location)
-//                    self.lblFirstComma.text = ","
-//                    self.lblAge.text = String(format: "%d",age)
-//                    self.lblSecondComma.text = ","
-//                    self.lblAddress.text = location
+                    //                    self.lblFirstComma.text = ","
+                    //                    self.lblAge.text = String(format: "%d",age)
+                    //                    self.lblSecondComma.text = ","
+                    //                    self.lblAddress.text = location
                 }
                 username = name
                 ageStr = String(format:"%d",age)
@@ -450,10 +450,10 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 }
                 else {
                     lblName.text = String(format:"%@, %d",name,age)
-//                    self.lblFirstComma.text = ","
-//                    self.lblAge.text = String(format: "%d",age)
-//                    self.lblSecondComma.text = ""
-//                    self.lblAddress.text = ""
+                    //                    self.lblFirstComma.text = ","
+                    //                    self.lblAge.text = String(format: "%d",age)
+                    //                    self.lblSecondComma.text = ""
+                    //                    self.lblAddress.text = ""
                 }
                 username = name
                 ageStr = String(format:"%d",age)
@@ -466,7 +466,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 genderPreferences = "Woman"
                 self.btnWomen.setImage(#imageLiteral(resourceName: "femaleSelected"), for: .normal)
                 self.btnMan.setImage(#imageLiteral(resourceName: "manUnSelected"), for: .normal)
-
+                
             }else if gender == "Man" {
                 genderPreferences = "Man"
                 self.btnMan.setImage(#imageLiteral(resourceName: "manSelected"), for: .normal)
@@ -500,9 +500,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 let strHeight = String(format:"%f",Float(Float(arrHeight[1])!/11))
                 
                 self.heightSlider.value = Float(String(format:"%@.%@",arrHeight[0],strHeight.components(separatedBy: ".")[1]))!
-
+                
                 self.lblHeight.text = String(format:"%@' %@\"",arrHeight[0],arrHeight[1])
-
+                
             }
             else {
                 heightValue = "5.6"
@@ -688,15 +688,23 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 
                 if i == 0 {
                     openCameraView.imgViewProfile.image = profileImages[i] as? UIImage
-                    if (personalDetail[String(format:"profile_pic")] as? String) == "" {
+                    if let profile_pic = personalDetail[String(format:"profile_pic")] as? String {
+                        if profile_pic == "" {
+                            openCameraView.imgViewCamera.isHidden = false
+                            openCameraView.imgViewProfile.isHidden = true
+                            openCameraView.lblRecordVideo.text = "ADD PHOTO"
+                        }
+                        else {
+                            openCameraView.imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, personalDetail[String(format:"profile_pic")] as! String)), placeholderImage: UIImage.init(named: "placeholder"))
+                            openCameraView.imgViewCamera.isHidden = true
+                            openCameraView.imgViewProfile.isHidden = false
+                            openCameraView.lblRecordVideo.text = "CHANGE PHOTO"
+                        }
+                    }else{
                         openCameraView.imgViewCamera.isHidden = false
                         openCameraView.imgViewProfile.isHidden = true
                         openCameraView.lblRecordVideo.text = "ADD PHOTO"
-                    }else{
-                        openCameraView.imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, personalDetail[String(format:"profile_pic")] as! String)), placeholderImage: UIImage.init(named: "placeholder"))
-                        openCameraView.imgViewCamera.isHidden = true
-                        openCameraView.imgViewProfile.isHidden = false
-                        openCameraView.lblRecordVideo.text = "CHANGE PHOTO"
+                        
                     }
                 }
                 else {
@@ -740,7 +748,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
+        
         
         if player != nil {
             player.replaceCurrentItem(with: nil)
@@ -784,7 +792,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         
     }
     
-//MARK:-  UIKeyboard Methdos
+    //MARK:-  UIKeyboard Methdos
     func upTheKeyboard(){
         NotificationCenter.default.addObserver(self, selector: #selector(hideShowKeyboard(_ :)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hideShowKeyboard(_ :)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -805,7 +813,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         }
     }
     
-//MARK:-  UITextField Delegates
+    //MARK:-  UITextField Delegates
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         self.view.endEditing(true)
@@ -813,11 +821,11 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-//        if textField == self.txtFldAddress {
-//            return
-//        }
+        //        if textField == self.txtFldAddress {
+        //            return
+        //        }
     }
-
+    
     //MARK:-  UITextView Delegates
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
@@ -825,7 +833,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         return numberOfChars < 302
     }
     
-//MARK:-  Local Methods
+    //MARK:-  Local Methods
     
     func hideTheViews(){
         lblTapToEdit.alpha = 0
@@ -876,17 +884,17 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             self.whiteViewAnimation()
             LocalStore.store.appNotFirstTime = true
             //self.lblFirstComma.text = ","
-//            self.lblAge.animate(newText: age, characterDelay: 0.1, completed: { (completed:Bool) in
-//                if location == ""{
-//                    self.lblSecondComma.text = ""
-//                    self.whiteViewAnimation()
-//                }else{
-//                    self.lblSecondComma.text = ","
-//                    self.lblAddress.animate(newText: location, characterDelay: 0.1, completed: { (completed: Bool) in
-//                        self.whiteViewAnimation()
-//                    })
-//                }
-//            })
+            //            self.lblAge.animate(newText: age, characterDelay: 0.1, completed: { (completed:Bool) in
+            //                if location == ""{
+            //                    self.lblSecondComma.text = ""
+            //                    self.whiteViewAnimation()
+            //                }else{
+            //                    self.lblSecondComma.text = ","
+            //                    self.lblAddress.animate(newText: location, characterDelay: 0.1, completed: { (completed: Bool) in
+            //                        self.whiteViewAnimation()
+            //                    })
+            //                }
+            //            })
         }
     }
     
@@ -900,7 +908,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 self.showTheWhiteViewElements()
             })
         })
-
+        
     }
     
     func showTheWhiteViewElements(){
@@ -911,115 +919,115 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         }) { (completed: Bool) in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
                 self.lblScrollForMore.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-                    self.btnGotIt.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-                    UIView.animate(withDuration: 0.4, animations: {
-                        self.btnGotIt.alpha = 1
-                        self.btnGotIt.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+                self.btnGotIt.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+                UIView.animate(withDuration: 0.4, animations: {
+                    self.btnGotIt.alpha = 1
+                    self.btnGotIt.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+                }, completion: { (completed: Bool) in
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.btnGotIt.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
                     }, completion: { (completed: Bool) in
-                        UIView.animate(withDuration: 0.2, animations: {
-                            self.btnGotIt.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+                        UIView.animate(withDuration: 0.1, animations: {
+                            self.btnGotIt.transform = .identity
                         }, completion: { (completed: Bool) in
-                            UIView.animate(withDuration: 0.1, animations: {
+                            DispatchQueue.main.async {
                                 self.btnGotIt.transform = .identity
-                            }, completion: { (completed: Bool) in
-                                DispatchQueue.main.async {
-                                    self.btnGotIt.transform = .identity
-                                    self.viewWhite.isUserInteractionEnabled = true
-                                    self.scrollView.isUserInteractionEnabled = true
-                                }
-                            })
-                        })
-                    })
-            })
-            
-           /* self.lblYourPhoto.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-            UIView.animate(withDuration: 0.8, animations: {
-                self.lblYourPhoto.transform = .identity
-                self.lblYourPhoto.alpha = 1
-            }) { (completed: Bool) in
-                self.lblNameHide.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-                UIView.animate(withDuration: 0.8, animations: {
-                    self.lblNameHide.transform = .identity
-                    self.lblNameHide.alpha = 1
-                }) { (completed: Bool) in
-                    
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
-                   
-                    self.imgViewArrowOne.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-                    UIView.animate(withDuration: 0.8, animations: {
-                        self.imgViewArrowOne.transform = .identity
-                        self.imgViewArrowOne.alpha = 1
-                    }) { (completed: Bool) in
-                        UIView.animate(withDuration: 0.2, animations: { 
-                            let degree: Double = 0
-                            self.imgViewArrowOne.transform = CGAffineTransform(rotationAngle: (CGFloat(degree * .pi/180)))
-                        })
-                        self.lblAgeHide.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-                        UIView.animate(withDuration: 0.8, animations: {
-                            self.lblAgeHide.transform = .identity
-                            self.lblAgeHide.alpha = 1
-                        }) { (completed: Bool) in
-                            
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
-                            self.imgViewArrowTwo.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-                            UIView.animate(withDuration: 0.8, animations: {
-                                self.imgViewArrowTwo.transform = .identity
-                                self.imgViewArrowTwo.alpha = 1
-                            }) { (completed: Bool) in
-                                
-                                self.lblLocationHide.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-                                UIView.animate(withDuration: 0.8, animations: {
-                                    self.lblLocationHide.transform = .identity
-                                    self.lblLocationHide.alpha = 1
-                                }) { (completed: Bool) in
-                                    
-                                }
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
-                                    self.imgViewArrowThree.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-                                    UIView.animate(withDuration: 0.8, animations: {
-                                        self.imgViewArrowThree.transform = .identity
-                                        self.imgViewArrowThree.alpha = 1
-                                    }) { (completed: Bool) in
-                                        
-                                        UIView.animate(withDuration: 0.3, animations: {
-                                            let degree: Double = 0
-                                            self.imgViewArrowThree.transform = CGAffineTransform(rotationAngle: (CGFloat(degree * .pi/180)))
-                                        })
-                                        
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: { 
-                                            self.lblScrollForMore.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
-                                            UIView.animate(withDuration: 1, animations: {
-                                                self.lblScrollForMore.transform = .identity
-                                                self.lblScrollForMore.alpha = 1
-                                            }) { (completed: Bool) in
-                                                self.btnGotIt.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-                                                UIView.animate(withDuration: 0.4, animations: {
-                                                    self.btnGotIt.alpha = 1
-                                                    self.btnGotIt.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-                                                    
-                                                }, completion: { (completed: Bool) in
-                                                    UIView.animate(withDuration: 0.2, animations: { 
-                                                        self.btnGotIt.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-                                                        self.viewWhite.isUserInteractionEnabled = true
-                                                    }, completion: { (completed: Bool) in
-                                                        UIView.animate(withDuration: 0.1, animations: { 
-                                                            self.btnGotIt.transform = .identity
-                                                        }, completion: { (completed: Bool) in
-                                                            self.scrollView.isUserInteractionEnabled = true
-                                                        })
-                                                    })
-                                                })
-                                            }
-                                        })
-                                    }
-                                })
+                                self.viewWhite.isUserInteractionEnabled = true
+                                self.scrollView.isUserInteractionEnabled = true
                             }
                         })
-                    }
+                    })
                 })
-            }*/
+            })
+            
+            /* self.lblYourPhoto.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+             UIView.animate(withDuration: 0.8, animations: {
+             self.lblYourPhoto.transform = .identity
+             self.lblYourPhoto.alpha = 1
+             }) { (completed: Bool) in
+             self.lblNameHide.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+             UIView.animate(withDuration: 0.8, animations: {
+             self.lblNameHide.transform = .identity
+             self.lblNameHide.alpha = 1
+             }) { (completed: Bool) in
+             
+             }
+             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+             
+             self.imgViewArrowOne.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+             UIView.animate(withDuration: 0.8, animations: {
+             self.imgViewArrowOne.transform = .identity
+             self.imgViewArrowOne.alpha = 1
+             }) { (completed: Bool) in
+             UIView.animate(withDuration: 0.2, animations: {
+             let degree: Double = 0
+             self.imgViewArrowOne.transform = CGAffineTransform(rotationAngle: (CGFloat(degree * .pi/180)))
+             })
+             self.lblAgeHide.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+             UIView.animate(withDuration: 0.8, animations: {
+             self.lblAgeHide.transform = .identity
+             self.lblAgeHide.alpha = 1
+             }) { (completed: Bool) in
+             
+             }
+             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+             self.imgViewArrowTwo.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+             UIView.animate(withDuration: 0.8, animations: {
+             self.imgViewArrowTwo.transform = .identity
+             self.imgViewArrowTwo.alpha = 1
+             }) { (completed: Bool) in
+             
+             self.lblLocationHide.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+             UIView.animate(withDuration: 0.8, animations: {
+             self.lblLocationHide.transform = .identity
+             self.lblLocationHide.alpha = 1
+             }) { (completed: Bool) in
+             
+             }
+             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+             self.imgViewArrowThree.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+             UIView.animate(withDuration: 0.8, animations: {
+             self.imgViewArrowThree.transform = .identity
+             self.imgViewArrowThree.alpha = 1
+             }) { (completed: Bool) in
+             
+             UIView.animate(withDuration: 0.3, animations: {
+             let degree: Double = 0
+             self.imgViewArrowThree.transform = CGAffineTransform(rotationAngle: (CGFloat(degree * .pi/180)))
+             })
+             
+             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
+             self.lblScrollForMore.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
+             UIView.animate(withDuration: 1, animations: {
+             self.lblScrollForMore.transform = .identity
+             self.lblScrollForMore.alpha = 1
+             }) { (completed: Bool) in
+             self.btnGotIt.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+             UIView.animate(withDuration: 0.4, animations: {
+             self.btnGotIt.alpha = 1
+             self.btnGotIt.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+             
+             }, completion: { (completed: Bool) in
+             UIView.animate(withDuration: 0.2, animations: {
+             self.btnGotIt.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+             self.viewWhite.isUserInteractionEnabled = true
+             }, completion: { (completed: Bool) in
+             UIView.animate(withDuration: 0.1, animations: {
+             self.btnGotIt.transform = .identity
+             }, completion: { (completed: Bool) in
+             self.scrollView.isUserInteractionEnabled = true
+             })
+             })
+             })
+             }
+             })
+             }
+             })
+             }
+             })
+             }
+             })
+             }*/
             
             
         }
@@ -1082,7 +1090,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             self.showAlertWithOneButton("Error", "Please check your internet connection.", "OK");
         })
     }
-        
+    
     func showSettingAlert(){
         let settingAction = action("Settings", .default) { (action) in
             let path = Bundle.main.bundleIdentifier
@@ -1102,7 +1110,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             player.seek(to: kCMTimeZero)
         }
     }
-
+    
     func playView(_ url: URL!) {
         DispatchQueue.main.async {
             if url != nil {
@@ -1124,7 +1132,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         parameters["user_fb_id"] = facebookID
         parameters["file_type"] = fileName
         let postData = UIImageJPEGRepresentation(image, 0.4)
-      
+        
         WebServices.service.webServicePostFileRequest(.post, .user, .uploadFile, type, postData!, parameters, successHandler: { (response) in
             print(response as Any)
             self.getUserDetails(false)
@@ -1140,37 +1148,37 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         Loader.startLoader(true)
         var parameters = Dictionary<String, Any!>()
         parameters["user_fb_id"] = facebookID
-    WebServices.service.webServicePostVideoFileAndThumbnailRequest(.post, .user, .uploadVideoAndThumbnail, data, imageData, parameters, successHandler: { (response) in
+        WebServices.service.webServicePostVideoFileAndThumbnailRequest(.post, .user, .uploadVideoAndThumbnail, data, imageData, parameters, successHandler: { (response) in
             self.getUserDetails(false)
             Loader.stopLoader()
         }) { (error) in
             Loader.stopLoader()
         }
         
-//        WebServices.service.webServicePostFileRequest(.post, .user, .uploadFile, type, data, parameters, successHandler: { (response) in
-//            self.getUserDetails(false)
-//            Loader.stopLoader()
-//
-//        }) { (error) in
-//            Loader.stopLoader()
-//        }
+        //        WebServices.service.webServicePostFileRequest(.post, .user, .uploadFile, type, data, parameters, successHandler: { (response) in
+        //            self.getUserDetails(false)
+        //            Loader.stopLoader()
+        //
+        //        }) { (error) in
+        //            Loader.stopLoader()
+        //        }
     }
     
-//MARK:-  UIGesture delegates
+    //MARK:-  UIGesture delegates
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
     
-//MARK:-  Memory Management
+    //MARK:-  Memory Management
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-//MARK:-  Gestures
+    //MARK:-  Gestures
     
     @objc func swipeLeft(){
         CustomClass.sharedInstance.playAudio(.swipeLeft, .mp3)
@@ -1188,16 +1196,16 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         self.vwVideo.layer.borderWidth = 1
         
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-       
+        
         let indexPath = IndexPath(row: 11, section: 0)
         selectedIndexPath = indexPath
         
         let actionSheet = UIAlertController(title: "Upload from current library", message: nil, preferredStyle: .actionSheet)
         let recordAction = UIAlertAction(title: "Take video", style: .default) { (action) in
-//            CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-//            let recordIntroController = self.storyboard?.instantiateViewController(withIdentifier: "RecordVideoController") as! RecordVideoController
-//            recordIntroController.speechDelegate = self
-//            self.present(recordIntroController, animated: true, completion: nil)
+            //            CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+            //            let recordIntroController = self.storyboard?.instantiateViewController(withIdentifier: "RecordVideoController") as! RecordVideoController
+            //            recordIntroController.speechDelegate = self
+            //            self.present(recordIntroController, animated: true, completion: nil)
             
             if UIImagePickerController.isSourceTypeAvailable(.camera){
                 let controller = UIImagePickerController()
@@ -1234,7 +1242,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             actionSheet.dismiss(animated: true, completion: nil)
             CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-
+            
         }
         
         actionSheet.addAction(galleryAction)
@@ -1337,31 +1345,31 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     }
     
     
-//MARK:-   IBAction Methods
+    //MARK:-   IBAction Methods
     @IBAction func btnBack(_ sender: Any?){
-//        CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-    
-      //  if let url = UserDefaults.standard.url(forKey: "videoURL") {
-            if genderPreferences == "" {
-                self.showAlertWithOneButton("", "Please select your gender preference above.", "Ok")
-                self.btnMan.layer.borderColor = UIColor.red.cgColor
-                self.btnMan.layer.borderWidth = 1
-                self.btnWomen.layer.borderColor = UIColor.red.cgColor
-                self.btnWomen.layer.borderWidth = 1
-                self.scrollView.contentOffset = CGPoint(x: 0, y: 200)
-                return
-            }
-            if lookingFor.count == 0 {
-                self.showAlertWithOneButton("", "Please select what you are looking for.", "Ok")
-                self.imgViewHaveFun.layer.borderColor = UIColor.red.cgColor
-                self.imgViewHaveFun.layer.borderWidth = 1
-                self.imgViewMeetNewPeople.layer.borderColor = UIColor.red.cgColor
-                self.imgViewMeetNewPeople.layer.borderWidth = 1
-                self.imgViewRelationShip.layer.borderColor = UIColor.red.cgColor
-                self.imgViewRelationShip.layer.borderWidth = 1
-                self.scrollView.contentOffset = CGPoint(x: 0, y: 1000)
-                return
-            }
+        //        CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+        
+        //  if let url = UserDefaults.standard.url(forKey: "videoURL") {
+        if genderPreferences == "" {
+            self.showAlertWithOneButton("", "Please select your gender preference above.", "Ok")
+            self.btnMan.layer.borderColor = UIColor.red.cgColor
+            self.btnMan.layer.borderWidth = 1
+            self.btnWomen.layer.borderColor = UIColor.red.cgColor
+            self.btnWomen.layer.borderWidth = 1
+            self.scrollView.contentOffset = CGPoint(x: 0, y: 200)
+            return
+        }
+        if lookingFor.count == 0 {
+            self.showAlertWithOneButton("", "Please select what you are looking for.", "Ok")
+            self.imgViewHaveFun.layer.borderColor = UIColor.red.cgColor
+            self.imgViewHaveFun.layer.borderWidth = 1
+            self.imgViewMeetNewPeople.layer.borderColor = UIColor.red.cgColor
+            self.imgViewMeetNewPeople.layer.borderWidth = 1
+            self.imgViewRelationShip.layer.borderColor = UIColor.red.cgColor
+            self.imgViewRelationShip.layer.borderWidth = 1
+            self.scrollView.contentOffset = CGPoint(x: 0, y: 1000)
+            return
+        }
         
         if !LocalStore.store.isHeightSet() {
             let alertController = UIAlertController(title: NSLocalizedString("Confirmation", comment:""), message: "Please make sure this is your correct height, as you will not be able to edit it later.", preferredStyle: .alert)
@@ -1385,24 +1393,24 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             self.present(alertController, animated: true, completion: nil)
             return
         }
-            isBackClicked = true
-            self.saveUserPreferences()
- 
+        isBackClicked = true
+        self.saveUserPreferences()
+        
         UserDefaults.standard.set(true, forKey: "updateSettings")
         UserDefaults.standard.synchronize()
         
-            CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-            let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-            profileController.profileDelegate = self
-            profileController.isAlreadyLogin = true
-            navigationController?.pushViewController(profileController, animated: true)
-       // }
-//        else {
-//            self.scrollView.contentOffset = CGPoint(x: 0, y: 2000)
-//            self.vwVideo.layer.borderColor = UIColor.red.cgColor
-//            self.vwVideo.layer.borderWidth = 1
-//            self.showAlertWithOneButton("", "Please upload an activity video of you doing something fun.", "Ok")
-//        }
+        CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+        let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+        profileController.profileDelegate = self
+        profileController.isAlreadyLogin = true
+        navigationController?.pushViewController(profileController, animated: true)
+        // }
+        //        else {
+        //            self.scrollView.contentOffset = CGPoint(x: 0, y: 2000)
+        //            self.vwVideo.layer.borderColor = UIColor.red.cgColor
+        //            self.vwVideo.layer.borderWidth = 1
+        //            self.showAlertWithOneButton("", "Please upload an activity video of you doing something fun.", "Ok")
+        //        }
         
     }
     
@@ -1428,13 +1436,13 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     @IBAction func btnRecordVideo(_ sender: Any?){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         
-       if let url = UserDefaults.standard.url(forKey: "videoURL") {
-        let player =  AVPlayer(url:URL.init(fileURLWithPath: url.path))
-        if FileManager.default.fileExists(atPath: url.path) {
-            print("file exists")
-        }
+        if let url = UserDefaults.standard.url(forKey: "videoURL") {
+            let player =  AVPlayer(url:URL.init(fileURLWithPath: url.path))
+            if FileManager.default.fileExists(atPath: url.path) {
+                print("file exists")
+            }
             let playerViewController = AVPlayerViewController()
-        
+            
             playerViewController.player = player
             self.present(playerViewController, animated: true) {
                 playerViewController.player!.play()
@@ -1463,7 +1471,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         self.getGalleryImages()
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         let isGesture = sender is UITapGestureRecognizer
-         
+        
         if isGesture {
             let gesture = sender as? UITapGestureRecognizer
             let vw = gesture?.view
@@ -1471,7 +1479,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             let indexPath = IndexPath.init(row: (vwCamera?.tag)!, section: 0)
             selectedIndexPath  = indexPath
         }
-    
+        
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         
         let actionSheet = UIAlertController(title: "Choose profile photo or video or take it.", message: nil, preferredStyle: .actionSheet)
@@ -1502,9 +1510,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             
         }
         actionSheet.addAction(galleryAction)
-//        if selectedIndexPath?.item != 0{
-            actionSheet.addAction(cameraAction)
-       // }
+        //        if selectedIndexPath?.item != 0{
+        actionSheet.addAction(cameraAction)
+        // }
         actionSheet.addAction(cancel)
         present(actionSheet, animated: true, completion: nil)
     }
@@ -1580,7 +1588,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         }else{
             var minWholeNumberPart: Double = 0.0
             let minFractionalPart = modf(Double(Float(sender.selectedMin)), &minWholeNumberPart)
-           
+            
             var maxWholeNumberPart: Double = 0.0
             let maxFractionalPart = modf(Double(Float(sender.selectedMax)), &maxWholeNumberPart)
             
@@ -1594,9 +1602,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     
     @IBAction func btnGotIt(_ sender: Any?) {
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-//        self.txtFldName.isUserInteractionEnabled = true
-//        self.txtFldAge.isUserInteractionEnabled = true
-//        self.txtFldAddress.isUserInteractionEnabled = true
+        //        self.txtFldName.isUserInteractionEnabled = true
+        //        self.txtFldAge.isUserInteractionEnabled = true
+        //        self.txtFldAddress.isUserInteractionEnabled = true
         scrollView.isScrollEnabled = true
         constraintViewWhiteTop.constant = -UIScreen.main.bounds.size.height + (self.viewTop.frame.size.height)
         self.imgViewArrowOne.alpha = 0
@@ -1616,41 +1624,41 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         if !LocalStore.store.isQuizDone(){
             //if let url = UserDefaults.standard.url(forKey: "videoURL") {
-                if genderPreferences == "" {
-                    self.showAlertWithOneButton("", "Please select your gender preference above.", "Ok")
-                    self.btnMan.layer.borderColor = UIColor.red.cgColor
-                    self.btnMan.layer.borderWidth = 1
-                    self.btnWomen.layer.borderColor = UIColor.red.cgColor
-                    self.btnWomen.layer.borderWidth = 1
-                    self.scrollView.contentOffset = CGPoint(x: 0, y: 200)
-                    return
-                }
-                if lookingFor.count == 0 {
-                    self.showAlertWithOneButton("", "Please select what you are looking for.", "Ok")
-                    self.imgViewHaveFun.layer.borderColor = UIColor.red.cgColor
-                    self.imgViewHaveFun.layer.borderWidth = 1
-                    self.imgViewMeetNewPeople.layer.borderColor = UIColor.red.cgColor
-                    self.imgViewMeetNewPeople.layer.borderWidth = 1
-                    self.imgViewRelationShip.layer.borderColor = UIColor.red.cgColor
-                    self.imgViewRelationShip.layer.borderWidth = 1
-                    self.scrollView.contentOffset = CGPoint(x: 0, y: 1000)
-
-                    return
-                }
+            if genderPreferences == "" {
+                self.showAlertWithOneButton("", "Please select your gender preference above.", "Ok")
+                self.btnMan.layer.borderColor = UIColor.red.cgColor
+                self.btnMan.layer.borderWidth = 1
+                self.btnWomen.layer.borderColor = UIColor.red.cgColor
+                self.btnWomen.layer.borderWidth = 1
+                self.scrollView.contentOffset = CGPoint(x: 0, y: 200)
+                return
+            }
+            if lookingFor.count == 0 {
+                self.showAlertWithOneButton("", "Please select what you are looking for.", "Ok")
+                self.imgViewHaveFun.layer.borderColor = UIColor.red.cgColor
+                self.imgViewHaveFun.layer.borderWidth = 1
+                self.imgViewMeetNewPeople.layer.borderColor = UIColor.red.cgColor
+                self.imgViewMeetNewPeople.layer.borderWidth = 1
+                self.imgViewRelationShip.layer.borderColor = UIColor.red.cgColor
+                self.imgViewRelationShip.layer.borderWidth = 1
+                self.scrollView.contentOffset = CGPoint(x: 0, y: 1000)
+                
+                return
+            }
             
             if !LocalStore.store.isHeightSet() {
                 let alertController = UIAlertController(title: NSLocalizedString("Confirmation", comment:""), message: "Please make sure this is your correct height, as you will not be able to edit it later.", preferredStyle: .alert)
                 alertController.addAction(action(NSLocalizedString("Ok", comment: ""), .default, actionHandler: { (alertAction) in
                     LocalStore.store.heightDone = true
-//                    self.isBackClicked = false
-//                    self.saveUserPreferences()
-//                    UserDefaults.standard.set(true, forKey: "updateSettings")
-//                    UserDefaults.standard.synchronize()
-//                    let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-//                    profileController.profileDelegate = self
-//
-//                    //profileController.isSlindirQuiz = true
-//                    self.navigationController?.pushViewController(profileController, animated: true)
+                    //                    self.isBackClicked = false
+                    //                    self.saveUserPreferences()
+                    //                    UserDefaults.standard.set(true, forKey: "updateSettings")
+                    //                    UserDefaults.standard.synchronize()
+                    //                    let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+                    //                    profileController.profileDelegate = self
+                    //
+                    //                    //profileController.isSlindirQuiz = true
+                    //                    self.navigationController?.pushViewController(profileController, animated: true)
                 }))
                 
                 alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: nil))
@@ -1659,22 +1667,22 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 return
             }
             
-                isBackClicked = false
-                self.saveUserPreferences()
+            isBackClicked = false
+            self.saveUserPreferences()
             UserDefaults.standard.set(true, forKey: "updateSettings")
             UserDefaults.standard.synchronize()
-                let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-                        profileController.profileDelegate = self
-                
-                //profileController.isSlindirQuiz = true
-                self.navigationController?.pushViewController(profileController, animated: true)
-//            }
-//            else {
-//                self.scrollView.contentOffset = CGPoint(x: 0, y: 2000)
-//                self.vwVideo.layer.borderColor = UIColor.red.cgColor
-//                self.vwVideo.layer.borderWidth = 1
-//                self.showAlertWithOneButton("", "Please upload an activity video of you doing something fun.", "Ok")
-//            }
+            let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+            profileController.profileDelegate = self
+            
+            //profileController.isSlindirQuiz = true
+            self.navigationController?.pushViewController(profileController, animated: true)
+            //            }
+            //            else {
+            //                self.scrollView.contentOffset = CGPoint(x: 0, y: 2000)
+            //                self.vwVideo.layer.borderColor = UIColor.red.cgColor
+            //                self.vwVideo.layer.borderWidth = 1
+            //                self.showAlertWithOneButton("", "Please upload an activity video of you doing something fun.", "Ok")
+            //            }
         }else{
             if genderPreferences == "" {
                 self.showAlertWithOneButton("", "Please select your gender preference above.", "Ok")
@@ -1759,18 +1767,18 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             }
         }
     }
-
+    
     func quizDone(){
         let userId = LocalStore.store.getFacebookID()
         
-//        if txtFldName.text?.characters.count == 0 || txtFldName.text?.trimmingCharacters(in: .whitespacesAndNewlines).characters.count == 0 {
-//            showAlertWithOneButton( "Alert!", "Please enter name", "OK")
-//            return
-//        }
-//        else if txtFldAge.text?.characters.count == 0 || txtFldAge.text?.trimmingCharacters(in: .whitespacesAndNewlines).characters.count == 0 {
-//            showAlertWithOneButton( "Alert!", "Please enter Age", "OK")
-//            return
-//        }
+        //        if txtFldName.text?.characters.count == 0 || txtFldName.text?.trimmingCharacters(in: .whitespacesAndNewlines).characters.count == 0 {
+        //            showAlertWithOneButton( "Alert!", "Please enter name", "OK")
+        //            return
+        //        }
+        //        else if txtFldAge.text?.characters.count == 0 || txtFldAge.text?.trimmingCharacters(in: .whitespacesAndNewlines).characters.count == 0 {
+        //            showAlertWithOneButton( "Alert!", "Please enter Age", "OK")
+        //            return
+        //        }
         
         var parameters = Dictionary<String, Any>()
         parameters["userId"] = userId
@@ -1831,7 +1839,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     
     @IBAction func switchSoundVibration(_ sender: Any?){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-
+        
         if switchSound.isOn{
             isSound = true
             LocalStore.store.soundOnOff = true
@@ -1909,7 +1917,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         let alertController = UIAlertController(title: NSLocalizedString("Confirmation", comment:""), message: "Are you sure you want to logout?", preferredStyle: .alert)
         alertController.addAction(action(NSLocalizedString("Yes", comment: ""), .destructive, actionHandler: { (alertAction) in
             self.callLogoutWebService()
-            LoginManager().logOut()
+            // LoginManager().logOut()
             LocalStore.store.clearDataAllData()
             FirebaseObserver.observer.firstLoad = false
             self.deleteOldVideoFromDocumentDirectory()
@@ -1918,7 +1926,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         }))
         
         alertController.addAction(UIAlertAction(title: NSLocalizedString("No", comment: ""), style: .default, handler: nil))
-
+        
         self.present(alertController, animated: true, completion: nil)
         
     }
@@ -1929,7 +1937,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         alertController.addAction(action(NSLocalizedString("Yes", comment: ""), .destructive, actionHandler: { (alertAction) in
             FirebaseObserver.observer.deleteFirebaseAccount()
             self.callDeleteAccountWebService()
-            LoginManager().logOut()
+            //  LoginManager().logOut()
             FirebaseObserver.observer.firstLoad = false
             self.deleteOldVideoFromDocumentDirectory()
             LocalStore.store.clearDataAllData()
@@ -2002,7 +2010,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         }
     }
     
-//MARK:-  Record Controller Delegate
+    //MARK:-  Record Controller Delegate
     func speechText(_ text: String , _ url : URL) {
         print("Recorded Text :- ",text)
         strSpeech = text
@@ -2017,18 +2025,18 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         
         do {
             let videoData = try Data(contentsOf:url)
-          //  self.postVideoWithData(data: videoData, fileName: "profile_video", type: "video")
+            //  self.postVideoWithData(data: videoData, fileName: "profile_video", type: "video")
         } catch  {
             print("exception catch at block - while uploading video")
         }
     }
     
-//MARK:-  Profile Delegate
+    //MARK:-  Profile Delegate
     func showMoreSettings() {
         moreSettingAnimation()
     }
     
-//MARK:-  UIImagePickerController Delegates
+    //MARK:-  UIImagePickerController Delegates
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -2075,7 +2083,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                                     break
                                 }
                             }
-
+                            
                         }
                     }
                 }else{
@@ -2086,13 +2094,13 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                     openViewCamera.imgViewProfile.image = info[UIImagePickerControllerEditedImage] as? UIImage
                     openViewCamera.lblRecordVideo.text = "CHANGE PHOTO"
                     if (self.selectedIndexPath?.item)! - 11 == 0 {
-                         DispatchQueue.main.async {
+                        DispatchQueue.main.async {
                             self.postImageWithImage(image: info[UIImagePickerControllerEditedImage] as! UIImage, fileName: "profile_pic", type: "image")
                             self.personalDetail["profile_pic"] = ""
                         }
                     }
                     else {
-                         DispatchQueue.main.async {
+                        DispatchQueue.main.async {
                             self.postImageWithImage(image: info[UIImagePickerControllerEditedImage] as! UIImage, fileName: String(format:"image%d",(self.selectedIndexPath?.item)!-11), type: "image")
                             self.personalDetail[String(format:"image%d",(self.selectedIndexPath?.item)! - 11)] = ""
                         }
@@ -2106,7 +2114,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     }
     
     
-//MARK:-  Gallery Methods(Get image permission and Gallery Controller Delegates)
+    //MARK:-  Gallery Methods(Get image permission and Gallery Controller Delegates)
     var galleryImages = [Any?]()
     var allPhotos: PHFetchResult<PHAsset>!
     
@@ -2126,7 +2134,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 let alertController = UIAlertController(title: NSLocalizedString("Unsupported Format", comment:""), message: nil, preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
-
+                
             case .image :
                 print("Array Profile :- ",self.profileImages)
                 self.setImage(asset)
@@ -2162,7 +2170,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 let alertController = UIAlertController(title: NSLocalizedString("Unsupported Format", comment:""), message: nil, preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default, handler: nil))
                 self.present(alertController, animated: true, completion: nil)
-            
+                
             case .video:
                 if asset != nil {
                     selectedVideo(asset)
@@ -2192,7 +2200,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 self.profileImages[(self.selectedIndexPath!.item) - 11] = selectedImage
                 
                 DispatchQueue.main.async {
-//                    let cell: SettingCollectionViewCell = self.collectionView.cellForItem(at: self.selectedIndexPath!) as! SettingCollectionViewCell
+                    //                    let cell: SettingCollectionViewCell = self.collectionView.cellForItem(at: self.selectedIndexPath!) as! SettingCollectionViewCell
                     let vwCamera:UIView = self.scrollVwCamera.viewWithTag((self.selectedIndexPath?.row)!)!
                     let openViewCamera:OpenCameraView = vwCamera.subviews[0] as! OpenCameraView
                     openViewCamera.lblRecordVideo.text = "CHANGE PHOTO"
@@ -2206,19 +2214,19 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                         self.postImageWithImage(image: selectedImage, fileName: String(format:"image%d",(self.selectedIndexPath?.item)! - 11), type: "image")
                         
                         self.personalDetail[String(format:"image%d",(self.selectedIndexPath?.item)!-12)] = ""
-
+                        
                     }
                 }
             }
         }
     }
-
+    
     func selectedVideo(_ asset: PHAsset!) {
-//        self.indicator.isHidden = false
-//        self.indicator.startAnimating()
-//        self.btnCamera.isHidden = true
+        //        self.indicator.isHidden = false
+        //        self.indicator.startAnimating()
+        //        self.btnCamera.isHidden = true
         self.btnCamera.setImage(UIImage.init(named: "playIntroVideo"), for: .normal)
-
+        
         let options = PHVideoRequestOptions()
         options.isNetworkAccessAllowed = true
         options.deliveryMode = .mediumQualityFormat
@@ -2260,7 +2268,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                             break
                         }
                     }
-
+                    
                 }
                 //self.btnCamera.isHidden = true
             }
@@ -2277,7 +2285,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     @objc func playerItemDidReachEnd(_ notification: Notification){
         //let indexPath = IndexPath(item: 0, section: 0)
         videoCompleted = true
-      //  collectionView.reloadItems(at: [indexPath])
+        //  collectionView.reloadItems(at: [indexPath])
     }
     
     deinit {

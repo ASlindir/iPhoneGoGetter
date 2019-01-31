@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3hR-bT-hfI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3hR-bT-hfI">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -1507,7 +1507,6 @@
                                                                 <color key="backgroundColor" red="0.086274509799999996" green="0.1058823529" blue="0.24313725489999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
                                                                     <constraint firstItem="MhN-rb-x5k" firstAttribute="centerX" secondItem="LKP-YG-b2v" secondAttribute="centerX" id="4qK-DT-3zS"/>
-                                                                    <constraint firstAttribute="width" secondItem="LKP-YG-b2v" secondAttribute="height" multiplier="1:1" id="DT3-cX-gl0"/>
                                                                     <constraint firstItem="MhN-rb-x5k" firstAttribute="centerY" secondItem="LKP-YG-b2v" secondAttribute="centerY" id="GYV-8j-Eeh"/>
                                                                     <constraint firstAttribute="height" constant="240" id="Iik-UL-VL2"/>
                                                                     <constraint firstAttribute="bottom" secondItem="0nU-PJ-nee" secondAttribute="bottom" id="Vxu-3X-Zva"/>
@@ -2256,8 +2255,6 @@ This will only take a minute.</string>
                         <outlet property="constraintTopViewTop" destination="bfF-Rr-gPd" id="6kh-9o-TJu"/>
                         <outlet property="heightNavigation" destination="Bpt-0t-QDo" id="fdA-ge-bzA"/>
                         <outlet property="heightPersonalityView" destination="Q6K-jK-mY2" id="6zr-tq-Gsm"/>
-                        <outlet property="heightRatioVideoVw" destination="DT3-cX-gl0" id="m97-uR-ptm"/>
-                        <outlet property="heightVideoVw" destination="Iik-UL-VL2" id="pK1-4c-SAd"/>
                         <outlet property="imgViewBackground" destination="K5w-4c-wgx" id="hdO-1h-b32"/>
                         <outlet property="imgViewBlur" destination="Rwg-32-1Pc" id="Uk8-dL-0nd"/>
                         <outlet property="imgViewHasKidsScroll" destination="f0b-SK-3TF" id="aIg-uS-d3g"/>
@@ -2971,10 +2968,10 @@ This will only take a minute.</string>
                                 <rect key="frame" x="0.0" y="80" width="320" height="489"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ttx-tn-IA6">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="2644.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="2645"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XjL-mV-oKs">
-                                                <rect key="frame" x="55" y="1979" width="210" height="253"/>
+                                                <rect key="frame" x="55" y="1979.5" width="210" height="253"/>
                                                 <subviews>
                                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZYL-rP-phW">
                                                         <rect key="frame" x="19" y="26" width="172" height="179"/>
@@ -3061,7 +3058,7 @@ This will only take a minute.</string>
                                                 </constraints>
                                             </view>
                                             <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bjZ-SA-0EN">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="253"/>
+                                                <rect key="frame" x="0.0" y="0.5" width="320" height="253"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="NXl-ae-i6b" customClass="CustomCellCenterFlowLayout" customModule="Slindir" customModuleProvider="target">
                                                     <size key="itemSize" width="222" height="233"/>
@@ -3198,7 +3195,7 @@ This will only take a minute.</string>
                                                 </cells>
                                             </collectionView>
                                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s1C-6t-oS1">
-                                                <rect key="frame" x="0.0" y="-0.5" width="320" height="253"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="253"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DE4-dR-5NL">
                                                         <rect key="frame" x="0.0" y="0.0" width="1180" height="253"/>
@@ -3265,60 +3262,60 @@ This will only take a minute.</string>
                                                 </connections>
                                             </scrollView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I HAVE KIDS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gw8-Lf-6Vy">
-                                                <rect key="frame" x="35" y="803.5" width="95.5" height="23.5"/>
+                                                <rect key="frame" x="35" y="804" width="95.5" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="eeM-oF-Gs9">
-                                                <rect key="frame" x="236" y="800" width="51" height="31"/>
+                                                <rect key="frame" x="236" y="800.5" width="51" height="31"/>
                                                 <color key="onTintColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <connections>
                                                     <action selector="switchKids:" destination="a0z-2r-jD6" eventType="valueChanged" id="1i6-mL-QeT"/>
                                                 </connections>
                                             </switch>
                                             <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GAF-C4-d9o">
-                                                <rect key="frame" x="35" y="839" width="250" height="1"/>
+                                                <rect key="frame" x="35" y="839.5" width="250" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="kji-UL-esn"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I WANT KIDS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ld-co-30P">
-                                                <rect key="frame" x="35" y="860" width="101.5" height="23.5"/>
+                                                <rect key="frame" x="35" y="860.5" width="101.5" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Sb0-5w-cUc">
-                                                <rect key="frame" x="236" y="856" width="51" height="31"/>
+                                                <rect key="frame" x="236" y="856.5" width="51" height="31"/>
                                                 <color key="onTintColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <connections>
                                                     <action selector="switchWantKids:" destination="a0z-2r-jD6" eventType="valueChanged" id="8ET-KO-QXy"/>
                                                 </connections>
                                             </switch>
                                             <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eYw-X8-TeN">
-                                                <rect key="frame" x="35" y="895" width="250" height="1"/>
+                                                <rect key="frame" x="35" y="895.5" width="250" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="Sdy-WM-lGo"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I’M LOOKING FOR:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ro2-Zk-omT">
-                                                <rect key="frame" x="35" y="342" width="123" height="23.5"/>
+                                                <rect key="frame" x="35" y="342.5" width="123" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0sb-GW-Xo3">
-                                                <rect key="frame" x="35" y="377.5" width="250" height="1"/>
+                                                <rect key="frame" x="35" y="378" width="250" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="iOI-FG-NVc"/>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKP-t5-bzU">
-                                                <rect key="frame" x="35" y="403.5" width="121" height="136"/>
+                                                <rect key="frame" x="35" y="404" width="121" height="136"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="rKP-t5-bzU" secondAttribute="height" multiplier="121:136" id="CXv-xL-N18"/>
                                                 </constraints>
@@ -3328,20 +3325,20 @@ This will only take a minute.</string>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kSz-aP-qg5">
-                                                <rect key="frame" x="164" y="403.5" width="121" height="136"/>
+                                                <rect key="frame" x="164" y="404" width="121" height="136"/>
                                                 <state key="normal" image="femaleUnSelected"/>
                                                 <connections>
                                                     <action selector="btnWomen:" destination="a0z-2r-jD6" eventType="touchUpInside" id="str-D0-Wbb"/>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AGE RANGE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0eI-cF-94e">
-                                                <rect key="frame" x="35" y="564.5" width="94.5" height="23.5"/>
+                                                <rect key="frame" x="35" y="565" width="94.5" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jlD-8g-JEa" customClass="RangeSlider" customModule="Slindir" customModuleProvider="target">
-                                                <rect key="frame" x="35" y="624" width="250" height="30"/>
+                                                <rect key="frame" x="35" y="624.5" width="250" height="30"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="Ikb-HJ-v9j"/>
@@ -3368,14 +3365,14 @@ This will only take a minute.</string>
                                                 </connections>
                                             </view>
                                             <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H20-wo-bf9">
-                                                <rect key="frame" x="35" y="603" width="250" height="1"/>
+                                                <rect key="frame" x="35" y="603.5" width="250" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="aeE-KW-xId"/>
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Vkx-yi-dJ8">
-                                                <rect key="frame" x="220" y="565.5" width="65" height="22"/>
+                                                <rect key="frame" x="220" y="566" width="65" height="22"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="18" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hYO-7m-zPi">
                                                         <rect key="frame" x="0.0" y="0.0" width="18.5" height="22"/>
@@ -3398,7 +3395,7 @@ This will only take a minute.</string>
                                                 </subviews>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WITHIN:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="24O-Tr-hpO">
-                                                <rect key="frame" x="35" y="684" width="67" height="23.5"/>
+                                                <rect key="frame" x="35" y="684.5" width="67" height="23.5"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="67" id="BuW-bC-mAt"/>
                                                 </constraints>
@@ -3407,7 +3404,7 @@ This will only take a minute.</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Vva-5z-1va">
-                                                <rect key="frame" x="210" y="685" width="75" height="22"/>
+                                                <rect key="frame" x="210" y="685.5" width="75" height="22"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kuj-bA-jau">
                                                         <rect key="frame" x="0.0" y="0.0" width="18.5" height="22"/>
@@ -3427,7 +3424,7 @@ This will only take a minute.</string>
                                                 </subviews>
                                             </stackView>
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="0.0" maxValue="250" translatesAutoresizingMaskIntoConstraints="NO" id="JaL-IL-x7Z" customClass="CustomSlider" customModule="Slindir" customModuleProvider="target">
-                                                <rect key="frame" x="33" y="748.5" width="254" height="31"/>
+                                                <rect key="frame" x="33" y="749" width="254" height="31"/>
                                                 <color key="minimumTrackTintColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="maximumTrackTintColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <userDefinedRuntimeAttributes>
@@ -3437,14 +3434,14 @@ This will only take a minute.</string>
                                                 </userDefinedRuntimeAttributes>
                                             </slider>
                                             <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7l9-et-q78">
-                                                <rect key="frame" x="35" y="722.5" width="250" height="1"/>
+                                                <rect key="frame" x="35" y="723" width="250" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="OgM-Xh-0mC"/>
                                                 </constraints>
                                             </view>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xjg-u6-gef">
-                                                <rect key="frame" x="66.5" y="921" width="187" height="50"/>
+                                                <rect key="frame" x="66.5" y="921.5" width="187" height="50"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MORE SETTINGS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="naA-1D-AQ9">
                                                         <rect key="frame" x="0.0" y="15" width="119" height="20.5"/>
@@ -3474,7 +3471,7 @@ This will only take a minute.</string>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="HGw-52-QdO">
-                                                <rect key="frame" x="32" y="2317.5" width="256" height="45.5"/>
+                                                <rect key="frame" x="32" y="2318" width="256" height="45.5"/>
                                                 <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                 <state key="normal" title="TAKE THE SLINDIR BRAIN GAME">
@@ -3485,7 +3482,7 @@ This will only take a minute.</string>
                                                 </connections>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xl4-gw-Aed" customClass="CustomButton" customModule="Slindir" customModuleProvider="target">
-                                                <rect key="frame" x="80" y="2383" width="160" height="28.5"/>
+                                                <rect key="frame" x="80" y="2383.5" width="160" height="28.5"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="13"/>
                                                 <state key="normal" title="REMINDER ME LATER">
                                                     <color key="titleColor" red="0.99990183119999998" green="1" blue="0.99987989659999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3503,7 +3500,7 @@ This will only take a minute.</string>
                                                 </connections>
                                             </button>
                                             <view tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yNy-LU-xTv">
-                                                <rect key="frame" x="20" y="278" width="280" height="39"/>
+                                                <rect key="frame" x="20" y="278.5" width="280" height="39"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v9w-Ov-8ZY">
                                                         <rect key="frame" x="50" y="19.5" width="225" height="0.0"/>
@@ -3548,7 +3545,7 @@ This will only take a minute.</string>
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="jMJ-8C-I9J">
-                                                <rect key="frame" x="35" y="921" width="250" height="979.5"/>
+                                                <rect key="frame" x="35" y="921.5" width="250" height="979.5"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="6Np-4B-p0J">
                                                         <rect key="frame" x="0.0" y="0.0" width="250" height="193.5"/>
@@ -4049,7 +4046,7 @@ This will only take a minute.</string>
                                                 </constraints>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kdx-Xz-tI1">
-                                                <rect key="frame" x="32" y="2252" width="256" height="45.5"/>
+                                                <rect key="frame" x="32" y="2252.5" width="256" height="45.5"/>
                                                 <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                 <state key="normal" title="SELECT ACTIVITIES AGAIN">
@@ -4060,7 +4057,7 @@ This will only take a minute.</string>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Sf-gj-Vns">
-                                                <rect key="frame" x="32" y="2485.5" width="256" height="45.5"/>
+                                                <rect key="frame" x="32" y="2486" width="256" height="45.5"/>
                                                 <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                 <state key="normal" title="UPDATE">
@@ -4071,47 +4068,47 @@ This will only take a minute.</string>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PUSH NOTIFICATIONS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9q-yy-ycZ">
-                                                <rect key="frame" x="35" y="2383" width="177" height="23.5"/>
+                                                <rect key="frame" x="35" y="2383.5" width="177" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GOE-nz-hUN">
-                                                <rect key="frame" x="236" y="2379.5" width="51" height="31"/>
+                                                <rect key="frame" x="236" y="2380" width="51" height="31"/>
                                                 <color key="onTintColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <connections>
                                                     <action selector="switchPushNotification:" destination="a0z-2r-jD6" eventType="valueChanged" id="Kfv-lR-beu"/>
                                                 </connections>
                                             </switch>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SOUNDS/VIBRATION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ev7-Az-ZzI">
-                                                <rect key="frame" x="35" y="2439.5" width="167" height="23.5"/>
+                                                <rect key="frame" x="35" y="2440" width="167" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tMx-t6-sUB">
-                                                <rect key="frame" x="236" y="2435.5" width="51" height="31"/>
+                                                <rect key="frame" x="236" y="2436" width="51" height="31"/>
                                                 <color key="onTintColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <connections>
                                                     <action selector="switchSoundVibration:" destination="a0z-2r-jD6" eventType="valueChanged" id="B4d-D3-vdj"/>
                                                 </connections>
                                             </switch>
                                             <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TGN-0c-bSN">
-                                                <rect key="frame" x="35" y="2474.5" width="250" height="1"/>
+                                                <rect key="frame" x="35" y="2475" width="250" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="brf-DM-ZLs"/>
                                                 </constraints>
                                             </view>
                                             <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vtP-GC-O9C">
-                                                <rect key="frame" x="35" y="2418.5" width="250" height="1"/>
+                                                <rect key="frame" x="35" y="2419" width="250" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="YEs-Le-Gac"/>
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ZZc-pz-XpF">
-                                                <rect key="frame" x="35" y="2591" width="250" height="33.5"/>
+                                                <rect key="frame" x="35" y="2591.5" width="250" height="33.5"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AQZ-m9-jc9">
                                                         <rect key="frame" x="0.0" y="0.0" width="92.5" height="33.5"/>
@@ -4139,7 +4136,7 @@ This will only take a minute.</string>
                                                 </constraints>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vOD-qE-9O9">
-                                                <rect key="frame" x="35" y="1920.5" width="250" height="38.5"/>
+                                                <rect key="frame" x="35" y="1921" width="250" height="38.5"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="ADD A VIDEO OF YOU DOING SOMETHING FUN ">
                                                         <attributes>
@@ -4157,7 +4154,7 @@ This will only take a minute.</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Xh-hO-wdf">
-                                                <rect key="frame" x="32" y="2541" width="256" height="40"/>
+                                                <rect key="frame" x="32" y="2541.5" width="256" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="wcd-iR-GYr"/>
                                                 </constraints>
@@ -4166,7 +4163,7 @@ This will only take a minute.</string>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sWe-aK-vTR">
-                                                <rect key="frame" x="32" y="2544.5" width="256" height="33.5"/>
+                                                <rect key="frame" x="32" y="2545" width="256" height="33.5"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="FEEDBACK? PLEASE TELL US,">
                                                         <attributes>
@@ -5032,7 +5029,6 @@ This will only take a minute.</string>
                                                                 <constraints>
                                                                     <constraint firstItem="cjv-su-CqJ" firstAttribute="leading" secondItem="Uf1-Sa-uEf" secondAttribute="leading" id="1aX-EU-Kxf"/>
                                                                     <constraint firstAttribute="height" constant="240" id="9NO-4o-abn"/>
-                                                                    <constraint firstAttribute="width" secondItem="Uf1-Sa-uEf" secondAttribute="height" multiplier="1:1" id="G4n-g7-jmm"/>
                                                                     <constraint firstItem="cjv-su-CqJ" firstAttribute="top" secondItem="Uf1-Sa-uEf" secondAttribute="top" id="MTX-Vl-Mln"/>
                                                                     <constraint firstAttribute="trailing" secondItem="cjv-su-CqJ" secondAttribute="trailing" id="OTu-w8-Esv"/>
                                                                     <constraint firstAttribute="bottom" secondItem="cjv-su-CqJ" secondAttribute="bottom" id="S8J-Bw-i4W"/>
@@ -5507,8 +5503,6 @@ This will only take a minute.</string>
                         <outlet property="constraintTableViewHeight" destination="mjA-1D-PN4" id="5Mh-Rn-aUF"/>
                         <outlet property="heightNavigation" destination="a75-u6-LJQ" id="ZhW-6G-XIa"/>
                         <outlet property="heightPersonalityView" destination="0LB-zR-aS0" id="qHi-kU-yD5"/>
-                        <outlet property="heightRatioVideoVw" destination="G4n-g7-jmm" id="eQe-3o-lFJ"/>
-                        <outlet property="heightVideoVw" destination="9NO-4o-abn" id="dKI-XZ-NvX"/>
                         <outlet property="imgViewHasKidsScroll" destination="MR4-nC-5sJ" id="QBK-a6-qdZ"/>
                         <outlet property="imgViewLineLower" destination="dCD-Vi-ErI" id="imu-Vd-H8S"/>
                         <outlet property="imgViewLineUpper" destination="JRx-iG-jYl" id="9kP-3t-Mog"/>

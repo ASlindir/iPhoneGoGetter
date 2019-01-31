@@ -372,6 +372,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             FirebaseObserver.observer.observeFriendsRemoved()
             FirebaseObserver.observer.count = 0
             FirebaseObserver.observer.observeOnline()
+            FirebaseObserver.observer.observeFriendUpdated()
             self.startLocationManager()
         }
     }

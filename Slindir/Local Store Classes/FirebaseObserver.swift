@@ -14,7 +14,8 @@ class FirebaseObserver: NSObject {
     //Firebase related variables
     var count = 0
     var friendArray = [[String: Any]]()
-    
+    private var friends: [Friend] = []
+
     let user_id = LocalStore.store.getFacebookID()
     var friendRef = Database.database().reference().child("messages")
     var userRef: DatabaseReference?
@@ -143,9 +144,10 @@ class FirebaseObserver: NSObject {
     
     func observeFriendList(){
         self.friendArray.removeAll()
+        self.friends.removeAll()
         let friendRefer: DatabaseReference = Database.database().reference().child("users")
        let userRef1: DatabaseReference? = friendRefer.child(user_id).child("friends")
-        
+        var unread_count = "0"
         newMessageRefHandle = userRef1?.observe(.childAdded, with: { (snapshot) in
             let friendData = snapshot.value
             
@@ -153,7 +155,35 @@ class FirebaseObserver: NSObject {
                 if !self.friendArray.contains(where: { (friend) -> Bool in
                     friend["id"] as? String == data["id"] as? String
                 }){
+                    let id = String(format:"%@",data["id"] as! CVarArg)
+                    
+                    var profile_pic = ""
+                    if let pic = data["profilePic"] as? String {
+                        profile_pic = pic
+                    }
+                    var online = false
+                    if let status = data["online"] as? Bool {
+                        online = status
+                    }
+                    var newFriend = Friend(id: id, name: data["name"] as! String, profilePic: profile_pic, lastMessage: nil , online: online)
+                    if let lastMessage = data["lastMessage"] as? [String: Any] {
+                        newFriend = Friend(id: id, name: data["name"] as! String, profilePic: profile_pic, lastMessage: lastMessage , online: online)
+                    }
+                    self.friends.append(newFriend)
+                    
                     self.friendArray.append(data)
+                    unread_count = "0"
+                    for friend in self.friendArray {
+                        if let lastMessage =  friend["lastMessage"] as? [String: Any] {
+                            if let unreadCount = lastMessage["unread_count"] as? String {
+                                unread_count = String(format:"%d",Int(unread_count)!+Int(unreadCount)!)
+                            }
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        UIApplication.shared.applicationIconBadgeNumber = Int(unread_count)!
+                        
+                    }
                     self.observeOnline()
                 }
             }
@@ -161,6 +191,54 @@ class FirebaseObserver: NSObject {
             
         })
     }
+    
+    func observeFriendUpdated(){
+        let friendRefer: DatabaseReference = Database.database().reference().child("users")
+        let userRef1: DatabaseReference? = friendRefer.child(user_id).child("friends")
+        var unread_count = "0"
+        newMessageRefHandle = userRef1?.observe(.childChanged, with: { (snapshot) in            
+            let data = snapshot.value as! NSDictionary
+            print("Friends :- ",data)
+            if let friendData = data as? [String: Any] {
+                print("Friends :- ",friendData)
+                let id = String(format:"%@",friendData["id"] as! CVarArg)
+                let index = self.friends.index(where: { (friend) -> Bool in
+                    friend.id  == id
+                })
+                var profile_pic = ""
+                if let pic = friendData["profilePic"] as? String {
+                    profile_pic = pic
+                }
+                var online = false
+                if let status = friendData["online"] as? Bool {
+                    online = status
+                }
+                var newFriend = Friend(id: id, name: friendData["name"] as! String, profilePic: profile_pic, lastMessage: nil , online: online)
+                if let lastMessage = friendData["lastMessage"] as? [String: Any] {
+                    newFriend = Friend(id: id, name: friendData["name"] as! String, profilePic: profile_pic, lastMessage: lastMessage , online: online)
+                }
+                if index != nil {
+                    self.friends.remove(at: index!)
+                    self.friends.insert(newFriend, at: index!)
+                }
+                // print(friendData!)
+            }
+            
+            unread_count = "0"
+            for friend in self.friends {
+                if let lastMessage = friend.lastMessage as? [String: Any] {
+                    unread_count = String(format: "%d",Int(lastMessage["unread_count"] as! String)! + Int(unread_count)!)
+                }
+            }
+            DispatchQueue.main.async {
+                UIApplication.shared.applicationIconBadgeNumber = Int(unread_count)!
+                
+            }
+            // print(friendData!)
+            
+        })
+    }
+
     
      func observeOnline() {
         let connectedRef = Database.database().reference(withPath: ".info/connected")
@@ -201,7 +279,7 @@ class FirebaseObserver: NSObject {
     func observeFriendsRemoved(){
         let friendRef: DatabaseReference = Database.database().reference().child("users")
         userRef = friendRef.child(user_id).child("friends")
-        
+        var unread_count = "0"
         newMessageRefHandle = userRef?.observe(.childRemoved, with: { (snapshot) in
             let friendData = snapshot.value as! Dictionary<String, Any>
             print("Friends :- ",friendData)
@@ -212,6 +290,18 @@ class FirebaseObserver: NSObject {
                         friend["id"] as? String == friendData["id"] as? String
                     }) {
                         self.friendArray.remove(at: index)
+                        unread_count = "0"
+                        for  friend in self.friendArray {
+                            if let lastMessage =  friend["lastMessage"] as? [String: Any] {
+                                if let unreadCount = lastMessage["unread_count"] as? String {
+                                    unread_count = String(format:"%d",Int(unread_count)!+Int(unreadCount)!)
+                                }
+                            }
+                        }
+                        DispatchQueue.main.async {
+                            UIApplication.shared.applicationIconBadgeNumber = Int(unread_count)!
+
+                        }
                     }
                 }
             }

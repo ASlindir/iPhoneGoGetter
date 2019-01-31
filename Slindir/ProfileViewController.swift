@@ -9,7 +9,6 @@
 import UIKit
 import Koloda
 import MessageUI
-import FacebookShare
 import AVFoundation
 import AVKit
 import pop
@@ -22,8 +21,8 @@ protocol ProfileViewControllerDelegate {
 
 class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, CardsViewDelegates, MFMessageComposeViewControllerDelegate{
     
-//MARK:-  IBOutlets, Variables and Constraints
- 
+    //MARK:-  IBOutlets, Variables and Constraints
+    
     private let cardResetAnimationSpringBounciness: CGFloat = 10.0
     private let cardResetAnimationSpringSpeed: CGFloat = 20.0
     private let cardResetAnimationKey = "resetPositionAnimation"
@@ -75,10 +74,6 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     @IBOutlet weak var heightNavigation: NSLayoutConstraint!
     @IBOutlet weak var topViewFrontConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var heightRatioVideoVw: NSLayoutConstraint!
-    @IBOutlet weak var heightVideoVw: NSLayoutConstraint!
-    
-    
     @IBOutlet weak var blurView: UIVisualEffectView!
     @IBOutlet weak var blurViewSetting: UIVisualEffectView!
     @IBOutlet weak var blurViewLogo: UIVisualEffectView!
@@ -95,7 +90,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     @IBOutlet weak var viewCards: UIView!
     @IBOutlet weak var viewVideo: UIView!
     @IBOutlet weak var viewEditPreferences: UIView!
-
+    
     @IBOutlet weak var tableViewQuestions: UITableView!
     @IBOutlet weak var tableViewFavTeams: UITableView!
     
@@ -159,6 +154,9 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     @IBOutlet weak var lblAlert: UILabel!
     @IBOutlet weak var btnGotIt: UIButton!
     
+    var selectedCardScrollVw = UIScrollView()
+    var selectedCardVw = CardsView()
+    
     var greenQuestions = [UIImage]()
     var redQuestions = [UIImage]()
     var selectedQuestions = [Int]()
@@ -172,7 +170,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     var rotateMoreSettings: Timer?
     
     var index = 0
-
+    
     var isFirstTime = true
     
     var isAlreadyLogin = false
@@ -204,10 +202,10 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         //Intilize and Change the neccessary things
         //let userName = LocalStore.store.getData()
-       // lblAreUSure.text = "ARE YOU SURE \(userName)"
+        // lblAreUSure.text = "ARE YOU SURE \(userName)"
         
         
         tipArray = ["Because sweaty is sexy","Because it’s fun to meet like-minded people","Because flirting is allowed here","Growth begins when you step outside your comfort zone.  Go on, try something new.","Conversation is easy when you share common interests.  What are you waiting for?","Action separates the timid from the bold. Go on, give someone a compliment.","Always keep a positive mindset and good things will happen.","No one is looking for anyone perfect, just someone perfect for them.","Like anything, you will only see results if you put the effort in.","Like attracts like. Be positive & dress attractive just like you would want from someone else.","Are your photos any good? Ask a friend of the opposite sex to help you choose the most attractive photos. Remember, it’s what THEY think, not what YOU think.","Dating is legal (and highly encouraged!).  Now pack the pipeline!  We recommend at least 1 date per week.","Grab a HOT drink for your date: Studies show that people who held a hot beverage while meeting someone perceived the other person as warmer, more social, happier and generous","Choose the Cushion: People sitting in hard chairs held a perception of strictness, rigidity, and stability while people sitting on a sofa had a more positive overall impression of the other person","Reasons for an ACTIVE date: Experiencing adrenaline producing activities together, such as exercise or even going to a comedy club can actually attribute the arousal and happiness of the event to their partner. Good to know!","Reasons for an ACTIVE date: Adrenaline producing activities have a greater imprint on the brain making the date more memorable. A great way to start!","Date someone who gives you that same feeling of when you see your food coming at a restaurant.","INTELLIGENCE is the most attractive quality stated by both men and women. You can’t convey this in a photo, be sure to get out and meet in person!"]
@@ -242,8 +240,8 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         viewInnerSlide.isHidden = true
         if showBrainGame {
             //DispatchQueue.global(qos: .background).async {
-                self.getTheMatchingProfiles()
-           // }
+            self.getTheMatchingProfiles()
+            // }
             self.viewTopFront.isHidden = true
             self.viewFront.isHidden = true
             self.viewTop.isHidden = true
@@ -311,7 +309,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         imgViewProfile.layer.borderWidth = 1.5
         imgViewProfile.clipsToBounds = true
         
-//Adding the keys in Selected Question Dict.
+        //Adding the keys in Selected Question Dict.
         for i in 1...15 {
             let key = "\(i)"
             selectedQuestionDict[key] = "0"
@@ -342,7 +340,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         btnLearnMore.layer.cornerRadius = btnLearnMore.frame.size.height/2
         self.btnClose.layer.cornerRadius = btnClose.frame.size.height/2
         self.btnGotIt.layer.cornerRadius = 15
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -392,7 +390,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             }
         }
     }
-
+    
     @objc func remoteNotification() {
         let del:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         del.registerForRemoteNotifications()
@@ -446,7 +444,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         self.chatController()
     }
     
-//MARK:-  Memory Management
+    //MARK:-  Memory Management
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -649,7 +647,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                                                 self.btnSayHello.rotate(2, 0.2, finished: { (completed:Bool) in
                                                     self.btnSayHello.rotate(-2, 0.1, finished: { (completed:Bool) in
                                                         self.btnSayHello.rotate(0, 0.1, finished: { (completed:Bool) in
-
+                                                            
                                                         })
                                                     })
                                                 })
@@ -838,7 +836,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         self.vwCardMessage.pageControlProfileDetail.transform = CGAffineTransform(rotationAngle: angle)
         self.vwCardMessage.pageControlUndo.transform = CGAffineTransform(rotationAngle: angle)
         self.vwCardMessage.bringSubview(toFront: self.vwCardMessage.vwMessage)
-
+        
         
         self.vwCardLeft = Bundle.main.loadNibNamed("Cards", owner: self, options: nil)![0] as! CardsView
         self.vwCardLeft.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height:  UIScreen.main.bounds.size.height - 80)
@@ -854,7 +852,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         self.vwCardLeft.pageControlProfileDetail.transform = CGAffineTransform(rotationAngle: angle)
         self.vwCardLeft.pageControlUndo.transform = CGAffineTransform(rotationAngle: angle)
         self.vwCardLeft.bringSubview(toFront: self.vwCardLeft.vwLeft)
-
+        
         let leftGesture = UIPanGestureRecognizer.init(target: self, action: #selector(panGestureRecognized(_:)))
         self.vwCardLeft.addGestureRecognizer(leftGesture)
         
@@ -887,7 +885,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         self.vwCardUndo.pageControlProfileDetail.transform = CGAffineTransform(rotationAngle: angle)
         self.vwCardUndo.pageControlUndo.transform = CGAffineTransform(rotationAngle: angle)
         self.vwCardUndo.bringSubview(toFront: self.vwCardUndo.vwUndo)
-
+        
         
         self.vwCardLeft.isUserInteractionEnabled = false
         self.vwCardMessage.isUserInteractionEnabled = false
@@ -901,7 +899,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         self.viewSliderKoloda.addSubview(self.vwCardRight)
         
         
-    let personalDetail = LocalStore.store.getUserDetails()
+        let personalDetail = LocalStore.store.getUserDetails()
         if let gender = personalDetail["looking_for"] as? String {
             if gender == "Woman" {
                 self.vwCardRight.imgVwDemoRight.image = #imageLiteral(resourceName: "andrea")
@@ -935,7 +933,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         viewSliderKoloda.delegate = self
         viewSliderKoloda.dataSource = self
     }
-//MARK:-  Calculate User Age
+    //MARK:-  Calculate User Age
     func calculateAge(birthday: String) -> Int {
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "yyyy-MM-dd"
@@ -946,7 +944,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         let age = calcAge.year
         return age!
     }
-//MARK:-  UICollectionView Data Source
+    //MARK:-  UICollectionView Data Source
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -968,7 +966,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         return cell
     }
     
-//MARK:-  UICollectionView Flow Layout Delegates
+    //MARK:-  UICollectionView Flow Layout Delegates
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 130, height: 134)
     }
@@ -981,7 +979,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         return 20
     }
     
-//MARK:-  UITableView DataSource
+    //MARK:-  UITableView DataSource
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -1026,7 +1024,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         }
     }
     
-//MARK:-  UITableView Delegates
+    //MARK:-  UITableView Delegates
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if tableView == tableViewQuestions {
@@ -1071,7 +1069,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         return tableViewFavTeams.contentSize.height
     }
     
-//MARK:-  UIScrollView Delegates
+    //MARK:-  UIScrollView Delegates
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView == scrollViewBottom{
             if scrollViewBottom.contentOffset.y < -90 {
@@ -1105,6 +1103,11 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 }
             }
         }
+        else if scrollView == self.scrollVwFullImage {
+            let index = Int(self.scrollVwFullImage!.contentOffset.y/self.scrollVwFullImage!.frame.size.height)
+            self.selectedCardScrollVw.contentOffset = CGPoint(x: 0, y: self.selectedCardScrollVw.frame.size.height * CGFloat(index))
+            self.selectedCardVw.pageControl.progress = Double(scrollView.contentOffset.y/scrollView.frame.size.height)
+        }
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -1115,8 +1118,8 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     
     
     
-//MARK:-  Card Controller Delegates
-   @objc  func showBottomView(_ viewCard: CardsView) {
+    //MARK:-  Card Controller Delegates
+    @objc  func showBottomView(_ viewCard: CardsView) {
         CustomClass.sharedInstance.playAudio(.bottomView, .mp3)
         self.scrollViewBottom.contentOffset = CGPoint(x: 0, y: 0)
         self.updateTheDetails(self.cardsArray[self.cardIndex])
@@ -1131,7 +1134,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     }
     
     @objc func undoPreviousCard() {
-       self.viewSliderKoloda.revertAction()
+        self.viewSliderKoloda.revertAction()
     }
     
     func undoDemoCard() {
@@ -1144,7 +1147,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         self.startAnimationOfCards("profile")
     }
     
-//MARK:-  Local Methods & Animation Functions
+    //MARK:-  Local Methods & Animation Functions
     
     @objc func back(){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
@@ -1186,10 +1189,10 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         btnOkLetsStart.alpha = 0
         btnRemindMeLater.alpha = 0
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            UIView.animate(withDuration: 0.5, animations: { 
+            UIView.animate(withDuration: 0.5, animations: {
                 self.lblQuizDesc.alpha = 1
             }, completion: { (completed: Bool) in
-                UIView.animate(withDuration: 0.5, animations: { 
+                UIView.animate(withDuration: 0.5, animations: {
                     self.btnOkLetsStart.alpha = 1
                 }, completion: { (completed: Bool) in
                     self.btnAnimation(button: self.btnOkLetsStart)
@@ -1201,17 +1204,17 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     func settingShadowToTopView(){
         self.viewTop.shadow(1, 50, .white, CGSize(width: 1, height: 1))
     }
-//
-//    func continueAnimation(){
-//        DispatchQueue.main.asyncAfter(deadline: .now()) {
-//            self.constraintTopViewHeight.constant = UIScreen.main.bounds.height
-//            UIView.animate(withDuration: 0.4, animations: {
-//                self.view.layoutIfNeeded()
-//            }, completion: { (completed) in
-//                self.hideTheLogo()
-//            })
-//        }
-//    }
+    //
+    //    func continueAnimation(){
+    //        DispatchQueue.main.asyncAfter(deadline: .now()) {
+    //            self.constraintTopViewHeight.constant = UIScreen.main.bounds.height
+    //            UIView.animate(withDuration: 0.4, animations: {
+    //                self.view.layoutIfNeeded()
+    //            }, completion: { (completed) in
+    //                self.hideTheLogo()
+    //            })
+    //        }
+    //    }
     
     
     
@@ -1228,14 +1231,14 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             self.constraintLogoTrailing.constant = 112
             self.viewLblBackground.layer.backgroundColor = UIColor.white.cgColor
             self.viewLblBackground.alpha = 1
-           // self.imgViewS.tintColor = .darkGray
+            // self.imgViewS.tintColor = .darkGray
             UIView.animate(withDuration: 0.4, animations: {
                 self.imgViewBlur.alpha = 0
                 self.viewFront.layer.backgroundColor = UIColor.white.cgColor
                 self.viewTop.layer.backgroundColor = UIColor.clear.cgColor
-
+                
             })
-            UIView.animate(withDuration: 1, animations: { 
+            UIView.animate(withDuration: 1, animations: {
                 self.viewFront.alpha = 0
             })
             UIView.animate(withDuration: 3, animations: {
@@ -1251,7 +1254,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 self.view.layoutIfNeeded()
             }, completion: { (completed: Bool) in
             })
-           
+            
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             UIView.animate(withDuration: 3, animations: {
@@ -1289,7 +1292,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             self.viewLblBackground.alpha = 0
             self.viewTop.backgroundColor = .white
             self.constraintLogoCenter.constant = 20
-
+            
             UIView.animate(withDuration: 1, animations: {
                 self.view.layoutIfNeeded()
             }, completion: { (completed: Bool) in
@@ -1304,7 +1307,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                     self.startSettingIconRotation()
                 })
-                UIView.animate(withDuration: 3, animations: { 
+                UIView.animate(withDuration: 3, animations: {
                     
                 }, completion: { (completed: Bool) in
                     self.startProfileViewAnimation()
@@ -1319,20 +1322,20 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     func startSettingIconRotation(){
         rotateSettingTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(animateSettingIcon), userInfo: nil, repeats: false)
         //DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-           // self.rotateSettingTimer?.invalidate()
+        // self.rotateSettingTimer?.invalidate()
         //}
         
     }
     
     func startProfileViewAnimation(){
-       // self.imgViewS.tintColor = .darkGray
+        // self.imgViewS.tintColor = .darkGray
         UIView.animate(withDuration: 3, delay: 0, options: .curveLinear, animations: {
             self.blurViewSetting.alpha = 0
         }) { (completed: Bool) in
             self.constraintSRight.constant = -(UIScreen.main.bounds.width - UIScreen.main.bounds.width/2 - 65)
             self.blurViewSetting.isHidden = true
             self.blurViewSetting.alpha = 1
-
+            
             UIView.animate(withDuration: 1, animations: {
                 self.view.layoutIfNeeded()
                 self.blurViewLogo.alpha = 0
@@ -1347,7 +1350,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         UIView.animate(withDuration: 1, delay: 0, options: .curveLinear, animations: {
             self.imgViewSetting.transform = self.imgViewSetting.transform.rotated(by: CGFloat(Double.pi))
         }) { (completed: Bool) in
-             self.rotateSettingTimer?.invalidate()
+            self.rotateSettingTimer?.invalidate()
         }
     }
     
@@ -1418,7 +1421,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     }
     
     
-//MARK:-  IBAction Methods
+    //MARK:-  IBAction Methods
     
     @objc func chatController(){
         if isMessageDemoCard {
@@ -1427,7 +1430,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             return
         }
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-       let listController = self.storyboard?.instantiateViewController(withIdentifier: "ListViewController")
+        let listController = self.storyboard?.instantiateViewController(withIdentifier: "ListViewController")
         navigationController?.pushViewController(listController!, animated: true)
     }
     
@@ -1447,7 +1450,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         constraintTopViewTop.constant = -UIScreen.main.bounds.size.height
         constraintTopViewBottom.constant = UIScreen.main.bounds.size.height
         
-        UIView.animate(withDuration: 0.5, animations: { 
+        UIView.animate(withDuration: 0.5, animations: {
             self.view.layoutIfNeeded()
         }) { (completed:Bool) in
             //self.imgViewS.tintColor = .darkGray
@@ -1480,14 +1483,14 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         }
     }
     
-    @IBAction func btnSharePerson(_ sender: Any){        
+    @IBAction func btnSharePerson(_ sender: Any){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         // text to share
         let text = "Hey, I’m on this new dating app called Slindir (for active, like-minded singles)  and I came across this person who I thought would be a great match for you! Check it out.  It’s free to start so you’ve got nothing to lose!  Download the app at: \n http://slindir.com/"
         
         // set up activity view controller
         
-      //  let objectsToShare:URL = URL(string: "http://slindir.com/")!
+        //  let objectsToShare:URL = URL(string: "http://slindir.com/")!
         let textToShare = [ text ]
         let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
@@ -1511,9 +1514,9 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         
         // set up activity view controller
         
-      //  let objectsToShare:URL = URL(string: "http://slindir.com/")!
-
-        let textToShare = [ text ] 
+        //  let objectsToShare:URL = URL(string: "http://slindir.com/")!
+        
+        let textToShare = [ text ]
         let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
         
@@ -1561,13 +1564,13 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                     if status == "success"{
                     }else{
                         //let message = jsonDict!["message"] as! String
-                       // self.showAlertWithOneButton("", message, "Ok")
+                        // self.showAlertWithOneButton("", message, "Ok")
                     }
                 }) { (error) in
                 }
                 self.hideTheBottomView(nil)
                 self.viewSliderKoloda?.swipe(.left)
-
+                
             }
             alert.addAction(yes)
             self.present(alert, animated: true, completion: nil)
@@ -1597,7 +1600,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             }
             reportSheet.addAction(cancel)
             self.present(reportSheet, animated: true, completion: nil)
-
+            
         }
         actionSheet.addAction(action1)
         let action2 = UIAlertAction(title: "Cancel", style: .cancel) { (action: UIAlertAction) in
@@ -1627,7 +1630,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     
     @IBAction func btnOkBrain(_ sender: Any) {
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-
+        
         if showBrainGame {
             self.navigationController?.popViewController(animated: true)
         }
@@ -1720,33 +1723,33 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         }
     }
     
-//MARK:-   Facebook Share Method
-    func showAppInviteDialoge(for appInvite: AppInvite){
-        do{
-            try AppInvite.Dialog.show(from: self, invite: appInvite, completion: { (result) in
-                switch result{
-                case .success(let result):
-                    print("App Invite sent with result \(result)")
-                case .failed(let error):
-                    print("Failed to send invite with error \(error)")
-                }
-            })
-        }catch let error{
-            print("Failed to show app invite dialog with error \(error)")
-        }
-    }
+    //MARK:-   Facebook Share Method
+    //    func showAppInviteDialoge(for appInvite: AppInvite){
+    //        do{
+    //            try AppInvite.Dialog.show(from: self, invite: appInvite, completion: { (result) in
+    //                switch result{
+    //                case .success(let result):
+    //                    print("App Invite sent with result \(result)")
+    //                case .failed(let error):
+    //                    print("Failed to send invite with error \(error)")
+    //                }
+    //            })
+    //        }catch let error{
+    //            print("Failed to show app invite dialog with error \(error)")
+    //        }
+    //    }
     
     @IBAction func playVideo(_ sender: Any) {
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-            if videoUrl == "" {
-            }else {
-                let player = AVPlayer(url:URL(string:videoUrl)!)
-                let playerViewController = AVPlayerViewController()
-                playerViewController.player = player
-                self.present(playerViewController, animated: true) {
-                    playerViewController.player!.play()
-                }
+        if videoUrl == "" {
+        }else {
+            let player = AVPlayer(url:URL(string:videoUrl)!)
+            let playerViewController = AVPlayerViewController()
+            playerViewController.player = player
+            self.present(playerViewController, animated: true) {
+                playerViewController.player!.play()
             }
+        }
     }
     
 }
@@ -1804,7 +1807,7 @@ extension ProfileViewController: KolodaViewDelegate {
         self.swipedUserDict = cardsArray[index]
     }
     
-//MARK:-  WebServices Methods
+    //MARK:-  WebServices Methods
     func sendOrDeclineRequest(_ details: [String: Any]){
         let userId = LocalStore.store.getFacebookID()
         let reciver_ID = details["user_fb_id"] as! String
@@ -2136,15 +2139,15 @@ extension ProfileViewController: KolodaViewDataSource {
             self.lblAlert.text = "Not feeling it? Swiping a profile to the left means you are not interested."
         }
         else if animation == "profile" {
-             self.lblAlert.text = "Want to know more? Tap here to learn more about them."
+            self.lblAlert.text = "Want to know more? Tap here to learn more about them."
         }
         else if animation == "undo" {
-                self.lblAlert.text = "Accidentally swipe the wrong way? Undo here to make the right move."
+            self.lblAlert.text = "Accidentally swipe the wrong way? Undo here to make the right move."
         }
         
         self.view.bringSubview(toFront: self.vwAlert)
         self.vwAlert.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-
+        
         UIView.animate(withDuration: 0.5, animations: {
             self.vwAlert.transform = CGAffineTransform(scaleX: 1, y: 1)
         }) { (completion) in
@@ -2166,17 +2169,17 @@ extension ProfileViewController: KolodaViewDataSource {
             return
         }
         let personalDetail = LocalStore.store.getUserDetails()
-
+        
         
         let name = details["user_name"] as! String
         let age = String(format:"%d", self.calculateAge(birthday: details["dob"] as! String))
-
+        
         lblNameScroll.text = String(format: "%@, %@", name,age)
-
+        
         if let profile_pic = details["profile_pic"] as? String {
             imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,profile_pic)), placeholderImage: UIImage.init(named: "placeholder"))
         }
-
+        
         if let work = details["work"] as? String{
             lblWorkScroll.text = work
         }
@@ -2207,29 +2210,19 @@ extension ProfileViewController: KolodaViewDataSource {
         self.imgVwVideoThumb.image = UIImage()
         if let detail = details["profile_video"] as? String {
             if detail == "" {
-                self.viewVideo.isHidden = true
-                self.heightVideoVw.isActive = true
-                self.heightRatioVideoVw.isActive = false
-                self.heightVideoVw.constant = 0
-                self.view.layoutIfNeeded()
+                
             }
             else {
-                self.heightVideoVw.isActive = false
-                self.heightRatioVideoVw.isActive = true
                 videoUrl = String(format:"%@%@", mediaUrl, detail)
                 // self.perform(#selector(self.thumbnailFromVideoServerURL(url:)), with: URL(string:self.videoUrl)!, afterDelay: 0.1)
                 self.imgVwVideoThumb.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,(details["profile_thumbnail"] as? String)!)), placeholderImage: nil)
-                self.viewVideo.isHidden = false
+                
             }
         }
         else {
-            self.viewVideo.isHidden = true
-            self.heightVideoVw.isActive = true
-            self.heightRatioVideoVw.isActive = false
-            self.heightVideoVw.constant = 0
-            self.view.layoutIfNeeded()
+            
         }
-       
+        
         self.favoriteTeamArray = [String]()
         if let favSport = details["fav_sport_team_1"] as? String{
             if favSport != "" {
@@ -2256,21 +2249,21 @@ extension ProfileViewController: KolodaViewDataSource {
         DispatchQueue.main.async {
             self.constraintTableViewHeight.constant = CGFloat(44 * self.favoriteTeamArray.count)
             self.view.layoutIfNeeded()
-           // if let brain = details["brain"] as? String {
+            // if let brain = details["brain"] as? String {
             //    if let brainGame = personalDetail["brain"] as? String{
-              //      if brain != brainGame {
-                        self.heightPersonalityView.constant = 100
-                        self.vwPersonality.isHidden = false
-                        self.lineBelowPersonality.isHidden = false
-                        self.view.layoutIfNeeded()
-                   // }
-                   // else {
-                    //    self.vwPersonality.isHidden = true
-                     //   self.lineBelowPersonality.isHidden = true
-                     //   self.heightPersonalityView.constant = 0
-                     //   self.view.layoutIfNeeded()
-              //      }
-             //   }
+            //      if brain != brainGame {
+            self.heightPersonalityView.constant = 100
+            self.vwPersonality.isHidden = false
+            self.lineBelowPersonality.isHidden = false
+            self.view.layoutIfNeeded()
+            // }
+            // else {
+            //    self.vwPersonality.isHidden = true
+            //   self.lineBelowPersonality.isHidden = true
+            //   self.heightPersonalityView.constant = 0
+            //   self.view.layoutIfNeeded()
+            //      }
+            //   }
             //}
             
             if let compatibility = details["compability"] as? Int {
@@ -2320,7 +2313,7 @@ extension ProfileViewController: KolodaViewDataSource {
                 lookingFor.append("Workout buddy")
             }
             self.lblLookingFor.text = lookingFor.joined(separator: ", ")
-
+            
         }
         
         if let brain = details["brain"] as? String{
@@ -2337,18 +2330,20 @@ extension ProfileViewController: KolodaViewDataSource {
     }
     
     @objc func showImagesInFullView(_ gesture: UITapGestureRecognizer) {
-    
+        
         let scrollVw = gesture.view as? UIScrollView
+        selectedCardScrollVw = scrollVw!
         let index = Int(scrollVw!.contentOffset.y/scrollVw!.frame.size.height)
         let vwCard = scrollVw?.superview as? CardsView
+        selectedCardVw = vwCard!
         let count:Int = (vwCard?.arrayImages.count)!
         for i in 0..<count {
             let imgVw = self.view.viewWithTag(i + 201) as! UIImageView
             imgVw.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, (vwCard?.arrayImages[i])!)), placeholderImage: UIImage.init(named: "placeholder"))
         }
         
-        self.scrollVwFullImage.contentOffset = CGPoint(x: 0, y: UIScreen.main.bounds.size.height * CGFloat(index))
-        self.scrollVwFullImage.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * CGFloat(count))
+        self.scrollVwFullImage.contentOffset = CGPoint(x: 0, y: self.scrollVwFullImage.frame.size.height * CGFloat(index))
+        self.scrollVwFullImage.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: self.scrollVwFullImage.frame.size.height * CGFloat(count))
         self.view.bringSubview(toFront: self.vwScrollImage)
     }
     

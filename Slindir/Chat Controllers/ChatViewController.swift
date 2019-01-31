@@ -29,6 +29,7 @@ class ChatViewController: JSQMessagesViewController{
     private var userRefOther: DatabaseReference?
     
     var readUnreadRef: DatabaseReference?
+    var unread_count: String = ""
     
     let currentUserDict = LocalStore.store.getUserDetails()
     @IBOutlet weak var lblTitle: UILabel!
@@ -38,6 +39,13 @@ class ChatViewController: JSQMessagesViewController{
             title = friend?.name
         }
     }
+    
+    private var friends: [Friend] = []
+    
+    private var opponentRef: DatabaseReference?
+
+    private var opponentRefHandle: DatabaseHandle?
+    
     var receiver_id:String?
     
     var messages = [JSQMessage]()
@@ -117,6 +125,7 @@ class ChatViewController: JSQMessagesViewController{
             self.automaticallyScrollsToMostRecentMessage = true
             var messageItem = friend?.lastMessage
             messageItem!["unread"] = "0"
+            messageItem!["unread_count"] = "0"
             self.updateReadUnreadMessages(messageItem!)
         }
         
@@ -132,6 +141,8 @@ class ChatViewController: JSQMessagesViewController{
         observeMessages()
         observeTyping()
         observeFriendsRemoved()
+        observeOpponentFriendsAdded()
+        observeFriendUpdated()
         self.moveToPermanentList()
         
         Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
@@ -151,6 +162,9 @@ class ChatViewController: JSQMessagesViewController{
         if let refHandle = updateMessageRefHandle{
             messageRef.removeObserver(withHandle: refHandle)
         }
+        if let refHandle = opponentRefHandle{
+            opponentRef?.removeObserver(withHandle: refHandle)
+        }
     }
     
     deinit {
@@ -159,6 +173,9 @@ class ChatViewController: JSQMessagesViewController{
         }
         if let refHandle = updateMessageRefHandle{
             messageRef.removeObserver(withHandle: refHandle)
+        }
+        if let refHandle = opponentRefHandle{
+            opponentRef?.removeObserver(withHandle: refHandle)
         }
     }
     
@@ -298,6 +315,12 @@ class ChatViewController: JSQMessagesViewController{
 //MARK:-  Send Message
     
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
+        unread_count = "0"
+        for friend in friends {
+            if let lastMessage = friend.lastMessage as? [String: Any] {
+                unread_count = String(format: "%d",Int(lastMessage["unread_count"] as! String)! + Int(unread_count)!)
+            }
+        }
         
         let chatId = "\(user_id)_\(self.receiver_id!)"
         let reciverChatId = "\(self.receiver_id!)_\(user_id)"
@@ -308,13 +331,15 @@ class ChatViewController: JSQMessagesViewController{
         if let pic = currentUserDict["profile_pic"] as? String  {
             profile_pic =  pic
         }
+        
         let messageItem = [
             "senderId":senderId!,
             "senderName":senderDisplayName!,
             "text": text!,
             "time":self.currentTime(),
             "profilePic": profile_pic,
-            "unread": "0"
+            "unread": "0",
+            "unread_count": "0"
             ] as [String : Any]
         let messageItem1 = [
             "senderId":senderId!,
@@ -322,7 +347,8 @@ class ChatViewController: JSQMessagesViewController{
             "text": text!,
             "time":self.currentTime(),
             "profilePic": profile_pic,
-            "unread": "1"
+            "unread": "1",
+            "unread_count": String(format:"%d",Int(unread_count)! + 1)
             ] as [String : Any]
         
         let userRef = Database.database().reference().child("users").child(user_id).child("friends").child(self.receiver_id!).child("lastMessage")
@@ -413,6 +439,7 @@ class ChatViewController: JSQMessagesViewController{
                 }
                 var messageItem = messageData
                 messageItem["unread"] = "0"
+                messageItem["unread_count"] = "0"
                 self.updateReadUnreadMessages(messageItem)
             }
             else if let id = messageData["senderId"] as? String, let photoURL = messageData["photoURL"] as? String, let dateStr = messageData["time"] as? String, dateStr.characters.count > 0{
@@ -434,6 +461,7 @@ class ChatViewController: JSQMessagesViewController{
                     
                     var messageItem = messageData
                     messageItem["unread"] = "0"
+                     messageItem["unread_count"] = "0"
                     self.updateReadUnreadMessages(messageItem)
                 }
                 
@@ -446,6 +474,7 @@ class ChatViewController: JSQMessagesViewController{
     
     //MARK:-  Observe Friends Removed
     private func observeFriendsRemoved(){
+        self.unread_count = "0"
         let friendRef: DatabaseReference = Database.database().reference().child("users")
         userRef = friendRef.child(user_id).child("friends")
         
@@ -466,6 +495,73 @@ class ChatViewController: JSQMessagesViewController{
                 }
                 alert.addAction(ok)
                 self.present(alert, animated: true, completion: nil)
+            }
+        })
+    }
+    
+    //MARK:-  Observe opponents Friends
+    private func observeOpponentFriendsAdded() {
+        self.friends.removeAll()
+        let friendRef: DatabaseReference = Database.database().reference().child("users")
+        opponentRef = friendRef.child(friend?.id ?? "").child("friends")
+        
+        opponentRefHandle = opponentRef?.observe(.childAdded, with: { (snapshot) in
+            let friendData = snapshot.value as! Dictionary<String, Any>
+            print("Friends :- ",friendData)
+            let data = snapshot.value as! NSDictionary
+            print("Friends :- ",data)
+            if let friendData = data as? [String: Any] {
+                print("Friends :- ",friendData)
+                let id = String(format:"%@",friendData["id"] as! CVarArg)
+                
+                var profile_pic = ""
+                if let pic = friendData["profilePic"] as? String {
+                    profile_pic = pic
+                }
+                var online = false
+                if let status = friendData["online"] as? Bool {
+                    online = status
+                }
+                var newFriend = Friend(id: id, name: friendData["name"] as! String, profilePic: profile_pic, lastMessage: nil , online: online)
+                if let lastMessage = friendData["lastMessage"] as? [String: Any] {
+                    newFriend = Friend(id: id, name: friendData["name"] as! String, profilePic: profile_pic, lastMessage: lastMessage , online: online)
+                }
+                self.friends.append(newFriend)
+                // print(friendData!)
+            }
+        })
+    }
+    
+    func observeFriendUpdated(){
+        
+        let friendRef: DatabaseReference = Database.database().reference().child("users")
+        opponentRef = friendRef.child(friend?.id ?? "").child("friends")
+        opponentRefHandle = opponentRef?.observe(.childChanged, with: { (snapshot) in
+            let data = snapshot.value as! NSDictionary
+            print("Friends :- ",data)
+            if let friendData = data as? [String: Any] {
+                print("Friends :- ",friendData)
+                let id = String(format:"%@",friendData["id"] as! CVarArg)
+                let index = self.friends.index(where: { (friend) -> Bool in
+                    friend.id  == id
+                })
+                var profile_pic = ""
+                if let pic = friendData["profilePic"] as? String {
+                    profile_pic = pic
+                }
+                var online = false
+                if let status = friendData["online"] as? Bool {
+                    online = status
+                }
+                var newFriend = Friend(id: id, name: friendData["name"] as! String, profilePic: profile_pic, lastMessage: nil , online: online)
+                if let lastMessage = friendData["lastMessage"] as? [String: Any] {
+                    newFriend = Friend(id: id, name: friendData["name"] as! String, profilePic: profile_pic, lastMessage: lastMessage , online: online)
+                }
+                if index != nil {
+                    self.friends.remove(at: index!)
+                    self.friends.insert(newFriend, at: index!)
+                }
+            // print(friendData!)
             }
         })
     }
@@ -513,12 +609,18 @@ class ChatViewController: JSQMessagesViewController{
     
 //MARK:-   Send The Photo in Message
     func sendPhotoMessage() -> (String?,String?)?{
+        unread_count = "0";
+        for friend in friends {
+            if let lastMessage = friend.lastMessage as? [String: Any] {
+                unread_count = String(format: "%d",Int(lastMessage["unread_count"] as! String)! + Int(unread_count)!)
+            }
+        }
         
         let chatId = "\(user_id)_\(self.receiver_id!)"
         let reciverChatId = "\(self.receiver_id!)_\(user_id)"
         let chatref = friendRef.child(user_id).child(chatId).childByAutoId()
         let itemRef = chatref
-        let newItemRef = friendRef.child(self.receiver_id!).child(reciverChatId).child(chatref.key)
+        let newItemRef = friendRef.child(self.receiver_id!).child(reciverChatId).child(chatref.key ?? "")
         var profile_pic = ""
         if let pic = currentUserDict["profile_pic"] as? String  {
             profile_pic =  pic
@@ -530,7 +632,8 @@ class ChatViewController: JSQMessagesViewController{
             "text": "photo",
             "time":self.currentTime(),
             "profilePic":profile_pic,
-            "unread": "0"
+            "unread": "0",
+            "unread_count": "0"
             ] as [String : Any]
         
         let messageItem1 = [
@@ -540,7 +643,8 @@ class ChatViewController: JSQMessagesViewController{
             "text": "photo",
             "time":self.currentTime(),
             "profilePic":profile_pic,
-            "unread": "1"
+            "unread": "1",
+            "unread_count": String(format:"%d",Int(unread_count)! + 1)
             ] as [String : Any]
         
         let userRef = Database.database().reference().child("users").child(user_id).child("friends").child(self.receiver_id!).child("lastMessage")
@@ -651,6 +755,7 @@ class ChatViewController: JSQMessagesViewController{
         parameters["sender_fb_id"] = user_id
         parameters["receiver_fb_id"] = receiverId
         parameters["message"] = message
+        parameters["badge_count"] = String(format:"%d",Int(unread_count)! + 1)
         
         WebServices.service.webServicePostRequest(.post, .chat, .chatMessage, parameters, successHandler: { (response) in
             print(response ?? "")

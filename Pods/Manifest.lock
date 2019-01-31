@@ -5,23 +5,23 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
-  - CHIPageControl (0.1.6):
-    - CHIPageControl/Aji (= 0.1.6)
-    - CHIPageControl/Aleppo (= 0.1.6)
-    - CHIPageControl/Chimayo (= 0.1.6)
-    - CHIPageControl/Fresno (= 0.1.6)
-    - CHIPageControl/Jalapeno (= 0.1.6)
-    - CHIPageControl/Jaloro (= 0.1.6)
-    - CHIPageControl/Paprika (= 0.1.6)
-    - CHIPageControl/Puya (= 0.1.6)
-  - CHIPageControl/Aji (0.1.6)
-  - CHIPageControl/Aleppo (0.1.6)
-  - CHIPageControl/Chimayo (0.1.6)
-  - CHIPageControl/Fresno (0.1.6)
-  - CHIPageControl/Jalapeno (0.1.6)
-  - CHIPageControl/Jaloro (0.1.6)
-  - CHIPageControl/Paprika (0.1.6)
-  - CHIPageControl/Puya (0.1.6)
+  - CHIPageControl (0.1.7):
+    - CHIPageControl/Aji (= 0.1.7)
+    - CHIPageControl/Aleppo (= 0.1.7)
+    - CHIPageControl/Chimayo (= 0.1.7)
+    - CHIPageControl/Fresno (= 0.1.7)
+    - CHIPageControl/Jalapeno (= 0.1.7)
+    - CHIPageControl/Jaloro (= 0.1.7)
+    - CHIPageControl/Paprika (= 0.1.7)
+    - CHIPageControl/Puya (= 0.1.7)
+  - CHIPageControl/Aji (0.1.7)
+  - CHIPageControl/Aleppo (0.1.7)
+  - CHIPageControl/Chimayo (0.1.7)
+  - CHIPageControl/Fresno (0.1.7)
+  - CHIPageControl/Jalapeno (0.1.7)
+  - CHIPageControl/Jaloro (0.1.7)
+  - CHIPageControl/Paprika (0.1.7)
+  - CHIPageControl/Puya (0.1.7)
   - Crashlytics (3.11.0):
     - Fabric (~> 1.8.0)
   - DACircularProgress (2.3.1)
@@ -40,77 +40,110 @@ PODS:
     - Bolts (~> 1.9)
     - FacebookSDK/CoreKit
     - FBSDKMarketingKit
-  - FBSDKCoreKit (4.39.1):
+  - FBSDKCoreKit (4.40.0):
     - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.39.1):
+  - FBSDKLoginKit (4.40.0):
     - FBSDKCoreKit
   - FBSDKMarketingKit (4.38.0):
     - FBSDKCoreKit
-  - Firebase/Auth (5.4.0):
+  - Firebase/Auth (5.16.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (= 5.0.2)
-  - Firebase/Core (5.4.0):
+    - FirebaseAuth (= 5.3.0)
+  - Firebase/Core (5.16.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 5.0.1)
-  - Firebase/CoreOnly (5.4.0):
-    - FirebaseCore (= 5.0.5)
-  - Firebase/Database (5.4.0):
+    - FirebaseAnalytics (= 5.5.0)
+  - Firebase/CoreOnly (5.16.0):
+    - FirebaseCore (= 5.2.0)
+  - Firebase/Database (5.16.0):
     - Firebase/CoreOnly
-    - FirebaseDatabase (= 5.0.2)
-  - Firebase/Messaging (5.4.0):
+    - FirebaseDatabase (= 5.1.0)
+  - Firebase/Messaging (5.16.0):
     - Firebase/CoreOnly
-    - FirebaseMessaging (= 3.0.3)
-  - Firebase/Storage (5.4.0):
+    - FirebaseMessaging (= 3.3.0)
+  - Firebase/Storage (5.16.0):
     - Firebase/CoreOnly
-    - FirebaseStorage (= 3.0.0)
-  - FirebaseAnalytics (5.0.1):
-    - FirebaseCore (~> 5.0)
-    - FirebaseInstanceID (~> 3.0)
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+    - FirebaseStorage (= 3.1.0)
+  - FirebaseAnalytics (5.5.0):
+    - FirebaseCore (~> 5.2)
+    - FirebaseInstanceID (~> 3.4)
+    - GoogleAppMeasurement (= 5.5.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
+    - GoogleUtilities/MethodSwizzler (~> 5.2)
+    - GoogleUtilities/Network (~> 5.2)
+    - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - FirebaseAuth (5.0.2):
-    - FirebaseCore (~> 5.0)
+  - FirebaseAnalyticsInterop (1.1.0)
+  - FirebaseAuth (5.3.0):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 5.2)
+    - GoogleUtilities/Environment (~> 5.2)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseCore (5.0.5):
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-  - FirebaseDatabase (5.0.2):
-    - FirebaseCore (~> 5.0)
+  - FirebaseAuthInterop (1.0.0)
+  - FirebaseCore (5.2.0):
+    - GoogleUtilities/Logger (~> 5.2)
+  - FirebaseDatabase (5.1.0):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 5.2)
     - leveldb-library (~> 1.18)
-  - FirebaseInstanceID (3.1.1):
-    - FirebaseCore (~> 5.0)
-  - FirebaseMessaging (3.0.3):
-    - FirebaseCore (~> 5.0)
-    - FirebaseInstanceID (~> 3.0)
-    - GoogleToolboxForMac/Logger (~> 2.1)
+  - FirebaseInstanceID (3.4.0):
+    - FirebaseCore (~> 5.2)
+    - GoogleUtilities/Environment (~> 5.3)
+    - GoogleUtilities/UserDefaults (~> 5.3)
+  - FirebaseMessaging (3.3.0):
+    - FirebaseAnalyticsInterop (~> 1.1)
+    - FirebaseCore (~> 5.2)
+    - FirebaseInstanceID (~> 3.4)
+    - GoogleUtilities/Environment (~> 5.2)
+    - GoogleUtilities/Reachability (~> 5.2)
     - Protobuf (~> 3.1)
-  - FirebaseStorage (3.0.0):
-    - FirebaseCore (~> 5.0)
+  - FirebaseStorage (3.1.0):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 5.2)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleToolboxForMac/Defines (2.1.4)
-  - GoogleToolboxForMac/Logger (2.1.4):
-    - GoogleToolboxForMac/Defines (= 2.1.4)
-  - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
-    - GoogleToolboxForMac/Defines (= 2.1.4)
-  - GTMSessionFetcher/Core (1.1.15)
-  - IQKeyboardManagerSwift (6.1.0)
-  - Koloda (4.3.1):
+  - GoogleAppMeasurement (5.5.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
+    - GoogleUtilities/MethodSwizzler (~> 5.2)
+    - GoogleUtilities/Network (~> 5.2)
+    - "GoogleUtilities/NSData+zlib (~> 5.2)"
+    - nanopb (~> 0.3)
+  - GoogleUtilities/AppDelegateSwizzler (5.3.7):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (5.3.7)
+  - GoogleUtilities/Logger (5.3.7):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (5.3.7):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (5.3.7):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (5.3.7)"
+  - GoogleUtilities/Reachability (5.3.7):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (5.3.7):
+    - GoogleUtilities/Logger
+  - GTMSessionFetcher/Core (1.2.1)
+  - IQKeyboardManagerSwift (6.2.0)
+  - Koloda (4.6):
     - pop (~> 1.0)
   - leveldb-library (1.20)
-  - nanopb (0.3.8):
-    - nanopb/decode (= 0.3.8)
-    - nanopb/encode (= 0.3.8)
-  - nanopb/decode (0.3.8)
-  - nanopb/encode (0.3.8)
-  - NVActivityIndicatorView (4.3.0):
-    - NVActivityIndicatorView/Presenter (= 4.3.0)
-  - NVActivityIndicatorView/Presenter (4.3.0)
-  - pop (1.0.10)
-  - Protobuf (3.6.0)
-  - SDWebImage (4.4.1):
-    - SDWebImage/Core (= 4.4.1)
-  - SDWebImage/Core (4.4.1)
-  - SwiftyGif (4.1.0)
-  - TTGSnackbar (1.7.3)
+  - nanopb (0.3.901):
+    - nanopb/decode (= 0.3.901)
+    - nanopb/encode (= 0.3.901)
+  - nanopb/decode (0.3.901)
+  - nanopb/encode (0.3.901)
+  - NVActivityIndicatorView (4.6.1):
+    - NVActivityIndicatorView/Presenter (= 4.6.1)
+  - NVActivityIndicatorView/Presenter (4.6.1)
+  - pop (1.0.12)
+  - Protobuf (3.6.1)
+  - SDWebImage (4.4.3):
+    - SDWebImage/Core (= 4.4.3)
+  - SDWebImage/Core (4.4.3)
+  - SwiftyGif (4.2.0)
+  - TTGSnackbar (1.7.5)
   - "UIImage+ImageCompress (0.0.1)"
 
 DEPENDENCIES:
@@ -148,13 +181,16 @@ SPEC REPOS:
     - FBSDKMarketingKit
     - Firebase
     - FirebaseAnalytics
+    - FirebaseAnalyticsInterop
     - FirebaseAuth
+    - FirebaseAuthInterop
     - FirebaseCore
     - FirebaseDatabase
     - FirebaseInstanceID
     - FirebaseMessaging
     - FirebaseStorage
-    - GoogleToolboxForMac
+    - GoogleAppMeasurement
+    - GoogleUtilities
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
     - Koloda
@@ -170,35 +206,38 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  CHIPageControl: 21b85bb8c7d4d1d15fc4f353e1eb095eb75de5f1
+  CHIPageControl: bbe1ddd0c688c02ec65b7f7e7d34551a3d16f37c
   Crashlytics: 1448070c1d2731ab71ea7c3faf84ac0f69657287
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   Fabric: 4ac1cdfef3004ccd83ce0959b91eda8a6e37df72
   FacebookCore: 74288d0add931d361b1596beae787ab72c438249
   FacebookSDK: 73f54b8b94e09b05647cdef0af147f470cd3edc6
-  FBSDKCoreKit: f442aa96179cc9b382bb4abeb7e340a47cca8f91
-  FBSDKLoginKit: c3079d9a4db27c492287b1eed7a4272b28cf8a59
+  FBSDKCoreKit: ae214474b25033399c131dc81d258e412582a2ba
+  FBSDKLoginKit: 7a1e411d46acc8834588eca437daf34de42e1d52
   FBSDKMarketingKit: e609f39d74ab273cf52e2f8b7e8829ed412b2827
-  Firebase: d66f4f29c23f22d96808d9abc174d81d8eee968f
-  FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
-  FirebaseAuth: 096e457cdd4274412a66c4a35874787e411f5a03
-  FirebaseCore: 42b3267233bd21a5abd54117ccc38ca3dd0f8e83
-  FirebaseDatabase: 27be5ac5bc75e0b17537b2bbfada8258addcc8cd
-  FirebaseInstanceID: f3f0657372592ecdfdfe2cac604a5a75758376a6
-  FirebaseMessaging: f43eb0c0e1da096e659de6f713038e74862a62cd
-  FirebaseStorage: 7ca4bb7b58a25fa647b04f524033fc7cb7eb272b
-  GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
-  GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
-  IQKeyboardManagerSwift: f5004f5860d9a8ed23a7ef7a156ae168828eb018
-  Koloda: 0d39b2aa188ccd1fac48d752acaf9802e683c625
+  Firebase: 749a8ff4962f9d8c79dda1966de20f6f77583d67
+  FirebaseAnalytics: d35d47c03c50c73c14a7fd31463c5775843e78a9
+  FirebaseAnalyticsInterop: e5f21be9af6548372e2f0815834ff909bff395a2
+  FirebaseAuth: c9b3ff063c223d2841d97240af547ce511bce19a
+  FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
+  FirebaseCore: ea2d1816723ef21492b8e9113303e1350db5e08c
+  FirebaseDatabase: 23acb0c53cd4d4070a427b60100b2e4aaa97c45d
+  FirebaseInstanceID: 97ea7a5dca9afd72c79bfcdddb7a44aa1cbb42a1
+  FirebaseMessaging: acbd51fe1a172bf29abaaa6e93a60f98bbf8e4f9
+  FirebaseStorage: 29075f874c2b3cf61e5221a62c4ceefc809e5412
+  GoogleAppMeasurement: 621f3bc6211d5ba548debe01fafad30cf5ab6859
+  GoogleUtilities: 111a012f4c3a29c9e7c954c082fafd6ee3c999c0
+  GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
+  IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
+  Koloda: bcf5acded25fc49020d1447ed8ddd87e14d01e7e
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
-  nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
-  NVActivityIndicatorView: 963f62bf9f993fcf23218e55958e5b1761b9504c
-  pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
-  Protobuf: 0fc0ad8bec688b2a3017a139953e01374fedbd5f
-  SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
-  SwiftyGif: d36c6dfb52e2ca1e48fe349d225f50ec4123ec85
-  TTGSnackbar: a66e929fd17d662152ec0964990a86e966310edb
+  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  NVActivityIndicatorView: 4ca19fccc84595a78957336a086d00a49be6ce61
+  pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
+  Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
+  SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
+  SwiftyGif: a149bf84df23370592f3f075561ae02c8632a314
+  TTGSnackbar: 2cf4e7b6ffbe5cddf248a73f3ee952b71bee8ea3
   "UIImage+ImageCompress": 6b38489f38075d569d9f25d72af7ecf5c84c1057
 
 PODFILE CHECKSUM: 76bdc7b169525b47f0fd96d7bd0814649ce989bb

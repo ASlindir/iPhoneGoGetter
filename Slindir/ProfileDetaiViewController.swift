@@ -85,7 +85,10 @@ let personalDetail = LocalStore.store.getUserDetails()
     @IBOutlet weak var lineBelowPersonality: UIImageView!
     @IBOutlet weak var tableViewFavTeams: UITableView!
     @IBOutlet weak var btnBack: UIButton!
-    
+
+    @IBOutlet weak var heightRatioVideoVw: NSLayoutConstraint!
+    @IBOutlet weak var heightVideoVw: NSLayoutConstraint!
+
     var selectedCardScrollVw = UIScrollView()
     var selectedCardVw = CardsView()
 
@@ -570,7 +573,6 @@ let personalDetail = LocalStore.store.getUserDetails()
         }else{
             lblAboutScroll.text = ""
         }
-        
         if let intrests = details["activities"] as?  String{
             let intrestsArray = intrests.components(separatedBy: ",")
             print("Intrests :- ",intrestsArray)
@@ -581,6 +583,7 @@ let personalDetail = LocalStore.store.getUserDetails()
         }
         
         self.imgVwVideoThumb.image = UIImage()
+        /* pre jasvir
         if let detail = details["profile_video"] as? String {
             if detail == "" {
             }
@@ -591,7 +594,28 @@ let personalDetail = LocalStore.store.getUserDetails()
             }
         }
         else {
+        }*/
+        
+ // jasvir changes
+        if let detail = details["profile_video"] as? String, !detail.isEmpty{
+//        if let detail = details["profile_video"] as? String {
+            self.heightVideoVw.isActive = false
+            self.heightRatioVideoVw.isActive = true
+            videoUrl = String(format:"%@%@", mediaUrl, detail)
+            // self.perform(#selector(self.thumbnailFromVideoServerURL(url:)), with: URL(string:self.videoUrl)!, afterDelay: 0.1)
+            self.imgVwVideoThumb.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,(details["profile_thumbnail"] as? String)!)), placeholderImage: nil)
+            self.viewVideo.isHidden = false
         }
+        else {
+            self.viewVideo.isHidden = true
+            self.heightVideoVw.isActive = true
+            self.heightRatioVideoVw.isActive = false
+            self.heightVideoVw.constant = 0
+            self.view.layoutIfNeeded()
+        }
+// end jasvir change
+         
+
         
         self.favoriteTeamArray = [String]()
         if let favSport = details["fav_sport_team_1"] as? String{
@@ -611,7 +635,7 @@ let personalDetail = LocalStore.store.getUserDetails()
             }
         }
         if let favSport = details["fav_sport_team_4"] as? String{
-            if favSport != "" {
+        	    if favSport != "" {
                 self.favoriteTeamArray.append(favSport)
             }
         }

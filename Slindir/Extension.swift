@@ -216,6 +216,18 @@ extension UIViewController{
                                 }                                
                         }
                     }
+                    /* jasvir changes  */
+ 
+                     if let detail = details["profile_video"] as? String {
+                     if detail == "" {
+                     self.deleteOldVideoFromDocumentDirectory()
+                     }
+                     }
+                     else {
+                     self.deleteOldVideoFromDocumentDirectory()
+                     }
+ 
+                    /* end jasvir changes */
                     
 
                 }

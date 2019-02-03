@@ -9,8 +9,11 @@
 import Foundation
 import UIKit
 
-public let baseUrl = "http://slindirapp.com/web-services/index.php"
-public let mediaUrl = "http://slindirapp.com/web-services/media/"
+//public let baseUrl = "http://slindirapp.com/web-services/index.php"
+//public let mediaUrl = "http://slindirapp.com/web-services/media/"
+
+public let baseUrl = "http://18.236.52.178/web-services/index.php"
+public let mediaUrl = "http://18.236.52.178/web-services/media/"
 
 enum Model: String{
     

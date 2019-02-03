@@ -75,7 +75,7 @@ class FirebaseObserver: NSObject {
                     self.showMessageView(String(format:"%@: %@",name, text), (messageData as? [AnyHashable : Any])!)
                 }
             }
-            else if let id = messageData["senderId"] as? String, let name = messageData["senderName"] as? String!, let _ = messageData["photoURL"] as? String{
+            else if let id = messageData["senderId"] as? String, let name = messageData["senderName"] as? String, let _ = messageData["photoURL"] as? String{
                 if del.currentController.isKind(of: ChatViewController.self) {
                     if id != self.user_id{
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "chatControllerNotification"), object: nil, userInfo: messageData as? [AnyHashable : Any])
@@ -86,7 +86,7 @@ class FirebaseObserver: NSObject {
                     }
                 }
                 else {
-                    self.showMessageView(String(format:"%@ has sent you a photo message.",name!), messageData as! [AnyHashable : Any])
+                    self.showMessageView(String(format:"%@ has sent you a photo message.",name), messageData as! [AnyHashable : Any])
                 }
             }
         })

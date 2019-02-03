@@ -30,7 +30,7 @@ open class SwiftyGifManager {
         #if swift(>=4.2)
         timer?.add(to: .main, forMode: .common)
         #else
-        timer?.add(to: .main, forMode: RunLoopMode.commonModes)
+        timer?.add(to: .main, forMode: RunLoop.Mode.common)
         #endif
     }
     
@@ -117,7 +117,7 @@ open class SwiftyGifManager {
      */
     @objc func updateImageView(){
         for imageView in displayViews {
-            
+
             DispatchQueue.global(qos: DispatchQoS.QoSClass.userInteractive).sync{
                 imageView.image = imageView.currentImage
             }
@@ -126,7 +126,7 @@ open class SwiftyGifManager {
                     imageView.updateCurrentImage()
                 }
             }
-            
+
         }
     }
     

@@ -318,7 +318,9 @@ class ChatViewController: JSQMessagesViewController{
         unread_count = "0"
         for friend in friends {
             if let lastMessage = friend.lastMessage as? [String: Any] {
-                unread_count = String(format: "%d",Int(lastMessage["unread_count"] as! String)! + Int(unread_count)!)
+                if let unreadCount = lastMessage["unread_count"] as? String {
+                    unread_count = String(format:"%d",Int(unread_count)!+Int(unreadCount)!)
+                }
             }
         }
         
@@ -612,7 +614,9 @@ class ChatViewController: JSQMessagesViewController{
         unread_count = "0";
         for friend in friends {
             if let lastMessage = friend.lastMessage as? [String: Any] {
-                unread_count = String(format: "%d",Int(lastMessage["unread_count"] as! String)! + Int(unread_count)!)
+                if let unreadCount = lastMessage["unread_count"] as? String {
+                    unread_count = String(format:"%d",Int(unread_count)!+Int(unreadCount)!)
+                }
             }
         }
         

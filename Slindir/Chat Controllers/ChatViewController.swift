@@ -18,8 +18,8 @@ import TTGSnackbar
 import Firebase
 
 class ChatViewController: JSQMessagesViewController{
-
-
+    
+    
     //MARK:-  Outlets, Variables and Constants
     let user_id = LocalStore.store.getFacebookID()
     let personalDetail = LocalStore.store.getUserDetails()
@@ -29,6 +29,7 @@ class ChatViewController: JSQMessagesViewController{
     private var userRefOther: DatabaseReference?
     
     var readUnreadRef: DatabaseReference?
+    var unread_count: String = ""
     
     let currentUserDict = LocalStore.store.getUserDetails()
     @IBOutlet weak var lblTitle: UILabel!
@@ -38,6 +39,13 @@ class ChatViewController: JSQMessagesViewController{
             title = friend?.name
         }
     }
+    
+    private var friends: [Friend] = []
+    
+    private var opponentRef: DatabaseReference?
+    
+    private var opponentRefHandle: DatabaseHandle?
+    
     var receiver_id:String?
     
     var messages = [JSQMessage]()
@@ -48,7 +56,7 @@ class ChatViewController: JSQMessagesViewController{
     private lazy var messageRef: DatabaseReference = self.friendRef
     private var newMessageRefHandle: DatabaseHandle?
     private var newRefHandle: DatabaseHandle?
-//Properties for Typing Indicator
+    //Properties for Typing Indicator
     private lazy var userIsTypingRef: DatabaseReference = Database.database().reference().child("typingIndicator").child("\(self.receiver_id!)_\(user_id)")
     private var localTyping = false
     var isTyping: Bool{
@@ -60,7 +68,7 @@ class ChatViewController: JSQMessagesViewController{
         }
     }
     private lazy var usersTypingQuery: DatabaseQuery = self.friendRef.child("typingIndicator").queryOrderedByValue().queryEqual(toValue: true)
-//Properties for Send Photo & Show Photo
+    //Properties for Send Photo & Show Photo
     lazy var storageRef: StorageReference = Storage.storage().reference(forURL: "gs://slindir-a98e6.appspot.com/")
     private let imageURLNotSetKey = "NOTSET"
     private var photoMessageMap = [String: JSQPhotoMediaItem]()
@@ -70,7 +78,7 @@ class ChatViewController: JSQMessagesViewController{
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(self, selector: #selector(chatNotificationRecived), name: NSNotification.Name(rawValue: NSNotification.Name.RawValue("chatControllerNotification")), object: nil)
-
+        
         
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.barTintColor =  UIColor(red: 0, green: 166/255, blue: 175/255, alpha: 1)
@@ -78,10 +86,10 @@ class ChatViewController: JSQMessagesViewController{
         navigationController?.navigationBar.backgroundColor = UIColor(red: 0, green: 166/255, blue: 175/255, alpha: 1)
         navigationController?.navigationBar.isTranslucent = false
         
-//Add the right Button
+        //Add the right Button
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "flag"), style: .plain, target: self, action: #selector(blockOrWarnUser))
         
-//Remove the Avatar From the chat Collection View
+        //Remove the Avatar From the chat Collection View
         collectionView.collectionViewLayout.incomingAvatarViewSize = CGSize(width: 30, height: 30)
         collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSize(width: 30, height: 30)
         
@@ -92,7 +100,7 @@ class ChatViewController: JSQMessagesViewController{
         
         getCurrentUser()
     }
-
+    
     
     func getCurrentUser(){
         
@@ -104,7 +112,7 @@ class ChatViewController: JSQMessagesViewController{
         self.collectionView.reloadData()
         
         UIApplication.shared.applicationIconBadgeNumber = 0
-
+        
         navigationController?.isNavigationBarHidden = false
         navigationController?.navigationBar.isHidden = false
         UserDefaults.standard.set(false, forKey: "chatNotification")
@@ -117,6 +125,7 @@ class ChatViewController: JSQMessagesViewController{
             self.automaticallyScrollsToMostRecentMessage = true
             var messageItem = friend?.lastMessage
             messageItem!["unread"] = "0"
+            messageItem!["unread_count"] = "0"
             self.updateReadUnreadMessages(messageItem!)
         }
         
@@ -132,6 +141,8 @@ class ChatViewController: JSQMessagesViewController{
         observeMessages()
         observeTyping()
         observeFriendsRemoved()
+        observeOpponentFriendsAdded()
+        observeFriendUpdated()
         self.moveToPermanentList()
         
         Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
@@ -151,6 +162,9 @@ class ChatViewController: JSQMessagesViewController{
         if let refHandle = updateMessageRefHandle{
             messageRef.removeObserver(withHandle: refHandle)
         }
+        if let refHandle = opponentRefHandle{
+            opponentRef?.removeObserver(withHandle: refHandle)
+        }
     }
     
     deinit {
@@ -159,6 +173,9 @@ class ChatViewController: JSQMessagesViewController{
         }
         if let refHandle = updateMessageRefHandle{
             messageRef.removeObserver(withHandle: refHandle)
+        }
+        if let refHandle = opponentRefHandle{
+            opponentRef?.removeObserver(withHandle: refHandle)
         }
     }
     
@@ -179,9 +196,9 @@ class ChatViewController: JSQMessagesViewController{
         
     }
     
-//MARK:-  Local Methods
+    //MARK:-  Local Methods
     func settingTheTitleLabel(){
-    
+        
         let navTitleLabel = UILabel()
         navTitleLabel.text = friend?.name
         navTitleLabel.font = UIFont(name: "OpenSans-SemiBold", size: 15)
@@ -206,7 +223,7 @@ class ChatViewController: JSQMessagesViewController{
         titleView.isUserInteractionEnabled = true
         titleView.addGestureRecognizer(recognizer1)
         
-}
+    }
     
     @objc func gotoProfileDetail() {
         let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileDetaiViewController") as! ProfileDetaiViewController
@@ -215,9 +232,9 @@ class ChatViewController: JSQMessagesViewController{
         self.navigationController?.pushViewController(profileController, animated: true)
     }
     
-   
     
-//MARK:-  JSQMesagesViewController DataSource
+    
+    //MARK:-  JSQMesagesViewController DataSource
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
     }
@@ -225,7 +242,7 @@ class ChatViewController: JSQMessagesViewController{
         return messages[indexPath.row]
     }
     
-//MARK:-  JSQMessagesBubbleImage DataSource Methods
+    //MARK:-  JSQMessagesBubbleImage DataSource Methods
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
         let message = messages[indexPath.item]
@@ -236,7 +253,7 @@ class ChatViewController: JSQMessagesViewController{
         }
     }
     
-//MARK:-  UICollection View Data Source
+    //MARK:-  UICollection View Data Source
     /*
      This method is called to override the message text color
      */
@@ -287,7 +304,7 @@ class ChatViewController: JSQMessagesViewController{
         return kJSQMessagesCollectionViewCellLabelHeightDefault
     }
     
-//MARK:-  Remove the Person Image from Chat
+    //MARK:-  Remove the Person Image from Chat
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
         
         let jsqMessage = JSQMessagesAvatarImage(avatarImage: #imageLiteral(resourceName: "steve"), highlightedImage: nil, placeholderImage: #imageLiteral(resourceName: "steve"))
@@ -295,9 +312,17 @@ class ChatViewController: JSQMessagesViewController{
     }
     
     
-//MARK:-  Send Message
+    //MARK:-  Send Message
     
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
+        unread_count = "0"
+        for friend in friends {
+            if let lastMessage = friend.lastMessage {
+                if let unreadCount = lastMessage["unread_count"] as? String {
+                    unread_count = String(format:"%d",Int(unread_count)!+Int(unreadCount)!)
+                }
+            }
+        }
         
         let chatId = "\(user_id)_\(self.receiver_id!)"
         let reciverChatId = "\(self.receiver_id!)_\(user_id)"
@@ -308,13 +333,15 @@ class ChatViewController: JSQMessagesViewController{
         if let pic = currentUserDict["profile_pic"] as? String  {
             profile_pic =  pic
         }
+        
         let messageItem = [
             "senderId":senderId!,
             "senderName":senderDisplayName!,
             "text": text!,
             "time":self.currentTime(),
             "profilePic": profile_pic,
-            "unread": "0"
+            "unread": "0",
+            "unread_count": "0"
             ] as [String : Any]
         let messageItem1 = [
             "senderId":senderId!,
@@ -322,12 +349,13 @@ class ChatViewController: JSQMessagesViewController{
             "text": text!,
             "time":self.currentTime(),
             "profilePic": profile_pic,
-            "unread": "1"
+            "unread": "1",
+            "unread_count": String(format:"%d",Int(unread_count)! + 1)
             ] as [String : Any]
         
         let userRef = Database.database().reference().child("users").child(user_id).child("friends").child(self.receiver_id!).child("lastMessage")
         let userRef1 = Database.database().reference().child("users").child(self.receiver_id!).child("friends").child(user_id).child("lastMessage")
-
+        
         userRef.setValue(messageItem)
         userRef1.setValue(messageItem1)
         itemRef.setValue(messageItem)
@@ -401,7 +429,7 @@ class ChatViewController: JSQMessagesViewController{
         newMessageRefHandle = messageQuery.observe(.childAdded, with: { (snapshot) in
             let messageData = snapshot.value as! [String: Any]
             if let id = messageData["senderId"] as? String, let name = messageData["senderName"] as? String, let text = messageData["text"] as? String , text.count > 0, (messageData["photoURL"]  == nil), let dateStr = messageData["time"] as? String, dateStr.count > 0{
-                if df.date(from: dateStr) != nil {
+                if (df.date(from: dateStr)! as? Date) != nil {
                 }
                 else {
                     df.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -413,6 +441,7 @@ class ChatViewController: JSQMessagesViewController{
                 }
                 var messageItem = messageData
                 messageItem["unread"] = "0"
+                messageItem["unread_count"] = "0"
                 self.updateReadUnreadMessages(messageItem)
             }
             else if let id = messageData["senderId"] as? String, let photoURL = messageData["photoURL"] as? String, let dateStr = messageData["time"] as? String, dateStr.count > 0{
@@ -434,6 +463,7 @@ class ChatViewController: JSQMessagesViewController{
                     
                     var messageItem = messageData
                     messageItem["unread"] = "0"
+                    messageItem["unread_count"] = "0"
                     self.updateReadUnreadMessages(messageItem)
                 }
                 
@@ -446,6 +476,7 @@ class ChatViewController: JSQMessagesViewController{
     
     //MARK:-  Observe Friends Removed
     private func observeFriendsRemoved(){
+        self.unread_count = "0"
         let friendRef: DatabaseReference = Database.database().reference().child("users")
         userRef = friendRef.child(user_id).child("friends")
         
@@ -470,6 +501,73 @@ class ChatViewController: JSQMessagesViewController{
         })
     }
     
+    //MARK:-  Observe opponents Friends
+    private func observeOpponentFriendsAdded() {
+        self.friends.removeAll()
+        let friendRef: DatabaseReference = Database.database().reference().child("users")
+        opponentRef = friendRef.child(friend?.id ?? "").child("friends")
+        
+        opponentRefHandle = opponentRef?.observe(.childAdded, with: { (snapshot) in
+            let friendData = snapshot.value as! Dictionary<String, Any>
+            print("Friends :- ",friendData)
+            let data = snapshot.value as! NSDictionary
+            print("Friends :- ",data)
+            if let friendData = data as? [String: Any] {
+                print("Friends :- ",friendData)
+                let id = String(format:"%@",friendData["id"] as! CVarArg)
+                
+                var profile_pic = ""
+                if let pic = friendData["profilePic"] as? String {
+                    profile_pic = pic
+                }
+                var online = false
+                if let status = friendData["online"] as? Bool {
+                    online = status
+                }
+                var newFriend = Friend(id: id, name: friendData["name"] as! String, profilePic: profile_pic, lastMessage: nil , online: online)
+                if let lastMessage = friendData["lastMessage"] as? [String: Any] {
+                    newFriend = Friend(id: id, name: friendData["name"] as! String, profilePic: profile_pic, lastMessage: lastMessage , online: online)
+                }
+                self.friends.append(newFriend)
+                // print(friendData!)
+            }
+        })
+    }
+    
+    func observeFriendUpdated(){
+        
+        let friendRef: DatabaseReference = Database.database().reference().child("users")
+        opponentRef = friendRef.child(friend?.id ?? "").child("friends")
+        opponentRefHandle = opponentRef?.observe(.childChanged, with: { (snapshot) in
+            let data = snapshot.value as! NSDictionary
+            print("Friends :- ",data)
+            if let friendData = data as? [String: Any] {
+                print("Friends :- ",friendData)
+                let id = String(format:"%@",friendData["id"] as! CVarArg)
+                let index = self.friends.index(where: { (friend) -> Bool in
+                    friend.id  == id
+                })
+                var profile_pic = ""
+                if let pic = friendData["profilePic"] as? String {
+                    profile_pic = pic
+                }
+                var online = false
+                if let status = friendData["online"] as? Bool {
+                    online = status
+                }
+                var newFriend = Friend(id: id, name: friendData["name"] as! String, profilePic: profile_pic, lastMessage: nil , online: online)
+                if let lastMessage = friendData["lastMessage"] as? [String: Any] {
+                    newFriend = Friend(id: id, name: friendData["name"] as! String, profilePic: profile_pic, lastMessage: lastMessage , online: online)
+                }
+                if index != nil {
+                    self.friends.remove(at: index!)
+                    self.friends.insert(newFriend, at: index!)
+                }
+                // print(friendData!)
+            }
+        })
+    }
+    
     //MARK:-  Setting up the Bubbles
     private func setupOutgoingBubble() -> JSQMessagesBubbleImage{
         let bubbleImageFactory = JSQMessagesBubbleImageFactory()
@@ -481,7 +579,7 @@ class ChatViewController: JSQMessagesViewController{
         return bubbleImageFactory!.incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
     }
     
-//MARK:-  Detect The Typing
+    //MARK:-  Detect The Typing
     override func textViewDidChange(_ textView: UITextView) {
         super.textViewDidChange(textView)
         isTyping = textView.text != ""
@@ -511,14 +609,22 @@ class ChatViewController: JSQMessagesViewController{
         }
     }
     
-//MARK:-   Send The Photo in Message
+    //MARK:-   Send The Photo in Message
     func sendPhotoMessage() -> (String?,String?)?{
+        unread_count = "0";
+        for friend in friends {
+            if let lastMessage = friend.lastMessage as? [String: Any] {
+                if let unreadCount = lastMessage["unread_count"] as? String {
+                    unread_count = String(format:"%d",Int(unread_count)!+Int(unreadCount)!)
+                }
+            }
+        }
         
         let chatId = "\(user_id)_\(self.receiver_id!)"
         let reciverChatId = "\(self.receiver_id!)_\(user_id)"
         let chatref = friendRef.child(user_id).child(chatId).childByAutoId()
         let itemRef = chatref
-        let newItemRef = friendRef.child(self.receiver_id!).child(reciverChatId).child(chatref.key!)
+        let newItemRef = friendRef.child(self.receiver_id!).child(reciverChatId).child(chatref.key ?? "")
         var profile_pic = ""
         if let pic = currentUserDict["profile_pic"] as? String  {
             profile_pic =  pic
@@ -530,7 +636,8 @@ class ChatViewController: JSQMessagesViewController{
             "text": "photo",
             "time":self.currentTime(),
             "profilePic":profile_pic,
-            "unread": "0"
+            "unread": "0",
+            "unread_count": "0"
             ] as [String : Any]
         
         let messageItem1 = [
@@ -540,7 +647,8 @@ class ChatViewController: JSQMessagesViewController{
             "text": "photo",
             "time":self.currentTime(),
             "profilePic":profile_pic,
-            "unread": "1"
+            "unread": "1",
+            "unread_count": String(format:"%d",Int(unread_count)! + 1)
             ] as [String : Any]
         
         let userRef = Database.database().reference().child("users").child(user_id).child("friends").child(self.receiver_id!).child("lastMessage")
@@ -609,38 +717,38 @@ class ChatViewController: JSQMessagesViewController{
             
         }
         
-      //  let storageRef = Storage.storage().reference(forURL: photoURL)
-
-//        if let cacheImage = imageCache.object(forKey: photoURL as AnyObject) as? UIImage {
-//            mediaItem.image = cacheImage
-//        }
-//        else {
-//            storageRef.getData(maxSize: INT64_MAX) { (data, error) in
-//                if let err = error{
-//                    self.showAlertWithOneButton("Error!", err.localizedDescription, "OK")
-//                }else{
-//                    storageRef.getMetadata(completion: { (metaData, metaDataErr) in
-//                        if let err = error{
-//                            self.showAlertWithOneButton("Error!", err.localizedDescription, "OK")
-//                        }else{
-//                            if metaData?.contentType == "image/gif"{
-//                                mediaItem.image = UIImage(gifData: data!)
-//                            }else{
-//                                mediaItem.image = UIImage(data: data!)
-//                            }
-//                            //self.imageCache.setObject(mediaItem.image, forKey: photoURL as AnyObject)
-//
-//                            self.collectionView.reloadData()
-//
-//                            guard key != nil else {
-//                                return
-//                            }
-//                            self.photoMessageMap.removeValue(forKey: key!)
-//                        }
-//                    })
-//                }
-//            }
-//        }
+        //  let storageRef = Storage.storage().reference(forURL: photoURL)
+        
+        //        if let cacheImage = imageCache.object(forKey: photoURL as AnyObject) as? UIImage {
+        //            mediaItem.image = cacheImage
+        //        }
+        //        else {
+        //            storageRef.getData(maxSize: INT64_MAX) { (data, error) in
+        //                if let err = error{
+        //                    self.showAlertWithOneButton("Error!", err.localizedDescription, "OK")
+        //                }else{
+        //                    storageRef.getMetadata(completion: { (metaData, metaDataErr) in
+        //                        if let err = error{
+        //                            self.showAlertWithOneButton("Error!", err.localizedDescription, "OK")
+        //                        }else{
+        //                            if metaData?.contentType == "image/gif"{
+        //                                mediaItem.image = UIImage(gifData: data!)
+        //                            }else{
+        //                                mediaItem.image = UIImage(data: data!)
+        //                            }
+        //                            //self.imageCache.setObject(mediaItem.image, forKey: photoURL as AnyObject)
+        //
+        //                            self.collectionView.reloadData()
+        //
+        //                            guard key != nil else {
+        //                                return
+        //                            }
+        //                            self.photoMessageMap.removeValue(forKey: key!)
+        //                        }
+        //                    })
+        //                }
+        //            }
+        //        }
         
     }
     
@@ -651,6 +759,7 @@ class ChatViewController: JSQMessagesViewController{
         parameters["sender_fb_id"] = user_id
         parameters["receiver_fb_id"] = receiverId
         parameters["message"] = message
+        parameters["badge_count"] = String(format:"%d",Int(unread_count)! + 1)
         
         WebServices.service.webServicePostRequest(.post, .chat, .chatMessage, parameters, successHandler: { (response) in
             print(response ?? "")
@@ -692,20 +801,20 @@ class ChatViewController: JSQMessagesViewController{
     func updateReadUnreadMessages(_ messageItem: [String: Any]) {
         readUnreadRef = Database.database().reference().child("users").child(user_id).child("friends").child(self.receiver_id!).child("lastMessage")
         readUnreadRef?.setValue(messageItem)
-       // finishSendingMessage()
+        // finishSendingMessage()
     }
     
-//MARK:-  Memory Management
+    //MARK:-  Memory Management
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-//MARK:-  IBAction Methods
+    //MARK:-  IBAction Methods
     @IBAction func btnBack(_ sender: Any?){
         navigationController?.popViewController(animated: true)
     }
-
+    
     @objc func blockOrWarnUser(){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -835,7 +944,7 @@ class ChatViewController: JSQMessagesViewController{
         snackbar.messageTextColor = UIColor.white
         snackbar.messageTextFont = UIFont.init(name: "OpenSans-Semibold", size: 16)!
         snackbar.messageTextAlign = .center
-        snackbar.contentInset = UIEdgeInsets.init(top: 40, left: 8, bottom: 20, right: 8)
+        snackbar.contentInset = UIEdgeInsets(top: 40, left: 8, bottom: 20, right: 8)
         snackbar.topMargin = 0
         snackbar.leftMargin = 0
         snackbar.rightMargin = 0
@@ -874,14 +983,12 @@ class ChatViewController: JSQMessagesViewController{
 
 //MARK:-  UIImagePickerController delegate
 extension ChatViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-// Local variable inserted by Swift 4.2 migrator.
-let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
-
+    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         picker.dismiss(animated: true, completion: nil)
         
-        if let photoRefernceUrl = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.referenceURL)] as? URL{
+        
+        if let photoRefernceUrl = info[UIImagePickerController.InfoKey.referenceURL] as? URL{
             let assets = PHAsset.fetchAssets(withALAssetURLs: [photoRefernceUrl], options: nil)
             let asset = assets.firstObject
             
@@ -893,8 +1000,8 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                     let timeInterval = "\(Int64(Date.timeIntervalSinceReferenceDate * 1000))/"
                     let refernceUrl = "\(photoRefernceUrl.lastPathComponent)"
                     let path = auth + timeInterval + refernceUrl
-                    let imageData = (info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as! UIImage).jpegData(compressionQuality: 0.7)!
-                        
+                    let imageData = (info[UIImagePickerController.InfoKey.originalImage] as! UIImage).jpegData(compressionQuality:0.7)!
+                    
                     self.storageRef.child(path).putData(imageData, metadata: nil, completion: { (metaData, error) in
                         if let err = error{
                             self.showAlertWithOneButton("Error!", err.localizedDescription, "OK")
@@ -906,7 +1013,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                 })
             }
         }else{
-            let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as! UIImage
+            let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
             if let (key,newKey) = sendPhotoMessage(){
                 let imageData = image.jpegData(compressionQuality: 1)
                 let time = Int64(Date.timeIntervalSinceReferenceDate * 1000)
@@ -928,18 +1035,8 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         picker.dismiss(animated: true, completion: nil)
     }
     
- }
+}
 
 
 
 //MARK:-  Want Help Visit Here: - https://www.raywenderlich.com/140836/firebase-tutorial-real-time-chat-2
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
-	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
-	return input.rawValue
-}

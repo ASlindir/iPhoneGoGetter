@@ -1150,7 +1150,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         var parameters = Dictionary<String, Any?>()
         parameters["user_fb_id"] = facebookID
         WebServices.service.webServicePostVideoFileAndThumbnailRequest(.post, .user, .uploadVideoAndThumbnail, data, imageData, parameters as Dictionary<String, Any>, successHandler: { (response) in
-            self.getUserDetails(false)
+	                	self.getUserDetails(false)
             Loader.stopLoader()
         }) { (error) in
             Loader.stopLoader()
@@ -2041,6 +2041,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
     }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 // Local variable inserted by Swift 4.2 migrator.
 let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
@@ -2052,8 +2053,10 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                 if stringType == kUTTypeMovie as String{
                     let urlOfVideo =  info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.mediaURL)] as? URL
                     if let url = urlOfVideo{
+                        let myasset = AVURLAsset(url: urlOfVideo!);
+                        self.imgViewProfile.image = self.thumbnailForVideoASSet(asset: myasset);
                         DispatchQueue.main.async {
-                            self.playView(url)
+                            self.playView(url);
                             let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".mp4")
                             self.compressVideo(inputURL: url as URL,asset: nil, outputURL: compressedURL) { (exportSession) in
                                 guard let session = exportSession else {
@@ -2071,7 +2074,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                                     guard let compressedData = NSData(contentsOf: compressedURL) else {
                                         return
                                     }
-                                    
+                                    print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
                                     DispatchQueue.global(qos: .userInitiated).async {
                                         // Bounce back to the main thread to update the UI
                                         DispatchQueue.main.async {

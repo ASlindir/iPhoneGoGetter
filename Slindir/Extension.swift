@@ -359,6 +359,8 @@ extension UIViewController{
         let imgGenerator = AVAssetImageGenerator(asset: asset)
         imgGenerator.appliesPreferredTrackTransform = true
         do {
+            let maxSize = CGSize(width: 512, height: 512);
+            imgGenerator.maximumSize = maxSize;
             let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
             // !! check the error before proceeding
             let uiImage = UIImage.init(cgImage: cgImage)

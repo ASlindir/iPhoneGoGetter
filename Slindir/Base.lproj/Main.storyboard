@@ -4142,14 +4142,22 @@ This will only take a minute.</string>
                                                     <constraint firstItem="rWr-bc-0h7" firstAttribute="width" secondItem="AQZ-m9-jc9" secondAttribute="width" multiplier="1.6" id="Odv-IO-PfM"/>
                                                 </constraints>
                                             </stackView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vOD-qE-9O9">
-                                                <rect key="frame" x="56" y="1920.5" width="229" height="38.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vOD-qE-9O9">
+                                                <rect key="frame" x="35" y="1920.5" width="250" height="38.5"/>
+                                                <edgeInsets key="layoutMargins" top="0.0" left="30" bottom="0.0" right="30"/>
                                                 <attributedString key="attributedText">
-                                                    <fragment content="ADD A VIDEO OF YOU DOING SOMETHING FUN MAX 10 SEC!">
+                                                    <fragment content="ADD A VIDEO OF YOU DOING SOMETHING FUN ">
                                                         <attributes>
                                                             <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                             <font key="NSFont" metaFont="system" size="16"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content="MAX 10 SEC!">
+                                                        <attributes>
+                                                            <color key="NSColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <font key="NSFont" metaFont="system" size="16"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                 </attributedString>
@@ -4366,6 +4374,7 @@ This will only take a minute.</string>
                                             <constraint firstItem="e9q-yy-ycZ" firstAttribute="top" secondItem="HGw-52-QdO" secondAttribute="bottom" constant="20" id="Jol-gu-kQb"/>
                                             <constraint firstItem="HGw-52-QdO" firstAttribute="top" secondItem="kdx-Xz-tI1" secondAttribute="bottom" constant="20" id="JvI-MR-nIA"/>
                                             <constraint firstItem="jlD-8g-JEa" firstAttribute="leading" secondItem="Ttx-tn-IA6" secondAttribute="leading" constant="35" id="KP4-PU-Kwq"/>
+                                            <constraint firstAttribute="trailing" secondItem="vOD-qE-9O9" secondAttribute="trailing" constant="35" id="LDX-Sw-KFR"/>
                                             <constraint firstItem="Vva-5z-1va" firstAttribute="centerY" secondItem="24O-Tr-hpO" secondAttribute="centerY" id="MOK-kr-xaQ"/>
                                             <constraint firstItem="eeM-oF-Gs9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gw8-Lf-6Vy" secondAttribute="trailing" constant="94" id="MhY-RP-zzF"/>
                                             <constraint firstItem="XjL-mV-oKs" firstAttribute="height" secondItem="bjZ-SA-0EN" secondAttribute="height" id="NmQ-Wa-Gle"/>
@@ -4435,16 +4444,15 @@ This will only take a minute.</string>
                                             <constraint firstItem="ZZc-pz-XpF" firstAttribute="top" secondItem="4Xh-hO-wdf" secondAttribute="bottom" constant="10" id="mji-AY-PDW"/>
                                             <constraint firstItem="4Sf-gj-Vns" firstAttribute="centerX" secondItem="Ttx-tn-IA6" secondAttribute="centerX" id="oXJ-Pk-kc5"/>
                                             <constraint firstItem="4Xh-hO-wdf" firstAttribute="centerY" secondItem="sWe-aK-vTR" secondAttribute="centerY" id="p5H-TE-vPL"/>
-                                            <constraint firstAttribute="trailing" secondItem="vOD-qE-9O9" secondAttribute="trailing" constant="35" id="pAA-SU-kQ5"/>
                                             <constraint firstItem="eeM-oF-Gs9" firstAttribute="centerY" secondItem="gw8-Lf-6Vy" secondAttribute="centerY" id="pE1-4d-SWc"/>
                                             <constraint firstItem="GOE-nz-hUN" firstAttribute="centerY" secondItem="e9q-yy-ycZ" secondAttribute="centerY" id="pi1-TD-ut1"/>
+                                            <constraint firstItem="vOD-qE-9O9" firstAttribute="leading" secondItem="Ttx-tn-IA6" secondAttribute="leading" constant="35" id="pnf-rq-Gah"/>
                                             <constraint firstItem="HGw-52-QdO" firstAttribute="width" secondItem="HGw-52-QdO" secondAttribute="height" multiplier="208:37" id="rFv-Yv-Szc"/>
                                             <constraint firstItem="Ro2-Zk-omT" firstAttribute="leading" secondItem="Ttx-tn-IA6" secondAttribute="leading" constant="35" id="soY-ap-0L0"/>
                                             <constraint firstItem="4Sf-gj-Vns" firstAttribute="width" secondItem="kdx-Xz-tI1" secondAttribute="width" id="sys-jG-MXw"/>
                                             <constraint firstItem="H20-wo-bf9" firstAttribute="leading" secondItem="Ttx-tn-IA6" secondAttribute="leading" constant="35" id="t8L-QE-9sZ"/>
                                             <constraint firstItem="eYw-X8-TeN" firstAttribute="leading" secondItem="Ttx-tn-IA6" secondAttribute="leading" constant="35" id="tah-wg-T9N"/>
                                             <constraint firstItem="gw8-Lf-6Vy" firstAttribute="leading" secondItem="Ttx-tn-IA6" secondAttribute="leading" constant="35" id="uhN-SQ-KNq"/>
-                                            <constraint firstItem="vOD-qE-9O9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ttx-tn-IA6" secondAttribute="leading" constant="35" id="vRo-4s-xAs"/>
                                             <constraint firstItem="TGN-0c-bSN" firstAttribute="top" secondItem="tMx-t6-sUB" secondAttribute="bottom" constant="8" id="vkP-Of-UaB"/>
                                             <constraint firstItem="kdx-Xz-tI1" firstAttribute="top" secondItem="XjL-mV-oKs" secondAttribute="bottom" constant="20" id="wmj-Bl-yUO"/>
                                             <constraint firstAttribute="trailing" secondItem="kSz-aP-qg5" secondAttribute="trailing" constant="35" id="xfY-Aj-91C"/>

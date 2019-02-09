@@ -599,8 +599,6 @@ let personalDetail = LocalStore.store.getUserDetails()
  // jasvir changes
         if let detail = details["profile_video"] as? String, !detail.isEmpty{
 //        if let detail = details["profile_video"] as? String {
-            self.heightVideoVw.isActive = false
-            self.heightRatioVideoVw.isActive = true
             videoUrl = String(format:"%@%@", mediaUrl, detail)
             // self.perform(#selector(self.thumbnailFromVideoServerURL(url:)), with: URL(string:self.videoUrl)!, afterDelay: 0.1)
             self.imgVwVideoThumb.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,(details["profile_thumbnail"] as? String)!)), placeholderImage: nil)
@@ -608,9 +606,6 @@ let personalDetail = LocalStore.store.getUserDetails()
         }
         else {
             self.viewVideo.isHidden = true
-            self.heightVideoVw.isActive = true
-            self.heightRatioVideoVw.isActive = false
-            self.heightVideoVw.constant = 0
             self.view.layoutIfNeeded()
         }
 // end jasvir change
@@ -737,7 +732,7 @@ let personalDetail = LocalStore.store.getUserDetails()
         self.scrollVwFullImage.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: self.scrollVwFullImage.frame.size.height * CGFloat(count))
         self.scrollVwFullImage.contentOffset = CGPoint(x: 0, y: self.scrollVwFullImage.frame.size.height * CGFloat(index))
         self.view.bringSubviewToFront(self.vwScrollImage)
-    }
+    	}
     
     @IBAction func closeScrollVw(_ sender: Any) {
         self.view.sendSubviewToBack(self.vwScrollImage)

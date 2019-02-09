@@ -9,9 +9,11 @@
 import Foundation
 import UIKit
 
-public let baseUrl = "http://slindirapp.com/web-services/index.php"
-public let mediaUrl = "http://slindirapp.com/web-services/media/"
+//public let baseUrl = "http://slindirapp.com/web-services/index.php"
+//public let mediaUrl = "http://slindirapp.com/web-services/media/"
 
+public let baseUrl = "http://98.176.82.131/web-services/index.php"
+public let mediaUrl = "http://98.176.82.131/web-services/media/"
 //public let baseUrl = "http://18.236.52.178/web-services/index.php"
 //public let mediaUrl = "http://18.236.52.178/web-services/media/"
 
@@ -121,7 +123,7 @@ class WebServices: NSObject {
                         let json = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as! Dictionary<String, Any>
                         success(json)
                     }else{
-                        success(nil)
+                        success(nil)		
                     }
                 }catch let err{
                     serviceError(err)

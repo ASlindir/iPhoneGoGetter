@@ -2211,15 +2211,22 @@ extension ProfileViewController: KolodaViewDataSource {
             }
         }
         
+        videoUrl = "";
         self.imgVwVideoThumb.image = UIImage()
+        let thumbView = self.imgVwVideoThumb;
         if let detail = details["profile_video"] as? String {
             if detail == "" {
-                
+                let noVideoURl = "novideoloaded.png"
+                thumbView!.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,noVideoURl)), placeholderImage: nil,options: .refreshCached,
+                                       completed: { (img, err, cacheType, imgURL) in
+                                        print("complete");
+                                        print(err.debugDescription);
+                                        
+                })
             }
             else {
                 videoUrl = String(format:"%@%@", mediaUrl, detail)
                 // self.perform(#selector(self.thumbnailFromVideoServerURL(url:)), with: URL(string:self.videoUrl)!, afterDelay: 0.1)
-                let thumbView = self.imgVwVideoThumb;
                 let profileThumb = (details["profile_thumbnail"] as? String)!;
                 thumbView!.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,profileThumb)), placeholderImage: nil,options: .refreshCached,
                         completed: { (img, err, cacheType, imgURL) in

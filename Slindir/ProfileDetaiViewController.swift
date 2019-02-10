@@ -600,7 +600,7 @@ let personalDetail = LocalStore.store.getUserDetails()
         if let detail = details["profile_video"] as? String, !detail.isEmpty{
 //        if let detail = details["profile_video"] as? String {
             videoUrl = String(format:"%@%@", mediaUrl, detail)
-            // self.perform(#selector(self.thumbnailFromVideoServerURL(url:)), with: URL(string:self.videoUrl)!, afterDelay: 0.1)
+           // self.perform(#selector(self.thumbnailFromVideoServerURL(url:)), with: URL(string:self.videoUrl)!, afterDelay: 0.1)
             self.imgVwVideoThumb.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,(details["profile_thumbnail"] as? String)!)), placeholderImage: nil)
             self.viewVideo.isHidden = false
         }

@@ -129,7 +129,7 @@
 		B4EF53641FA98A010065926D /* CustomCellCenterFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53631FA98A010065926D /* CustomCellCenterFlowLayout.swift */; };
 		B4EF53651FA994E10065926D /* swipeLEFT.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B4EF53611FA985770065926D /* swipeLEFT.mp3 */; };
 		B4EF53661FA994E40065926D /* swipeRight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B4EF53621FA985770065926D /* swipeRight.mp3 */; };
-		CCED00E221FFC331009F0525 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCED00E121FFC331009F0525 /* WelcomeViewController.swift */; };
+		CC465FF0220F3BE4009DF72B /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC465FEF220F3BE4009DF72B /* WelcomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -347,7 +347,7 @@
 		B4EF53621FA985770065926D /* swipeRight.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = swipeRight.mp3; sourceTree = "<group>"; };
 		B4EF53631FA98A010065926D /* CustomCellCenterFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomCellCenterFlowLayout.swift; path = "Custom Classes/CustomCellCenterFlowLayout.swift"; sourceTree = "<group>"; };
 		C57A96D960408742C6134D14 /* Pods-Slindir.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Slindir.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Slindir/Pods-Slindir.debug.xcconfig"; sourceTree = "<group>"; };
-		CCED00E121FFC331009F0525 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WelcomeViewController.swift; path = /Users/fredfcovely/Desktop/IphoneSlindirv3/Slindir/WelcomeViewController.swift; sourceTree = "<absolute>"; };
+		CC465FEF220F3BE4009DF72B /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		CE3C63750FBA69036D4ED443 /* Pods_Slindir.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Slindir.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -680,7 +680,7 @@
 				B493E53E1F94A60E00C58F66 /* Webservices */,
 				B42E1B2B1F66A169009B68E2 /* AppDelegate.swift */,
 				B42E1B2D1F66A169009B68E2 /* ViewController.swift */,
-				CCED00E121FFC331009F0525 /* WelcomeViewController.swift */,
+				CC465FEF220F3BE4009DF72B /* WelcomeViewController.swift */,
 				B43614E81F7509B10057A1D2 /* EditProfileViewController.swift */,
 				B403784C1F6BDF25009C9D34 /* ProfileViewController.swift */,
 				B448C2D91F7E11E800A776D7 /* RecordVideoController.swift */,
@@ -1169,7 +1169,7 @@
 				0D06B89020C2E7A6002E1703 /* JSQMessagesCollectionViewLayoutAttributes.m in Sources */,
 				0D06B88620C2E7A6002E1703 /* JSQMessagesAvatarImageFactory.m in Sources */,
 				B40C11D11F7D19540030F9E7 /* ProfileImageViewCell.swift in Sources */,
-				CCED00E221FFC331009F0525 /* WelcomeViewController.swift in Sources */,
+				CC465FF0220F3BE4009DF72B /* WelcomeViewController.swift in Sources */,
 				B43A62C51FBD4E0700FE15C4 /* MessagesTableViewCell.swift in Sources */,
 				0D06B8A120C2E7A6002E1703 /* JSQMessagesInputToolbar.m in Sources */,
 				0D06B89320C2E7A6002E1703 /* JSQMediaItem.m in Sources */,

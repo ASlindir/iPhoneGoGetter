@@ -93,6 +93,25 @@ enum Services: String {
     case uploadVideoAndThumbnail            = "upload-profile-video"
 }
 
+class CommError {
+    static let global = CommError()
+    static var alertController: Optional<UIAlertController> = nil;
+    
+    private init() { }
+    
+    func ShowMessage(msg : String) {
+        if(CommError.alertController == nil){
+            CommError.alertController = UIAlertController(title: "Error", message: msg, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) {
+                (action) in
+                CommError.alertController = nil;
+            }
+            CommError.alertController!.addAction(okAction)
+            CommError.alertController!.show()
+        }
+    }
+}
+
 class WebServices: NSObject {
 
     static let service = WebServices()
@@ -106,7 +125,7 @@ class WebServices: NSObject {
         request.httpMethod = servcieType.rawValue
         do{
             if let params = parameters{
-                request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+                request.httpBody = try JSONSerialization.data(withJSONObject: params, 	options: .prettyPrinted)
             }
         }catch let err{
             print(err)
@@ -117,11 +136,26 @@ class WebServices: NSObject {
         let urlSessionData = urlSession.dataTask(with: request) { (data, response, error) in
             if error == nil{
                 do{
+                    // check for exceptions that happened on the server... comes work but server app threw exeption
                     print(String.init(data: data!, encoding: .utf8)!)
                     print(response!)
                     if let jsonData = data{
-                        let json = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as! Dictionary<String, Any>
-                        success(json)
+                        if (jsonData.count > 0){
+                            let json = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as! Dictionary<String, Any>
+                            let status = json["status"] as? String
+                            if (status != "success"){
+                                if let emsg = json["message"] as? String{
+                                    CommError.global.ShowMessage(msg:emsg)
+                                }
+                                else{
+                                    CommError.global.ShowMessage(msg:"Oops the slindir server is having issues right now, please try again later or contact us at support@slindir.com");
+                                }
+                            }
+                            success(json)
+                        }
+                        else{
+                            CommError.global.ShowMessage(msg:"Oops the slindir server is having issues right now, please try again later or contact us at support@slindir.com");
+                        }
                     }else{
                         success(nil)		
                     }
@@ -129,6 +163,7 @@ class WebServices: NSObject {
                     serviceError(err)
                 }
             }else{
+                // real comm errors come here... use built in IOS default NSUrl domain messsages
                 serviceError(error)
             }
         }
@@ -267,6 +302,18 @@ class WebServices: NSObject {
         urlSessionData.resume()
     }
 
+}
+
+public extension UIAlertController {
+    func show() {
+        let win = UIWindow(frame: UIScreen.main.bounds)
+        let vc = UIViewController()
+        vc.view.backgroundColor = .clear
+        win.rootViewController = vc
+        win.windowLevel = UIWindow.Level.alert + 1
+        win.makeKeyAndVisible()
+        vc.present(self, animated: true, completion: nil)
+    }
 }
 
 extension NSMutableData {

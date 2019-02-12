@@ -86,9 +86,6 @@ let personalDetail = LocalStore.store.getUserDetails()
     @IBOutlet weak var tableViewFavTeams: UITableView!
     @IBOutlet weak var btnBack: UIButton!
     
-    @IBOutlet weak var heightRatioVideoVw: NSLayoutConstraint!
-    @IBOutlet weak var heightVideoVw: NSLayoutConstraint!
-
     var showBrainGame:Bool = false
     var videoUrl:String = ""
     var swipedUserDict = [String: Any]()
@@ -584,14 +581,8 @@ let personalDetail = LocalStore.store.getUserDetails()
         if let detail = details["profile_video"] as? String {
             if detail == "" {
                 self.viewVideo.isHidden = true
-                self.heightVideoVw.isActive = true
-                self.heightRatioVideoVw.isActive = false
-                self.heightVideoVw.constant = 0
-                self.view.layoutIfNeeded()
             }
             else {
-                self.heightVideoVw.isActive = false
-                self.heightRatioVideoVw.isActive = true
                 videoUrl = String(format:"%@%@", mediaUrl, detail)
                 // self.perform(#selector(self.thumbnailFromVideoServerURL(url:)), with: URL(string:self.videoUrl)!, afterDelay: 0.1)
                 self.imgVwVideoThumb.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,(details["profile_thumbnail"] as? String)!)), placeholderImage: nil)
@@ -600,10 +591,6 @@ let personalDetail = LocalStore.store.getUserDetails()
         }
         else {
             self.viewVideo.isHidden = true
-            self.heightVideoVw.isActive = true
-            self.heightRatioVideoVw.isActive = false
-            self.heightVideoVw.constant = 0
-            self.view.layoutIfNeeded()
         }
         
         self.favoriteTeamArray = [String]()

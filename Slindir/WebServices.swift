@@ -9,11 +9,11 @@
 import Foundation
 import UIKit
 
-//public let baseUrl = "http://slindirapp.com/web-services/index.php"
-//public let mediaUrl = "http://slindirapp.com/web-services/media/"
+public let baseUrl = "http://slindirapp.com/web-services/index.php"
+public let mediaUrl = "http://slindirapp.com/web-services/media/"
 
-public let baseUrl = "http://98.176.82.131/web-services/index.php"
-public let mediaUrl = "http://98.176.82.131/web-services/media/"
+//public let baseUrl = "http://98.176.82.131/web-services/index.php"
+//public let mediaUrl = "http://98.176.82.131/web-services/media/"
 //public let baseUrl = "http://18.236.52.178/web-services/index.php"
 //public let mediaUrl = "http://18.236.52.178/web-services/media/"
 
@@ -141,9 +141,9 @@ class WebServices: NSObject {
                     print(response!)
                     if let jsonData = data{
                         if (jsonData.count > 0){
-                            let json = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as! Dictionary<String, Any>
+                            let json = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as! Dictionary<String, 	Any>
                             let status = json["status"] as? String
-                            if (status != "success"){
+                            if (status == "syserror"){
                                 if let emsg = json["message"] as? String{
                                     CommError.global.ShowMessage(msg:emsg)
                                 }
@@ -151,7 +151,9 @@ class WebServices: NSObject {
                                     CommError.global.ShowMessage(msg:"Oops the slindir server is having issues right now, please try again later or contact us at support@slindir.com");
                                 }
                             }
-                            success(json)
+                            else{
+                                success(json)
+                            }
                         }
                         else{
                             CommError.global.ShowMessage(msg:"Oops the slindir server is having issues right now, please try again later or contact us at support@slindir.com");

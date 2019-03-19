@@ -61,9 +61,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             controller.isRootController = true
             window?.rootViewController = navigationController
         }
-        else
+        else{
           ClientLog.WriteClientLog( msgType: "ios", msg:"not logged");
-
+        }
+        
         IQKeyboardManager.shared.enable = true
         Fabric.with([Crashlytics.self])
         

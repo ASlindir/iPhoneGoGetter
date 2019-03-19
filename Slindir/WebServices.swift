@@ -9,10 +9,10 @@
 import Foundation
 import UIKit
 
-public let baseUrl = "http://slindirapp.com/web-services/index.php"
+//public let baseUrl = "http://slindirapp.com/web-services/index.php"
 public let mediaUrl = "http://slindirapp.com/web-services/media/"
 
-//public let baseUrl = "http://98.176.82.131/web-services/index.php"
+public let baseUrl = "http://98.176.82.131/web-services/index.php"
 //public let mediaUrl = "http://98.176.82.131/web-services/media/"
 //public let baseUrl = "http://18.236.52.178/web-services/index.php"
 //public let mediaUrl = "http://18.236.52.178/web-services/media/"
@@ -32,6 +32,8 @@ enum Model: String{
     case report = "report"
     
     case dislike = "dislike"
+    
+    case clientlog = "clientlog"
 }
 
 enum ServiceType: String {
@@ -40,7 +42,11 @@ enum ServiceType: String {
 }
 
 enum Services: String {
-//Login and Save User Details API's
+
+    // Client Log api
+    case log                                = "log"
+
+    //Login and Save User Details API's
     case login                              = "login"
     
     case updateProfile                      = "update-profile"

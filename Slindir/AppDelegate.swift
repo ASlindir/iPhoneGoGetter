@@ -37,7 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UserDefaults.standard.set(true, forKey: "UpdateImages")
         UserDefaults.standard.synchronize()
-        
+        ClientLog.WriteClientLog( msgType: "ios", msg:"appstart");
+
         startDate = Date()
             
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -60,7 +61,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             controller.isRootController = true
             window?.rootViewController = navigationController
         }
-        
+        else
+          ClientLog.WriteClientLog( msgType: "ios", msg:"not logged");
+
         IQKeyboardManager.shared.enable = true
         Fabric.with([Crashlytics.self])
         
@@ -105,7 +108,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.requestWhenInUseAuthorization()
+            ClientLog.WriteClientLog( msgType: "ios", msg:"startlocation");
             locationManager.startUpdatingLocation()
+            ClientLog.WriteClientLog( msgType: "ios", msg:"endlocation");
         }
         else {
             let yesAction = self.currentController.action("Go to Settings?", .default) { (action) in
@@ -146,6 +151,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     
     func sendDeviceTokenToServer() {
+        ClientLog.WriteClientLog( msgType: "ios", msg:"senddevid");
         let facebookID = LocalStore.store.getFacebookID()
         
         var parameters = Dictionary<String, Any?>()

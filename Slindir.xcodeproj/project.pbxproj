@@ -130,7 +130,7 @@
 		B4EF53651FA994E10065926D /* swipeLEFT.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B4EF53611FA985770065926D /* swipeLEFT.mp3 */; };
 		B4EF53661FA994E40065926D /* swipeRight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B4EF53621FA985770065926D /* swipeRight.mp3 */; };
 		CC465FF0220F3BE4009DF72B /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC465FEF220F3BE4009DF72B /* WelcomeViewController.swift */; };
-		CCCD9F962241281400D8B0FE /* ClientLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCCD9F952241281400D8B0FE /* ClientLog.swift */; };
+		CC706522224169A600CB2315 /* ClientLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC706521224169A500CB2315 /* ClientLog.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -349,7 +349,7 @@
 		B4EF53631FA98A010065926D /* CustomCellCenterFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomCellCenterFlowLayout.swift; path = "Custom Classes/CustomCellCenterFlowLayout.swift"; sourceTree = "<group>"; };
 		C57A96D960408742C6134D14 /* Pods-Slindir.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Slindir.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Slindir/Pods-Slindir.debug.xcconfig"; sourceTree = "<group>"; };
 		CC465FEF220F3BE4009DF72B /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
-		CCCD9F952241281400D8B0FE /* ClientLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClientLog.swift; path = "../../IphoneSlindirv2-master/Slindir/ClientLog.swift"; sourceTree = "<group>"; };
+		CC706521224169A500CB2315 /* ClientLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClientLog.swift; path = "../../baks/IphoneSlindirv2-master/Slindir/ClientLog.swift"; sourceTree = "<group>"; };
 		CE3C63750FBA69036D4ED443 /* Pods_Slindir.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Slindir.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -778,7 +778,7 @@
 		B4607C491F791FEA00635AF7 /* Helper Classes */ = {
 			isa = PBXGroup;
 			children = (
-				CCCD9F952241281400D8B0FE /* ClientLog.swift */,
+				CC706521224169A500CB2315 /* ClientLog.swift */,
 				1092D9061F86626E00EC3A71 /* BottomView.swift */,
 			);
 			name = "Helper Classes";
@@ -935,13 +935,13 @@
 					B42E1B3E1F66A169009B68E2 = {
 						CreatedOnToolsVersion = 8.3.2;
 						LastSwiftMigration = 1010;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						TestTargetID = B42E1B271F66A169009B68E2;
 					};
 					B42E1B491F66A169009B68E2 = {
 						CreatedOnToolsVersion = 8.3.2;
 						LastSwiftMigration = 1010;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						TestTargetID = B42E1B271F66A169009B68E2;
 					};
 				};
@@ -1225,7 +1225,7 @@
 				0D06B89220C2E7A6002E1703 /* JSQLocationMediaItem.m in Sources */,
 				B42A87441FA893020053B7A7 /* ProfileActivitiesCell.swift in Sources */,
 				B43614E71F74F40E0057A1D2 /* CustomSlider.swift in Sources */,
-				CCCD9F962241281400D8B0FE /* ClientLog.swift in Sources */,
+				CC706522224169A600CB2315 /* ClientLog.swift in Sources */,
 				B47E3F4A1F95C5E100A3E046 /* Loader.swift in Sources */,
 				B42A659C1F9F127B00639F6B /* FriendsListViewController.swift in Sources */,
 				0D06B89420C2E7A6002E1703 /* JSQMessage.m in Sources */,
@@ -1327,7 +1327,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = YES;
@@ -1387,9 +1387,9 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Slindir Pty Limited (72NZF773GZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Slindir Pty Limited (72NZF773GZ)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = YES;
@@ -1420,8 +1420,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_ENTITLEMENTS = Slindir/Slindir.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Slindir Pty Limited (72NZF773GZ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Slindir Pty Limited (72NZF773GZ)";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 72NZF773GZ;
@@ -1433,7 +1433,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = Automatic;
 				"PROVISIONING_PROFILE[arch=*]" = Automatic;
-				PROVISIONING_PROFILE_SPECIFIER = FHCDevDebug;
+				PROVISIONING_PROFILE_SPECIFIER = SilndirAppStore2019;
 				SWIFT_OBJC_BRIDGING_HEADER = "Slindir/Slindir-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -1461,6 +1461,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.slindir.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = Automatic;
+				"PROVISIONING_PROFILE[arch=*]" = Automatic;
 				PROVISIONING_PROFILE_SPECIFIER = SilndirAppStore2019;
 				SWIFT_OBJC_BRIDGING_HEADER = "Slindir/Slindir-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

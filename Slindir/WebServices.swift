@@ -9,10 +9,10 @@
 import Foundation
 import UIKit
 
-//public let baseUrl = "http://slindirapp.com/web-services/index.php"
+public let baseUrl = "http://slindirapp.com/web-services/index.php"
 public let mediaUrl = "http://slindirapp.com/web-services/media/"
 
-public let baseUrl = "http://98.176.82.131/web-services/index.php"
+//public let baseUrl = "http://98.176.82.131/web-services/index.php"
 //public let mediaUrl = "http://98.176.82.131/web-services/media/"
 //public let baseUrl = "http://18.236.52.178/web-services/index.php"
 //public let mediaUrl = "http://18.236.52.178/web-services/media/"
@@ -145,7 +145,7 @@ class WebServices: NSObject {
                     // check for exceptions that happened on the server... comes work but server app threw exeption
                     print(String.init(data: data!, encoding: .utf8)!)
                     print(response!)
-                    if let jsonData = data{
+            	        if let jsonData = data{
                         if (jsonData.count > 0){
                             let json = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as! Dictionary<String, 	Any>
                             let status = json["status"] as? String

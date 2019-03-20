@@ -266,7 +266,7 @@ class ViewController: UIViewController {
     @IBAction func btnLoginWithFB(_ sender: Any?){
         UserDefaults.standard.set(true, forKey: "UpdateImages")
         UserDefaults.standard.synchronize()
-        
+
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         
         self.playerController.player?.pause()
@@ -275,17 +275,20 @@ class ViewController: UIViewController {
         loginManager.logOut()
         let timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.showDemoView), userInfo: nil, repeats: false)
         
+        ClientLog.WriteClientLog( msgType: "iosfb", msg:"btnLoginFB start");
       //  loginManager.loginBehavior = .web;
         
         loginManager.logIn(withReadPermissions: ["public_profile","email","user_birthday","user_photos", "user_gender","user_age_range"], from: self) { (loginResults, error) in
             let fbloginresult : FBSDKLoginManagerLoginResult = loginResults!
             if (loginResults?.isCancelled)!{
+                ClientLog.WriteClientLog( msgType: "iosfb", msg:"logincancelled");
                 timer.invalidate()
                 self.view.sendSubviewToBack(self.vwDemo)
                 return
             }
             if(fbloginresult.grantedPermissions.contains("email")) {
                 timer.invalidate()
+                ClientLog.WriteClientLog( msgType: "iosfb", msg:"emailgranted");
                 self.view.sendSubviewToBack(self.vwDemo)
 //                print("token Permission:- \(accessToken.authenticationToken)")
 //                print("Access Token :- ",FBSDKAccessToken.current().tokenString)
@@ -294,7 +297,11 @@ class ViewController: UIViewController {
                 let welcomeController = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
                 welcomeController.accesToken = FBSDKAccessToken.current()
                 welcomeController.credential = credential
+                ClientLog.WriteClientLog( msgType: "iosfb", msg:"towelcome");
                 self.navigationController?.pushViewController(welcomeController, animated: false)
+            }
+            else{
+                ClientLog.WriteClientLog( msgType: "iosfb", msg:"emailNOTgranted");
             }
            
         }

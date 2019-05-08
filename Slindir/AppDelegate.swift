@@ -47,56 +47,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         window?.backgroundColor = UIColor.white
 //        LoginManager().logOut()
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        application.applicationIconBadgeNumber = 0
-        
-        if LocalStore.store.isLogin() {
-            FirebaseObserver.observer.observeFriendList()
-            FirebaseObserver.observer.observeFriendsRemoved()
-           
-            let controller = storyboard.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
-            let navigationController = UINavigationController(rootViewController: controller)
-            navigationController.interactivePopGestureRecognizer?.isEnabled = false
-            controller.isRootController = true
-            window?.rootViewController = navigationController
-        }
-        else{
-//ClientLog.WriteClientLog( msgType: "ios", msg:"not logged");
-        }
-        
-        IQKeyboardManager.shared.enable = true
-        Fabric.with([Crashlytics.self])
-        
-       
-        
-        if let notification = launchOptions?[.remoteNotification] as? [String: AnyObject] {
-            let apsDictionary = notification["aps"] as? [String: Any]
-            let requiredData = apsDictionary!["requiredData"] as? [String: Any]
-            let dictData = NSKeyedArchiver.archivedData(withRootObject: requiredData!)
-
-            if requiredData!["type"] as? String == "chat" {
-                UserDefaults.standard.setValue(dictData, forKey: "ChatUser")
-                UserDefaults.standard.set(true, forKey: "chatNotification")
-                UserDefaults.standard.synchronize()
-            }
-            else if requiredData!["type"] as? String == "like" {
-                UserDefaults.standard.setValue(dictData, forKey: "LikedUser")
-                UserDefaults.standard.set(true, forKey: "likedNotification")
-                UserDefaults.standard.synchronize()
-            }
-            else if requiredData!["type"] as? String == "match"  {
-                UserDefaults.standard.setValue(dictData, forKey: "matchedUser")
-                UserDefaults.standard.set(true, forKey: "matchedNotification")
-                UserDefaults.standard.synchronize()
-            }
-            else if requiredData!["type"] as? String == "new_match"  {
-                UserDefaults.standard.setValue(dictData, forKey: "newMatchedUser")
-                UserDefaults.standard.set(true, forKey: "newMatchedNotificationClicked")
-                UserDefaults.standard.set(true, forKey: "newMatchedNotification")
-                UserDefaults.standard.synchronize()
-            }
-        }
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        
+//        application.applicationIconBadgeNumber = 0
+//        
+//        if LocalStore.store.isLogin() {
+//            FirebaseObserver.observer.observeFriendList()
+//            FirebaseObserver.observer.observeFriendsRemoved()
+//           
+//            let controller = storyboard.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
+//            let navigationController = UINavigationController(rootViewController: controller)
+//            navigationController.interactivePopGestureRecognizer?.isEnabled = false
+//            controller.isRootController = true
+//            window?.rootViewController = navigationController
+//        }
+//        else{
+////ClientLog.WriteClientLog( msgType: "ios", msg:"not logged");
+//        }
+//        
+//        IQKeyboardManager.shared.enable = true
+//        Fabric.with([Crashlytics.self])
+//        
+//       
+//        
+//        if let notification = launchOptions?[.remoteNotification] as? [String: AnyObject] {
+//            let apsDictionary = notification["aps"] as? [String: Any]
+//            let requiredData = apsDictionary!["requiredData"] as? [String: Any]
+//            let dictData = NSKeyedArchiver.archivedData(withRootObject: requiredData!)
+//
+//            if requiredData!["type"] as? String == "chat" {
+//                UserDefaults.standard.setValue(dictData, forKey: "ChatUser")
+//                UserDefaults.standard.set(true, forKey: "chatNotification")
+//                UserDefaults.standard.synchronize()
+//            }
+//            else if requiredData!["type"] as? String == "like" {
+//                UserDefaults.standard.setValue(dictData, forKey: "LikedUser")
+//                UserDefaults.standard.set(true, forKey: "likedNotification")
+//                UserDefaults.standard.synchronize()
+//            }
+//            else if requiredData!["type"] as? String == "match"  {
+//                UserDefaults.standard.setValue(dictData, forKey: "matchedUser")
+//                UserDefaults.standard.set(true, forKey: "matchedNotification")
+//                UserDefaults.standard.synchronize()
+//            }
+//            else if requiredData!["type"] as? String == "new_match"  {
+//                UserDefaults.standard.setValue(dictData, forKey: "newMatchedUser")
+//                UserDefaults.standard.set(true, forKey: "newMatchedNotificationClicked")
+//                UserDefaults.standard.set(true, forKey: "newMatchedNotification")
+//                UserDefaults.standard.synchronize()
+//            }
+//        }
         
         
         return true

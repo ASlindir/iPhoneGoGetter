@@ -24,6 +24,8 @@ pod 'Crashlytics', '3.11'
 pod 'UIImage+ImageCompress'
 pod 'DACircularProgress'
 pod 'TTGSnackbar'
+pod 'FlagPhoneNumber'
+pod 'KeyboardMan'
 # Pods for Slindir
 
 

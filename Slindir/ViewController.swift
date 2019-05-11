@@ -44,6 +44,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var constraintGreenBackTop: NSLayoutConstraint!
     @IBOutlet weak var btnFacebook: UIButton!
+    @IBOutlet weak var btnPhoneNumber: CustomButton!
     
     let mask = CAGradientLayer()
 
@@ -68,6 +69,7 @@ class ViewController: UIViewController {
         gifImages = ["ForActiveSmall.gif","PersonalityTypeMatching.gif","browser.gif"]
         animateTitle()
         btnFacebook.alpha = 0
+        btnPhoneNumber.alpha = 0
         imgViewCircleGif.alpha = 0
         imgViewIcons.alpha = 0
         addingImagesInArray()
@@ -82,6 +84,7 @@ class ViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         btnFacebook.layer.cornerRadius = btnFacebook.frame.size.height/2
+        btnPhoneNumber.layer.cornerRadius = btnPhoneNumber.frame.size.height/2
         mask.frame = viewFade.bounds
         if playerController.player?.status == AVPlayer.Status.readyToPlay {
             playerController.player?.play()
@@ -307,6 +310,13 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func btnLoginWithPhoneNumber(_ sender: Any) {
+        if let newViewController = UIStoryboard(name: "SignIn", bundle:nil).instantiateViewController(withIdentifier: "SignInViewController") as? SignInViewController {
+            self.present(newViewController, animated: true, completion: nil)
+//            UIApplication.shared.keyWindow?.rootViewController = newViewController
+        }
+    }
+    
     @IBAction func BtnTermsAndConditions(_ sender: Any) {
         UIApplication.shared.open((URL(string: "http://slindir.com/terms-of-use/")!), options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
     }
@@ -392,9 +402,14 @@ extension ViewController : SwiftyGifDelegate {
     func showFbButton(){
         
         self.btnFacebook.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        self.btnPhoneNumber.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        
         UIView.animate(withDuration: 1, animations: {
             self.btnFacebook.transform = CGAffineTransform.identity
             self.btnFacebook.alpha = 1
+            
+            self.btnPhoneNumber.transform = CGAffineTransform.identity
+            self.btnPhoneNumber.alpha = 1
         }) { (completed: Bool) in
             self.fbBtnTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.fbBtnAnimation), userInfo: nil, repeats: true)
         }
@@ -403,15 +418,19 @@ extension ViewController : SwiftyGifDelegate {
     @objc func fbBtnAnimation(){
         UIView.animate(withDuration: 0.3, animations: {
             self.btnFacebook.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+//            self.btnPhoneNumber.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         }) { (completed: Bool) in
             UIView.animate(withDuration: 0.3, animations: {
                 self.btnFacebook.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+//                self.btnPhoneNumber.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
             }, completion: { (completed: Bool) in
                 UIView.animate(withDuration: 0.3, animations: {
                     self.btnFacebook.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+//                    self.btnPhoneNumber.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
                 }) { (completed: Bool) in
                     UIView.animate(withDuration: 0.3, animations: {
                         self.btnFacebook.transform = .identity
+//                        self.btnPhoneNumber.transform = .identity
                     }, completion: { (completed: Bool) in
                     })
                 }

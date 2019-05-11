@@ -97,6 +97,12 @@ enum Services: String {
     case endUserDetail                      = "get-end-user-details"
     
     case uploadVideoAndThumbnail            = "upload-profile-video"
+    
+    case checkPhone                         = "checkPhone"
+    
+    case sendPhoneCode                      = "sendPhoneCode"
+    
+    case registernewuser                    = "registernewuser"
 }
 
 class CommError {

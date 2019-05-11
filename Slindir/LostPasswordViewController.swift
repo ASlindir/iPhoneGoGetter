@@ -60,6 +60,11 @@ class LostPasswordViewController: FormViewController {
         outAlert(title: "Test", message: "linkForgotCode")
     }
     
+    @IBAction func btnClose(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
     // MARK: - Delegates
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

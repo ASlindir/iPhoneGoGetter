@@ -47,56 +47,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         window?.backgroundColor = UIColor.white
 //        LoginManager().logOut()
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        
-//        application.applicationIconBadgeNumber = 0
-//        
-//        if LocalStore.store.isLogin() {
-//            FirebaseObserver.observer.observeFriendList()
-//            FirebaseObserver.observer.observeFriendsRemoved()
-//           
-//            let controller = storyboard.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
-//            let navigationController = UINavigationController(rootViewController: controller)
-//            navigationController.interactivePopGestureRecognizer?.isEnabled = false
-//            controller.isRootController = true
-//            window?.rootViewController = navigationController
-//        }
-//        else{
-////ClientLog.WriteClientLog( msgType: "ios", msg:"not logged");
-//        }
-//        
-//        IQKeyboardManager.shared.enable = true
-//        Fabric.with([Crashlytics.self])
-//        
-//       
-//        
-//        if let notification = launchOptions?[.remoteNotification] as? [String: AnyObject] {
-//            let apsDictionary = notification["aps"] as? [String: Any]
-//            let requiredData = apsDictionary!["requiredData"] as? [String: Any]
-//            let dictData = NSKeyedArchiver.archivedData(withRootObject: requiredData!)
-//
-//            if requiredData!["type"] as? String == "chat" {
-//                UserDefaults.standard.setValue(dictData, forKey: "ChatUser")
-//                UserDefaults.standard.set(true, forKey: "chatNotification")
-//                UserDefaults.standard.synchronize()
-//            }
-//            else if requiredData!["type"] as? String == "like" {
-//                UserDefaults.standard.setValue(dictData, forKey: "LikedUser")
-//                UserDefaults.standard.set(true, forKey: "likedNotification")
-//                UserDefaults.standard.synchronize()
-//            }
-//            else if requiredData!["type"] as? String == "match"  {
-//                UserDefaults.standard.setValue(dictData, forKey: "matchedUser")
-//                UserDefaults.standard.set(true, forKey: "matchedNotification")
-//                UserDefaults.standard.synchronize()
-//            }
-//            else if requiredData!["type"] as? String == "new_match"  {
-//                UserDefaults.standard.setValue(dictData, forKey: "newMatchedUser")
-//                UserDefaults.standard.set(true, forKey: "newMatchedNotificationClicked")
-//                UserDefaults.standard.set(true, forKey: "newMatchedNotification")
-//                UserDefaults.standard.synchronize()
-//            }
-//        }
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        application.applicationIconBadgeNumber = 0
+        
+        if LocalStore.store.isLogin() {
+            FirebaseObserver.observer.observeFriendList()
+            FirebaseObserver.observer.observeFriendsRemoved()
+           
+            let controller = storyboard.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
+            let navigationController = UINavigationController(rootViewController: controller)
+            navigationController.interactivePopGestureRecognizer?.isEnabled = false
+            controller.isRootController = true
+            window?.rootViewController = navigationController
+        }
+        else{
+//ClientLog.WriteClientLog( msgType: "ios", msg:"not logged");
+        }
+        
+        IQKeyboardManager.shared.enable = true
+        Fabric.with([Crashlytics.self])
+        
+       
+        
+        if let notification = launchOptions?[.remoteNotification] as? [String: AnyObject] {
+            let apsDictionary = notification["aps"] as? [String: Any]
+            let requiredData = apsDictionary!["requiredData"] as? [String: Any]
+            let dictData = NSKeyedArchiver.archivedData(withRootObject: requiredData!)
+
+            if requiredData!["type"] as? String == "chat" {
+                UserDefaults.standard.setValue(dictData, forKey: "ChatUser")
+                UserDefaults.standard.set(true, forKey: "chatNotification")
+                UserDefaults.standard.synchronize()
+            }
+            else if requiredData!["type"] as? String == "like" {
+                UserDefaults.standard.setValue(dictData, forKey: "LikedUser")
+                UserDefaults.standard.set(true, forKey: "likedNotification")
+                UserDefaults.standard.synchronize()
+            }
+            else if requiredData!["type"] as? String == "match"  {
+                UserDefaults.standard.setValue(dictData, forKey: "matchedUser")
+                UserDefaults.standard.set(true, forKey: "matchedNotification")
+                UserDefaults.standard.synchronize()
+            }
+            else if requiredData!["type"] as? String == "new_match"  {
+                UserDefaults.standard.setValue(dictData, forKey: "newMatchedUser")
+                UserDefaults.standard.set(true, forKey: "newMatchedNotificationClicked")
+                UserDefaults.standard.set(true, forKey: "newMatchedNotification")
+                UserDefaults.standard.synchronize()
+            }
+        }
         
         
         return true
@@ -320,22 +320,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     // Below Mehtod will print error if not able to update location.
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {        
-        let yesAction = self.currentController.action("Go to Settings?", .default) { (action) in
-            //UIApplication.shared.open(URL(string:"prefs:root=LOCATION_SERVICES")!, options: [:], completionHandler: nil)
-            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
-                return
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        if self.currentController != nil {
+            let yesAction = self.currentController.action("Go to Settings?", .default) { (action) in
+                //UIApplication.shared.open(URL(string:"prefs:root=LOCATION_SERVICES")!, options: [:], completionHandler: nil)
+                guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                    return
+                }
+                
+                if UIApplication.shared.canOpenURL(settingsUrl) {
+                    UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                        print("Settings opened: \(success)") // Prints true
+                    })
+                }
             }
             
-            if UIApplication.shared.canOpenURL(settingsUrl) {
-                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-                    print("Settings opened: \(success)") // Prints true
-                })
-            }
+            let noAction = self.currentController.action("Cancel", .cancel) { (action) in                    }
+            self.currentController.showAlertWithCustomButtons("", "Apologies but we need to access your location in order to find matches in your area. Please enable location from your device settings.", yesAction,noAction)
         }
-        
-        let noAction = self.currentController.action("Cancel", .cancel) { (action) in                    }
-        self.currentController.showAlertWithCustomButtons("", "Apologies but we need to access your location in order to find matches in your area. Please enable location from your device settings.", yesAction,noAction)
     }
     
     func saveUserLocation() {

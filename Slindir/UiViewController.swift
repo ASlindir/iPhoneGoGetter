@@ -18,4 +18,12 @@ extension UIViewController {
         
         self.present(alertController, animated: true, completion: nil)
     }
+    
+    func outAlertError(message: String?, compliteHandler: (() -> Void)? = nil) {
+        outAlert(title: "Error", message: message, compliteHandler: compliteHandler)
+    }
+    
+    func outAlertSuccess(message: String?, compliteHandler: (() -> Void)? = nil) {
+        outAlert(title: "Success", message: message, compliteHandler: compliteHandler)
+    }
 }

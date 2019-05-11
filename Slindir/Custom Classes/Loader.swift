@@ -14,7 +14,7 @@ import NVActivityIndicatorView
 class Loader: NSObject {
     
 //MARK:-  Init Methods
-    static let sharedLoader = Loader()
+    static var sharedLoader = Loader()
     
     private override init(){
         super.init()
@@ -55,6 +55,10 @@ class Loader: NSObject {
     ///
     /// - Parameter animated: This paramter is for animation. To enable animation return true else false, Default value is false
     class func startLoader(_ animated: Bool){
+        Loader.sharedLoader.loaderView.removeFromSuperview()
+        Loader.sharedLoader.blackView.removeFromSuperview()
+        Loader.sharedLoader = Loader()
+        
         DispatchQueue.main.async {
             var duration = 0.3
             if animated{
@@ -72,6 +76,14 @@ class Loader: NSObject {
                 })
             }
         }
+    }
+    
+    class func startLoaderV2(_ animated: Bool){
+        Loader.sharedLoader.loaderView.removeFromSuperview()
+        Loader.sharedLoader.blackView.removeFromSuperview()
+        Loader.sharedLoader = Loader()
+        
+        startLoader(animated)
     }
     
     

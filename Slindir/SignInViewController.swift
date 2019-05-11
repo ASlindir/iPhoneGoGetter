@@ -22,6 +22,10 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
     var editPasswordHeightConstraintDefault: CGFloat = 0.0
     var editPasswordTopConstraintDefault: CGFloat = 0.0
     
+    // internal
+    var isValidNumber: Bool = false
+    var isValidNumberFromServer: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,6 +34,9 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
             editPassword,
             editPhone
             ])
+        
+        // buttons
+        btnContinue.isHidden = true
         
         // set default constraint
         editPasswordHeightConstraintDefault = editPasswordHeightConstraint.constant
@@ -55,17 +62,65 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
         editPhone.layer.borderWidth = 1.5
         editPhone.layer.cornerRadius = 7.0
         editPhone.delegate = self
+        
+        // test values
+//        editPhone.setFlag(for: .RU)
+//        editPhone.set(phoneNumber: "+79315994974")
+//        editPhone.set(phoneNumber: "+79162584786")
+        
+        // text fields
+        editPassword.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
+    }
+    
+    private func validateForm() {
+//        btnContinue.isHidden = !isValidNumber || editPassword.text == nil || editPassword.text!.isEmpty
+        btnContinue.isHidden = !isValidNumber
     }
 
     // MARK: - Touches
     
     @IBAction func linkForgotPassword(_ sender: Any) {
-        outAlert(title: "Test", message: "linkForgotPassword")
+        if let newViewController = UIStoryboard(name: "SignIn", bundle:nil).instantiateViewController(withIdentifier: "PhoneViewController") as? PhoneViewController {
+            self.navigationController?.pushViewController(newViewController, animated: true)
+        }
     }
     
     @IBAction func btnContinue(_ sender: Any) {
-        outAlert(title: "Test", message: "btnContinue")
+//        outAlert(title: "Test", message: "btnContinue")
+//        dismiss(animated: true, completion: nil)
+
+        var parameters = Dictionary<String, Any?>()
+        
+        let code = editPhone.getFormattedPhoneNumber(format: .International)?.split(separator: " ")[0]
+        parameters["phone_number"] = "\(code!) \(editPhone.text!)"
+        
+        Loader.startLoaderV2(true)
+        
+        WebServices.service.webServicePostRequest(.post, .user, .checkPhone, parameters as Dictionary<String, Any>, successHandler: { (response) in
+            let jsonData = response
+            let status = jsonData!["status"] as! String
+            
+            Loader.stopLoader()
+            
+            if status == "success"{
+                self.isValidNumberFromServer = true
+            }else{
+                self.isValidNumberFromServer = false
+                
+                if let newViewController = UIStoryboard(name: "SignIn", bundle:nil).instantiateViewController(withIdentifier: "SignUpViewController") as? SignUpViewController {
+                    newViewController.currentPhoneNumber = parameters["phone_number"] as? String
+                    self.present(newViewController, animated: true, completion: nil)
+                }
+            }
+            
+        }, errorHandler: { (error) in
+        })
     }
+    
+    @IBAction func btnClose(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     
     // MARK: - Delegates
     
@@ -75,8 +130,8 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
     
     func fpnDidValidatePhoneNumber(textField: FPNTextField, isValid: Bool) {
         if isValid {
-            editPasswordHeightConstraint.constant = editPasswordHeightConstraintDefault
-            edotPasswordTopConstraint.constant = editPasswordTopConstraintDefault
+//            editPasswordHeightConstraint.constant = editPasswordHeightConstraintDefault
+//            edotPasswordTopConstraint.constant = editPasswordTopConstraintDefault
             
             // For next step...
             //            textField.getFormattedPhoneNumber(format: .E164),           // Output "+33600000001"
@@ -85,9 +140,18 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
             //            textField.getFormattedPhoneNumber(format: .RFC3966),        // Output "tel:+33-6-00-00-00-01"
             //            textField.getRawPhoneNumber()                               // Output "600000001"
         } else {
-            editPasswordHeightConstraint.constant = 0.0
-            edotPasswordTopConstraint.constant = 0.0
-            editPassword.text = ""
+//            editPasswordHeightConstraint.constant = 0.0
+//            edotPasswordTopConstraint.constant = 0.0
+//            editPassword.text = ""
         }
+        
+        // set state
+        isValidNumber = isValid
+        validateForm()
+    }
+    
+    @objc override func textFieldDidChange(_ textField: UITextField) {
+        super.textFieldDidChange(textField)
+        validateForm()
     }
 }

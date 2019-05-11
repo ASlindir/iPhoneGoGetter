@@ -62,6 +62,10 @@ class ChangePhoneViewController: FormViewController, FPNTextFieldDelegate {
         outAlert(title: "Test", message: "btnContinue")
     }
     
+    @IBAction func btnClose(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     
     // MARK: - Delegates
     

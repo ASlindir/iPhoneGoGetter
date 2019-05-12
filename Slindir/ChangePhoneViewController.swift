@@ -9,7 +9,7 @@
 import UIKit
 import FlagPhoneNumber
 
-class ChangePhoneViewController: FormViewController, FPNTextFieldDelegate {
+class ChangePhoneViewController: FormViewController, FPNTextFieldDelegate, EmailCodeViewControllerProtocol {
     @IBOutlet weak var lblInstructs: UILabel!
     
     @IBOutlet weak var btnContinue: UIButton!
@@ -30,8 +30,14 @@ class ChangePhoneViewController: FormViewController, FPNTextFieldDelegate {
             editNewPhone
             ])
         
-        // buttons
-        btnContinue.isHidden = true
+        // test values
+//        editOldPhone.setFlag(for: .RU)
+//        editNewPhone.setFlag(for: .RU)
+//        editOldPhone.set(phoneNumber: "+79315994974")
+//        editNewPhone.set(phoneNumber: "+79162584786")
+        
+        // validate form
+        validateForm()
     }
     
     override func viewDidLayoutSubviews() {
@@ -56,10 +62,45 @@ class ChangePhoneViewController: FormViewController, FPNTextFieldDelegate {
         editField.delegate = self
     }
     
+    private func validateForm() {
+        btnContinue.isHidden = !isValidateNewPhone || !isValidateOldPhone
+    }
+    
+    private func getPhoneNumber(textField: FPNTextField) -> String? {
+        let code = textField.getFormattedPhoneNumber(format: .International)?.split(separator: " ")[0]
+        return "\(code!) \(textField.text!)"
+    }
+    
     // MARK: - Touches
     
     @IBAction func btnContinue(_ sender: Any) {
-        outAlert(title: "Test", message: "btnContinue")
+        Loader.startLoaderV2(true)
+        
+        var parameters = Dictionary<String, Any?>()
+        parameters["phone_number_old"] = getPhoneNumber(textField: editOldPhone)
+        
+        WebServices.service.webServicePostRequest(.post, .user, .requestMailCode, parameters as Dictionary<String, Any>, successHandler: { (response) in
+            let jsonData = response
+            let status = jsonData!["status"] as! String
+
+            Loader.stopLoader()
+
+            if status == "success"{
+                if let newViewController = UIStoryboard(name: "SignIn", bundle:nil).instantiateViewController(withIdentifier: "EmailCodeViewController") as? EmailCodeViewController {
+                    newViewController.currentOldPhoneNumber = self.getPhoneNumber(textField: self.editOldPhone)
+                    newViewController.currentNewPhoneNumber = self.getPhoneNumber(textField: self.editNewPhone)
+                    newViewController.delegate = self
+                    self.present(newViewController, animated: true)
+                }
+            } else {
+                self.outAlertError(message: "We could not find an account for the old phone number, please check the number and try again")
+            }
+
+            self.validateForm()
+
+        }, errorHandler: { (error) in
+            self.outAlertError(message: "We were unable to request a mail code please try again later: \(error.debugDescription)")
+        })
     }
     
     @IBAction func btnClose(_ sender: Any) {
@@ -81,10 +122,10 @@ class ChangePhoneViewController: FormViewController, FPNTextFieldDelegate {
             isValidateNewPhone = isValid
         }
         
-        if isValidateOldPhone && isValidateNewPhone {
-            btnContinue.isHidden = false
-        } else {
-            btnContinue.isHidden = true
-        }
+        validateForm()
+    }
+    
+    func didClose() {
+        self.dismiss(animated: true, completion: nil)
     }
 }

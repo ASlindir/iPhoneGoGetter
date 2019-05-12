@@ -15,6 +15,7 @@ class PhoneViewController: FormViewController {
     @IBOutlet weak var btnRegister: UIButton!
     @IBOutlet weak var linkNewCode: UIButton!
     
+    var currentPhoneNumber: String? = nil
     var currentUser: SignUpViewController.UserForm? = nil
     
     override func viewDidLoad() {
@@ -40,6 +41,9 @@ class PhoneViewController: FormViewController {
         
         // text fields
         editPhoneCode.delegate = self
+        
+        // labels
+        lblPhone.text = currentPhoneNumber
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -67,22 +71,35 @@ class PhoneViewController: FormViewController {
                 }
                 
             }, errorHandler: { (error) in
-                print(111)
+                self.outAlertError(message: "Could not register because of communication error, please try again later: \(error.debugDescription)")
             })
         } else {
+            Loader.stopLoader()
             self.outAlertError(message: "Phone number is null")
         }
+    }
+    
+    private func authFirebaseForPhoneLogin(token: String?, userDetails: String?) {
+        // TODO: Firebase auth and save token.
+        
+        self.outAlertSuccess(message: "Congrats!!! Firebase auth and save token!", compliteHandler: {
+            // save token and etc
+            let welcomeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WelcomeViewController") as? WelcomeViewController
+            
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.window!.rootViewController = welcomeViewController
+        })
     }
     
     // MARK: - Touches
     
     @IBAction func btnRegister(_ sender: Any) {
         if editPhoneCode.text == nil || editPhoneCode.text!.isEmpty || editPhoneCode.text!.count < 6 {
-            outAlertError(message: "Your code is empty or < 6 symbols")
+            outAlertError(message: "The phone code must be 6 characters")
         } else {
-            Loader.startLoaderV2(true)
-
             if currentUser?.phoneNumber != nil {
+                Loader.startLoaderV2(true)
+                
                 var parameters = Dictionary<String, Any?>()
                 parameters["phone_number"] = currentUser?.phoneNumber
                 parameters["phone_code"] = editPhoneCode.text
@@ -97,27 +114,24 @@ class PhoneViewController: FormViewController {
                 WebServices.service.webServicePostRequest(.post, .user, .registernewuser, parameters as Dictionary<String, Any>, successHandler: { (response) in
                     let jsonData = response
                     let status = jsonData!["status"] as! String
+                    let token = jsonData?["token"] as? String
+                    let userDetails = jsonData?["userDetails"] as? String
 
                     Loader.stopLoader()
 
                     if status == "success" {
-                        self.outAlertSuccess(message: "Congrats!!! Enter firebase code!", compliteHandler: {
-                            // save token and etc
-                            let welcomeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WelcomeViewController") as? WelcomeViewController
-                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                            
-                            appDelegate.window!.rootViewController = welcomeViewController
-                        })
+                        self.authFirebaseForPhoneLogin(token: token, userDetails: userDetails)
                     } else if status == "duplicate" {
-                        self.outAlertSuccess(message: "Registration phone number is already registered, go back to login and click 'forgot password help' if you don't remember your password")
+                        self.outAlertError(message: "Registration phone number is already registered, go back to login and click 'forgot password help' if you don't remember your password")
                     } else {
                         self.outAlertError(message: "Registration failed: \(status)")
                     }
 
                 }, errorHandler: { (error) in
-                    print(111)
+                    self.outAlertError(message: "Could not register because of communication error, please try again later: \(error.debugDescription)")
                 })
             } else {
+                Loader.stopLoader()
                 self.outAlertError(message: "Phone number is null")
             }
         }

@@ -35,15 +35,22 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
             editPhone
             ])
         
-        // buttons
-        btnContinue.isHidden = true
-        
         // set default constraint
         editPasswordHeightConstraintDefault = editPasswordHeightConstraint.constant
         editPasswordHeightConstraint.constant = 0.0
         
         editPasswordTopConstraintDefault = edotPasswordTopConstraint.constant
         edotPasswordTopConstraint.constant = 0.0
+        
+        // test values
+        editPhone.setFlag(for: .RU)
+//        editPhone.set(phoneNumber: "+79315994974")
+//        editPhone.set(phoneNumber: "+79162584277")
+//                editPhone.set(phoneNumber: "+79162584786")
+//        editPassword.text = "123456789"
+//        isValidNumber = true
+//        isValidNumberFromServer = true
+        validateForm()
     }
 
     override func viewDidLayoutSubviews() {
@@ -63,58 +70,125 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
         editPhone.layer.cornerRadius = 7.0
         editPhone.delegate = self
         
-        // test values
-//        editPhone.setFlag(for: .RU)
-//        editPhone.set(phoneNumber: "+79315994974")
-//        editPhone.set(phoneNumber: "+79162584786")
-        
         // text fields
         editPassword.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
     }
     
     private func validateForm() {
-//        btnContinue.isHidden = !isValidNumber || editPassword.text == nil || editPassword.text!.isEmpty
         btnContinue.isHidden = !isValidNumber
+            || (isValidNumberFromServer && editPassword.text?.isEmpty ?? true)
+        
+        if isValidNumberFromServer {
+            linkForgotPassword.setTitle("Forgot password? Click here", for: .normal)
+            linkForgotPassword.underline()
+        } else {
+            linkForgotPassword.setTitle("Phone number changed?  Click here", for: .normal)
+            linkForgotPassword.underline()
+        }
+        
+        hiddenPassword(hidden: !isValidNumberFromServer)
+    }
+    
+    private func hiddenPassword(hidden: Bool) {
+        if hidden {
+            editPasswordHeightConstraint.constant = 0.0
+            edotPasswordTopConstraint.constant = 0.0
+            editPassword.text = ""
+        } else {
+            editPasswordHeightConstraint.constant = editPasswordHeightConstraintDefault
+            edotPasswordTopConstraint.constant = editPasswordTopConstraintDefault
+        }
+    }
+    
+    private func getPhoneNumber() -> String? {
+        let code = editPhone.getFormattedPhoneNumber(format: .International)?.split(separator: " ")[0]
+        return "\(code!) \(editPhone.text!)"
+    }
+    
+    private func authFirebaseForPhoneLogin(token: String) {
+        // TODO: Firebase auth and save token.
+        
+        self.outAlertSuccess(message: "Congrats!!! Firebase auth and save token!", compliteHandler: {
+            // save token and etc
+            let welcomeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WelcomeViewController") as? WelcomeViewController
+            
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.window!.rootViewController = welcomeViewController
+        })
     }
 
     // MARK: - Touches
     
     @IBAction func linkForgotPassword(_ sender: Any) {
-        if let newViewController = UIStoryboard(name: "SignIn", bundle:nil).instantiateViewController(withIdentifier: "PhoneViewController") as? PhoneViewController {
-            self.navigationController?.pushViewController(newViewController, animated: true)
+        if isValidNumberFromServer {
+            if let newViewController = UIStoryboard(name: "SignIn", bundle:nil).instantiateViewController(withIdentifier: "LostPasswordViewController") as? LostPasswordViewController {
+                newViewController.currentPhoneNumber = getPhoneNumber()
+                self.present(newViewController, animated: true)
+            }
+            
+        } else {
+            if let newViewController = UIStoryboard(name: "SignIn", bundle:nil).instantiateViewController(withIdentifier: "ChangePhoneViewController") as? ChangePhoneViewController {
+                self.present(newViewController, animated: true)
+            }
         }
     }
     
     @IBAction func btnContinue(_ sender: Any) {
-//        outAlert(title: "Test", message: "btnContinue")
-//        dismiss(animated: true, completion: nil)
-
-        var parameters = Dictionary<String, Any?>()
+        hideKeyboard()
         
-        let code = editPhone.getFormattedPhoneNumber(format: .International)?.split(separator: " ")[0]
-        parameters["phone_number"] = "\(code!) \(editPhone.text!)"
+        var parameters = Dictionary<String, Any?>()
+        parameters["phone_number"] = getPhoneNumber()
         
         Loader.startLoaderV2(true)
         
-        WebServices.service.webServicePostRequest(.post, .user, .checkPhone, parameters as Dictionary<String, Any>, successHandler: { (response) in
-            let jsonData = response
-            let status = jsonData!["status"] as! String
-            
-            Loader.stopLoader()
-            
-            if status == "success"{
-                self.isValidNumberFromServer = true
-            }else{
-                self.isValidNumberFromServer = false
+        if !isValidNumberFromServer {
+            WebServices.service.webServicePostRequest(.post, .user, .checkPhone, parameters as Dictionary<String, Any>, successHandler: { (response) in
+                let jsonData = response
+                let status = jsonData!["status"] as! String
                 
-                if let newViewController = UIStoryboard(name: "SignIn", bundle:nil).instantiateViewController(withIdentifier: "SignUpViewController") as? SignUpViewController {
-                    newViewController.currentPhoneNumber = parameters["phone_number"] as? String
-                    self.present(newViewController, animated: true, completion: nil)
+                Loader.stopLoader()
+                
+                if status == "success"{
+                    self.isValidNumberFromServer = true
+                }else{
+                    self.isValidNumberFromServer = false
+                    
+                    if let newViewController = UIStoryboard(name: "SignIn", bundle:nil).instantiateViewController(withIdentifier: "SignUpViewController") as? SignUpViewController {
+                        newViewController.currentPhoneNumber = parameters["phone_number"] as? String
+                        self.present(newViewController, animated: true, completion: nil)
+                    }
                 }
-            }
+                
+                self.validateForm()
+                
+            }, errorHandler: { (error) in
+                Loader.stopLoader()
+                self.outAlertError(message: "We could not check your phone please try again: \(error.debugDescription)")
+            })
+        } else {
+            parameters["password"] = editPassword.text
+            parameters["device_type"] = "A"
+            parameters["device_id"] = UserDefaults.standard.value(forKey: "device_token") as? String
             
-        }, errorHandler: { (error) in
-        })
+            WebServices.service.webServicePostRequest(.post, .user, .loginPhone, parameters as Dictionary<String, Any>, successHandler: { (response) in
+                let jsonData = response
+                let status = jsonData!["status"] as! String
+                let token = jsonData!["token"] as? String
+                
+                Loader.stopLoader()
+                
+                if status == "success" && token != nil {
+                    self.authFirebaseForPhoneLogin(token: token!)
+                } else if (status == "duplicate"){
+                    self.outAlertError(message: "Registration phone number is already registered, go back to login and click 'forgot password help' if you don't remember your password")
+                } else {
+                    self.outAlertError(message: "Login failed, wrong phone number or password")
+                }
+            }, errorHandler: { (error) in
+                Loader.stopLoader()
+                self.outAlertError(message: "Login failed: \(error.debugDescription)")
+            })
+        }
     }
     
     @IBAction func btnClose(_ sender: Any) {
@@ -129,22 +203,6 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
     }
     
     func fpnDidValidatePhoneNumber(textField: FPNTextField, isValid: Bool) {
-        if isValid {
-//            editPasswordHeightConstraint.constant = editPasswordHeightConstraintDefault
-//            edotPasswordTopConstraint.constant = editPasswordTopConstraintDefault
-            
-            // For next step...
-            //            textField.getFormattedPhoneNumber(format: .E164),           // Output "+33600000001"
-            //            textField.getFormattedPhoneNumber(format: .International),  // Output "+33 6 00 00 00 01"
-            //            textField.getFormattedPhoneNumber(format: .National),       // Output "06 00 00 00 01"
-            //            textField.getFormattedPhoneNumber(format: .RFC3966),        // Output "tel:+33-6-00-00-00-01"
-            //            textField.getRawPhoneNumber()                               // Output "600000001"
-        } else {
-//            editPasswordHeightConstraint.constant = 0.0
-//            edotPasswordTopConstraint.constant = 0.0
-//            editPassword.text = ""
-        }
-        
         // set state
         isValidNumber = isValid
         validateForm()
@@ -152,6 +210,11 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
     
     @objc override func textFieldDidChange(_ textField: UITextField) {
         super.textFieldDidChange(textField)
+        
+        if textField == editPhone {
+            isValidNumberFromServer = false
+        }
+        
         validateForm()
     }
 }

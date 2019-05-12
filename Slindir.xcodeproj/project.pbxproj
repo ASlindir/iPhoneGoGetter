@@ -90,6 +90,7 @@
 		84694F4322830376007AB8BA /* PhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84694F3E22830376007AB8BA /* PhoneViewController.swift */; };
 		84694F4422830376007AB8BA /* LostPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84694F3F22830376007AB8BA /* LostPasswordViewController.swift */; };
 		84694F4622830381007AB8BA /* SignIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84694F4522830381007AB8BA /* SignIn.storyboard */; };
+		847418C92287C4E0001A89FA /* EmailCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847418C82287C4E0001A89FA /* EmailCodeViewController.swift */; };
 		AD40EC42AE5CDF8A1A55557D /* Pods_Slindir.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE3C63750FBA69036D4ED443 /* Pods_Slindir.framework */; };
 		B403784A1F6B981F009C9D34 /* CustomClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40378491F6B981F009C9D34 /* CustomClass.swift */; };
 		B403784D1F6BDF25009C9D34 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B403784C1F6BDF25009C9D34 /* ProfileViewController.swift */; };
@@ -313,6 +314,7 @@
 		84694F3E22830376007AB8BA /* PhoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneViewController.swift; sourceTree = "<group>"; };
 		84694F3F22830376007AB8BA /* LostPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LostPasswordViewController.swift; sourceTree = "<group>"; };
 		84694F4522830381007AB8BA /* SignIn.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SignIn.storyboard; sourceTree = "<group>"; };
+		847418C82287C4E0001A89FA /* EmailCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailCodeViewController.swift; sourceTree = "<group>"; };
 		A24310339104D2C31C2C86F9 /* Pods-SlindirUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SlindirUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SlindirUITests/Pods-SlindirUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B12BFE3D849592C9C03109E1 /* Pods-SlindirTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SlindirTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SlindirTests/Pods-SlindirTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B40378491F6B981F009C9D34 /* CustomClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomClass.swift; path = "Custom Classes/CustomClass.swift"; sourceTree = "<group>"; };
@@ -677,6 +679,7 @@
 				84694F3F22830376007AB8BA /* LostPasswordViewController.swift */,
 				84694F3B22830375007AB8BA /* SignUpViewController.swift */,
 				84694F3E22830376007AB8BA /* PhoneViewController.swift */,
+				847418C82287C4E0001A89FA /* EmailCodeViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1307,6 +1310,7 @@
 				0D06B88D20C2E7A6002E1703 /* JSQMessagesBubblesSizeCalculator.m in Sources */,
 				84694F4222830376007AB8BA /* ChangePhoneViewController.swift in Sources */,
 				B440A14D1F6A421E008C58C7 /* Extension.swift in Sources */,
+				847418C92287C4E0001A89FA /* EmailCodeViewController.swift in Sources */,
 				B42E1B341F66A169009B68E2 /* Slindir.xcdatamodeld in Sources */,
 				0D06B87F20C2E7A6002E1703 /* UIColor+JSQMessages.m in Sources */,
 				0D06B88E20C2E7A6002E1703 /* JSQMessagesCollectionViewFlowLayout.m in Sources */,

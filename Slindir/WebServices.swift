@@ -103,6 +103,14 @@ enum Services: String {
     case sendPhoneCode                      = "sendPhoneCode"
     
     case registernewuser                    = "registernewuser"
+    
+    case requestMailCode                    = "requestMailCode"
+    
+    case loginPhone                         = "loginPhone"
+    
+    case checkEmailCode                     = "checkEmailCode"
+    
+    case changePassword                     = "changePassword"
 }
 
 class CommError {

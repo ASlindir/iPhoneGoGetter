@@ -167,6 +167,7 @@ class SignUpViewController: FormViewController {
             || editPassword2.text?.isEmpty ?? false
             || currentGender == nil
             || currentData == nil
+            || editPassword1.text?.count ?? 0 < 8
             || editPassword1.text != editPassword2.text
     }
 
@@ -177,6 +178,7 @@ class SignUpViewController: FormViewController {
         
         if let newViewController = UIStoryboard(name: "SignIn", bundle:nil).instantiateViewController(withIdentifier: "PhoneViewController") as? PhoneViewController
         {
+            newViewController.currentPhoneNumber = currentPhoneNumber
             newViewController.currentUser = userForm
             self.present(newViewController, animated: true)
         }

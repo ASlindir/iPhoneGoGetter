@@ -1,4 +1,4 @@
-//
+	//
 //  WelcomeViewController.swift
 //  Slindir
 //
@@ -46,6 +46,8 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
     
     var userDetails:Dictionary<String,Any>?
     var accesToken: FBSDKAccessToken?
+    var customAccessToken = ""
+    var fbLoginType = 0
     
     var arrayTitles = [String]()
     var arrayImages = [UIImage]()
@@ -92,7 +94,12 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
             if CustomClass.sharedInstance.isAudioPlay{
                 CustomClass.sharedInstance.stopAudio()
             }
-            getDataFromFB()
+            if (fbLoginType==0){ // fb, 1 phone, 2, registering
+               getDataFromFB();
+            }
+            else{
+                launchPhoneUser();
+            }
             btnLetsStarted.alpha = 0
             lblDescription.alpha = 0
             collectonView.alpha = 0
@@ -235,8 +242,97 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         
     }
     
+    func doLoadUserWithUserDetails(jsonData : Dictionary<String, Any>, doBrains: Bool){
+        Loader.stopLoader()
+        DispatchQueue.main.async {
+            if let userDetails = jsonData!["userDetails"] as? Dictionary<String, Any> {
+                let del = UIApplication.shared.delegate as! AppDelegate
+                if del.latitude != 0.0 && del.longitude != 0.0 {
+                    del.saveUserLocation()
+                }
+                if let profile_video = userDetails["profile_video"] as? String {
+                    if profile_video != ""{
+                        self.writeVideo(profile_video)
+                    }
+                }
+                print(userDetails)
+                let dictData = NSKeyedArchiver.archivedData(withRootObject: userDetails)
+                LocalStore.store.saveUserDetails = dictData
+                self.loadProfileImagesInCache(userDetails)
     
+                LocalStore.store.login = true;
+                LocalStore.store.appNotFirstTime = true
+                LocalStore.store.quizDone = true
+                LocalStore.store.heightDone = true
     
+                if (doBrains){
+                    if let brain = userDetails["brain"] as? String{
+                        if brain == "" {
+                            LocalStore.store.quizDone = false
+                            LocalStore.store.heightDone = false
+                        }
+                    }
+                    else {
+                        LocalStore.store.quizDone = false
+                        LocalStore.store.heightDone = false
+                    }
+                }
+                //                                let del = UIApplication.shared.delegate as! AppDelegate
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let controller = storyboard.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
+                let navigationController = UINavigationController(rootViewController: controller)
+                navigationController.interactivePopGestureRecognizer?.isEnabled = false
+                controller.isRootController = true
+                del.window?.rootViewController = navigationController
+            }
+        }
+    }
+
+    func doAnalytics(details: Dictionary<String, Any?>){
+        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+            AnalyticsParameterItemID: "id-Signup",
+            AnalyticsParameterItemName: "Signup"
+            ])
+        if details["gender"] as! String == "male" {
+            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+                AnalyticsParameterItemID: "id-GenderMale",
+                AnalyticsParameterItemName: String(format:"Gender: %@", details["gender"] as! CVarArg)
+                ])
+        }
+        else {
+            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+                AnalyticsParameterItemID: "id-GenderFemale",
+                AnalyticsParameterItemName: String(format:"Gender: %@", details["gender"] as! CVarArg)
+                ])
+        }
+        
+        if self.calculateAge(birthday:details["dob"] as! String) < 25{
+            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+                AnalyticsParameterItemID: "id-Age-Under-25",
+                AnalyticsParameterItemName: String(format:"Age: %d",self.calculateAge(birthday:details["dob"] as! String))
+                ])
+        }
+        else if self.calculateAge(birthday:details["dob"] as! String) >= 25 && self.calculateAge(birthday:details["dob"] as! String) <= 35{
+            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+                AnalyticsParameterItemID: "id-Age-25-To-35",
+                AnalyticsParameterItemName: String(format:"Age: %d",self.calculateAge(birthday:details["dob"] as! String))
+                ])
+        }
+        else if self.calculateAge(birthday:details["dob"] as! String) >= 36 && self.calculateAge(birthday:details["dob"] as! String) <= 50{
+            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+                AnalyticsParameterItemID: "id-Age-36-To-50",
+                AnalyticsParameterItemName: String(format:"Age: %d",self.calculateAge(birthday:details["dob"] as! String))
+                ])
+        }
+        else {
+            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+                AnalyticsParameterItemID: "id-Age-Over-50",
+                AnalyticsParameterItemName: String(format:"Age: %d",self.calculateAge(birthday:details["dob"] as! String))
+                ])
+        }
+
+    }
+
     //MARK:-  WebService Methods
     
     func loginWithFacebook(){
@@ -385,7 +481,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
                         alertController.addAction(okAction)
                         self.present(alertController, animated: true, completion: nil)
                         return
-                    }//
+                    }
                     print("Parameters \(parameters)")
                     
                     WebServices.service.webServicePostRequest(.post, .user, .login, parameters as Dictionary<String, Any>, successHandler: { (response) in
@@ -395,80 +491,10 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
                         if status == "success"{
                             if let message = jsonData!["message"] as? String {
                                 if message == "User is already Registered" {
-                                    Loader.stopLoader()
-                                    DispatchQueue.main.async {
-                                        if let userDetails = jsonData!["userDetails"] as? Dictionary<String, Any> {
-                                            let del = UIApplication.shared.delegate as! AppDelegate
-                                            if del.latitude != 0.0 && del.longitude != 0.0 {
-                                                del.saveUserLocation()
-                                            }
-                                            if let profile_video = userDetails["profile_video"] as? String {
-                                                if profile_video != ""{
-                                                    self.writeVideo(profile_video)
-                                                }
-                                            }
-                                            print(userDetails)
-                                            let dictData = NSKeyedArchiver.archivedData(withRootObject: userDetails)
-                                            LocalStore.store.saveUserDetails = dictData
-                                            self.loadProfileImagesInCache(userDetails)
-                                            
-                                            LocalStore.store.login = true;
-                                            LocalStore.store.appNotFirstTime = true
-                                            LocalStore.store.quizDone = true
-                                            LocalStore.store.heightDone = true
-                                            
-                                            //                                let del = UIApplication.shared.delegate as! AppDelegate
-                                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                                            let controller = storyboard.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
-                                            let navigationController = UINavigationController(rootViewController: controller)
-                                            navigationController.interactivePopGestureRecognizer?.isEnabled = false
-                                            controller.isRootController = true
-                                            del.window?.rootViewController = navigationController
-                                        }
-                                    }
+                                    self.doLoadUserWithUserDetails(jsonData : jsonData!, doBrains:  false)
                                 }
                                 else {
-                                    Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                        AnalyticsParameterItemID: "id-Signup",
-                                        AnalyticsParameterItemName: "Signup"
-                                        ])
-                                    if parameters["gender"] as! String == "male" {
-                                        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                            AnalyticsParameterItemID: "id-GenderMale",
-                                            AnalyticsParameterItemName: String(format:"Gender: %@", parameters["gender"] as! CVarArg)
-                                            ])
-                                    }
-                                    else {
-                                        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                            AnalyticsParameterItemID: "id-GenderFemale",
-                                            AnalyticsParameterItemName: String(format:"Gender: %@", parameters["gender"] as! CVarArg)
-                                            ])
-                                    }
-                                    
-                                    if self.calculateAge(birthday:parameters["dob"] as! String) < 25{
-                                        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                            AnalyticsParameterItemID: "id-Age-Under-25",
-                                            AnalyticsParameterItemName: String(format:"Age: %d",self.calculateAge(birthday:parameters["dob"] as! String))
-                                            ])
-                                    }
-                                    else if self.calculateAge(birthday:parameters["dob"] as! String) >= 25 && self.calculateAge(birthday:parameters["dob"] as! String) <= 35{
-                                        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                            AnalyticsParameterItemID: "id-Age-25-To-35",
-                                            AnalyticsParameterItemName: String(format:"Age: %d",self.calculateAge(birthday:parameters["dob"] as! String))
-                                            ])
-                                    }
-                                    else if self.calculateAge(birthday:parameters["dob"] as! String) >= 36 && self.calculateAge(birthday:parameters["dob"] as! String) <= 50{
-                                        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                            AnalyticsParameterItemID: "id-Age-36-To-50",
-                                            AnalyticsParameterItemName: String(format:"Age: %d",self.calculateAge(birthday:parameters["dob"] as! String))
-                                            ])
-                                    }
-                                    else {
-                                        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                            AnalyticsParameterItemID: "id-Age-Over-50",
-                                            AnalyticsParameterItemName: String(format:"Age: %d",self.calculateAge(birthday:parameters["dob"] as! String))
-                                            ])
-                                    }
+                                    self.doAnalytics(details: parameters)
                                     let del = UIApplication.shared.delegate as! AppDelegate
                                     if del.latitude != 0.0 && del.longitude != 0.0 {
                                         del.saveUserLocation()
@@ -515,89 +541,10 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
             if status == "success"{
                 if let message = jsonData!["message"] as? String {
                     if message == "User is already Registered" {
-                        Loader.stopLoader()
-                        DispatchQueue.main.async {
-                            if let userDetails = jsonData!["userDetails"] as? Dictionary<String, Any> {
-                                let del = UIApplication.shared.delegate as! AppDelegate
-                                if del.latitude != 0.0 && del.longitude != 0.0 {
-                                    del.saveUserLocation()
-                                }
-                                if let profile_video = userDetails["profile_video"] as? String {
-                                    if profile_video != ""{
-                                        self.writeVideo(profile_video)
-                                    }
-                                }
-                                print(userDetails)
-                                let dictData = NSKeyedArchiver.archivedData(withRootObject: userDetails)
-                                LocalStore.store.saveUserDetails = dictData
-                                self.loadProfileImagesInCache(userDetails)
-                                
-                                LocalStore.store.login = true;
-                                LocalStore.store.appNotFirstTime = true
-                                LocalStore.store.quizDone = true
-                                LocalStore.store.heightDone = true
-                                
-                                if let brain = userDetails["brain"] as? String{
-                                    if brain == "" {
-                                        LocalStore.store.quizDone = false
-                                        LocalStore.store.heightDone = false
-                                    }
-                                }
-                                else {
-                                    LocalStore.store.quizDone = false
-                                    LocalStore.store.heightDone = false
-                                }
-                                
-                                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                                let controller = storyboard.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
-                                let navigationController = UINavigationController(rootViewController: controller)
-                                navigationController.interactivePopGestureRecognizer?.isEnabled = false
-                                controller.isRootController = true
-                                del.window?.rootViewController = navigationController
-                            }
-                        }
+                        self.doLoadUserWithUserDetails(jsonData : jsonData!, doBrains:  true)
                     }
                     else {
-                        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                            AnalyticsParameterItemID: "id-Signup",
-                            AnalyticsParameterItemName: "Signup"
-                            ])
-                        if  parameters["gender"] as! String == "male" {
-                            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                AnalyticsParameterItemID: "id-GenderMale",
-                                AnalyticsParameterItemName: String(format:"Gender: %@", parameters["gender"] as! CVarArg)
-                                ])
-                        }
-                        else {
-                            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                AnalyticsParameterItemID: "id-GenderFemale",
-                                AnalyticsParameterItemName: String(format:"Gender: %@", parameters["gender"] as! CVarArg)
-                                ])
-                        }
-                        if self.calculateAge(birthday:parameters["dob"] as! String) < 25{
-                            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                AnalyticsParameterItemID: "id-Age-Under-25",
-                                AnalyticsParameterItemName: String(format:"Age: %d",self.calculateAge(birthday:parameters["dob"] as! String))
-                                ])
-                        }
-                        else if self.calculateAge(birthday:parameters["dob"] as! String) >= 25 && self.calculateAge(birthday:parameters["dob"] as! String) <= 35{
-                            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                AnalyticsParameterItemID: "id-Age-25-To-35",
-                                AnalyticsParameterItemName: String(format:"Age: %d",self.calculateAge(birthday:parameters["dob"] as! String))
-                                ])
-                        }
-                        else if self.calculateAge(birthday:parameters["dob"] as! String) >= 36 && self.calculateAge(birthday:parameters["dob"] as! String) <= 50{
-                            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                AnalyticsParameterItemID: "id-Age-36-To-50",
-                                AnalyticsParameterItemName: String(format:"Age: %d",self.calculateAge(birthday:parameters["dob"] as! String))
-                                ])
-                        }
-                        else {
-                            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                AnalyticsParameterItemID: "id-Age-Over-50",
-                                AnalyticsParameterItemName: String(format:"Age: %d",self.calculateAge(birthday:parameters["dob"] as! String))
-                                ])
-                        }
+                        self.doAnalytics(details: parameters)
                         let del = UIApplication.shared.delegate as! AppDelegate
                         if del.latitude != 0.0 && del.longitude != 0.0 {
                             del.saveUserLocation()
@@ -608,7 +555,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
                         Loader.stopLoader()
                         
                         self.getUserDetails(true)
-                        self.showDataOnLabel(self.fbName)
+            //             self.showDataOnLabel(self.fbName)
                     }
                 }
             }else{
@@ -770,6 +717,12 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         return footerView
     }
     //MARK:-  Local Methods
+    
+    func launchPhoneUser(){
+        self.doLoadUserWithUserDetails(jsonData : jsonData!, doBrains:  false)
+        //        Loader.startLoader(true)
+        //Firebase Login
+    }
     @objc func requestActivities(){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         self.showRequestActivityView()
@@ -802,8 +755,7 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         showAlertWithCustomButtons("Selected Activities", "You have selected \(activitiesString!)", yesAction,noAction)
         
     }
-    //(graphPath: "me", parameters: ["fields":"id,name,email,birthday,age_range,gender,first_name,friends,picture.type(large).width(1080).height(1080),photos{images}"], accessToken: token, httpMethod: .GET, apiVersion: .defaultVersion)
-    //MARK:-  Get data from Facebook
+    
     func getDataFromFB(){
         Loader.startLoader(true)
         //        Loader.startLoader(true)
@@ -879,7 +831,8 @@ class WelcomeViewController: UIViewController, UICollectionViewDataSource, UICol
         }
     }
     
-    
+
+   
     //MARK:-  IBAction Methods
     
     @IBAction func btnLetsStart(_ sender: Any?){

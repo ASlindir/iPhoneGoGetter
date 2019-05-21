@@ -21,7 +21,7 @@ class SignUpViewController: FormViewController {
         var password: String?
         var gender: Gender = .male
         var birthday: Date?
-        
+        	
         init() {
             //
         }
@@ -174,6 +174,7 @@ class SignUpViewController: FormViewController {
     // MARK: - Touches
 
     @IBAction func btnRegister(_ sender: Any) {
+        
         userForm = UserForm(phoneNumber: currentPhoneNumber, firstName: editFirstName.text, email: editEmail.text, password: editPassword1.text, birthday: currentData, gender: currentGender ?? .male)
         
         if let newViewController = UIStoryboard(name: "SignIn", bundle:nil).instantiateViewController(withIdentifier: "PhoneViewController") as? PhoneViewController

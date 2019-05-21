@@ -43,7 +43,7 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
         edotPasswordTopConstraint.constant = 0.0
         
         // test values
-        editPhone.setFlag(for: .RU)
+        editPhone.setFlag(for: .US)
 //        editPhone.set(phoneNumber: "+79315994974")
 //        editPhone.set(phoneNumber: "+79162584277")
 //                editPhone.set(phoneNumber: "+79162584786")
@@ -105,13 +105,15 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
         return "\(code!) \(editPhone.text!)"
     }
     
-    private func authFirebaseForPhoneLogin(token: String) {
+    private func authFirebaseForPhoneLogin(token: String, userDetails : Dictionary<String, Any>) {
         // TODO: Firebase auth and save token.
         
         self.outAlertSuccess(message: "Congrats!!! Firebase auth and save token!", compliteHandler: {
             // save token and etc
             let welcomeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WelcomeViewController") as? WelcomeViewController
-            
+            welcomeViewController?.fbLoginType = 1
+            welcomeViewController?.userDetails = userDetails
+
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.window!.rootViewController = welcomeViewController
         })
@@ -174,7 +176,8 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
                 let jsonData = response
                 let status = jsonData!["status"] as! String
                 let token = jsonData!["token"] as? String
-                
+                let userDetails = jsonData!["userDetails"] as? Dictionary<String, Any>
+
                 Loader.stopLoader()
                 
                 if status == "success" && token != nil {

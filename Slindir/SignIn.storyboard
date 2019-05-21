@@ -465,8 +465,8 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Lorem ipsum dolor sit amet, consetetur  )" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j9G-8W-lUk">
-                                                <rect key="frame" x="8" y="25" width="223" height="15"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="{ in case your # changes, we can help you login }" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j9G-8W-lUk">
+                                                <rect key="frame" x="8" y="25" width="254.5" height="15"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="11"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -1075,7 +1075,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FOm-H5-hDQ">
-                                        <rect key="frame" x="16" y="98" width="343" height="109"/>
+                                        <rect key="frame" x="16" y="98" width="343" height="75"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="MVu-OI-xxn"/>
                                         </constraints>
@@ -1085,10 +1085,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iYf-pV-gcP">
-                                        <rect key="frame" x="16" y="237" width="343" height="82"/>
+                                        <rect key="frame" x="16" y="203" width="343" height="82"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your old phone number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HMf-8l-Khw">
-                                                <rect key="frame" x="0.0" y="8" width="343" height="24"/>
+                                                <rect key="frame" x="0.0" y="8" width="343" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="343" id="NVM-9I-Kmy"/>
                                                 </constraints>
@@ -1097,7 +1097,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NqP-oX-gA3" customClass="FPNTextField" customModule="FlagPhoneNumber">
-                                                <rect key="frame" x="0.0" y="36" width="343" height="46"/>
+                                                <rect key="frame" x="0.0" y="32" width="343" height="50"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                 <textInputTraits key="textInputTraits"/>
@@ -1115,16 +1115,16 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BwL-JQ-Xq7">
-                                        <rect key="frame" x="16" y="329" width="343" height="82"/>
+                                        <rect key="frame" x="16" y="295" width="343" height="82"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your new phone number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ht5-Nj-EjW">
-                                                <rect key="frame" x="0.0" y="8" width="343" height="24"/>
+                                                <rect key="frame" x="0.0" y="8" width="343" height="20"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="T0a-GB-lh5" customClass="FPNTextField" customModule="FlagPhoneNumber">
-                                                <rect key="frame" x="0.0" y="36" width="343" height="46"/>
+                                                <rect key="frame" x="0.0" y="32" width="343" height="50"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                 <textInputTraits key="textInputTraits"/>
@@ -1142,7 +1142,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6bI-9S-EVJ">
-                                        <rect key="frame" x="16" y="426" width="343" height="46"/>
+                                        <rect key="frame" x="16" y="392" width="343" height="46"/>
                                         <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="46" id="WfJ-HX-Stz"/>

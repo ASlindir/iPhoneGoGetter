@@ -300,6 +300,8 @@ class ViewController: UIViewController {
                 let welcomeController = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
                 welcomeController.accesToken = FBSDKAccessToken.current()
                 welcomeController.credential = credential
+                welcomeController.fbLoginType = 0
+
 //                ClientLog.WriteClientLog( msgType: "iosfb", msg:"towelcome");
                 self.navigationController?.pushViewController(welcomeController, animated: false)
             }

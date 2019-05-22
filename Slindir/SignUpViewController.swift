@@ -97,7 +97,6 @@ class SignUpViewController: FormViewController {
         lblPhone.text = currentPhoneNumber
         
         // hide button
-        validateForm()
         
         // initial
         userForm.phoneNumber = currentPhoneNumber
@@ -109,6 +108,7 @@ class SignUpViewController: FormViewController {
         // buttons
         btnRegister.layer.cornerRadius = btnRegister.frame.size.height/2
         btnRegister.shadowButton(0.3, 2, .black, CGSize(width: 2, height: 2))
+        btnRegister.isHidden = false;
         
         // init radio button
         initRadioButton(view: rbGenderMale)
@@ -158,31 +158,73 @@ class SignUpViewController: FormViewController {
         }
     }
     
-    private func validateForm() {
-        btnRegister.isHidden =
-            !isValidateEmail
-            || editFirstName.text?.isEmpty ?? false
-            || editEmail.text?.isEmpty ?? false
-            || editPassword1.text?.isEmpty ?? false
-            || editPassword2.text?.isEmpty ?? false
-            || currentGender == nil
-            || currentData == nil
-            || editPassword1.text?.count ?? 0 < 8
-            || editPassword1.text != editPassword2.text
+    func doUserError(message:String)->Bool{
+        self.outAlertError(message:message)
+        return false
+    }
+    func isValidEmail(testStr:String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: testStr)
+    }
+    
+    private func validateForm() ->Bool{
+        if (editPassword2.text!.count < 8){
+            return doUserError(message: "password lengths must be at least 8 characters")
+        }
+        if (editPassword1.text!.count < 8){
+            return doUserError(message:"password lengths must be at least 8 characters")
+        }
+        if (editPassword1.text != editPassword2.text){
+            return doUserError(message:"The passwords must be the same");
+        }
+        if (!isValidEmail(testStr:editEmail.text!)){
+            return doUserError(message:"You must enter a valid email address");
+        }
+        if (editPassword1.text != editPassword2.text){
+            return doUserError(message:"The passwords must be the same");
+        }
+
+        if (currentGender == nil){
+            return doUserError(message:"Please select your gender");
+        }
+        if (currentData == nil){
+            return doUserError(message:"Please select your birthday");
+        }
+
+        if (editFirstName.text!.count < 1){
+            return doUserError(message: "Please enter your name")
+        }
+
+        // check birth date at least 18
+/*        Calendar now = Calendar.getInstance();
+        
+        int nowyear = now.get(Calendar.YEAR);
+        int nowmonth = now.get(Calendar.MONTH)+1;
+        int nowday = now.get(Calendar.DAY_OF_MONTH);
+        if (nowyear - year <= 18)
+        if (nowmonth <= month)
+        if(nowday < day)
+        return SLUtils.DoUserError( "You must be 18 years old to use Slindir, please check your birthday");*/
+        return true
     }
 
     // MARK: - Touches
 
     @IBAction func btnRegister(_ sender: Any) {
         
-        userForm = UserForm(phoneNumber: currentPhoneNumber, firstName: editFirstName.text, email: editEmail.text, password: editPassword1.text, birthday: currentData, gender: currentGender ?? .male)
-        
-        if let newViewController = UIStoryboard(name: "SignIn", bundle:nil).instantiateViewController(withIdentifier: "PhoneViewController") as? PhoneViewController
-        {
-            newViewController.currentPhoneNumber = currentPhoneNumber
-            newViewController.currentUser = userForm
-            self.present(newViewController, animated: true)
+        if (validateForm()){
+            userForm = UserForm(phoneNumber: currentPhoneNumber, firstName: editFirstName.text, email: editEmail.text, password: editPassword1.text, birthday: currentData, gender: currentGender ?? .male)
+            
+            if let newViewController = UIStoryboard(name: "SignIn", bundle:nil).instantiateViewController(withIdentifier: "PhoneViewController") as? PhoneViewController
+            {
+                newViewController.currentPhoneNumber = currentPhoneNumber
+                newViewController.currentUser = userForm
+                self.present(newViewController, animated: true)
+            }
         }
+            
     }
     
     private func rbGenderChange(view: UIView) {
@@ -193,7 +235,6 @@ class SignUpViewController: FormViewController {
             currentGender = .female
         }
         
-        validateForm()
     }
     
     @IBAction func btnClose(_ sender: Any) {
@@ -210,7 +251,6 @@ class SignUpViewController: FormViewController {
         dateFormatter.dateFormat = "MM/dd/yyyy"
         editBirthday.text = dateFormatter.string(from: dpDataPicker.date)
         currentData = dpDataPicker.date
-        validateForm()
         
         hideDataPicker(hide: true)
     }
@@ -229,7 +269,6 @@ class SignUpViewController: FormViewController {
             }
         }
         
-        validateForm()
     }
     
     override func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {

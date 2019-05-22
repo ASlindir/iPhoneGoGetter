@@ -82,19 +82,6 @@ class PhoneViewController: FormViewController {
         }
     }
     
-    private func registerFirebaseForPhoneLogin(token: String?, userDetails: String?) {
-        // TODO: Firebase auth and save token.
-        
-        self.outAlertSuccess(message: "Congrats!!! Firebase auth and save token!", compliteHandler: {
-            // save token and etc
-            let welcomeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WelcomeViewController") as? WelcomeViewController
-            welcomeViewController?.customAccessToken = token!
-            welcomeViewController?.fbLoginType = 1
-            welcomeViewController?.userDetails = userDetails
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.window!.rootViewController = welcomeViewController
-        })
-    }
     //MARK:-  Calculate User Age
     func calculateAge(birthday: String) -> Int {
         let dateFormater = DateFormatter()
@@ -115,105 +102,21 @@ class PhoneViewController: FormViewController {
         let fuser = Auth.auth().currentUser
         fuser?.updateEmail(to: email!, completion: {(error)  in
             if let err = error{
+                self.outAlertError(message:"The email on your Facebook asccount is already associated with a Slindir user who has a telephone based login, please try logging in with your phone number.")
+                // need deleteaccount right here
                 print("Error :- ",err)
             }
             else{
                 let status = jsonData!["status"] as! String
                 
                 if status == "success"{
-                    if let message = jsonData!["message"] as? String {
-                        if message == "User is already Registered" {
-                            Loader.stopLoader()
-                            DispatchQueue.main.async {
-                                    let del = UIApplication.shared.delegate as! AppDelegate
-                                    if del.latitude != 0.0 && del.longitude != 0.0 {
-                                        del.saveUserLocation()
-                                    }
-                                    if let profile_video = userDetails["profile_video"] as? String {
-                                        if profile_video != ""{
-                                            self.writeVideo(profile_video)
-                                        }
-                                    }
-                                    print(userDetails)
-                                    let dictData = NSKeyedArchiver.archivedData(withRootObject: userDetails)
-                                    LocalStore.store.saveUserDetails = dictData
-                                    self.loadProfileImagesInCache(userDetails)
-                                    
-                                    LocalStore.store.login = true;
-                                    LocalStore.store.appNotFirstTime = true
-                                    LocalStore.store.quizDone = true
-                                    LocalStore.store.heightDone = true
-                                    
-                                    //                                let del = UIApplication.shared.delegate as! AppDelegate
-                                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                                    let controller = storyboard.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
-                                    let navigationController = UINavigationController(rootViewController: controller)
-                                    navigationController.interactivePopGestureRecognizer?.isEnabled = false
-                                    controller.isRootController = true
-                                    del.window?.rootViewController = navigationController
-                            }
-                        }
-                        else {
-                            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                AnalyticsParameterItemID: "id-Signup",
-                                AnalyticsParameterItemName: "Signup"
-                                ])
-                            if userDetails["gender"] as! String == "male" {
-                                Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                    AnalyticsParameterItemID: "id-GenderMale",
-                                    AnalyticsParameterItemName: String(format:"Gender: %@", userDetails["gender"] as! CVarArg)
-                                    ])
-                            }
-                            else {
-                                Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                    AnalyticsParameterItemID: "id-GenderFemale",
-                                    AnalyticsParameterItemName: String(format:"Gender: %@", userDetails["gender"] as! CVarArg)
-                                    ])
-                            }
-                            
-                            if self.calculateAge(birthday:userDetails["dob"] as! String) < 25{
-                                Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                    AnalyticsParameterItemID: "id-Age-Under-25",
-                                    AnalyticsParameterItemName: String(format:"Age: %d",self.calculateAge(birthday:userDetails["dob"] as! String))
-                                    ])
-                            }
-                            else if self.calculateAge(birthday:userDetails["dob"] as! String) >= 25 && self.calculateAge(birthday:userDetails["dob"] as! String) <= 35{
-                                Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                    AnalyticsParameterItemID: "id-Age-25-To-35",
-                                    AnalyticsParameterItemName: String(format:"Age: %d",self.calculateAge(birthday:userDetails["dob"] as! String))
-                                    ])
-                            }
-                            else if self.calculateAge(birthday:userDetails["dob"] as! String) >= 36 && self.calculateAge(birthday:userDetails["dob"] as! String) <= 50{
-                                Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                    AnalyticsParameterItemID: "id-Age-36-To-50",
-                                    AnalyticsParameterItemName: String(format:"Age: %d",self.calculateAge(birthday:userDetails["dob"] as! String))
-                                    ])
-                            }
-                            else {
-                                Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                                    AnalyticsParameterItemID: "id-Age-Over-50",
-                                    AnalyticsParameterItemName: String(format:"Age: %d",self.calculateAge(birthday:userDetails["dob"] as! String))
-                                    ])
-                            }
-                            let del = UIApplication.shared.delegate as! AppDelegate
-                            if del.latitude != 0.0 && del.longitude != 0.0 {
-                                del.saveUserLocation()
-                            }
-                            else {
-                                del.startLocationManager()
-                            }
-                            Loader.stopLoader()
-                            self.getUserDetails(true)
-//                            self.showDataOnLabel(self.fbName)
-                        }
-                    }
-                    
-                    let welcomeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WelcomeViewController") as? WelcomeViewController
-                    welcomeViewController?.customAccessToken = token!
-                    welcomeViewController?.fbLoginType = 1
-                    welcomeViewController?.userDetails = userDetails
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    appDelegate.window!.rootViewController = welcomeViewController
+                        let welcomeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WelcomeViewController") as? WelcomeViewController
+                        welcomeViewController?.customAccessToken = token!
+                        welcomeViewController?.fbLoginType = 1
+                        welcomeViewController?.userDetails = userDetails
+                        welcomeViewController?.jsonDataFromPhoneLogin = jsonData
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.window!.rootViewController = welcomeViewController
                 }
             }
             });
@@ -242,7 +145,15 @@ class PhoneViewController: FormViewController {
                     // delete user record and display error here
                      self.callDeleteAccountWebService();
                 }else{
-                    self.startThisUser(jsonData:jsonData, token:token)
+                    let userDetails = jsonData!["userDetails"] as? Dictionary<String, Any>
+                    let fbid = userDetails!["user_fb_id"]
+                    DispatchQueue.main.async {
+                        LocalStore.store.facebookID = fbid as! String?
+                        LocalStore.store.facebookDetails = nil
+                        FirebaseObserver.observer.observeFriendList()
+                        FirebaseObserver.observer.observeFriendsRemoved()
+                        self.startThisUser(jsonData:jsonData, token:token)
+                    }
                 }
             })
         }

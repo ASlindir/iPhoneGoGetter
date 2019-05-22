@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E9DD23D2BBDF9C675D9F1E76AB62B728"
+               BlueprintIdentifier = "51BBC29406D8B8AD5C5044B46B958062"
                BuildableName = "Pods_Slindir.framework"
                BlueprintName = "Pods-Slindir"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E9DD23D2BBDF9C675D9F1E76AB62B728"
+            BlueprintIdentifier = "51BBC29406D8B8AD5C5044B46B958062"
             BuildableName = "Pods_Slindir.framework"
             BlueprintName = "Pods-Slindir"
             ReferencedContainer = "container:Pods.xcodeproj">

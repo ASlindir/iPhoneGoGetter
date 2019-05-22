@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CDDB32298E9D58F0BCFB894BC98CE99D"
+               BlueprintIdentifier = "8BA252FD274B39EB47C1975D437A7890"
                BuildableName = "UIImage_ImageCompress.framework"
                BlueprintName = "UIImage+ImageCompress"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CDDB32298E9D58F0BCFB894BC98CE99D"
+            BlueprintIdentifier = "8BA252FD274B39EB47C1975D437A7890"
             BuildableName = "UIImage_ImageCompress.framework"
             BlueprintName = "UIImage+ImageCompress"
             ReferencedContainer = "container:Pods.xcodeproj">

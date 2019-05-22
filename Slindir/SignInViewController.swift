@@ -44,15 +44,15 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
         
         // test values
         editPhone.setFlag(for: .US)
-//        editPhone.set(phoneNumber: "+79315994974")
-//        editPhone.set(phoneNumber: "+79162584277")
-//                editPhone.set(phoneNumber: "+79162584786")
-//        editPassword.text = "123456789"
-//        isValidNumber = true
-//        isValidNumberFromServer = true
+        //        editPhone.set(phoneNumber: "+79315994974")
+        //        editPhone.set(phoneNumber: "+79162584277")
+        //                editPhone.set(phoneNumber: "+79162584786")
+        //        editPassword.text = "123456789"
+        //        isValidNumber = true
+        //        isValidNumberFromServer = true
         validateForm()
     }
-
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -105,20 +105,21 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
         return "\(code!) \(editPhone.text!)"
     }
     
-    private func authFirebaseForPhoneLogin(token: String, userDetails : Dictionary<String, Any>) {
+    private func authFirebaseForPhoneLogin(token: String, jsonData : Dictionary<String, Any>, userDetails:Dictionary<String, Any>) {
         // TODO: Firebase auth and save token.
         
-        self.outAlertSuccess(message: "Congrats!!! Firebase auth and save token!", compliteHandler: {
-            // save token and etc
-            let welcomeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WelcomeViewController") as? WelcomeViewController
-            welcomeViewController?.fbLoginType = 1
-            welcomeViewController?.userDetails = userDetails
+        // save token and etc	
+        let welcomeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WelcomeViewController") as? WelcomeViewController
+        welcomeViewController?.fbLoginType = 1
+        welcomeViewController?.userDetails = userDetails
+        welcomeViewController?.jsonDataFromPhoneLogin = jsonData
+        LocalStore.store.facebookID = userDetails["user_fb_id"] as! String
 
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.window!.rootViewController = welcomeViewController
-        })
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.window!.rootViewController = welcomeViewController
     }
-
+    
     // MARK: - Touches
     
     @IBAction func linkForgotPassword(_ sender: Any) {
@@ -177,11 +178,11 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
                 let status = jsonData!["status"] as! String
                 let token = jsonData!["token"] as? String
                 let userDetails = jsonData!["userDetails"] as? Dictionary<String, Any>
-
+                
                 Loader.stopLoader()
                 
                 if status == "success" && token != nil {
-                    self.authFirebaseForPhoneLogin(token: token!)
+                    self.authFirebaseForPhoneLogin(token: token!, jsonData:jsonData!, userDetails:userDetails!)
                 } else if (status == "duplicate"){
                     self.outAlertError(message: "Registration phone number is already registered, go back to login and click 'forgot password help' if you don't remember your password")
                 } else {

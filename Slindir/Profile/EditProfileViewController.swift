@@ -1716,7 +1716,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                     UserDefaults.standard.synchronize()
                     let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
                     profileController.profileDelegate = self
-                    profileController.showBrainGame = true
+//                    profileController.showBrainGame = true
                     self.navigationController?.pushViewController(profileController, animated: true)
                 }))
                 

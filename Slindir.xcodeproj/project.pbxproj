@@ -85,7 +85,6 @@
 		84694F392283036E007AB8BA /* UiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84694F342283036E007AB8BA /* UiViewController.swift */; };
 		84694F3A2283036E007AB8BA /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84694F352283036E007AB8BA /* UIButton.swift */; };
 		84694F4022830376007AB8BA /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84694F3B22830375007AB8BA /* SignUpViewController.swift */; };
-		84694F4122830376007AB8BA /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84694F3C22830375007AB8BA /* SignInViewController.swift */; };
 		84694F4222830376007AB8BA /* ChangePhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84694F3D22830376007AB8BA /* ChangePhoneViewController.swift */; };
 		84694F4322830376007AB8BA /* PhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84694F3E22830376007AB8BA /* PhoneViewController.swift */; };
 		84694F4422830376007AB8BA /* LostPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84694F3F22830376007AB8BA /* LostPasswordViewController.swift */; };
@@ -142,8 +141,9 @@
 		B4EF53641FA98A010065926D /* CustomCellCenterFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53631FA98A010065926D /* CustomCellCenterFlowLayout.swift */; };
 		B4EF53651FA994E10065926D /* swipeLEFT.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B4EF53611FA985770065926D /* swipeLEFT.mp3 */; };
 		B4EF53661FA994E40065926D /* swipeRight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B4EF53621FA985770065926D /* swipeRight.mp3 */; };
-		CC465FF0220F3BE4009DF72B /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC465FEF220F3BE4009DF72B /* WelcomeViewController.swift */; };
-		CC706522224169A600CB2315 /* ClientLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC706521224169A500CB2315 /* ClientLog.swift */; };
+		CC28F7DB22947B5300CA815A /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC28F7DA22947B5300CA815A /* SignInViewController.swift */; };
+		CC5CC3F3228F102300EC3262 /* ClientLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5CC3F2228F102300EC3262 /* ClientLog.swift */; };
+		CC9CF9BF2294BD900090753A /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9CF9BE2294BD900090753A /* WelcomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -309,7 +309,6 @@
 		84694F342283036E007AB8BA /* UiViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UiViewController.swift; sourceTree = "<group>"; };
 		84694F352283036E007AB8BA /* UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
 		84694F3B22830375007AB8BA /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
-		84694F3C22830375007AB8BA /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		84694F3D22830376007AB8BA /* ChangePhoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePhoneViewController.swift; sourceTree = "<group>"; };
 		84694F3E22830376007AB8BA /* PhoneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneViewController.swift; sourceTree = "<group>"; };
 		84694F3F22830376007AB8BA /* LostPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LostPasswordViewController.swift; sourceTree = "<group>"; };
@@ -374,8 +373,9 @@
 		B4EF53621FA985770065926D /* swipeRight.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = swipeRight.mp3; sourceTree = "<group>"; };
 		B4EF53631FA98A010065926D /* CustomCellCenterFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomCellCenterFlowLayout.swift; path = "Custom Classes/CustomCellCenterFlowLayout.swift"; sourceTree = "<group>"; };
 		C57A96D960408742C6134D14 /* Pods-Slindir.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Slindir.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Slindir/Pods-Slindir.debug.xcconfig"; sourceTree = "<group>"; };
-		CC465FEF220F3BE4009DF72B /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
-		CC706521224169A500CB2315 /* ClientLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClientLog.swift; path = "../../baks/IphoneSlindirv2-master/Slindir/ClientLog.swift"; sourceTree = "<group>"; };
+		CC28F7DA22947B5300CA815A /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		CC5CC3F2228F102300EC3262 /* ClientLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientLog.swift; sourceTree = "<group>"; };
+		CC9CF9BE2294BD900090753A /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		CE3C63750FBA69036D4ED443 /* Pods_Slindir.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Slindir.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -674,12 +674,12 @@
 		84694F2D2283033D007AB8BA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				84694F3C22830375007AB8BA /* SignInViewController.swift */,
 				84694F3D22830376007AB8BA /* ChangePhoneViewController.swift */,
 				84694F3F22830376007AB8BA /* LostPasswordViewController.swift */,
 				84694F3B22830375007AB8BA /* SignUpViewController.swift */,
 				84694F3E22830376007AB8BA /* PhoneViewController.swift */,
 				847418C82287C4E0001A89FA /* EmailCodeViewController.swift */,
+				CC28F7DA22947B5300CA815A /* SignInViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -769,7 +769,6 @@
 				B493E53E1F94A60E00C58F66 /* Webservices */,
 				B42E1B2B1F66A169009B68E2 /* AppDelegate.swift */,
 				B42E1B2D1F66A169009B68E2 /* ViewController.swift */,
-				CC465FEF220F3BE4009DF72B /* WelcomeViewController.swift */,
 				B43614E81F7509B10057A1D2 /* EditProfileViewController.swift */,
 				B403784C1F6BDF25009C9D34 /* ProfileViewController.swift */,
 				B448C2D91F7E11E800A776D7 /* RecordVideoController.swift */,
@@ -779,6 +778,7 @@
 				B42E1B2F1F66A169009B68E2 /* Main.storyboard */,
 				B411B7131FA8745200A48EA3 /* Extra but NeccesaryFiles */,
 				0D06B8AA20C2E7EE002E1703 /* Slindir-Bridging-Header.h */,
+				CC9CF9BE2294BD900090753A /* WelcomeViewController.swift */,
 			);
 			path = Slindir;
 			sourceTree = "<group>";
@@ -865,7 +865,7 @@
 		B4607C491F791FEA00635AF7 /* Helper Classes */ = {
 			isa = PBXGroup;
 			children = (
-				CC706521224169A500CB2315 /* ClientLog.swift */,
+				CC5CC3F2228F102300EC3262 /* ClientLog.swift */,
 				1092D9061F86626E00EC3A71 /* BottomView.swift */,
 			);
 			name = "Helper Classes";
@@ -1268,7 +1268,6 @@
 				84694F4322830376007AB8BA /* PhoneViewController.swift in Sources */,
 				0D06B88620C2E7A6002E1703 /* JSQMessagesAvatarImageFactory.m in Sources */,
 				B40C11D11F7D19540030F9E7 /* ProfileImageViewCell.swift in Sources */,
-				CC465FF0220F3BE4009DF72B /* WelcomeViewController.swift in Sources */,
 				B43A62C51FBD4E0700FE15C4 /* MessagesTableViewCell.swift in Sources */,
 				0D06B8A120C2E7A6002E1703 /* JSQMessagesInputToolbar.m in Sources */,
 				84694F392283036E007AB8BA /* UiViewController.swift in Sources */,
@@ -1286,6 +1285,7 @@
 				0D06B89820C2E7A6002E1703 /* JSQVideoMediaItem.m in Sources */,
 				B43A62CC1FBDA2D000FE15C4 /* ActivityCollectionReusableView.swift in Sources */,
 				B4B51A5D1FA20AD600045445 /* SettingCollectionViewCell.swift in Sources */,
+				CC5CC3F3228F102300EC3262 /* ClientLog.swift in Sources */,
 				0D94D8EA1FE536770006C45E /* OpenCameraView.swift in Sources */,
 				84694F3022830364007AB8BA /* FormViewController.swift in Sources */,
 				0D06B88820C2E7A6002E1703 /* JSQMessagesMediaViewBubbleImageMasker.m in Sources */,
@@ -1303,6 +1303,7 @@
 				B42A65A01F9F1EF500639F6B /* ChatViewController.swift in Sources */,
 				B482AC541F6D5BE7008E152A /* CustomLabel.swift in Sources */,
 				18F6E8B81FE10EC6003F38FC /* FirebaseObserver.swift in Sources */,
+				CC28F7DB22947B5300CA815A /* SignInViewController.swift in Sources */,
 				B411B7101FA8726A00A48EA3 /* ListViewController.swift in Sources */,
 				B42E1B2C1F66A169009B68E2 /* AppDelegate.swift in Sources */,
 				0D06B88F20C2E7A6002E1703 /* JSQMessagesCollectionViewFlowLayoutInvalidationContext.m in Sources */,
@@ -1316,11 +1317,11 @@
 				0D06B88E20C2E7A6002E1703 /* JSQMessagesCollectionViewFlowLayout.m in Sources */,
 				0D06B88320C2E7A6002E1703 /* JSQMessagesKeyboardController.m in Sources */,
 				10FBA7821F87760C00FCC591 /* CardsView.swift in Sources */,
+				CC9CF9BF2294BD900090753A /* WelcomeViewController.swift in Sources */,
 				0D06B88020C2E7A6002E1703 /* UIDevice+JSQMessages.m in Sources */,
 				B43614E31F74E4610057A1D2 /* RangeSlider.swift in Sources */,
 				104B820B1F8613A5005BADDE /* WebServices.swift in Sources */,
 				0D06B8A220C2E7A6002E1703 /* JSQMessagesLabel.m in Sources */,
-				84694F4122830376007AB8BA /* SignInViewController.swift in Sources */,
 				1092D9071F86626F00EC3A71 /* BottomView.swift in Sources */,
 				0D06B88220C2E7A6002E1703 /* UIView+JSQMessages.m in Sources */,
 				0D06B89E20C2E7A6002E1703 /* JSQMessagesCollectionViewCellOutgoing.m in Sources */,
@@ -1329,7 +1330,6 @@
 				0D06B89220C2E7A6002E1703 /* JSQLocationMediaItem.m in Sources */,
 				B42A87441FA893020053B7A7 /* ProfileActivitiesCell.swift in Sources */,
 				B43614E71F74F40E0057A1D2 /* CustomSlider.swift in Sources */,
-				CC706522224169A600CB2315 /* ClientLog.swift in Sources */,
 				B47E3F4A1F95C5E100A3E046 /* Loader.swift in Sources */,
 				B42A659C1F9F127B00639F6B /* FriendsListViewController.swift in Sources */,
 				0D06B89420C2E7A6002E1703 /* JSQMessage.m in Sources */,

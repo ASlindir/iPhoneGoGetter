@@ -77,6 +77,7 @@ class EmailCodeViewController: FormViewController {
                     Loader.stopLoader()
 
                     if status == "success" {
+                        self.outAlertError(message: "Your phone number has been changed.  Please login")
                         self.dismiss(animated: false, completion: {
                             self.delegate?.didClose()
                         })

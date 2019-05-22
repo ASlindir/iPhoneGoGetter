@@ -170,11 +170,11 @@ class SignUpViewController: FormViewController {
     }
     
     private func validateForm() ->Bool{
+        if (editFirstName.text!.count < 1){
+            return doUserError(message: "Please enter your name")
+        }
         if (editPassword2.text!.count < 8){
             return doUserError(message: "password lengths must be at least 8 characters")
-        }
-        if (editPassword1.text!.count < 8){
-            return doUserError(message:"password lengths must be at least 8 characters")
         }
         if (editPassword1.text != editPassword2.text){
             return doUserError(message:"The passwords must be the same");
@@ -193,9 +193,6 @@ class SignUpViewController: FormViewController {
             return doUserError(message:"Please select your birthday");
         }
 
-        if (editFirstName.text!.count < 1){
-            return doUserError(message: "Please enter your name")
-        }
 
         // check birth date at least 18
 /*        Calendar now = Calendar.getInstance();

@@ -32,6 +32,7 @@ class SignUpViewController: FormViewController {
             self.firstName = firstName
             self.email = email
             self.password = password
+            self.gender = gender
         }
     }
     
@@ -181,9 +182,6 @@ class SignUpViewController: FormViewController {
         }
         if (!isValidEmail(testStr:editEmail.text!)){
             return doUserError(message:"You must enter a valid email address");
-        }
-        if (editPassword1.text != editPassword2.text){
-            return doUserError(message:"The passwords must be the same");
         }
 
         if (currentGender == nil){

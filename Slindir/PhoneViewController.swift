@@ -102,7 +102,7 @@ class PhoneViewController: FormViewController {
         let fuser = Auth.auth().currentUser
         fuser?.updateEmail(to: email!, completion: {(error)  in
             if let err = error{
-                self.outAlertError(message:"The email on your Facebook asccount is already associated with a Slindir user who has a telephone based login, please try logging in with your phone number.")
+                self.outAlertError(message:"This email is already in use with a Facebook Account. Try logging back in with FB, or with a different email")
                 // need deleteaccount right here
                 print("Error :- ",err)
             }

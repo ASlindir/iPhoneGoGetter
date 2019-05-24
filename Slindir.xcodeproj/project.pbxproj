@@ -1526,8 +1526,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_ENTITLEMENTS = Slindir/Slindir.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Slindir Pty Limited (72NZF773GZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Slindir Pty Limited (72NZF773GZ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 72NZF773GZ;
@@ -1539,7 +1539,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = Automatic;
 				"PROVISIONING_PROFILE[arch=*]" = Automatic;
-				PROVISIONING_PROFILE_SPECIFIER = SilndirAppStore2019;
+				PROVISIONING_PROFILE_SPECIFIER = FHCDevDebug;
 				SWIFT_OBJC_BRIDGING_HEADER = "Slindir/Slindir-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;

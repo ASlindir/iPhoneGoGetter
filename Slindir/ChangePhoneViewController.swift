@@ -31,8 +31,8 @@ class ChangePhoneViewController: FormViewController, FPNTextFieldDelegate, Email
             ])
         
         // test values
-//        editOldPhone.setFlag(for: .RU)
-//        editNewPhone.setFlag(for: .RU)
+        editOldPhone.setFlag(for: .US)
+        editNewPhone.setFlag(for: .US)
 //        editOldPhone.set(phoneNumber: "+79315994974")
 //        editNewPhone.set(phoneNumber: "+79162584786")
         

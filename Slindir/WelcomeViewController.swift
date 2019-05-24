@@ -722,8 +722,10 @@
         func launchPhoneUser(){
             self.doLoadUserWithUserDetails(jsonData : self.jsonDataFromPhoneLogin!, doBrains:  true)
             Loader.stopLoader()
+            let userDetails = self.jsonDataFromPhoneLogin!["userDetails"] as! Dictionary<String, Any>
+            let username = userDetails["user_name"] as! String
             self.getUserDetails(true)
-            self.showDataOnLabel(self.fbName)
+            self.showDataOnLabel(username)
             //Firebase Login
         }
         @objc func requestActivities(){
@@ -734,7 +736,7 @@
         @objc func changeTheActivities(){
             CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
             if selectedIndex.count < 4{
-                showAlertWithOneButton("Slindir", "Please Select four activities", "OK")
+        	        showAlertWithOneButton("Slindir", "Please Select four activities", "OK")
                 return
             }
             saveUserIntrests(selectedIndex)

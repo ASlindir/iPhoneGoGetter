@@ -274,15 +274,15 @@ class ViewController: UIViewController {
         
         self.playerController.player?.pause()
         
-        let loginManager = FBSDKLoginManager()
+        let loginManager = LoginManager()
         loginManager.logOut()
         let timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.showDemoView), userInfo: nil, repeats: false)
         
         //ClientLog.WriteClientLog( msgType: "iosfb", msg:"btnLoginFB start");
       //  loginManager.loginBehavior = .web;
         
-        loginManager.logIn(withReadPermissions: ["public_profile","email","user_birthday","user_photos", "user_gender","user_age_range"], from: self) { (loginResults, error) in
-            let fbloginresult : FBSDKLoginManagerLoginResult = loginResults!
+        loginManager.logIn(permissions: ["public_profile","email","user_birthday","user_photos", "user_gender","user_age_range"], from: self) { (loginResults, error) in
+            let fbloginresult : LoginManagerLoginResult = loginResults!
             if (loginResults?.isCancelled)!{
 //                ClientLog.WriteClientLog( msgType: "iosfb", msg:"logincancelled");
                 timer.invalidate()
@@ -295,10 +295,10 @@ class ViewController: UIViewController {
                 self.view.sendSubviewToBack(self.vwDemo)
 //                print("token Permission:- \(accessToken.authenticationToken)")
 //                print("Access Token :- ",FBSDKAccessToken.current().tokenString)
-                let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+                let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current!.tokenString)
                 
                 let welcomeController = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
-                welcomeController.accesToken = FBSDKAccessToken.current()
+                welcomeController.accesToken = AccessToken.current
                 welcomeController.credential = credential
                 welcomeController.fbLoginType = 0
 

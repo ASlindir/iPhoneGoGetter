@@ -45,7 +45,7 @@
         @IBOutlet weak var constraintLogoTrailing: NSLayoutConstraint!
         
         var userDetails:Dictionary<String,Any>?
-        var accesToken: FBSDKAccessToken?
+        var accesToken: AccessToken?
         var customAccessToken = ""
         var fbLoginType = 0
         var jsonDataFromPhoneLogin : Dictionary<String,Any>?
@@ -765,7 +765,7 @@
             Loader.startLoader(true)
             //        Loader.startLoader(true)
             if let token = accesToken {
-                FBSDKGraphRequest(graphPath: "me", parameters: ["fields":"id,name,email,birthday,age_range,gender,first_name,friends,picture.type(large).width(1080).height(1080),photos{images}"], tokenString: token.tokenString, version: nil, httpMethod: nil)?.start(completionHandler: { (connection, result, error) in
+                GraphRequest(graphPath: "me", parameters: ["fields":"id,name,email,birthday,age_range,gender,first_name,friends,picture.type(large).width(1080).height(1080),photos{images}"], tokenString: token.tokenString, version: nil, httpMethod: .get).start(completionHandler: { (connection, result, error) in
                     if error == nil {
                         if let responseDictionary = result as? [String:Any]{
                             //print(responseDictionary)
@@ -797,7 +797,7 @@
                                                 print("Error :- ",err)
                                             }else{
                                                 DispatchQueue.main.async {
-                                                    LocalStore.store.facebookID = user?.uid
+                                                    LocalStore.store.facebookID = user?.user.uid
                                                     LocalStore.store.facebookDetails = responseDictionary
                                                     FirebaseObserver.observer.observeFriendList()
                                                     FirebaseObserver.observer.observeFriendsRemoved()
@@ -818,7 +818,7 @@
                                             print("Error :- ",err)
                                         }else{
                                             DispatchQueue.main.async {
-                                                LocalStore.store.facebookID = user?.uid
+                                                LocalStore.store.facebookID = user?.user.uid
                                                 LocalStore.store.facebookDetails = responseDictionary
                                                 FirebaseObserver.observer.observeFriendList()
                                                 FirebaseObserver.observer.observeFriendsRemoved()

@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
         startDate = Date()
             
-        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         FirebaseApp.configure()
         
@@ -393,7 +393,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        return FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
+        return ApplicationDelegate.shared.application(app, open: url, options: options)
     }
     
     // MARK: - Core Data stack

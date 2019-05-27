@@ -151,11 +151,17 @@ open class KolodaView: UIView, DraggableCardDelegate {
     }()
     private var visibleCards = [DraggableCardView]()
 
-    
+    private var cardIsDragging: Bool {
+        guard let frontCard = visibleCards.first else {
+            return false
+        }
+        return frontCard.dragBegin
+    }
+
     override open func layoutSubviews() {
         super.layoutSubviews()
         
-        if !animationSemaphore.isAnimating {
+        if !animationSemaphore.isAnimating, !cardIsDragging {
             layoutDeck()
         }
     }
@@ -325,7 +331,7 @@ open class KolodaView: UIView, DraggableCardDelegate {
     }
     
     func card(cardAllowedDirections card: DraggableCardView) -> [SwipeResultDirection] {
-        let index = currentCardIndex + visibleCards.index(of: card)!
+        let index = currentCardIndex + visibleCards.firstIndex(of: card)!
         return delegate?.koloda(self, allowedDirectionsForIndex: index) ?? [.left, .right]
     }
     
@@ -358,7 +364,7 @@ open class KolodaView: UIView, DraggableCardDelegate {
     }
     
     func card(cardWasTapped card: DraggableCardView) {
-        guard let visibleIndex = visibleCards.index(of: card) else { return }
+        guard let visibleIndex = visibleCards.firstIndex(of: card) else { return }
         
         let index = currentCardIndex + visibleIndex
         delegate?.koloda(self, didSelectCardAt: index)
@@ -369,7 +375,7 @@ open class KolodaView: UIView, DraggableCardDelegate {
     }
     
     func card(cardShouldDrag card: DraggableCardView) -> Bool {
-        guard let visibleIndex = visibleCards.index(of: card) else { return true}
+        guard let visibleIndex = visibleCards.firstIndex(of: card) else { return true}
         
         let index = currentCardIndex + visibleIndex
         return delegate?.koloda(self, shouldDragCardAt: index) ?? true
@@ -610,15 +616,13 @@ open class KolodaView: UIView, DraggableCardDelegate {
     
     public func swipe(_ direction: SwipeResultDirection, force: Bool = false) {
         let shouldSwipe = delegate?.koloda(self, shouldSwipeCardAt: currentCardIndex, in: direction) ?? true
-        guard force || shouldSwipe else {
-            return
-        }
+        guard force || shouldSwipe else { return }
         
         let validDirection = delegate?.koloda(self, allowedDirectionsForIndex: currentCardIndex).contains(direction) ?? true
         guard validDirection else { return }
         
         if !animationSemaphore.isAnimating {
-            if let frontCard = visibleCards.first {
+            if let frontCard = visibleCards.first, !frontCard.dragBegin {
                 
                 if visibleCards.count > 1 {
                     let nextCard = visibleCards[1]
@@ -699,7 +703,7 @@ open class KolodaView: UIView, DraggableCardDelegate {
                 cards,
                 completion: { _ in
                     self.removeCards(cards)
-            }
+                }
             )
         } else {
             self.removeCards(cards)
@@ -725,7 +729,7 @@ open class KolodaView: UIView, DraggableCardDelegate {
                 insertedCards,
                 completion: { _ in
                     self.animationSemaphore.decrement()
-            }
+                }
             )
         }
         

@@ -24,7 +24,7 @@ pod 'Crashlytics', '3.11'
 pod 'UIImage+ImageCompress'
 pod 'DACircularProgress'
 pod 'TTGSnackbar'
-pod 'FlagPhoneNumber'
+pod 'FlagPhoneNumber', '0.7.2'
 pod 'KeyboardMan'
 pod 'FlagPhoneNumber'
 

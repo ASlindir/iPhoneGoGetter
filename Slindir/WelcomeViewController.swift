@@ -584,17 +584,27 @@
                 let jsonData = response
                 let status = jsonData!["status"] as! String
                 if status == "success"{
-                    DispatchQueue.global(qos: .background).async {
-                        self.getUserDetails(true)
-                    }
-                    DispatchQueue.main.async {
-                        if self.isPresent{
-                            self.dismiss(animated: true, completion: nil)
-                        }else{
-                            let editProfileController = self.storyboard?.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
-                            self.navigationController?.pushViewController(editProfileController, animated: true)
+                    self.getUserDetails(true, completion : {
+                        DispatchQueue.main.async {
+                            if self.isPresent{
+                                self.dismiss(animated: true, completion: nil)
+                            }else{
+                               if (self.fbLoginType == 2){ // registration flow phone login
+                                    //
+                                    let controller = self.storyboard?.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
+                                    let navigationController = UINavigationController(rootViewController: controller)
+                                    navigationController.interactivePopGestureRecognizer?.isEnabled = false
+                                    controller.isRootController = true
+                                    let del = UIApplication.shared.delegate as! AppDelegate
+                                    del.window?.rootViewController = navigationController
+                                }
+                                else{
+                                    let editProfileController = self.storyboard?.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
+                                    self.navigationController?.pushViewController(editProfileController, animated: true)
+                                }
+                            }
                         }
-                    }
+                        })
                 }else{
                     self.showAlertWithOneButton("Error!", "Please check your internet connection", "OK")
                 }
@@ -720,12 +730,17 @@
         //MARK:-  Local Methods
         
         func launchPhoneUser(){
-            self.doLoadUserWithUserDetails(jsonData : self.jsonDataFromPhoneLogin!, doBrains:  true)
             Loader.stopLoader()
-            let userDetails = self.jsonDataFromPhoneLogin!["userDetails"] as! Dictionary<String, Any>
-            let username = userDetails["user_name"] as! String
-            self.getUserDetails(true)
-            self.showDataOnLabel(username)
+            if (fbLoginType == 1){
+                self.doLoadUserWithUserDetails(jsonData : self.jsonDataFromPhoneLogin!, doBrains:  true)
+            }
+            else{
+                Loader.stopLoader()
+                let userDetails = self.jsonDataFromPhoneLogin!["userDetails"] as! Dictionary<String, Any>
+                let username = userDetails["user_name"] as! String
+                self.getUserDetails(true)
+                self.showDataOnLabel(username)
+            }
             //Firebase Login
         }
         @objc func requestActivities(){

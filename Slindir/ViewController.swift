@@ -314,7 +314,8 @@ class ViewController: UIViewController {
     
     @IBAction func btnLoginWithPhoneNumber(_ sender: Any) {
         if let newViewController = UIStoryboard(name: "SignIn", bundle:nil).instantiateViewController(withIdentifier: "SignInViewController") as? SignInViewController {
-            self.present(newViewController, animated: true, completion: nil)
+            self.navigationController?.pushViewController(newViewController, animated: false)
+//            self.present(newViewController, animated: true, completion: nil)
 //            UIApplication.shared.keyWindow?.rootViewController = newViewController
         }
     }

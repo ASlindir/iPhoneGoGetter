@@ -19,7 +19,8 @@ class PhoneViewController: FormViewController {
     @IBOutlet weak var editPhoneCode: CustomTextField!
     @IBOutlet weak var btnRegister: UIButton!
     @IBOutlet weak var linkNewCode: UIButton!
-    
+    var fbLoginType = 1 //default to login
+
     var currentPhoneNumber: String? = nil
     var currentUser: SignUpViewController.UserForm? = nil
     
@@ -112,7 +113,7 @@ class PhoneViewController: FormViewController {
                 if status == "success"{
                         let welcomeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WelcomeViewController") as? WelcomeViewController
                         welcomeViewController?.customAccessToken = token!
-                        welcomeViewController?.fbLoginType = 1
+                        welcomeViewController?.fbLoginType = self.fbLoginType
                         welcomeViewController?.userDetails = userDetails
                         welcomeViewController?.jsonDataFromPhoneLogin = jsonData
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate

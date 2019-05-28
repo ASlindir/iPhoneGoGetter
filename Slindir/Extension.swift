@@ -148,7 +148,7 @@ extension UIViewController{
         return alertAction
     }
     // Common method used in many classes so we define here
-    func getUserDetails(_ isFirstTime: Bool){
+    func getUserDetails(_ isFirstTime: Bool, completion:(() -> Void)?=nil ){
         let facebookUserId = LocalStore.store.getFacebookID()
         var parameters = Dictionary<String, Any>()
         parameters["user_fb_id"] = facebookUserId
@@ -246,6 +246,9 @@ extension UIViewController{
                     let loginController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
                     self.navigationController?.setViewControllers([loginController], animated: true)
                 }
+            }
+            if (completion != nil){
+                completion?();
             }
         }, errorHandler: { (error) in
         })

@@ -216,6 +216,7 @@ class SignUpViewController: FormViewController {
             {
                 newViewController.currentPhoneNumber = currentPhoneNumber
                 newViewController.currentUser = userForm
+                newViewController.fbLoginType = 2
                 self.present(newViewController, animated: true)
             }
         }

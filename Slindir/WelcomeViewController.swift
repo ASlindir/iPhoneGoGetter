@@ -687,8 +687,7 @@
                 if selectedIndex.count == 4 {
                     if !isPresent{
                         saveUserIntrests(selectedIndex)
-                    }else{
-                        showAlert(selectedIndex)
+                    }else{                        showAlert(selectedIndex)
                     }
                 }
             }
@@ -730,7 +729,7 @@
         //MARK:-  Local Methods
         
         func launchPhoneUser(){
-            Loader.stopLoader()
+            Loader.startLoaderV2(true)
             if (fbLoginType == 1){
                 self.doLoadUserWithUserDetails(jsonData : self.jsonDataFromPhoneLogin!, doBrains:  true)
             }

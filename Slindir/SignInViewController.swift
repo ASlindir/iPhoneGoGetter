@@ -107,7 +107,47 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
     
     private func authFirebaseForPhoneLogin(token: String, jsonData : Dictionary<String, Any>, userDetails:Dictionary<String, Any>) {
         // TODO: Firebase auth and save token.
-        
+        if let userDetails = jsonData["userDetails"] as? Dictionary<String, Any> {
+            LocalStore.store.facebookID = userDetails["user_fb_id"] as! String
+            let del = UIApplication.shared.delegate as! AppDelegate
+            if del.latitude != 0.0 && del.longitude != 0.0 {
+                del.saveUserLocation()
+            }
+            if let profile_video = userDetails["profile_video"] as? String {
+                if profile_video != ""{
+                    self.writeVideo(profile_video)
+                }
+            }
+            print(userDetails)
+            let dictData = NSKeyedArchiver.archivedData(withRootObject: userDetails)
+            LocalStore.store.saveUserDetails = dictData
+            self.loadProfileImagesInCache(userDetails)
+            
+            LocalStore.store.login = true;
+            LocalStore.store.appNotFirstTime = true
+            LocalStore.store.quizDone = true
+            LocalStore.store.heightDone = true
+            
+            if let brain = userDetails["brain"] as? String{
+                if brain == "" {
+                    LocalStore.store.quizDone = false
+                    LocalStore.store.heightDone = false
+                }
+            }
+            else {
+                LocalStore.store.quizDone = false
+                LocalStore.store.heightDone = false
+            }
+            //                                let del = UIApplication.shared.delegate as! AppDelegate
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let controller = storyboard.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
+            let navigationController = UINavigationController(rootViewController: controller)
+            navigationController.interactivePopGestureRecognizer?.isEnabled = false
+            controller.isRootController = true
+            del.window?.rootViewController = navigationController
+        }
+        // straight to profiles
+        /*
         // save token and etc	
         let welcomeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WelcomeViewController") as? WelcomeViewController
         welcomeViewController?.fbLoginType = 1
@@ -117,7 +157,7 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
 
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.window!.rootViewController = welcomeViewController
+        appDelegate.window!.rootViewController = welcomeViewController*/
     }
     
     // MARK: - Touches

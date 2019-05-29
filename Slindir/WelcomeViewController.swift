@@ -595,6 +595,7 @@
                                     let navigationController = UINavigationController(rootViewController: controller)
                                     navigationController.interactivePopGestureRecognizer?.isEnabled = false
                                     controller.isRootController = true
+                                    controller.fbLoginType = 2;
                                     let del = UIApplication.shared.delegate as! AppDelegate
                                     del.window?.rootViewController = navigationController
                                 }

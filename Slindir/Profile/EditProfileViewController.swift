@@ -161,7 +161,8 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     
     var isSound:Bool = false
     var isNotification:Bool = false
-    
+    var fbLoginType = 0
+
 //    var targetSize: CGSize {
 //        let scale = UIScreen.main.scale
 //        return CGSize(width: UIScreen.main.bounds.width - 110 * scale,
@@ -259,7 +260,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         self.view.layoutIfNeeded()
     }
     
-    @objc func goToProfileController(){
+    @objc func goToProfile(isAlreadyLogin : Bool){
         self.view.alpha = 1
         
         if !isRootController {
@@ -274,10 +275,16 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             self.getUserDetails(false)
             let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
             profileController.profileDelegate = self
-            profileController.isAlreadyLogin = true
+            profileController.isAlreadyLogin = isAlreadyLogin
             navigationController?.pushViewController(profileController, animated: false)
         }
         
+    }
+    @objc func goToProfileController(){
+        goToProfile(isAlreadyLogin:  true)
+    }
+    @objc func goToProfileControllerAfterPhoneReg(){
+        goToProfile(isAlreadyLogin:  false)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -1668,22 +1675,28 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 return
             }
             
-                isBackClicked = false
-                self.saveUserPreferences()
+            isBackClicked = false
+            self.saveUserPreferences()
             UserDefaults.standard.set(true, forKey: "updateSettings")
             UserDefaults.standard.synchronize()
+            if (fbLoginType == 2){
+                if !UserDefaults.standard.bool(forKey: "likedNotification") && !UserDefaults.standard.bool(forKey: "matchedNotification") && !UserDefaults.standard.bool(forKey: "newMatchedNotification") && !UserDefaults.standard.bool(forKey: "chatNotification") {
+                    DispatchQueue.main.async {
+                        self.perform(#selector(self.goToProfileControllerAfterPhoneReg), with: nil, afterDelay: 0.1)
+                    }
+                }
+                else{
+                    let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+                    profileController.profileDelegate = self
+                    profileController.isAlreadyLogin = false
+                    self.navigationController?.pushViewController(profileController, animated: true)
+                }
+            }
+            else{
                 let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-                        profileController.profileDelegate = self
-                
-                //profileController.isSlindirQuiz = true
+                profileController.profileDelegate = self
                 self.navigationController?.pushViewController(profileController, animated: true)
-//            }
-//            else {
-//                self.scrollView.contentOffset = CGPoint(x: 0, y: 2000)
-//                self.vwVideo.layer.borderColor = UIColor.red.cgColor
-//                self.vwVideo.layer.borderWidth = 1
-//                self.showAlertWithOneButton("", "Please upload an activity video of you doing something fun.", "Ok")
-//            }
+            }
         }else{
             if genderPreferences == "" {
                 self.showAlertWithOneButton("", "Please select your gender preference above.", "Ok")

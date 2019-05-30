@@ -139,12 +139,14 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
                 LocalStore.store.heightDone = false
             }
             //                                let del = UIApplication.shared.delegate as! AppDelegate
+            self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let controller = storyboard.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
             let navigationController = UINavigationController(rootViewController: controller)
             navigationController.interactivePopGestureRecognizer?.isEnabled = false
             controller.isRootController = true
             del.window?.rootViewController = navigationController
+            
         }
         // straight to profiles
         /*

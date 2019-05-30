@@ -111,6 +111,8 @@ class PhoneViewController: FormViewController {
                 let status = jsonData!["status"] as! String
                 
                 if status == "success"{
+                        // remove the sign in/signup/self service views entirely
+                    self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
                         let welcomeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WelcomeViewController") as? WelcomeViewController
                         welcomeViewController?.customAccessToken = token!
                         welcomeViewController?.fbLoginType = self.fbLoginType

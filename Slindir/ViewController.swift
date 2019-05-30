@@ -313,6 +313,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func btnLoginWithPhoneNumber(_ sender: Any) {
+        UserDefaults.standard.set(true, forKey: "UpdateImages")
+        UserDefaults.standard.synchronize()
         if let newViewController = UIStoryboard(name: "SignIn", bundle:nil).instantiateViewController(withIdentifier: "SignInViewController") as? SignInViewController {
             self.navigationController?.pushViewController(newViewController, animated: false)
 //            self.present(newViewController, animated: true, completion: nil)

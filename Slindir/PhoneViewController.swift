@@ -95,6 +95,23 @@ class PhoneViewController: FormViewController {
         return age!
     }
 
+
+
+    private func doRemoveUser(){
+        FirebaseObserver.observer.deleteFirebaseAccount()
+        let facebookId = LocalStore.store.getFacebookID()
+        var parameters = Dictionary<String,Any>()
+        parameters["user_fb_id"] = facebookId
+        WebServices.service.webServicePostRequest(.post, .user, .deleteAccount, parameters, successHandler: { (response) in
+            //  LoginManager().logOut()
+            FirebaseObserver.observer.firstLoad = false
+            self.deleteOldVideoFromDocumentDirectory()
+            LocalStore.store.clearDataAllData()
+        }, errorHandler: { (error) in
+            
+        })
+    }
+    
     private func startThisUser(jsonData: Dictionary<String, Any>?,token: String?){
         // set email
         if let userDetails = jsonData!["userDetails"] as? Dictionary<String, Any> {
@@ -103,8 +120,13 @@ class PhoneViewController: FormViewController {
         let fuser = Auth.auth().currentUser
         fuser?.updateEmail(to: email!, completion: {(error)  in
             if let err = error{
-                self.outAlertError(message:"This email is already in use with a Facebook Account. Try logging back in with FB, or with a different email")
-                // need deleteaccount right here
+                self.outAlertError(message:"This email is already in use with a Facebook Account. Try logging back in with FB, or with a different email",
+                    compliteHandler: {
+                        self.doRemoveUser();
+                        // need deleteaccount right here
+                        self.navigationController?.popViewController(animated: true)
+                        self.dismiss(animated: true, completion: nil)
+                })
                 print("Error :- ",err)
             }
             else{
@@ -126,18 +148,7 @@ class PhoneViewController: FormViewController {
         }
     }
             
-    func callDeleteAccountWebService() {
-        let facebookId = LocalStore.store.getFacebookID()
-        var parameters = Dictionary<String,Any>()
-        parameters["user_fb_id"] = facebookId
-        WebServices.service.webServicePostRequest(.post, .user, .deleteAccount, parameters, successHandler: { (response) in
-            Loader.stopLoader()
-            
-        }, errorHandler: { (error) in
-            
-        })
-    }
-            
+   
     func authFirebaseForPhoneRegistration(token: String?, jsonData: Dictionary<String, Any>?) {
         // TODO: Firebase auth and save token.
            // setup firebase
@@ -146,7 +157,6 @@ class PhoneViewController: FormViewController {
                 if let err = error{
                     print("Error :- ",err)
                     // delete user record and display error here
-                     self.callDeleteAccountWebService();
                 }else{
                     let userDetails = jsonData!["userDetails"] as? Dictionary<String, Any>
                     let fbid = userDetails!["user_fb_id"]
@@ -198,7 +208,12 @@ class PhoneViewController: FormViewController {
                         LocalStore.store.facebookID = userDetails!["user_fb_id"] as! String?
                         self.authFirebaseForPhoneRegistration(token: token, jsonData: jsonData)
                     } else if status == "duplicate" {
-                        self.outAlertError(message: "Registration phone number is already registered, go back to login and click 'forgot password help' if you don't remember your password")
+                        self.outAlertError(message: "Registration phone number is already registered, go back to login and click 'forgot password help' if you don't remember your password", compliteHandler: {
+                            self.doRemoveUser();
+                            // need deleteaccount right here
+                            self.navigationController?.popViewController(animated: true)
+                            self.dismiss(animated: true, completion: nil)
+                        })
                     } else {
                         self.outAlertError(message: "Registration failed: \(status)")
                     }

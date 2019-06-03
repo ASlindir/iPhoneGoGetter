@@ -238,7 +238,8 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
     }
     
     @IBAction func btnClose(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     
     

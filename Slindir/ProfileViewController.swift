@@ -1144,6 +1144,8 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     func undoDemoCard() {
         self.vwCardSelected = self.vwCardUndo
         self.startAnimationOfCards("undo")
+        // fhc convenient place to make sure we ahve notifications up on registration
+        self.remoteNotification()
     }
     
     func profileDemoCard() {

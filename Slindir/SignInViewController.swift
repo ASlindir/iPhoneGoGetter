@@ -212,7 +212,7 @@ class SignInViewController: FormViewController, FPNTextFieldDelegate {
             })
         } else {
             parameters["password"] = editPassword.text
-            parameters["device_type"] = "A"
+            parameters["device_type"] = "I"
             parameters["device_id"] = UserDefaults.standard.value(forKey: "device_token") as? String
             
             WebServices.service.webServicePostRequest(.post, .user, .loginPhone, parameters as Dictionary<String, Any>, successHandler: { (response) in

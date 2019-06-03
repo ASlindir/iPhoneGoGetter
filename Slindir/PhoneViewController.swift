@@ -103,7 +103,7 @@ class PhoneViewController: FormViewController {
         var parameters = Dictionary<String,Any>()
         parameters["user_fb_id"] = facebookId
         WebServices.service.webServicePostRequest(.post, .user, .deleteAccount, parameters, successHandler: { (response) in
-            //  LoginManager().logOut()
+            //  LoginManager().logOut()user
             FirebaseObserver.observer.firstLoad = false
             self.deleteOldVideoFromDocumentDirectory()
             LocalStore.store.clearDataAllData()
@@ -120,6 +120,7 @@ class PhoneViewController: FormViewController {
         let fuser = Auth.auth().currentUser
         fuser?.updateEmail(to: email!, completion: {(error)  in
             if let err = error{
+                Loader.stopLoader();
                 self.outAlertError(message:"This email is already in use with a Facebook Account. Try logging back in with FB, or with a different email",
                     compliteHandler: {
                         self.doRemoveUser();
@@ -131,7 +132,8 @@ class PhoneViewController: FormViewController {
             }
             else{
                 let status = jsonData!["status"] as! String
-                
+                Loader.stopLoader();
+
                 if status == "success"{
                         // remove the sign in/signup/self service views entirely
                     self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
@@ -155,6 +157,7 @@ class PhoneViewController: FormViewController {
         DispatchQueue.main.async {
 	            Auth.auth().signIn(withCustomToken: token!, completion: { (user, error) in
                 if let err = error{
+                    Loader.stopLoader();
                     print("Error :- ",err)
                     // delete user record and display error here
                 }else{
@@ -192,7 +195,7 @@ class PhoneViewController: FormViewController {
                 parameters["pwd2"] = currentUser?.password
                 parameters["dob"] = dobstr
                 parameters["gender"] = currentUser?.gender == .male ? "M" : "F"
-                parameters["device_type"] = "A"
+                parameters["device_type"] = "I"
                 parameters["email"] = currentUser?.email
                 parameters["device_id"] = UserDefaults.standard.value(forKey: "device_token") as? String
 
@@ -202,12 +205,12 @@ class PhoneViewController: FormViewController {
                     let token = jsonData?["token"] as? String
                     //let userDetails = jsonData?["userDetails"] as? String
                     let userDetails = jsonData!["userDetails"] as? Dictionary<String, Any>
-                    Loader.stopLoader()
 
                     if status == "success" {
                         LocalStore.store.facebookID = userDetails!["user_fb_id"] as! String?
                         self.authFirebaseForPhoneRegistration(token: token, jsonData: jsonData)
                     } else if status == "duplicate" {
+                        Loader.stopLoader()
                         self.outAlertError(message: "Registration phone number is already registered, go back to login and click 'forgot password help' if you don't remember your password", compliteHandler: {
                             self.doRemoveUser();
                             // need deleteaccount right here
@@ -215,10 +218,12 @@ class PhoneViewController: FormViewController {
                             self.dismiss(animated: true, completion: nil)
                         })
                     } else {
-                        self.outAlertError(message: "Registration failed: \(status)")
+                        Loader.stopLoader()
+                        self.outAlertError(message: "Registration failed, please check the phone code: \(status)")
                     }
 
                 }, errorHandler: { (error) in
+                    Loader.stopLoader()
                     self.outAlertError(message: "Could not register because of communication error, please try again later: \(error.debugDescription)")
                 })
             } else {

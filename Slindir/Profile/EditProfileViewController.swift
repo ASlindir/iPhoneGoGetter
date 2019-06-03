@@ -267,11 +267,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             let del = UIApplication.shared.delegate as! AppDelegate
             del.registerForRemoteNotifications()
         }
-        else if (fbLoginType == 2){
-            let del = UIApplication.shared.delegate as! AppDelegate
-            del.registerForRemoteNotifications()
-        }
-        
+
         if genderPreferences == "" || lookingFor.count == 0 {
             return
         }

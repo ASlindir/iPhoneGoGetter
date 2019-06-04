@@ -32,17 +32,18 @@ class FirebaseObserver: NSObject {
         newMessageRefHandle = messageQuery.observe(.childChanged, with: { (snapshot) in
             let messages = NSMutableArray()
             let snapshotData = snapshot.value as! NSDictionary
-            let df = DateFormatter()
-            df.dateFormat = "yyyy-MM-dd hh:mm:ss a"
-            df.locale = Locale.init(identifier: "en_US_POSIX")
             for i in 0..<snapshotData.allKeys.count {
                 let message = snapshotData.allValues[i] as! NSDictionary
-                let date = df.date(from: message.value(forKey: "time") as! String)
+                let dtmp = message.value(forKey: "time") as! String
+                let df = DateFormatter()
+                df.dateFormat = "yyyy-MM-dd hh:mm:ss a"
+                df.locale = Locale.init(identifier: "en_US_POSIX")
+                let date = df.date(from: dtmp)
                 if (date != nil){
                     df.dateFormat = "yyyy-MM-dd HH:mm:ss"
                 }
                 let newMessage:NSMutableDictionary  = message as! NSMutableDictionary
-                newMessage["time"] = df.date(from: message.value(forKey: "time") as! String)
+                newMessage["time"] = date
                 messages.add(newMessage as NSDictionary)
             }
             let sortDesc = NSSortDescriptor.init(key: "time", ascending: true)

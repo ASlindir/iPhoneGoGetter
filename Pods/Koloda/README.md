@@ -1,4 +1,4 @@
-KolodaView [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) ![Swift 4.0.x](https://img.shields.io/badge/Swift-4.0.x-orange.svg)
+KolodaView ![cocoapods](https://img.shields.io/cocoapods/v/Koloda.svg)[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) ![Swift 5.0](https://img.shields.io/badge/Swift-5.0-orange.svg)
 --------------
 
 [![Yalantis](https://raw.githubusercontent.com/Yalantis/PullToMakeSoup/master/PullToMakeSoupDemo/Resouces/badge_dark.png)](https://Yalantis.com/?utm_source=github)
@@ -23,13 +23,6 @@ ARC Compatibility
 ------------------
 
 KolodaView requires ARC.
-
-Сocoapods version
-------------------
-
-```ruby
-pod 'Koloda', '~> 4.3.1'
-```
 
 Thread Safety
 --------------
@@ -61,7 +54,7 @@ Usage
     ```
 2. Add `KolodaView` to `MyKolodaViewController`, then set dataSource and delegate for it
     ```swift
-    class ViewController: UIViewController {
+    class MyKolodaViewController: UIViewController {
         @IBOutlet weak var kolodaView: KolodaView!
 
         override func viewDidLoad() {
@@ -143,13 +136,13 @@ public func reloadData()
 ```
 This method reloads all KolodaView item views from the dataSource and refreshes the display.
 ```swift
-public func resetCurrentCardNumber()
+public func resetCurrentCardIndex()
 ```
-This method resets currentCardNumber and calls reloadData, so KolodaView loads from the beginning.
+This method resets currentCardIndex and calls reloadData, so KolodaView loads from the beginning.
 ```swift
 public func revertAction()
 ```
-Applies undo animation and decrement currentCardNumber.
+Applies undo animation and decrement currentCardIndex.
 ```swift
 public func applyAppearAnimationIfNeeded()
 ```
@@ -157,7 +150,7 @@ Applies appear animation if needed.
 ```swift
 public func swipe(_ direction: SwipeResultDirection, force: Bool = false)
 ```
-Applies swipe animation and action, increment currentCardNumber.
+Applies swipe animation and action, increment currentCardIndex.
 
 ```swift
 open func frameForCard(at index: Int) -> CGRect
@@ -247,6 +240,26 @@ not move.
 Release Notes
 ----------------
 
+Version 5.0
+- Swift 5.0 via [@maxxfrazer](https://github.com/maxxfrazer)
+
+Version 4.7
+- fixed a bug with card responding during swiping via [@lixiang1994](https://github.com/lixiang1994)
+- fixed a bug with inappropriate layouting via [@soundsmitten](https://github.com/soundsmitten)
+
+Version 4.6
+- update some properties to be publicitly settable via [@sroik](https://github.com/sroik) and [@leonardoherbert](https://github.com/leonardoherbert)
+- Xcode 9 back compatibility via [@seriyvolk83](https://github.com/seriyvolk83)
+- added posibility to have the card stack at the top or bottom via [@lorenzOliveto](https://github.com/lorenzOliveto)
+
+Version 4.5
+- Swift 4.2 via [@evilmint](https://github.com/evilmint)
+
+Version 4.4
+- Swift 4.1 via [@irace](https://github.com/irace)
+- Added `isLoop` property via [@brownsoo](https://github.com/brownsoo)
+- Take into account card's alpha channel via [@bwhtmn](https://github.com/bwhtmn)
+
 Version 4.3
 - Swift 4 support
 - iOS 11 frame bugfix
@@ -288,7 +301,7 @@ Version 1.0
 ![Preview](https://github.com/Yalantis/Koloda/blob/master/Example/UsageExamples/bro.gif)
 - [Storage Space Plus](https://itunes.apple.com/us/app/storage-space-plus-compress/id1086277462?mt=8).
 - [Color Dating](https://itunes.apple.com/us/app/color-dating-free-app-for/id1100827439?mt=8).
-
+- [Ao Dispor](https://itunes.apple.com/pt/app/ao-dispor/id1185556583)
 
 #### Let us know!
 
@@ -301,7 +314,7 @@ License
 
 The MIT License (MIT)
 
-Copyright © 2017 Yalantis
+Copyright © 2019 Yalantis
 
 Permission is hereby granted free of charge to any person obtaining a copy of this software and associated documentation files (the "Software") to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

@@ -91,17 +91,17 @@ class FriendsListViewController: UIViewController, UITableViewDataSource, UITabl
         friendRefHandle = friendRef.observe(.childAdded, with: { (snapshot) in
             let friendData = snapshot.value as! Dictionary<String, Any>
             print("Friends :- ",friendData)
-            let id = snapshot.key
-            if let name = friendData["name"] as! String!, name.characters.count > 0{
+            let name = friendData["name"] as! String
+            if name.count > 0{
                 let user_id = LocalStore.store.getFacebookID()
                 if friendData["id"] as? String == user_id{
                         
                 }else{
-                    if let lastMessage = friendData["lastMessage"] as? [String: Any]{
+     /* fhc               if let lastMessage = friendData["lastMessage"] as? [String: Any]{
                        // self.friends.append(Friend(id: id, name: name, lastMessage:lastMessage))
                     }else{
                        // self.friends.append(Friend(id: id, name: name, lastMessage:nil))
-                    }
+                    } */
                     self.tableView?.reloadData()
                 }
             }

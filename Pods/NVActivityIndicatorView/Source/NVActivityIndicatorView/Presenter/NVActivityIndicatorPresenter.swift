@@ -233,7 +233,7 @@ public final class NVActivityIndicatorPresenter {
      - parameter data: Information package used to display UI blocker.
      - parameter fadeInAnimation: Fade in animation.
      */
-    public final func startAnimating(_ data: ActivityData, _ fadeInAnimation: FadeInAnimation?) {
+    public final func startAnimating(_ data: ActivityData, _ fadeInAnimation: FadeInAnimation? = nil) {
         self.data = data
         state.startAnimating(presenter: self, fadeInAnimation)
     }
@@ -243,7 +243,7 @@ public final class NVActivityIndicatorPresenter {
 
      - parameter fadeOutAnimation: Fade out animation.
      */
-    public final func stopAnimating(_ fadeOutAnimation: FadeOutAnimation?) {
+    public final func stopAnimating(_ fadeOutAnimation: FadeOutAnimation? = nil) {
         state.stopAnimating(presenter: self, fadeOutAnimation)
     }
 
@@ -318,17 +318,17 @@ public final class NVActivityIndicatorPresenter {
     }
 
     fileprivate func hide(_ fadeOutAnimation: FadeOutAnimation?) {
-        guard let keyWindow = UIApplication.shared.keyWindow else { return }
-
-        for item in keyWindow.subviews
-            where item.restorationIdentifier == restorationIdentifier {
-                if let fadeOutAnimation = fadeOutAnimation {
-                    fadeOutAnimation(item) {
+        for window in UIApplication.shared.windows {
+            for item in window.subviews
+                where item.restorationIdentifier == restorationIdentifier {
+                    if let fadeOutAnimation = fadeOutAnimation {
+                        fadeOutAnimation(item) {
+                            item.removeFromSuperview()
+                        }
+                    } else {
                         item.removeFromSuperview()
                     }
-                } else {
-                    item.removeFromSuperview()
-                }
+            }
         }
     }
 }

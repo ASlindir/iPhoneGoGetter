@@ -36,7 +36,7 @@ class CustomCellCenterFlowLayout: UICollectionViewFlowLayout {
                 for attribute in attributesForVisibleCells{
                     
                     // == Skip comparison with non-cell items (headers and footers) == //
-                    if attribute.representedElementCategory != UICollectionElementCategory.cell{
+                    if attribute.representedElementCategory != UICollectionView.ElementCategory.cell{
                         continue
                     }
                     

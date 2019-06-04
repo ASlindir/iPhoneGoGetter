@@ -12,7 +12,6 @@ import FirebaseDatabase
 import FirebaseAuth
 import AVFoundation
 import Firebase
-import FacebookLogin
 
 //MARK:-  UIImageView Extension
 let imageCache = NSCache<AnyObject, AnyObject>()
@@ -55,10 +54,10 @@ extension UILabel{
     func animate(newText: String, characterDelay: TimeInterval,completed:@escaping (_ : Bool) -> Void){
         DispatchQueue.main.async {
             self.text = ""
-            for (index, character) in newText.characters.enumerated(){
+            for (index, character) in newText.enumerated(){
                 DispatchQueue.main.asyncAfter(deadline: .now() + characterDelay * Double(index), execute: {
                     self.text?.append(character)
-                    if index == newText.characters.count - 1{
+                    if index == newText.count - 1{
                         completed(true)
                     }
                 })
@@ -74,11 +73,11 @@ extension UITextField{
         DispatchQueue.main.async {
             self.text = ""
         }
-        for (index,character) in newText.characters.enumerated()
+        for (index,character) in newText.enumerated()
         {
             DispatchQueue.main.asyncAfter(deadline: .now() + characterDelay * Double(index), execute: {
                 self.text?.append(character)
-                if index == newText.characters.count - 1{
+                if index == newText.count - 1{
                     completed(true)
                 }
             })
@@ -141,7 +140,7 @@ extension UIViewController{
         present(alert, animated: true, completion: nil)
     }
     
-    func action(_ title: String?,_ style: UIAlertActionStyle, actionHandler actionClick:@escaping (_ action: UIAlertAction) -> Void) -> UIAlertAction{
+    func action(_ title: String?,_ style: UIAlertAction.Style, actionHandler actionClick:@escaping (_ action: UIAlertAction) -> Void) -> UIAlertAction{
         
         let alertAction = UIAlertAction(title: title, style: style) { (action) in
             actionClick(action)
@@ -149,7 +148,7 @@ extension UIViewController{
         return alertAction
     }
     // Common method used in many classes so we define here
-    func getUserDetails(_ isFirstTime: Bool){
+    func getUserDetails(_ isFirstTime: Bool, completion:(() -> Void)?=nil ){
         let facebookUserId = LocalStore.store.getFacebookID()
         var parameters = Dictionary<String, Any>()
         parameters["user_fb_id"] = facebookUserId
@@ -217,6 +216,18 @@ extension UIViewController{
                                 }                                
                         }
                     }
+                    /* jasvir changes  */
+ 
+                     if let detail = details["profile_video"] as? String {
+                     if detail == "" {
+                     self.deleteOldVideoFromDocumentDirectory()
+                     }
+                     }
+                     else {
+                     self.deleteOldVideoFromDocumentDirectory()
+                     }
+ 
+                    /* end jasvir changes */
                     
 
                 }
@@ -228,13 +239,16 @@ extension UIViewController{
                             return
                         }
                     }
-                    LoginManager().logOut()
+                   // LoginManager().logOut()
                     LocalStore.store.clearDataAllData()
                     FirebaseObserver.observer.firstLoad = false
                     self.deleteOldVideoFromDocumentDirectory()
                     let loginController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
                     self.navigationController?.setViewControllers([loginController], animated: true)
                 }
+            }
+            if (completion != nil){
+                completion?();
             }
         }, errorHandler: { (error) in
         })
@@ -334,7 +348,7 @@ extension UIViewController{
         print("Date String :-",time)
         format.dateFormat = "yyyy-MM-dd hh:mm:ss a"
         format.locale = Locale.init(identifier: "en_US_POSIX")
-        if let date = format.date(from: time) as? Date {
+        if let date = format.date(from: time) {
             return date.timeIntervalSince1970
         }
         else {
@@ -348,7 +362,9 @@ extension UIViewController{
         let imgGenerator = AVAssetImageGenerator(asset: asset)
         imgGenerator.appliesPreferredTrackTransform = true
         do {
-            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
+            let maxSize = CGSize(width: 512, height: 512);
+            imgGenerator.maximumSize = maxSize;
+            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
             // !! check the error before proceeding
             let uiImage = UIImage.init(cgImage: cgImage)
             return uiImage

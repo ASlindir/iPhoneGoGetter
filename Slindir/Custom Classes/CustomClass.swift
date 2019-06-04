@@ -51,7 +51,8 @@ class CustomClass: NSObject {
                 }
                 audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: music!))
                 audioPlayer?.volume = 1
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient)
+//                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient);
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient, mode:AVAudioSession.Mode.spokenAudio);
                 try AVAudioSession.sharedInstance().setActive(true)
                 audioPlayer?.play()
             }catch let err{
@@ -101,9 +102,9 @@ class PanDirectionGestureRecognizer: UIPanGestureRecognizer {
         if state == .began {
             let vel = velocity(in: view)
             switch direction {
-            case .horizontal where fabs(vel.y) > fabs(vel.x):
+            case .horizontal where abs(vel.y) > abs(vel.x):
                 state = .cancelled
-            case .vertical where fabs(vel.x) > fabs(vel.y):
+            case .vertical where abs(vel.x) > abs(vel.y):
                 state = .cancelled
             default:
                 break
@@ -113,3 +114,8 @@ class PanDirectionGestureRecognizer: UIPanGestureRecognizer {
 }
 
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
+	return input.rawValue
+}

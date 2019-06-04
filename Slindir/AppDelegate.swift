@@ -8,14 +8,15 @@
 
 import UIKit
 import CoreData
-import FacebookCore
-import FacebookLogin
+import FBSDKCoreKit
 import Firebase
 import IQKeyboardManagerSwift
 import Fabric
 import Crashlytics
 import CoreLocation
 import UserNotifications
+import FacebookCore
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
@@ -33,13 +34,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var startDate:Date!
     var endDate:Date!
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UserDefaults.standard.set(true, forKey: "UpdateImages")
         UserDefaults.standard.synchronize()
-        
+  //      ClientLog.WriteClientLog( msgType: "ios", msg:"appstart");
+
         startDate = Date()
             
-        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         FirebaseApp.configure()
         
@@ -58,6 +60,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             navigationController.interactivePopGestureRecognizer?.isEnabled = false
             controller.isRootController = true
             window?.rootViewController = navigationController
+        }
+        else{
+//ClientLog.WriteClientLog( msgType: "ios", msg:"not logged");
         }
         
         IQKeyboardManager.shared.enable = true
@@ -104,12 +109,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.requestWhenInUseAuthorization()
+            //ClientLog.WriteClientLog( msgType: "ios", msg:"startlocation");
             locationManager.startUpdatingLocation()
+            //ClientLog.WriteClientLog( msgType: "ios", msg:"endlocation");
         }
         else {
             let yesAction = self.currentController.action("Go to Settings?", .default) { (action) in
                 //UIApplication.shared.open(URL(string:"prefs:root=LOCATION_SERVICES")!, options: [:], completionHandler: nil)
-                guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
+                guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
                     return
                 }
                 
@@ -145,9 +152,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     
     func sendDeviceTokenToServer() {
+   //     ClientLog.WriteClientLog( msgType: "ios", msg:"senddevid");
         let facebookID = LocalStore.store.getFacebookID()
         
-        var parameters = Dictionary<String, Any!>()
+        var parameters = Dictionary<String, Any?>()
         parameters["user_fb_id"] = facebookID
         
         if let deviceId = UserDefaults.standard.value(forKey: "device_token") as? String  {
@@ -157,7 +165,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             parameters["device_id"] = "asdasdasdasdas"
         }
         
-        WebServices.service.webServicePostRequest(.post, .user, .deviceToken, parameters, successHandler: { (response) in
+        WebServices.service.webServicePostRequest(.post, .user, .deviceToken, parameters as Dictionary<String, Any>, successHandler: { (response) in
             
             
         }, errorHandler: { (error) in
@@ -166,7 +174,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+	    let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
         UserDefaults.standard.set(deviceTokenString, forKey: "device_token")
         UserDefaults.standard.synchronize()
         print(deviceTokenString)
@@ -312,31 +320,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     // Below Mehtod will print error if not able to update location.
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {        
-        let yesAction = self.currentController.action("Go to Settings?", .default) { (action) in
-            //UIApplication.shared.open(URL(string:"prefs:root=LOCATION_SERVICES")!, options: [:], completionHandler: nil)
-            guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
-                return
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        if self.currentController != nil {
+            let yesAction = self.currentController.action("Go to Settings?", .default) { (action) in
+                //UIApplication.shared.open(URL(string:"prefs:root=LOCATION_SERVICES")!, options: [:], completionHandler: nil)
+                guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                    return
+                }
+                
+                if UIApplication.shared.canOpenURL(settingsUrl) {
+                    UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                        print("Settings opened: \(success)") // Prints true
+                    })
+                }
             }
             
-            if UIApplication.shared.canOpenURL(settingsUrl) {
-                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-                    print("Settings opened: \(success)") // Prints true
-                })
-            }
+            let noAction = self.currentController.action("Cancel", .cancel) { (action) in                    }
+            self.currentController.showAlertWithCustomButtons("", "Apologies but we need to access your location in order to find matches in your area. Please enable location from your device settings.", yesAction,noAction)
         }
-        
-        let noAction = self.currentController.action("Cancel", .cancel) { (action) in                    }
-        self.currentController.showAlertWithCustomButtons("", "Apologies but we need to access your location in order to find matches in your area. Please enable location from your device settings.", yesAction,noAction)
     }
     
     func saveUserLocation() {
-        var parameters = Dictionary<String, Any!>()
+        var parameters = Dictionary<String, Any?>()
         parameters["user_fb_id"] = LocalStore.store.getFacebookID()
         parameters["latitude"] = String(format:"%f", self.latitude)
         parameters["longitude"] = String(format:"%f", self.longitude)
         
-        WebServices.service.webServicePostRequest(.post, .user, .setLocation, parameters, successHandler: { (response) in
+        WebServices.service.webServicePostRequest(.post, .user, .setLocation, parameters as Dictionary<String, Any>, successHandler: { (response) in
             self.currentController.getUserDetails(false)
         }, errorHandler: { (error) in
         })
@@ -366,7 +376,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        AppEventsLogger.activate(application)
         if LocalStore.store.isLogin() {
             FirebaseObserver.observer.observeFriendList()
             FirebaseObserver.observer.observeFriendsRemoved()
@@ -382,9 +391,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         self.saveContext()
     }
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        return SDKApplicationDelegate.shared.application(app, open: url, options: options)
+        return ApplicationDelegate.shared.application(app, open: url, options: options)
     }
     
     // MARK: - Core Data stack

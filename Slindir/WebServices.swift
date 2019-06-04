@@ -12,6 +12,11 @@ import UIKit
 public let baseUrl = "http://slindirapp.com/web-services/index.php"
 public let mediaUrl = "http://slindirapp.com/web-services/media/"
 
+//public let baseUrl = "http://98.176.82.131/web-services/index.php"
+//public let mediaUrl = "http://98.176.82.131/web-services/media/"
+//public let baseUrl = "http://18.236.52.178/web-services/index.php"
+//public let mediaUrl = "http://18.236.52.178/web-services/media/"
+
 enum Model: String{
     
     case user = "user"
@@ -27,6 +32,8 @@ enum Model: String{
     case report = "report"
     
     case dislike = "dislike"
+    
+    case clientlog = "clientlog"
 }
 
 enum ServiceType: String {
@@ -35,7 +42,11 @@ enum ServiceType: String {
 }
 
 enum Services: String {
-//Login and Save User Details API's
+
+    // Client Log api
+    case log                                = "log"
+
+    //Login and Save User Details API's
     case login                              = "login"
     
     case updateProfile                      = "update-profile"
@@ -86,6 +97,39 @@ enum Services: String {
     case endUserDetail                      = "get-end-user-details"
     
     case uploadVideoAndThumbnail            = "upload-profile-video"
+    
+    case checkPhone                         = "checkPhone"
+    
+    case sendPhoneCode                      = "sendPhoneCode"
+    
+    case registernewuser                    = "registernewuser"
+    
+    case requestMailCode                    = "requestMailCode"
+    
+    case loginPhone                         = "loginPhone"
+    
+    case checkEmailCode                     = "checkEmailCode"
+    
+    case changePassword                     = "changePassword"
+}
+
+class CommError {
+    static let global = CommError()
+    static var alertController: Optional<UIAlertController> = nil;
+    
+    private init() { }
+    
+    func ShowMessage(msg : String) {
+        if(CommError.alertController == nil){
+            CommError.alertController = UIAlertController(title: "Error", message: msg, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) {
+                (action) in
+                CommError.alertController = nil;
+            }
+            CommError.alertController!.addAction(okAction)
+            CommError.alertController!.show()
+        }
+    }
 }
 
 class WebServices: NSObject {
@@ -101,7 +145,7 @@ class WebServices: NSObject {
         request.httpMethod = servcieType.rawValue
         do{
             if let params = parameters{
-                request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+                request.httpBody = try JSONSerialization.data(withJSONObject: params, 	options: .prettyPrinted)
             }
         }catch let err{
             print(err)
@@ -112,18 +156,36 @@ class WebServices: NSObject {
         let urlSessionData = urlSession.dataTask(with: request) { (data, response, error) in
             if error == nil{
                 do{
+                    // check for exceptions that happened on the server... comes work but server app threw exeption
                     print(String.init(data: data!, encoding: .utf8)!)
                     print(response!)
-                    if let jsonData = data{
-                        let json = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as! Dictionary<String, Any>
-                        success(json)
+            	        if let jsonData = data{
+                        if (jsonData.count > 0){
+                            let json = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as! Dictionary<String, 	Any>
+                            let status = json["status"] as? String
+                            if (status == "syserror"){
+                                if let emsg = json["message"] as? String{
+                                    CommError.global.ShowMessage(msg:emsg)
+                                }
+                                else{
+                                    CommError.global.ShowMessage(msg:"Oops the slindir server is having issues right now, please try again later or contact us at support@slindir.com");
+                                }
+                            }
+                            else{
+                                success(json)
+                            }
+                        }
+                        else{
+                            CommError.global.ShowMessage(msg:"Oops the slindir server is having issues right now, please try again later or contact us at support@slindir.com");
+                        }
                     }else{
-                        success(nil)
+                        success(nil)		
                     }
                 }catch let err{
                     serviceError(err)
                 }
             }else{
+                // real comm errors come here... use built in IOS default NSUrl domain messsages
                 serviceError(error)
             }
         }
@@ -186,7 +248,7 @@ class WebServices: NSObject {
         for (key, value) in parameters {
             body.appendString(boundaryPrefix)
             body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
-            body.appendString("\(value)\r\n")
+            body.appendString(String(format:"%@\r\n",value ))
         }
         
         body.appendString(boundaryPrefix)
@@ -219,7 +281,7 @@ class WebServices: NSObject {
         for (key, value) in parameters! {
             body.appendString(boundaryPrefix)
             body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
-            body.appendString("\(value)\r\n")
+            body.appendString(String(format:"%@\r\n",value as! String))
         }
         
         body.appendString(boundaryPrefix)
@@ -227,9 +289,9 @@ class WebServices: NSObject {
         body.appendString("Content-Type: image/jpg\r\n\r\n")
         body.append(imageData)
         body.appendString("\r\n")
-        
+
         let videoFileName = String(format:"video%d.mp4",Int(NSTimeIntervalSince1970))
-        
+
         body.appendString(boundaryPrefix)
         body.appendString("Content-Disposition: form-data; name=\"profileVideo\"; filename=\"\(videoFileName)\"\r\n")
         body.appendString("Content-Type: application/octet-stream\r\n\r\n")
@@ -245,7 +307,7 @@ class WebServices: NSObject {
             if error == nil{
                 do{
                     if let jsonData = data{
-                        print(String(data: jsonData, encoding: String.Encoding.utf8) as String!)
+                        print(String(data: jsonData, encoding: String.Encoding.utf8) ?? "")
 
                         let json = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as! Dictionary<String, Any>
                         success(json)
@@ -262,6 +324,18 @@ class WebServices: NSObject {
         urlSessionData.resume()
     }
 
+}
+
+public extension UIAlertController {
+    func show() {
+        let win = UIWindow(frame: UIScreen.main.bounds)
+        let vc = UIViewController()
+        vc.view.backgroundColor = .clear
+        win.rootViewController = vc
+        win.windowLevel = UIWindow.Level.alert + 1
+        win.makeKeyAndVisible()
+        vc.present(self, animated: true, completion: nil)
+    }
 }
 
 extension NSMutableData {

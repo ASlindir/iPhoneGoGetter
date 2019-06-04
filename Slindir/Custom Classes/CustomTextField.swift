@@ -13,7 +13,7 @@ class CustomTextField: UITextField {
 
     override func drawText(in rect: CGRect) {
         let edgeContents = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        super.drawText(in: UIEdgeInsetsInsetRect(rect, edgeContents))
+        super.drawText(in: rect.inset(by: edgeContents))
     }
     
     override func textRect(forBounds bounds: CGRect) -> CGRect {

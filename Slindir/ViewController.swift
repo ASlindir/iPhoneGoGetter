@@ -14,11 +14,9 @@ import SwiftyGif
 import AVFoundation
 import AVKit
 import MediaPlayer
-import FacebookCore
-import FacebookLogin
-import FirebaseAuth
+import FBSDKCoreKit
 import FBSDKLoginKit
-import FacebookShare
+import FirebaseAuth
 
 class ViewController: UIViewController {
 
@@ -46,6 +44,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var constraintGreenBackTop: NSLayoutConstraint!
     @IBOutlet weak var btnFacebook: UIButton!
+    @IBOutlet weak var btnPhoneNumber: CustomButton!
     
     let mask = CAGradientLayer()
 
@@ -70,6 +69,7 @@ class ViewController: UIViewController {
         gifImages = ["ForActiveSmall.gif","PersonalityTypeMatching.gif","browser.gif"]
         animateTitle()
         btnFacebook.alpha = 0
+        btnPhoneNumber.alpha = 0
         imgViewCircleGif.alpha = 0
         imgViewIcons.alpha = 0
         addingImagesInArray()
@@ -84,8 +84,9 @@ class ViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         btnFacebook.layer.cornerRadius = btnFacebook.frame.size.height/2
+        btnPhoneNumber.layer.cornerRadius = btnPhoneNumber.frame.size.height/2
         mask.frame = viewFade.bounds
-        if playerController.player?.status == AVPlayerStatus.readyToPlay {
+        if playerController.player?.status == AVPlayer.Status.readyToPlay {
             playerController.player?.play()
         }
     }
@@ -105,7 +106,7 @@ class ViewController: UIViewController {
     
     @objc func playerItemDidReachEnd(_ notification: Notification){
         let playerItem = notification.object as! AVPlayerItem
-        playerItem.seek(to: kCMTimeZero)
+        playerItem.seek(to: CMTime.zero)
     }
     
 //MARK:-  Local Methods
@@ -167,7 +168,7 @@ class ViewController: UIViewController {
         self.playCircularIcon()
         var videoUrl = Bundle.main.url(forResource: "SlindirIntro", withExtension: "mp4")
         
-        if UIScreen.main.bounds.size.height == 812 {
+        if UIScreen.main.bounds.size.height >= 812 {
             videoUrl = Bundle.main.url(forResource: "SlindirIntro_iPhoneX", withExtension: "mp4")
             self.playerController.view.frame = CGRect(x:-20, y:-20, width: UIScreen.main.bounds.size.width + 40, height: UIScreen.main.bounds.size.height + 40)
         }
@@ -179,7 +180,7 @@ class ViewController: UIViewController {
         self.playerController.showsPlaybackControls = false
         player.actionAtItemEnd = .none
         player.play()
-        self.addChildViewController(self.playerController)
+        self.addChild(self.playerController)
         self.viewPlayer?.addSubview(self.playerController.view)
          //
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd(_ :)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
@@ -254,64 +255,75 @@ class ViewController: UIViewController {
     func fadeOut() {
         CATransaction.begin()
         CATransaction.setValue(Double(0.8), forKey: kCATransactionAnimationDuration)
-        let timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        let timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
         CATransaction.setAnimationTimingFunction(timingFunction)
         (viewFade.layer.mask as? CAGradientLayer)?.locations = locations(a: 1, b: 1, c: 1, d: 1) as? [NSNumber]
         CATransaction.commit()
     }
     
     @objc func showDemoView() {
-        self.view.bringSubview(toFront: self.vwDemo)
+        self.view.bringSubviewToFront(self.vwDemo)
     }
     
 //MARK:-  IBAction Methods
     @IBAction func btnLoginWithFB(_ sender: Any?){
         UserDefaults.standard.set(true, forKey: "UpdateImages")
         UserDefaults.standard.synchronize()
-        
+
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         
         self.playerController.player?.pause()
         
         let loginManager = LoginManager()
-       loginManager.logOut()
+        loginManager.logOut()
         let timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.showDemoView), userInfo: nil, repeats: false)
         
+        //ClientLog.WriteClientLog( msgType: "iosfb", msg:"btnLoginFB start");
       //  loginManager.loginBehavior = .web;
         
-        loginManager.logIn(readPermissions: [.publicProfile,.email,.userBirthday,.userPhotos, .userGender, .userFriends,.custom("user_age_range")], viewController: self) { (loginResults) in
-            DispatchQueue.main.async {
-                switch loginResults{
-                case .failed(let err):
-                    print(err)
-                    timer.invalidate()
-                    self.view.sendSubview(toBack: self.vwDemo)
-                    break
-                case .cancelled:
-                    timer.invalidate()
-                    print("User cancelled login.")
-                    self.view.sendSubview(toBack: self.vwDemo)
-                    break
-                case .success(grantedPermissions: _, declinedPermissions: _,token: let  accessToken):
-                    timer.invalidate()
-                    self.view.sendSubview(toBack: self.vwDemo)
-                    print("token Permission:- \(accessToken.authenticationToken)")
-                    print("Access Token :- ",FBSDKAccessToken.current().tokenString)
-                    let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
-                    
-                    let welcomeController = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
-                    welcomeController.accesToken = accessToken
-                    welcomeController.credential = credential
-                    self.navigationController?.pushViewController(welcomeController, animated: false)
-                    break
-                 
-                }
+        loginManager.logIn(permissions: ["public_profile","email","user_birthday","user_photos", "user_gender","user_age_range"], from: self) { (loginResults, error) in
+            let fbloginresult : LoginManagerLoginResult = loginResults!
+            if (loginResults?.isCancelled)!{
+//                ClientLog.WriteClientLog( msgType: "iosfb", msg:"logincancelled");
+                timer.invalidate()
+                self.view.sendSubviewToBack(self.vwDemo)
+                return
             }
+            if(fbloginresult.grantedPermissions.contains("email")) {
+                timer.invalidate()
+//                ClientLog.WriteClientLog( msgType: "iosfb", msg:"emailgranted");
+                self.view.sendSubviewToBack(self.vwDemo)
+//                print("token Permission:- \(accessToken.authenticationToken)")
+//                print("Access Token :- ",FBSDKAccessToken.current().tokenString)
+                let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current!.tokenString)
+                
+                let welcomeController = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
+                welcomeController.accesToken = AccessToken.current
+                welcomeController.credential = credential
+                welcomeController.fbLoginType = 0
+
+//                ClientLog.WriteClientLog( msgType: "iosfb", msg:"towelcome");
+                self.navigationController?.pushViewController(welcomeController, animated: false)
+            }
+            else{
+//                ClientLog.WriteClientLog( msgType: "iosfb", msg:"emailNOTgranted");
+            }
+           
+        }
+    }
+    
+    @IBAction func btnLoginWithPhoneNumber(_ sender: Any) {
+        UserDefaults.standard.set(true, forKey: "UpdateImages")
+        UserDefaults.standard.synchronize()
+        if let newViewController = UIStoryboard(name: "SignIn", bundle:nil).instantiateViewController(withIdentifier: "SignInViewController") as? SignInViewController {
+            self.navigationController?.pushViewController(newViewController, animated: false)
+//            self.present(newViewController, animated: true, completion: nil)
+//            UIApplication.shared.keyWindow?.rootViewController = newViewController
         }
     }
     
     @IBAction func BtnTermsAndConditions(_ sender: Any) {
-        UIApplication.shared.open((URL(string: "http://slindir.com/terms-of-use/")!), options: [:], completionHandler: nil)
+        UIApplication.shared.open((URL(string: "http://slindir.com/terms-of-use/")!), options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
     }
     
 }
@@ -395,9 +407,14 @@ extension ViewController : SwiftyGifDelegate {
     func showFbButton(){
         
         self.btnFacebook.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        self.btnPhoneNumber.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        
         UIView.animate(withDuration: 1, animations: {
             self.btnFacebook.transform = CGAffineTransform.identity
             self.btnFacebook.alpha = 1
+            
+            self.btnPhoneNumber.transform = CGAffineTransform.identity
+            self.btnPhoneNumber.alpha = 1
         }) { (completed: Bool) in
             self.fbBtnTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.fbBtnAnimation), userInfo: nil, repeats: true)
         }
@@ -406,15 +423,19 @@ extension ViewController : SwiftyGifDelegate {
     @objc func fbBtnAnimation(){
         UIView.animate(withDuration: 0.3, animations: {
             self.btnFacebook.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+//            self.btnPhoneNumber.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         }) { (completed: Bool) in
             UIView.animate(withDuration: 0.3, animations: {
                 self.btnFacebook.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+//                self.btnPhoneNumber.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
             }, completion: { (completed: Bool) in
                 UIView.animate(withDuration: 0.3, animations: {
                     self.btnFacebook.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+//                    self.btnPhoneNumber.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
                 }) { (completed: Bool) in
                     UIView.animate(withDuration: 0.3, animations: {
                         self.btnFacebook.transform = .identity
+//                        self.btnPhoneNumber.transform = .identity
                     }, completion: { (completed: Bool) in
                     })
                 }
@@ -459,4 +480,9 @@ extension ViewController : SwiftyGifDelegate {
     
     func gifDidStop(sender: UIImageView) {
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

@@ -86,6 +86,12 @@ let personalDetail = LocalStore.store.getUserDetails()
     @IBOutlet weak var tableViewFavTeams: UITableView!
     @IBOutlet weak var btnBack: UIButton!
 
+    @IBOutlet weak var heightRatioVideoVw: NSLayoutConstraint!
+    @IBOutlet weak var heightVideoVw: NSLayoutConstraint!
+
+    var selectedCardScrollVw = UIScrollView()
+    var selectedCardVw = CardsView()
+
     var showBrainGame:Bool = false
     var videoUrl:String = ""
     var swipedUserDict = [String: Any]()
@@ -98,7 +104,7 @@ let personalDetail = LocalStore.store.getUserDetails()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        if UIScreen.main.bounds.size.height == 812 {
+        if UIScreen.main.bounds.size.height >= 812 {
             self.heightNavigation.constant = 100
             self.view.layoutIfNeeded()
         }
@@ -107,7 +113,7 @@ let personalDetail = LocalStore.store.getUserDetails()
         btnBack.setImage(image, for: .normal)
         
         tableViewFavTeams.estimatedRowHeight = 44
-        tableViewFavTeams.rowHeight = UITableViewAutomaticDimension
+        tableViewFavTeams.rowHeight = UITableView.automaticDimension
         self.constraintScrollViewTop.constant = UIScreen.main.bounds.height
         self.constraintScrollViewBottom.constant = -UIScreen.main.bounds.height
         scrollViewBottom.scrollIndicatorInsets = UIEdgeInsets(top: 180, left: 0, bottom: 0, right: 0)
@@ -184,7 +190,7 @@ let personalDetail = LocalStore.store.getUserDetails()
                 self.vwBrain?.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                 self.vwBrain.alpha = 0
             }, completion: { (completed: Bool) in
-                self.view.sendSubview(toBack: self.vwBrain)
+                self.view.sendSubviewToBack(self.vwBrain)
             })
         }
     }
@@ -208,7 +214,7 @@ let personalDetail = LocalStore.store.getUserDetails()
         activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
         
         // exclude some activity types from the list (optional)
-        activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+        activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.airDrop, UIActivity.ActivityType.postToFacebook ]
         
         // present the view controller
         self.present(activityViewController, animated: true, completion: nil)
@@ -292,7 +298,7 @@ let personalDetail = LocalStore.store.getUserDetails()
     }
     
     func showBrainGameView() {
-        self.view.bringSubview(toFront: self.vwBrain)
+        self.view.bringSubviewToFront(self.vwBrain)
         lbl1Brain.alpha = 0
         lbl2Brain.alpha = 0
         lbl3Brain.alpha = 0
@@ -493,7 +499,7 @@ let personalDetail = LocalStore.store.getUserDetails()
             let btn = btns[index]
             let image = UIImage(named: imageFullName)
             btn?.setImage(image, for: .normal)
-            btn?.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+            btn?.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         }
         
         
@@ -567,7 +573,6 @@ let personalDetail = LocalStore.store.getUserDetails()
         }else{
             lblAboutScroll.text = ""
         }
-        
         if let intrests = details["activities"] as?  String{
             let intrestsArray = intrests.components(separatedBy: ",")
             print("Intrests :- ",intrestsArray)
@@ -578,14 +583,34 @@ let personalDetail = LocalStore.store.getUserDetails()
         }
         
         self.imgVwVideoThumb.image = UIImage()
+        /* pre jasvir
         if let detail = details["profile_video"] as? String {
+            if detail == "" {
+            }
+            else {
+                videoUrl = String(format:"%@%@", mediaUrl, detail)
+                // self.perform(#selector(self.thumbnailFromVideoServerURL(url:)), with: URL(string:self.videoUrl)!, afterDelay: 0.1)
+                self.imgVwVideoThumb.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,(details["profile_thumbnail"] as? String)!)), placeholderImage: nil)
+            }
+        }
+        else {
+        }*/
+        
+ // jasvir changes
+        if let detail = details["profile_video"] as? String, !detail.isEmpty{
+//        if let detail = details["profile_video"] as? String {
             videoUrl = String(format:"%@%@", mediaUrl, detail)
+           // self.perform(#selector(self.thumbnailFromVideoServerURL(url:)), with: URL(string:self.videoUrl)!, afterDelay: 0.1)
             self.imgVwVideoThumb.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,(details["profile_thumbnail"] as? String)!)), placeholderImage: nil)
             self.viewVideo.isHidden = false
         }
         else {
             self.viewVideo.isHidden = true
+            self.view.layoutIfNeeded()
         }
+// end jasvir change
+         
+
         
         self.favoriteTeamArray = [String]()
         if let favSport = details["fav_sport_team_1"] as? String{
@@ -605,7 +630,7 @@ let personalDetail = LocalStore.store.getUserDetails()
             }
         }
         if let favSport = details["fav_sport_team_4"] as? String{
-            if favSport != "" {
+        	    if favSport != "" {
                 self.favoriteTeamArray.append(favSport)
             }
         }
@@ -694,21 +719,23 @@ let personalDetail = LocalStore.store.getUserDetails()
     
     @objc func showImagesInFullView(_ gesture: UITapGestureRecognizer) {
         let scrollVw = gesture.view as? UIScrollView
+        selectedCardScrollVw = scrollVw!
         let index = Int(scrollVw!.contentOffset.y/scrollVw!.frame.size.height)
         let vwCard = scrollVw?.superview as? CardsView
+        selectedCardVw = vwCard!
         let count:Int = (vwCard?.arrayImages.count)!
         for i in 0..<count {
             let imgVw = self.view.viewWithTag(i + 201) as! UIImageView
             imgVw.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, (vwCard?.arrayImages[i])!)), placeholderImage: UIImage.init(named: "placeholder"))
         }
         
-        self.scrollVwFullImage.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * CGFloat(count))
-        self.scrollVwFullImage.contentOffset = CGPoint(x: 0, y: UIScreen.main.bounds.size.height * CGFloat(index))
-        self.view.bringSubview(toFront: self.vwScrollImage)
-    }
+        self.scrollVwFullImage.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: self.scrollVwFullImage.frame.size.height * CGFloat(count))
+        self.scrollVwFullImage.contentOffset = CGPoint(x: 0, y: self.scrollVwFullImage.frame.size.height * CGFloat(index))
+        self.view.bringSubviewToFront(self.vwScrollImage)
+    	}
     
     @IBAction func closeScrollVw(_ sender: Any) {
-        self.view.sendSubview(toBack: self.vwScrollImage)
+        self.view.sendSubviewToBack(self.vwScrollImage)
     }
     
     @objc func thumbnailFromVideoServerURL(url:URL) {
@@ -721,7 +748,7 @@ let personalDetail = LocalStore.store.getUserDetails()
             let asset = AVURLAsset(url: url, options: nil)
             let generator = AVAssetImageGenerator(asset: asset)
             generator.appliesPreferredTrackTransform = true
-            let thumbTime: CMTime = CMTimeMakeWithSeconds(0, 30)
+            let thumbTime: CMTime = CMTimeMakeWithSeconds(0, preferredTimescale: 30)
             let maxSize = CGSize(width: 320, height: 320)
             generator.maximumSize = maxSize
             generator.generateCGImagesAsynchronously(forTimes: [NSValue(time: thumbTime)], completionHandler: { (requestedTime, im, actualTime, result, error) in
@@ -753,6 +780,11 @@ let personalDetail = LocalStore.store.getUserDetails()
                 scrollViewBottom.contentOffset.y = scrollViewBottom.contentSize.height - scrollViewBottom.bounds.height
             }
         }
+        else if scrollView == self.scrollVwFullImage {
+            let index = Int(self.scrollVwFullImage!.contentOffset.y/self.scrollVwFullImage!.frame.size.height)
+            self.selectedCardScrollVw.contentOffset = CGPoint(x: 0, y: self.selectedCardScrollVw.frame.size.height * CGFloat(index))
+            self.selectedCardVw.pageControl.progress = Double(scrollView.contentOffset.y/scrollView.frame.size.height)
+        }
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -773,4 +805,3 @@ let personalDetail = LocalStore.store.getUserDetails()
         return age!
     }
 }
-    

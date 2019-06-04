@@ -14,7 +14,7 @@ import NVActivityIndicatorView
 class Loader: NSObject {
     
 //MARK:-  Init Methods
-    static let sharedLoader = Loader()
+    static var sharedLoader = Loader()
     
     private override init(){
         super.init()
@@ -41,8 +41,8 @@ class Loader: NSObject {
     
 //MARK:-  Private Methods
     private func settingTheConstraints(_ rootView: UIWindow){
-        rootView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: [:], views: ["v0":blackView]))
-        rootView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: [:], views: ["v0":blackView]))
+        rootView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: [:], views: ["v0":blackView]))
+        rootView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: [:], views: ["v0":blackView]))
         loaderView.centerXAnchor.constraint(equalTo: blackView.centerXAnchor).isActive = true
         loaderView.centerYAnchor.constraint(equalTo: blackView.centerYAnchor).isActive = true
         loaderView.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -55,6 +55,10 @@ class Loader: NSObject {
     ///
     /// - Parameter animated: This paramter is for animation. To enable animation return true else false, Default value is false
     class func startLoader(_ animated: Bool){
+        Loader.sharedLoader.loaderView.removeFromSuperview()
+        Loader.sharedLoader.blackView.removeFromSuperview()
+        Loader.sharedLoader = Loader()
+        
         DispatchQueue.main.async {
             var duration = 0.3
             if animated{
@@ -64,7 +68,7 @@ class Loader: NSObject {
             }
             if let rootView = UIApplication.shared.keyWindow {
                 Loader.sharedLoader.blackView.alpha = 0
-                rootView.bringSubview(toFront: Loader.sharedLoader.loaderView)
+                rootView.bringSubviewToFront(Loader.sharedLoader.loaderView)
                 UIView.animate(withDuration: duration, animations: {
                     Loader.sharedLoader.blackView.alpha = 1
                 }, completion: { (completed) in
@@ -72,6 +76,14 @@ class Loader: NSObject {
                 })
             }
         }
+    }
+    
+    class func startLoaderV2(_ animated: Bool){
+        Loader.sharedLoader.loaderView.removeFromSuperview()
+        Loader.sharedLoader.blackView.removeFromSuperview()
+        Loader.sharedLoader = Loader()
+        
+        startLoader(animated)
     }
     
     
@@ -85,7 +97,7 @@ class Loader: NSObject {
             }
             if let rootView = UIApplication.shared.keyWindow {
                 Loader.sharedLoader.blackView.alpha = 0
-                rootView.bringSubview(toFront: Loader.sharedLoader.loaderView)
+                rootView.bringSubviewToFront(Loader.sharedLoader.loaderView)
                 UIView.animate(withDuration: duration, animations: {
                     Loader.sharedLoader.blackView.alpha = 1
                 }, completion: { (completed) in

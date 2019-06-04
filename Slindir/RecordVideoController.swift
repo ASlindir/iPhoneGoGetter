@@ -249,9 +249,9 @@ class RecordVideoController: UIViewController, SFSpeechRecognizerDelegate, AVCap
         }
         let audioSession = AVAudioSession.sharedInstance()
         do{
-            try audioSession.setCategory(AVAudioSessionCategoryRecord)
-            try audioSession.setMode(AVAudioSessionModeMeasurement)
-            try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+            try audioSession.setCategory(AVAudioSession.Category.record, mode:AVAudioSession.Mode.spokenAudio)
+            try audioSession.setMode(AVAudioSession.Mode.measurement)
+            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         }catch let err{
             print(err)
         }
@@ -297,7 +297,7 @@ class RecordVideoController: UIViewController, SFSpeechRecognizerDelegate, AVCap
     }
     
     func createPath(){
-        videoFileOutput.movieFragmentInterval = kCMTimeInvalid
+        videoFileOutput.movieFragmentInterval = CMTime.invalid
         let fileName = "mysavefile.mp4"
         let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let filePath = documentURL.appendingPathComponent(fileName)
@@ -314,7 +314,7 @@ class RecordVideoController: UIViewController, SFSpeechRecognizerDelegate, AVCap
         let asset = AVAsset(url: filePath)
         let assestImageGenerate = AVAssetImageGenerator(asset: asset)
         assestImageGenerate.appliesPreferredTrackTransform = true
-        let time = CMTimeMakeWithSeconds(Float64(1), 100)
+        let time = CMTimeMakeWithSeconds(Float64(1), preferredTimescale: 100)
         do{
             let img = try assestImageGenerate.copyCGImage(at: time, actualTime: nil)
             let thumbnail = UIImage(cgImage: img)
@@ -373,7 +373,7 @@ class RecordVideoController: UIViewController, SFSpeechRecognizerDelegate, AVCap
     }
     
     func checkMicrophonePermissions(){
-        switch AVAudioSession.sharedInstance().recordPermission() {
+        switch AVAudioSession.sharedInstance().recordPermission {
         case .granted:
             self.recordVideo()
         case .denied:
@@ -392,8 +392,8 @@ class RecordVideoController: UIViewController, SFSpeechRecognizerDelegate, AVCap
     private func showSettingAlert(_ message: String){
         let settingAction = action("Settings", .default) { (action) in
             let path = Bundle.main.bundleIdentifier
-            let urlString = "\(UIApplicationOpenSettingsURLString)+\(path!)"
-            UIApplication.shared.open(URL(string: urlString)!, options: [:], completionHandler: nil)
+            let urlString = "\(UIApplication.openSettingsURLString)+\(path!)"
+            UIApplication.shared.open(URL(string: urlString)!, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
         }
         let cancelAction = action("Cancel", .cancel) { (action) in
             
@@ -625,9 +625,9 @@ class RecordVideoController: UIViewController, SFSpeechRecognizerDelegate, AVCap
         }else{
             let transition: CATransition = CATransition()
             transition.duration = 0.5
-            transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-            transition.type = kCATransitionReveal
-            transition.subtype = kCATransitionFromTop
+            transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+            transition.type = CATransitionType.reveal
+            transition.subtype = CATransitionSubtype.fromTop
             self.view.window!.layer.add(transition, forKey: nil)
             
             let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
@@ -677,7 +677,7 @@ class RecordVideoController: UIViewController, SFSpeechRecognizerDelegate, AVCap
             speechPermissions()
             readyTheVideo()
             startAnimations()
-            view.sendSubview(toBack: viewPreview)
+            view.sendSubviewToBack(viewPreview)
             playerController.view.removeFromSuperview()
             self.btnPlayVideoPreview.alpha = 1
         }else{
@@ -737,7 +737,7 @@ class RecordVideoController: UIViewController, SFSpeechRecognizerDelegate, AVCap
     func fadeOut() {
         CATransaction.begin()
         CATransaction.setValue(Double(30), forKey: kCATransactionAnimationDuration)
-        let timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        let timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
         CATransaction.setAnimationTimingFunction(timingFunction)
         (viewSlider.layer.mask as? CAGradientLayer)?.locations = locations(a: 1, b: 1, c: 1, d: 1) as? [NSNumber]
         CATransaction.commit()
@@ -745,3 +745,13 @@ class RecordVideoController: UIViewController, SFSpeechRecognizerDelegate, AVCap
     
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVAudioSessionCategory(_ input: AVAudioSession.Category) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
+}

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -33,7 +33,7 @@
                             <rect key="frame" x="-5" y="-5" width="330" height="578"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ujH-rc-duK">
-                            <rect key="frame" x="8" y="417" width="80" height="80"/>
+                            <rect key="frame" x="28" y="437" width="40" height="40"/>
                             <state key="normal" image="undoCard"/>
                         </button>
                         <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RAZ-zi-1XF" customClass="CHIPageControlChimayo" customModule="CHIPageControl">
@@ -142,7 +142,7 @@
                             </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileDetailDemo" translatesAutoresizingMaskIntoConstraints="NO" id="A4P-E8-mGj">
-                            <rect key="frame" x="24" y="239" width="400" height="147"/>
+                            <rect key="frame" x="124" y="275.5" width="200" height="73.5"/>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -181,7 +181,7 @@
                             <rect key="frame" x="-5" y="-5" width="330" height="578"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="98A-7f-EZX">
-                            <rect key="frame" x="8" y="417" width="80" height="80"/>
+                            <rect key="frame" x="28" y="437" width="40" height="40"/>
                             <state key="normal" image="undoCard"/>
                         </button>
                         <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sRy-hs-LTM" customClass="CHIPageControlChimayo" customModule="CHIPageControl">
@@ -278,7 +278,7 @@
                             </subviews>
                         </stackView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="yourMessage" translatesAutoresizingMaskIntoConstraints="NO" id="5wP-Me-J31">
-                            <rect key="frame" x="0.0" y="0.5" width="400" height="147"/>
+                            <rect key="frame" x="100" y="37" width="200" height="73.5"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Iv-Qg-k9m">
                             <rect key="frame" x="252" y="437" width="40" height="40"/>
@@ -326,7 +326,7 @@
                             <rect key="frame" x="-5" y="-5" width="330" height="578"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vqv-X2-X4u">
-                            <rect key="frame" x="8" y="417" width="80" height="80"/>
+                            <rect key="frame" x="28" y="437" width="40" height="40"/>
                             <state key="normal" image="undoCard"/>
                             <connections>
                                 <action selector="UndoDemoCard:" destination="0bY-Sk-6OP" eventType="touchUpInside" id="v5G-Vj-iNZ"/>
@@ -435,7 +435,7 @@
                             <state key="normal" image="info"/>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="undoDemo" translatesAutoresizingMaskIntoConstraints="NO" id="AdZ-Tg-Jbc">
-                            <rect key="frame" x="-104" y="239" width="400" height="147"/>
+                            <rect key="frame" x="-4" y="275.5" width="200" height="73.5"/>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -567,10 +567,10 @@
                             </subviews>
                         </stackView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swipeRight" translatesAutoresizingMaskIntoConstraints="NO" id="dav-Fp-HD4">
-                            <rect key="frame" x="-100" y="210.5" width="400" height="147"/>
+                            <rect key="frame" x="100" y="247.5" width="200" height="73.5"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="coU-GU-G0Q">
-                            <rect key="frame" x="8" y="417" width="80" height="80"/>
+                            <rect key="frame" x="28" y="437" width="40" height="40"/>
                             <state key="normal" image="undoCard"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="loQ-Bx-jI1">
@@ -710,10 +710,10 @@
                             </subviews>
                         </stackView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swipeLeft" translatesAutoresizingMaskIntoConstraints="NO" id="VVF-qO-v5r">
-                            <rect key="frame" x="30" y="210.5" width="400" height="147"/>
+                            <rect key="frame" x="30" y="247.5" width="200" height="73.5"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mPp-XL-q3p">
-                            <rect key="frame" x="8" y="417" width="80" height="80"/>
+                            <rect key="frame" x="28" y="437" width="40" height="40"/>
                             <state key="normal" image="undoCard"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RV1-b3-7kG">
@@ -772,14 +772,14 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yHF-Vi-iJF">
-                            <rect key="frame" x="8" y="417" width="80" height="80"/>
+                            <rect key="frame" x="28" y="437" width="40" height="40"/>
                             <state key="normal" image="undoCard"/>
                             <connections>
                                 <action selector="UndoCardClicked:" destination="0bY-Sk-6OP" eventType="touchUpInside" id="J9o-1W-xmK"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slindirWithS" translatesAutoresizingMaskIntoConstraints="NO" id="ZBN-3h-sTr">
-                            <rect key="frame" x="30" y="453.5" width="100" height="144"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gogetterWithS" translatesAutoresizingMaskIntoConstraints="NO" id="ZBN-3h-sTr">
+                            <rect key="frame" x="30" y="489.5" width="100" height="72"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="100" id="PaN-1a-27a"/>
                             </constraints>
@@ -1024,7 +1024,7 @@
                     <state key="normal" image="info"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JfJ-HY-cxG">
-                    <rect key="frame" x="8" y="417" width="80" height="80"/>
+                    <rect key="frame" x="28" y="437" width="40" height="40"/>
                     <state key="normal" image="undoCard"/>
                     <connections>
                         <action selector="UndoCardClicked:" destination="0bY-Sk-6OP" eventType="touchUpInside" id="Gjv-ax-8fc"/>
@@ -1153,22 +1153,22 @@
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
     </objects>
     <resources>
-        <image name="backgroundSwipe" width="326" height="527"/>
-        <image name="goldSwipe" width="652" height="1054"/>
-        <image name="golfSel" width="100" height="100"/>
-        <image name="gymSel" width="100" height="100"/>
-        <image name="info" width="80" height="80"/>
-        <image name="lightBulb" width="400" height="407"/>
-        <image name="profileDetailDemo" width="400" height="147"/>
-        <image name="sailingSel" width="100" height="100"/>
-        <image name="skiingSel" width="100" height="100"/>
-        <image name="slindirWithS" width="280" height="144"/>
-        <image name="steve" width="500" height="618"/>
-        <image name="swipeLeft" width="400" height="147"/>
-        <image name="swipeRight" width="400" height="147"/>
-        <image name="tip" width="284" height="320"/>
-        <image name="undoCard" width="80" height="80"/>
-        <image name="undoDemo" width="400" height="147"/>
-        <image name="yourMessage" width="400" height="147"/>
+        <image name="backgroundSwipe" width="163" height="263.5"/>
+        <image name="gogetterWithS" width="213" height="72"/>
+        <image name="goldSwipe" width="326" height="527"/>
+        <image name="golfSel" width="50" height="50"/>
+        <image name="gymSel" width="50" height="50"/>
+        <image name="info" width="40" height="40"/>
+        <image name="lightBulb" width="200" height="203.5"/>
+        <image name="profileDetailDemo" width="200" height="73.5"/>
+        <image name="sailingSel" width="50" height="50"/>
+        <image name="skiingSel" width="50" height="50"/>
+        <image name="steve" width="250" height="309"/>
+        <image name="swipeLeft" width="200" height="73.5"/>
+        <image name="swipeRight" width="200" height="73.5"/>
+        <image name="tip" width="142" height="160"/>
+        <image name="undoCard" width="40" height="40"/>
+        <image name="undoDemo" width="200" height="73.5"/>
+        <image name="yourMessage" width="200" height="73.5"/>
     </resources>
 </document>

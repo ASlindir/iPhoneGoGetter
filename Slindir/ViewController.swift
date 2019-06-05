@@ -25,6 +25,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var imgViewTitle: UIImageView!
     @IBOutlet weak var imgViewS: UIImageView!
+    @IBOutlet weak var imgViewTitleWhite: UIImageView!
+    @IBOutlet weak var imgViewTitleBlack: UIImageView!
     @IBOutlet weak var imgViewBackground: UIImageView!
     @IBOutlet weak var imgViewGreen: UIImageView!
     @IBOutlet weak var imgViewWelcome: UIImageView!
@@ -117,8 +119,16 @@ class ViewController: UIViewController {
     }
     
     func animateTitle(){
+        imgViewS.isHidden = true
+        imgViewTitle.isHidden = true
+        viewFade.isHidden = true
+        
         imgViewS.alpha = 0
         imgViewTitle.alpha = 0
+        
+        imgViewTitleWhite.alpha = 0
+        imgViewTitleBlack.alpha = 0
+        
         imgViewWelcome.alpha = 0
         constrantSX.constant = -UIScreen.main.bounds.width/2 - 10
         constraintGreenBackTop.constant = UIScreen.main.bounds.height
@@ -132,13 +142,15 @@ class ViewController: UIViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             UIView.animate(withDuration: 0.5, animations: {
-                self.imgViewS.alpha = 1
+                //self.imgViewS.alpha = 1
+                self.imgViewTitleWhite.alpha = 1
             }, completion: { (completed: Bool) in
                 self.constrantSX.constant = -15
                 self.fadeOut()
 
                 UIView.animate(withDuration: 0.8, delay: 0, options: .curveLinear, animations: {
-                    self.imgViewTitle.alpha = 1
+//                    self.imgViewTitle.alpha = 1
+                    self.imgViewTitleBlack.alpha = 1
                     self.view.layoutIfNeeded()
                 }, completion: { (completed: Bool) in
                     self.greenBackGround()

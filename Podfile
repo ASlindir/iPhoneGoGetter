@@ -26,7 +26,7 @@ pod 'DACircularProgress'
 pod 'TTGSnackbar'
 pod 'FlagPhoneNumber', '0.7.2'
 pod 'KeyboardMan'
-pod 'FlagPhoneNumber'
+#pod 'FlagPhoneNumber'
 
 # Pods for Slindir
 

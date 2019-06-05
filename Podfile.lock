@@ -102,23 +102,23 @@ PODS:
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (~> 0.3)
-  - GoogleUtilities/AppDelegateSwizzler (6.1.0):
+  - GoogleUtilities/AppDelegateSwizzler (6.2.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (6.1.0)
-  - GoogleUtilities/Logger (6.1.0):
+  - GoogleUtilities/Environment (6.2.0)
+  - GoogleUtilities/Logger (6.2.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (6.1.0):
+  - GoogleUtilities/MethodSwizzler (6.2.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (6.1.0):
+  - GoogleUtilities/Network (6.2.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (6.1.0)"
-  - GoogleUtilities/Reachability (6.1.0):
+  - "GoogleUtilities/NSData+zlib (6.2.0)"
+  - GoogleUtilities/Reachability (6.2.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (6.1.0):
+  - GoogleUtilities/UserDefaults (6.2.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.2.2)
   - IQKeyboardManagerSwift (6.3.0)
@@ -136,7 +136,7 @@ PODS:
     - NVActivityIndicatorView/Presenter (= 4.7.0)
   - NVActivityIndicatorView/Presenter (4.7.0)
   - pop (1.0.12)
-  - Protobuf (3.7.0)
+  - Protobuf (3.8.0)
   - SDWebImage (4.4.6):
     - SDWebImage/Core (= 4.4.6)
   - SDWebImage/Core (4.4.6)
@@ -157,7 +157,6 @@ DEPENDENCIES:
   - Firebase/Database
   - Firebase/Messaging
   - Firebase/Storage
-  - FlagPhoneNumber
   - FlagPhoneNumber (= 0.7.2)
   - IQKeyboardManagerSwift
   - KeyboardMan
@@ -229,7 +228,7 @@ SPEC CHECKSUMS:
   FirebaseStorage: 926d41552072b9fee67aa645760f05f87b7ce604
   FlagPhoneNumber: 86194d414c7e3b2f38c16136c4f8a5d34e3ee8b7
   GoogleAppMeasurement: 51d8d9ea48f0ca44484d29cfbdef976fbd4fc336
-  GoogleUtilities: 84df567c76ca84f67b7bb40e769fdd4acc746a10
+  GoogleUtilities: 996e0db07153674fd1b54b220fda3a3dc3547cba
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
   KeyboardMan: b51e3209d41ff56f65459c9cf734a5f8c5443783
@@ -239,12 +238,12 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   NVActivityIndicatorView: b19ddab2576f805cbe0fb2306cba3476e09a1dea
   pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
-  Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
+  Protobuf: 3f617b9a6e73605565086864c9bc26b2bf2dd5a3
   SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
   SwiftyGif: a149bf84df23370592f3f075561ae02c8632a314
   TTGSnackbar: 7edc064c82a916f9f3c4db1ec64eac44143434da
   "UIImage+ImageCompress": 6b38489f38075d569d9f25d72af7ecf5c84c1057
 
-PODFILE CHECKSUM: 425355453d140d4c4a1e1616bb176f2879b34f07
+PODFILE CHECKSUM: 7ae2449de9c04a3e842edeb23e876b14b9d9717d
 
-COCOAPODS: 1.7.0
+COCOAPODS: 1.5.3

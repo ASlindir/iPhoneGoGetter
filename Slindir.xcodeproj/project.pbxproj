@@ -1165,7 +1165,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Slindir/Pods-Slindir-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Slindir/Pods-Slindir-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CHIPageControl/CHIPageControl.framework",
 				"${BUILT_PRODUCTS_DIR}/DACircularProgress/DACircularProgress.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -1218,7 +1218,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Slindir/Pods-Slindir-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Slindir/Pods-Slindir-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B441B4EF1FB191880063A834 /* ShellScript */ = {

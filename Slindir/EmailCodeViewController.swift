@@ -1,6 +1,6 @@
 //
 //  EmailCodeViewController.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by admin on 12/05/2019.
 //  Copyright © 2019 Batth. All rights reserved.

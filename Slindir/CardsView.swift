@@ -1,6 +1,6 @@
 //
 //  CardsView.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by OSX on 06/10/17.
 //  Copyright © 2017 Batth. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  Slindir-Bridging-Header.h
-//  Slindir
+//  GoGetter
 //
 //  Created by DeftDeskSol on 02/06/18.
 //  Copyright © 2018 Batth. All rights reserved.

@@ -1,6 +1,6 @@
     //
     //  WelcomeViewController.swift
-    //  Slindir
+    //  GoGetter
     //
     //  Created by Batth on 13/09/17.
     //  Copyright © 2017 Batth. All rights reserved.
@@ -751,7 +751,7 @@
         @objc func changeTheActivities(){
             CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
             if selectedIndex.count < 4{
-        	        showAlertWithOneButton("Slindir", "Please Select four activities", "OK")
+        	        showAlertWithOneButton("GoGetter", "Please Select four activities", "OK")
                 return
             }
             saveUserIntrests(selectedIndex)

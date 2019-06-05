@@ -1,6 +1,6 @@
 //
 //  MessagesTableViewCell.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by Gurinder Batth on 16/11/17.
 //  Copyright © 2017 Batth. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  WebServices.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by OSX on 05/10/17.
 //  Copyright © 2017 Batth. All rights reserved.
@@ -168,7 +168,7 @@ class WebServices: NSObject {
                                     CommError.global.ShowMessage(msg:emsg)
                                 }
                                 else{
-                                    CommError.global.ShowMessage(msg:"Oops the slindir server is having issues right now, please try again later or contact us at support@slindir.com");
+                                    CommError.global.ShowMessage(msg:"Oops the gogetter server is having issues right now, please try again later or contact us at support@slindir.com");
                                 }
                             }
                             else{
@@ -176,7 +176,7 @@ class WebServices: NSObject {
                             }
                         }
                         else{
-                            CommError.global.ShowMessage(msg:"Oops the slindir server is having issues right now, please try again later or contact us at support@slindir.com");
+                            CommError.global.ShowMessage(msg:"Oops the gogetter server is having issues right now, please try again later or contact us at support@slindir.com");
                         }
                     }else{
                         success(nil)		

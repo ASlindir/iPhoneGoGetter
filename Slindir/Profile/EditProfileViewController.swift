@@ -1,6 +1,6 @@
 //
 //  EditProfileViewController.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by Batth on 22/09/17.
 //  Copyright © 2017 Batth. All rights reserved.
@@ -341,7 +341,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         }
         if LocalStore.store.isQuizDone() {
             btnBack.isHidden = false
-            self.btnSliderQuizz.setTitle("Learn more about the Slindir personality match", for: .normal)
+            self.btnSliderQuizz.setTitle("Learn more about the GoGetter personality match", for: .normal)
             self.btnSliderQuizz.setTitleColor(.black, for: .normal)
             self.btnReminder.isHidden = true
             self.btnSliderQuizz.backgroundColor = .clear//UIColor(red: 0, green: 166/255, blue: 175/255, alpha: 1)
@@ -1108,7 +1108,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         let cancelAction = action("Cancel", .cancel) { (action) in
             
         }
-        showAlertWithCustomButtons("Slindir does not have access to your photos or videos, tap Settings and turn on Photos.", nil, settingAction,cancelAction)
+        showAlertWithCustomButtons("GoGetter does not have access to your photos or videos, tap Settings and turn on Photos.", nil, settingAction,cancelAction)
     }
     
     @objc func playVideo(){
@@ -1969,7 +1969,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
         
         mailComposerVC.setToRecipients(["contact@slindir.com"])
-        mailComposerVC.setSubject("Slindir feedback iOS")
+        mailComposerVC.setSubject("GoGetter feedback iOS")
         mailComposerVC.setMessageBody("", isHTML: false)
         
         if MFMailComposeViewController.canSendMail() {

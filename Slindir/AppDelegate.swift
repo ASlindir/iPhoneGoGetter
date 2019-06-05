@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by Batth on 11/09/17.
 //  Copyright © 2017 Batth. All rights reserved.

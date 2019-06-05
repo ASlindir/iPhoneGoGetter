@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Slindir</string>
+	<string>GoGetter</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -58,7 +58,7 @@
 	<key>FacebookAutoLogAppEventsEnabled</key>
 	<false/>
 	<key>FacebookDisplayName</key>
-	<string>Slindir</string>
+	<string>GoGetter</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -78,7 +78,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Camera is use to capture stories and an intro Video.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Slindir needs your location to find matches in your area.</string>
+	<string>GoGetter needs your location to find matches in your area.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Microphone is used to record your voice for intro.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

@@ -1,6 +1,6 @@
 //
 //  ChatViewController.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by Gurinder Batth on 24/10/17.
 //  Copyright © 2017 Batth. All rights reserved.
@@ -734,8 +734,8 @@ class ChatViewController: JSQMessagesViewController{
         
         let action1 = UIAlertAction(title: "Report", style: .default) { (action: UIAlertAction) in
             let reportSheet = UIAlertController(title: "Reason of report:", message: nil, preferredStyle: .actionSheet)
-            let slindir = UIAlertAction(title: "Not Slindir Material", style: .default) { (action: UIAlertAction) in
-                self.reportUser(reason: "Not Slindir Material")
+            let slindir = UIAlertAction(title: "Not GoGetter Material", style: .default) { (action: UIAlertAction) in
+                self.reportUser(reason: "Not GoGetter Material")
             }
             reportSheet.addAction(slindir)
             let inappropriate = UIAlertAction(title: "Inappropriate photos", style: .default) { (action: UIAlertAction) in

@@ -1,6 +1,6 @@
 //
 //  CustomCellCenterFlowLayout.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by Gurinder Batth on 01/11/17.
 //  Copyright © 2017 Batth. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  GalleryViewController.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by OSX on 09/10/17.
 //  Copyright © 2017 Batth. All rights reserved.

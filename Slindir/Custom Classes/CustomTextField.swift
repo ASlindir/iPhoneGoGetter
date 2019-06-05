@@ -1,6 +1,6 @@
 //
 //  CustomTextField.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by Gurinder Batth on 26/10/17.
 //  Copyright © 2017 Batth. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  SignUpViewController.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by admin on 08/05/2019.
 //  Copyright © 2019 Batth. All rights reserved.
@@ -201,7 +201,7 @@ class SignUpViewController: FormViewController {
         if (nowyear - year <= 18)
         if (nowmonth <= month)
         if(nowday < day)
-        return SLUtils.DoUserError( "You must be 18 years old to use Slindir, please check your birthday");*/
+        return SLUtils.DoUserError( "You must be 18 years old to use GoGetter, please check your birthday");*/
         return true
     }
 

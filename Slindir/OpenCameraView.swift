@@ -1,6 +1,6 @@
 //
 //  OpenCameraView.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by DeftDeskSol on 25/09/1939 Saka.
 //  Copyright © 1939 Batth. All rights reserved.

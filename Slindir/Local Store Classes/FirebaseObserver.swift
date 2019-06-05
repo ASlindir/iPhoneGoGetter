@@ -1,6 +1,6 @@
  //
 //  FirebaseObserver.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by Gill on 12/13/17.
 //  Copyright © 2017 Batth. All rights reserved.

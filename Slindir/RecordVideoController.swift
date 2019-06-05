@@ -1,6 +1,6 @@
 //
 //  SpeechRecognitionViewController.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by Batth on 29/09/17.
 //  Copyright © 2017 Batth. All rights reserved.
@@ -398,7 +398,7 @@ class RecordVideoController: UIViewController, SFSpeechRecognizerDelegate, AVCap
         let cancelAction = action("Cancel", .cancel) { (action) in
             
         }
-        showAlertWithCustomButtons("Slindir does not have access to phone \(message), tap Settings and turn on \(message).", nil, settingAction,cancelAction)
+        showAlertWithCustomButtons("GoGetter does not have access to phone \(message), tap Settings and turn on \(message).", nil, settingAction,cancelAction)
     }
     
     

@@ -1,6 +1,6 @@
 //
 //  LocalStore.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by Harsh on 04/10/17.
 //  Copyright © 2017 Batth. All rights reserved.

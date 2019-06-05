@@ -1,6 +1,6 @@
 //
 //  FriendsListViewController.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by Gurinder Batth on 24/10/17.
 //  Copyright © 2017 Batth. All rights reserved.

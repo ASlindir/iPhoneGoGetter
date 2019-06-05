@@ -1,6 +1,6 @@
 //
 //  Loader.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by Gurinder Batth on 17/10/17.
 //  Copyright © 2017 Batth. All rights reserved.

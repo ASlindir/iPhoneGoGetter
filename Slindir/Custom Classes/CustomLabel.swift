@@ -1,6 +1,6 @@
 //
 //  CustomLabel.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by Batth on 16/09/17.
 //  Copyright © 2017 Batth. All rights reserved.

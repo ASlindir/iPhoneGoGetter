@@ -1,6 +1,6 @@
 //
 //  ProfileViewController.swift
-//  Slindir
+//  GoGetter
 //
 //  Created by Batth on 15/09/17.
 //  Copyright © 2017 Batth. All rights reserved.
@@ -699,7 +699,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 }
             }
         }, errorHandler: { (error) in
-            self.showAlertWithOneButton("Slindir!", "Please check your internet connection.", "OK")
+            self.showAlertWithOneButton("GoGetter!", "Please check your internet connection.", "OK")
         })
     }
     
@@ -1417,12 +1417,12 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                     }
                     self.startTitleLogoAnimation()
                 }else{
-                    self.showAlertWithOneButton("Slindir!", "Please check your internet connection.", "OK")
+                    self.showAlertWithOneButton("GoGetter!", "Please check your internet connection.", "OK")
                 }
             }
         }, errorHandler: { (error) in
             Loader.stopLoader()
-            self.showAlertWithOneButton("Slindir!", "Please check your internet connection.", "OK")
+            self.showAlertWithOneButton("GoGetter!", "Please check your internet connection.", "OK")
         })
     }
     
@@ -1492,7 +1492,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     @IBAction func btnSharePerson(_ sender: Any){        
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         // text to share
-        let text = "Hey, I’m on this new dating app called Slindir (for active, like-minded singles)  and I came across this person who I thought would be a great match for you! Check it out.  It’s free to start so you’ve got nothing to lose!  Download the app at: \n http://slindir.com/"
+        let text = "Hey, I’m on this new dating app called GoGetter (for active, like-minded singles)  and I came across this person who I thought would be a great match for you! Check it out.  It’s free to start so you’ve got nothing to lose!  Download the app at: \n http://slindir.com/"
         
         // set up activity view controller
         
@@ -1516,7 +1516,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         //https://itunes.apple.com/us/app/slindir-dating-for-active-lifestylers/id1167292687?ls=1&mt=8
         // text to share
-        let text = "I’m on this new dating app called Slindir and there are great people on here. Check it out… \n http://slindir.com/"
+        let text = "I’m on this new dating app called GoGetter and there are great people on here. Check it out… \n http://slindir.com/"
         
         // set up activity view controller
         
@@ -1585,8 +1585,8 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         
         let action1 = UIAlertAction(title: "Report", style: .default) { (action: UIAlertAction) in
             let reportSheet = UIAlertController(title: "Reason of report:", message: nil, preferredStyle: .actionSheet)
-            let slindir = UIAlertAction(title: "Not Slindir Material", style: .default) { (action: UIAlertAction) in
-                self.reportUser(reason: "Not Slindir Material")
+            let slindir = UIAlertAction(title: "Not GoGetter Material", style: .default) { (action: UIAlertAction) in
+                self.reportUser(reason: "Not GoGetter Material")
             }
             reportSheet.addAction(slindir)
             let inappropriate = UIAlertAction(title: "Inappropriate photos", style: .default) { (action: UIAlertAction) in
@@ -2138,7 +2138,7 @@ extension ProfileViewController: KolodaViewDataSource {
             self.lblAlert.text = "Like what you see? Swiping a profile to the right means you'd like to connect!"
         }
         else if animation == "message" {
-            self.lblAlert.text = "Tap the Slindir icon to access your messages."
+            self.lblAlert.text = "Tap the GoGetter icon to access your messages."
             self.imgViewS.isUserInteractionEnabled = true
         }
         else if animation == "left" {

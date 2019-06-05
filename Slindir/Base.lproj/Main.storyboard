@@ -1283,7 +1283,7 @@
                                                         <rect key="frame" x="35" y="288" width="250" height="39.5"/>
                                                         <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
-                                                        <state key="normal" title="INVITE A FRIEND TO SLINDIR">
+                                                        <state key="normal" title="INVITE A FRIEND TO GOGETTER">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <connections>
@@ -3499,7 +3499,7 @@ This will only take a minute.</string>
                                                 <rect key="frame" x="32" y="2317.5" width="256" height="45.5"/>
                                                 <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
-                                                <state key="normal" title="TAKE THE SLINDIR BRAIN GAME">
+                                                <state key="normal" title="TAKE THE GOGETTER BRAIN GAME">
                                                     <color key="titleColor" red="0.99990183119999998" green="1" blue="0.99987989659999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
@@ -3967,7 +3967,7 @@ This will only take a minute.</string>
                                                                     <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                                                         <real key="value" value="2.5"/>
                                                                     </userDefinedRuntimeAttribute>
-                                                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Hello Slindir Friends..."/>
+                                                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Hello GoGetter Friends..."/>
                                                                     <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
                                                                         <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     </userDefinedRuntimeAttribute>

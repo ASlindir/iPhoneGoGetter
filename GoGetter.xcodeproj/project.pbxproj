@@ -340,10 +340,6 @@
 		B42E1B351F66A169009B68E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B42E1B381F66A169009B68E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B42E1B3A1F66A169009B68E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B42E1B431F66A169009B68E2 /* SlindirTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlindirTests.swift; sourceTree = "<group>"; };
-		B42E1B451F66A169009B68E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B42E1B4E1F66A169009B68E2 /* SlindirUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlindirUITests.swift; sourceTree = "<group>"; };
-		B42E1B501F66A169009B68E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B42E1B5D1F66AA9E009B68E2 /* welcome.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = welcome.gif; sourceTree = "<group>"; };
 		B43614E11F74E4610057A1D2 /* RangeSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeSlider.swift; sourceTree = "<group>"; };
 		B43614E21F74E4610057A1D2 /* RangeSlider.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RangeSlider.xib; sourceTree = "<group>"; };
@@ -799,9 +795,7 @@
 		B42E1B1F1F66A168009B68E2 = {
 			isa = PBXGroup;
 			children = (
-				B42E1B2A1F66A169009B68E2 /* Slindir */,
-				B42E1B421F66A169009B68E2 /* SlindirTests */,
-				B42E1B4D1F66A169009B68E2 /* SlindirUITests */,
+				B42E1B2A1F66A169009B68E2 /* GoGetter */,
 				B42E1B291F66A169009B68E2 /* Products */,
 				42F43A77A3C6F8C1E4D53581 /* Pods */,
 				05E6107EE7115EF6DEBB6E05 /* Frameworks */,
@@ -816,7 +810,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B42E1B2A1F66A169009B68E2 /* Slindir */ = {
+		B42E1B2A1F66A169009B68E2 /* GoGetter */ = {
 			isa = PBXGroup;
 			children = (
 				84694F29228302E1007AB8BA /* Modules */,
@@ -847,25 +841,7 @@
 				0D06B8AA20C2E7EE002E1703 /* Slindir-Bridging-Header.h */,
 				CC9CF9BE2294BD900090753A /* WelcomeViewController.swift */,
 			);
-			path = Slindir;
-			sourceTree = "<group>";
-		};
-		B42E1B421F66A169009B68E2 /* SlindirTests */ = {
-			isa = PBXGroup;
-			children = (
-				B42E1B431F66A169009B68E2 /* SlindirTests.swift */,
-				B42E1B451F66A169009B68E2 /* Info.plist */,
-			);
-			path = SlindirTests;
-			sourceTree = "<group>";
-		};
-		B42E1B4D1F66A169009B68E2 /* SlindirUITests */ = {
-			isa = PBXGroup;
-			children = (
-				B42E1B4E1F66A169009B68E2 /* SlindirUITests.swift */,
-				B42E1B501F66A169009B68E2 /* Info.plist */,
-			);
-			path = SlindirUITests;
+			path = GoGetter;
 			sourceTree = "<group>";
 		};
 		B42E1B5C1F66AA93009B68E2 /* Gifs */ = {
@@ -1476,14 +1452,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CODE_SIGN_ENTITLEMENTS = Slindir/Slindir.entitlements;
+				CODE_SIGN_ENTITLEMENTS = GoGetter/GoGetter.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 72NZF773GZ;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = Slindir/Info.plist;
+				INFOPLIST_FILE = GoGetter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gogetter.app;
@@ -1491,7 +1467,7 @@
 				PROVISIONING_PROFILE = Automatic;
 				"PROVISIONING_PROFILE[arch=*]" = Automatic;
 				PROVISIONING_PROFILE_SPECIFIER = GoGetterDev;
-				SWIFT_OBJC_BRIDGING_HEADER = "Slindir/Slindir-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "GoGetter/Slindir-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
@@ -1506,13 +1482,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = NO;
-				CODE_SIGN_ENTITLEMENTS = Slindir/Slindir.entitlements;
+				CODE_SIGN_ENTITLEMENTS = GoGetter/GoGetter.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Slindir Pty Limited (72NZF773GZ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Slindir Pty Limited (72NZF773GZ)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 72NZF773GZ;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = Slindir/Info.plist;
+				INFOPLIST_FILE = GoGetter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gogetter.app;
@@ -1520,7 +1496,7 @@
 				PROVISIONING_PROFILE = Automatic;
 				"PROVISIONING_PROFILE[arch=*]" = Automatic;
 				PROVISIONING_PROFILE_SPECIFIER = "GoGetter App Store 2019";
-				SWIFT_OBJC_BRIDGING_HEADER = "Slindir/Slindir-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "GoGetter/Slindir-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;

@@ -1,7 +1,7 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '10.3'
 
-target 'Slindir' do
+target 'GoGetter' do
 # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
 use_frameworks!
 
@@ -25,20 +25,10 @@ pod 'UIImage+ImageCompress'
 pod 'DACircularProgress'
 pod 'TTGSnackbar'
 pod 'FlagPhoneNumber', '0.7.2'
+pod 'GoogleUtilities'
 pod 'KeyboardMan'
 #pod 'FlagPhoneNumber'
 
-# Pods for Slindir
 
-
-target 'SlindirTests' do
-inherit! :search_paths
-# Pods for testing
-end
-
-target 'SlindirUITests' do
-inherit! :search_paths
-# Pods for testing
-end
 
 end

@@ -198,6 +198,7 @@ class PhoneViewController: FormViewController {
                 parameters["device_type"] = "I"
                 parameters["email"] = currentUser?.email
                 parameters["device_id"] = UserDefaults.standard.value(forKey: "device_token") as? String
+                parameters["app"] = "gogetter";
 
                 WebServices.service.webServicePostRequest(.post, .user, .registernewuser, parameters as Dictionary<String, Any>, successHandler: { (response) in
                     let jsonData = response

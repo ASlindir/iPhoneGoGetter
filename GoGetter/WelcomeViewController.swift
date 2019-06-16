@@ -462,7 +462,7 @@
                     else {
                         
                         parameters["dob"] = textField?.text
-                        
+                        parameters["app"] = "gogetter";
                         let df = DateFormatter()
                         df.dateFormat = "yyyy-MM-dd"
                         df.timeZone = NSTimeZone(abbreviation: "GMT")! as TimeZone
@@ -533,6 +533,8 @@
                 self.present(alertController, animated: true, completion: nil)
                 return
             }//
+            parameters["app"] = "gogetter";
+
             print("Parameters \(parameters)")
             
             WebServices.service.webServicePostRequest(.post, .user, .login, parameters as Dictionary<String, Any>, successHandler: { (response) in

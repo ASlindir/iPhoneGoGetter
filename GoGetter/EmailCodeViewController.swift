@@ -49,7 +49,7 @@ class EmailCodeViewController: FormViewController {
         editPhoneCode.delegate = self
         
         // labels
-        lblPhone.text = currentOldPhoneNumber
+        lblPhone.text = currentNewPhoneNumber
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -77,9 +77,14 @@ class EmailCodeViewController: FormViewController {
                     Loader.stopLoader()
 
                     if status == "success" {
-                        self.outAlertError(message: "Your phone number has been changed.  Please login")
-                        self.dismiss(animated: false, completion: {
-                            self.delegate?.didClose()
+                        self.outAlertSuccess( message:"Your phone number has been changed.  Please log back in",compliteHandler:{
+                        let del = UIApplication.shared.delegate as! AppDelegate
+                        self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let controller = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                        let navigationController = UINavigationController(rootViewController: controller)
+                        navigationController.interactivePopGestureRecognizer?.isEnabled = false
+                        del.window?.rootViewController = navigationController
                         })
                     } else {
                         self.outAlertError(message: "Sorry that was the wrong phone code, try again, or click the resend button to get a new code")

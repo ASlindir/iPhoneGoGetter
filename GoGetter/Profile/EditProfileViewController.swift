@@ -12,7 +12,7 @@ import AVKit
 import MobileCoreServices
 import Crashlytics
 import FBSDKCoreKit
-import SDWebImage
+//import SDWebImage
 import AVFoundation
 import UIImage_ImageCompress
 import MessageUI

@@ -730,13 +730,19 @@
             return footerView
         }
         //MARK:-  Local Methods
-        
         func launchPhoneUser(){
             Loader.startLoaderV2(true)
             if (fbLoginType == 1){
                 self.doLoadUserWithUserDetails(jsonData : self.jsonDataFromPhoneLogin!, doBrains:  true)
             }
             else{
+                let del = UIApplication.shared.delegate as! AppDelegate
+                if del.latitude != 0.0 && del.longitude != 0.0 {
+                    del.saveUserLocation()
+                }
+                else {
+                    del.startLocationManager()
+                }
                 Loader.stopLoader()
                 let userDetails = self.jsonDataFromPhoneLogin!["userDetails"] as! Dictionary<String, Any>
                 let username = userDetails["user_name"] as! String

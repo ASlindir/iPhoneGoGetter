@@ -2218,7 +2218,7 @@ extension ProfileViewController: KolodaViewDataSource {
         let thumbView = self.imgVwVideoThumb;
         if let detail = details["profile_video"] as? String {
             if detail == "" {
-                let noVideoURl = "novideoloaded.png"
+                let noVideoURl = "novideoloadedGG.png"
                 thumbView!.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl,noVideoURl)), placeholderImage: nil,options: .refreshCached,
                                        completed: { (img, err, cacheType, imgURL) in
                                         print("complete");

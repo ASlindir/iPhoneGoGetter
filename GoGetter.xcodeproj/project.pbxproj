@@ -88,7 +88,6 @@
 		84694F4422830376007AB8BA /* LostPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84694F3F22830376007AB8BA /* LostPasswordViewController.swift */; };
 		84694F4622830381007AB8BA /* SignIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84694F4522830381007AB8BA /* SignIn.storyboard */; };
 		847418C92287C4E0001A89FA /* EmailCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847418C82287C4E0001A89FA /* EmailCodeViewController.swift */; };
-		AD40EC42AE5CDF8A1A55557D /* Pods_Slindir.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE3C63750FBA69036D4ED443 /* Pods_Slindir.framework */; };
 		B403784A1F6B981F009C9D34 /* CustomClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40378491F6B981F009C9D34 /* CustomClass.swift */; };
 		B403784D1F6BDF25009C9D34 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B403784C1F6BDF25009C9D34 /* ProfileViewController.swift */; };
 		B40C11D11F7D19540030F9E7 /* ProfileImageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40C11CF1F7D19540030F9E7 /* ProfileImageViewCell.swift */; };
@@ -137,6 +136,7 @@
 		B4EF53641FA98A010065926D /* CustomCellCenterFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53631FA98A010065926D /* CustomCellCenterFlowLayout.swift */; };
 		B4EF53651FA994E10065926D /* swipeLEFT.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B4EF53611FA985770065926D /* swipeLEFT.mp3 */; };
 		B4EF53661FA994E40065926D /* swipeRight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B4EF53621FA985770065926D /* swipeRight.mp3 */; };
+		B53CA93492F385145731588E /* Pods_GoGetter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA60D0D04BBB243A68B535C /* Pods_GoGetter.framework */; };
 		CC28F7DB22947B5300CA815A /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC28F7DA22947B5300CA815A /* SignInViewController.swift */; };
 		CC5CC3F3228F102300EC3262 /* ClientLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5CC3F2228F102300EC3262 /* ClientLog.swift */; };
 		CC9CF9BF2294BD900090753A /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9CF9BE2294BD900090753A /* WelcomeViewController.swift */; };
@@ -300,6 +300,7 @@
 		10E635721F889D0800B84098 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
 		10FBA7811F87760C00FCC591 /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
 		18F6E8B71FE10EC6003F38FC /* FirebaseObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FirebaseObserver.swift; path = "Local Store Classes/FirebaseObserver.swift"; sourceTree = "<group>"; };
+		2D2FE0BEA6C3D3AF3A35AD7A /* Pods-GoGetter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoGetter.release.xcconfig"; path = "Pods/Target Support Files/Pods-GoGetter/Pods-GoGetter.release.xcconfig"; sourceTree = "<group>"; };
 		3A6417F41F84ABEC0087E8D5 /* LocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocalStore.swift; path = "Local Store Classes/LocalStore.swift"; sourceTree = "<group>"; };
 		3A9B0BA91F83BE7E00D97B4B /* Slindir.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Slindir.entitlements; sourceTree = "<group>"; };
 		3AAA508D1FD854F800B6DECA /* PersonalityTypeMatching.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = PersonalityTypeMatching.gif; sourceTree = "<group>"; };
@@ -307,6 +308,7 @@
 		4B82DE40A9DC641780EBDE47 /* Pods-Slindir.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Slindir.release.xcconfig"; path = "Pods/Target Support Files/Pods-Slindir/Pods-Slindir.release.xcconfig"; sourceTree = "<group>"; };
 		4DA380C5AED0FB0325C09FDB /* Pods-SlindirTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SlindirTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SlindirTests/Pods-SlindirTests.release.xcconfig"; sourceTree = "<group>"; };
 		4DDEBB81B95D628050850816 /* Pods_SlindirUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SlindirUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CA60D0D04BBB243A68B535C /* Pods_GoGetter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoGetter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		841512A1561BE204AB553446 /* Pods_SlindirTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SlindirTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84694F2F22830364007AB8BA /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
 		84694F312283036D007AB8BA /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
@@ -320,6 +322,7 @@
 		84694F3F22830376007AB8BA /* LostPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LostPasswordViewController.swift; sourceTree = "<group>"; };
 		84694F4522830381007AB8BA /* SignIn.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SignIn.storyboard; sourceTree = "<group>"; };
 		847418C82287C4E0001A89FA /* EmailCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailCodeViewController.swift; sourceTree = "<group>"; };
+		88E750689747537BB14B1D0D /* Pods-GoGetter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoGetter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GoGetter/Pods-GoGetter.debug.xcconfig"; sourceTree = "<group>"; };
 		A24310339104D2C31C2C86F9 /* Pods-SlindirUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SlindirUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SlindirUITests/Pods-SlindirUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B12BFE3D849592C9C03109E1 /* Pods-SlindirTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SlindirTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SlindirTests/Pods-SlindirTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B40378491F6B981F009C9D34 /* CustomClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomClass.swift; path = "Custom Classes/CustomClass.swift"; sourceTree = "<group>"; };
@@ -376,7 +379,6 @@
 		CC28F7DA22947B5300CA815A /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		CC5CC3F2228F102300EC3262 /* ClientLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientLog.swift; sourceTree = "<group>"; };
 		CC9CF9BE2294BD900090753A /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
-		CE3C63750FBA69036D4ED443 /* Pods_Slindir.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Slindir.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E733016122AE3D8A0027FA18 /* CHIPageControl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CHIPageControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E733016322AE3D8A0027FA18 /* DACircularProgress.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DACircularProgress.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E733016522AE3D8A0027FA18 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -438,7 +440,7 @@
 				E733019622AE3D8A0027FA18 /* SwiftyGif.framework in Frameworks */,
 				E733019822AE3D8A0027FA18 /* TTGSnackbar.framework in Frameworks */,
 				E733019A22AE3D8A0027FA18 /* UIImage_ImageCompress.framework in Frameworks */,
-				AD40EC42AE5CDF8A1A55557D /* Pods_Slindir.framework in Frameworks */,
+				B53CA93492F385145731588E /* Pods_GoGetter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,9 +477,9 @@
 				E733019522AE3D8A0027FA18 /* SwiftyGif.framework */,
 				E733019722AE3D8A0027FA18 /* TTGSnackbar.framework */,
 				E733019922AE3D8A0027FA18 /* UIImage_ImageCompress.framework */,
-				CE3C63750FBA69036D4ED443 /* Pods_Slindir.framework */,
 				841512A1561BE204AB553446 /* Pods_SlindirTests.framework */,
 				4DDEBB81B95D628050850816 /* Pods_SlindirUITests.framework */,
+				6CA60D0D04BBB243A68B535C /* Pods_GoGetter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -693,6 +695,8 @@
 				4DA380C5AED0FB0325C09FDB /* Pods-SlindirTests.release.xcconfig */,
 				462417ED650EADDC877B6026 /* Pods-SlindirUITests.debug.xcconfig */,
 				A24310339104D2C31C2C86F9 /* Pods-SlindirUITests.release.xcconfig */,
+				88E750689747537BB14B1D0D /* Pods-GoGetter.debug.xcconfig */,
+				2D2FE0BEA6C3D3AF3A35AD7A /* Pods-GoGetter.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1111,7 +1115,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Slindir-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-GoGetter-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1124,7 +1128,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Slindir/Pods-Slindir-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-GoGetter/Pods-GoGetter-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CHIPageControl/CHIPageControl.framework",
 				"${BUILT_PRODUCTS_DIR}/DACircularProgress/DACircularProgress.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -1177,7 +1181,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Slindir/Pods-Slindir-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GoGetter/Pods-GoGetter-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B441B4EF1FB191880063A834 /* ShellScript */ = {
@@ -1447,7 +1451,7 @@
 		};
 		B42E1B541F66A169009B68E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C57A96D960408742C6134D14 /* Pods-Slindir.debug.xcconfig */;
+			baseConfigurationReference = 88E750689747537BB14B1D0D /* Pods-GoGetter.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1477,7 +1481,7 @@
 		};
 		B42E1B551F66A169009B68E2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4B82DE40A9DC641780EBDE47 /* Pods-Slindir.release.xcconfig */;
+			baseConfigurationReference = 2D2FE0BEA6C3D3AF3A35AD7A /* Pods-GoGetter.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

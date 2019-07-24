@@ -29,7 +29,7 @@ pod 'FlagPhoneNumber', '0.7.2'
 pod 'GoogleUtilities'
 pod 'KeyboardMan'
 #pod 'FlagPhoneNumber'
-
+pod 'CropViewController'
 
 
 end

@@ -16,8 +16,9 @@ import FBSDKCoreKit
 import AVFoundation
 import UIImage_ImageCompress
 import MessageUI
+import CropViewController
 
-class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryViewControllerDelegates, UINavigationControllerDelegate, UIImagePickerControllerDelegate, RecordVideoDelegate, ProfileViewControllerDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, UITextViewDelegate, MFMailComposeViewControllerDelegate{
+class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryViewControllerDelegates, UINavigationControllerDelegate, UIImagePickerControllerDelegate, RecordVideoDelegate, ProfileViewControllerDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, UITextViewDelegate, MFMailComposeViewControllerDelegate, CropViewControllerDelegate {
     
 //MARK:-  IBOutlets, Variables and Constants
     
@@ -2217,28 +2218,42 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
             guard let imageData = data else { return }
             let image = UIImage(data: imageData)
             if let selectedImage = image{
-                self.profileImages[(self.selectedIndexPath!.item) - 11] = selectedImage
-                
-                DispatchQueue.main.async {
-//                    let cell: SettingCollectionViewCell = self.collectionView.cellForItem(at: self.selectedIndexPath!) as! SettingCollectionViewCell
-                    let vwCamera:UIView = self.scrollVwCamera.viewWithTag((self.selectedIndexPath?.row)!)!
-                    let openViewCamera:OpenCameraView = vwCamera.subviews[0] as! OpenCameraView
-                    openViewCamera.lblRecordVideo.text = "CHANGE PHOTO"
-                    openViewCamera.imgViewProfile.image = selectedImage
-                    openViewCamera.imgViewCamera.isHidden = true
-                    openViewCamera.imgViewProfile.isHidden = false
-                    if (self.selectedIndexPath?.item)! - 11 == 0 {
-                        self.postImageWithImage(image: selectedImage, fileName: "profile_pic", type: "image")
-                    }
-                    else {
-                        self.postImageWithImage(image: selectedImage, fileName: String(format:"image%d",(self.selectedIndexPath?.item)! - 11), type: "image")
-                        
-                        self.personalDetail[String(format:"image%d",(self.selectedIndexPath?.item)!-12)] = ""
-
-                    }
-                }
+                let cropViewController = CropViewController(image: selectedImage)
+                cropViewController.delegate = self
+                cropViewController.aspectRatioPreset = CropViewControllerAspectRatioPreset.presetCustom
+                cropViewController.aspectRatioLockEnabled = true
+                cropViewController.aspectRatioPickerButtonHidden = true
+                cropViewController.customAspectRatio = CGSize(width: 222, height: 233)
+                self.present(cropViewController, animated: true, completion: nil)
             }
         }
+    }
+    
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        // 'image' is the newly cropped version of the original image
+        let selectedImage = image
+        self.profileImages[(self.selectedIndexPath!.item) - 11] = selectedImage
+        cropViewController.dismiss(animated: true, completion: {
+            DispatchQueue.main.async {
+                //                    let cell: SettingCollectionViewCell = self.collectionView.cellForItem(at: self.selectedIndexPath!) as! SettingCollectionViewCell
+                let vwCamera:UIView = self.scrollVwCamera.viewWithTag((self.selectedIndexPath?.row)!)!
+                let openViewCamera:OpenCameraView = vwCamera.subviews[0] as! OpenCameraView
+                openViewCamera.lblRecordVideo.text = "CHANGE PHOTO"
+                openViewCamera.imgViewProfile.image = selectedImage
+                openViewCamera.imgViewCamera.isHidden = true
+                openViewCamera.imgViewProfile.isHidden = false
+                
+                if (self.selectedIndexPath?.item)! - 11 == 0 {
+                    self.postImageWithImage(image: selectedImage, fileName: "profile_pic", type: "image")
+                }
+                else {
+                    self.postImageWithImage(image: selectedImage, fileName: String(format:"image%d",(self.selectedIndexPath?.item)! - 11), type: "image")
+                    
+                    self.personalDetail[String(format:"image%d",(self.selectedIndexPath?.item)!-12)] = ""
+                    
+                }
+            }
+        })
     }
 
     func selectedVideo(_ asset: PHAsset!) {

@@ -1,6 +1,0 @@
-framework module Pods_SlindirTests {
-  umbrella header "Pods-SlindirTests-umbrella.h"
-
-  export *
-  module * { export * }
-}

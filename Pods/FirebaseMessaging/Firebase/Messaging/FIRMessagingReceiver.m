@@ -16,6 +16,8 @@
 
 #import "FIRMessagingReceiver.h"
 
+#import <UIKit/UIKit.h>
+
 #import "FIRMessaging.h"
 #import "FIRMessagingLogger.h"
 #import "FIRMessagingUtilities.h"

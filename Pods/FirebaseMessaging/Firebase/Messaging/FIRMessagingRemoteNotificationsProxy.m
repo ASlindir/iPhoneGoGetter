@@ -17,6 +17,7 @@
 #import "FIRMessagingRemoteNotificationsProxy.h"
 
 #import <objc/runtime.h>
+#import <UIKit/UIKit.h>
 
 #import "FIRMessagingConstants.h"
 #import "FIRMessagingLogger.h"
@@ -31,7 +32,7 @@ static NSString *kUserNotificationWillPresentSelectorString =
 static NSString *kUserNotificationDidReceiveResponseSelectorString =
     @"userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:";
 
-@interface FIRMessagingRemoteNotificationsProxy () <GULApplicationDelegate>
+@interface FIRMessagingRemoteNotificationsProxy () <UIApplicationDelegate>
 
 @property(strong, nonatomic) NSMutableDictionary<NSString *, NSValue *> *originalAppDelegateImps;
 @property(strong, nonatomic) NSMutableDictionary<NSString *, NSArray *> *swizzledSelectorsByClass;
@@ -391,20 +392,25 @@ id getNamedPropertyFromObject(id object, NSString *propertyName, Class klass) {
   return property;
 }
 
-#pragma mark - GULApplicationDelegate
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
-- (void)application:(GULApplication *)application
+#pragma mark - UIApplicationDelegate
+
+#if TARGET_OS_IOS
+- (void)application:(UIApplication *)application
 didReceiveRemoteNotification:(NSDictionary *)userInfo {
   [[FIRMessaging messaging] appDidReceiveMessage:userInfo];
 }
-#pragma clang diagnostic pop
+#endif // TARGET_OS_IOS
 
-#if TARGET_OS_IOS || TARGET_OS_TV
 - (void)application:(UIApplication *)application
 didReceiveRemoteNotification:(NSDictionary *)userInfo
 fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
   [[FIRMessaging messaging] appDidReceiveMessage:userInfo];
+}
+
+- (void)application:(UIApplication *)application
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  // Pass the APNSToken along to FIRMessaging (and auto-detect the token type)
+  [FIRMessaging messaging].APNSToken = deviceToken;
 }
 
 - (void)application:(UIApplication *)application
@@ -414,12 +420,6 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
                           @"Error in "
                           @"application:didFailToRegisterForRemoteNotificationsWithError: %@",
                           error.localizedDescription);
-}
-#endif
-
-- (void)application:(GULApplication *)application
-    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    [FIRMessaging messaging].APNSToken = deviceToken;
 }
 
 #pragma mark - Swizzled Methods

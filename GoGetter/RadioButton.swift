@@ -2,9 +2,6 @@
 //  RadioButton.swift
 //  GoGetter
 //
-//  Created by Manoj Katkar on 17/07/19.
-//  Copyright © 2019 Manoj Katkar. All rights reserved.
-//
 
 import UIKit
 

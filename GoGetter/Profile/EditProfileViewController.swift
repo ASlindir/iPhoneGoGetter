@@ -271,7 +271,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         self.widthVwCamera.constant = UIScreen.main.bounds.width - 110
         self.view.layoutIfNeeded()
         
-        self.updateCharacterCount()
     }
     
     @objc func goToProfile(isAlreadyLogin : Bool){
@@ -429,6 +428,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         if let aboutme = personalDetail["about_me"] as? String {
             print("About Me :- ",aboutme)
             self.txtViewDesc.text = aboutme
+            self.updateCharacterCount()
         }
         
         var age = 25

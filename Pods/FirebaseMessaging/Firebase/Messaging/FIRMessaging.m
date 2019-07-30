@@ -21,6 +21,8 @@
 #import "FIRMessaging.h"
 #import "FIRMessaging_Private.h"
 
+#import <UIKit/UIKit.h>
+
 #import "FIRMessagingAnalytics.h"
 #import "FIRMessagingClient.h"
 #import "FIRMessagingConstants.h"
@@ -48,7 +50,6 @@
 #import <FirebaseInstanceID/FIRInstanceID_Private.h>
 #import <GoogleUtilities/GULReachabilityChecker.h>
 #import <GoogleUtilities/GULUserDefaults.h>
-#import <GoogleUtilities/GULAppDelegateSwizzler.h>
 
 #import "NSError+FIRMessaging.h"
 
@@ -308,7 +309,6 @@ NSString *const kFIRMessagingPlistAutoInitEnabled =
              selector:@selector(defaultInstanceIDTokenWasRefreshed:)
                  name:kFIRMessagingRegistrationTokenRefreshNotification
                object:nil];
-#if TARGET_OS_IOS ||TARGET_OS_TV
   [center addObserver:self
              selector:@selector(applicationStateChanged)
                  name:UIApplicationDidBecomeActiveNotification
@@ -317,7 +317,6 @@ NSString *const kFIRMessagingPlistAutoInitEnabled =
              selector:@selector(applicationStateChanged)
                  name:UIApplicationDidEnterBackgroundNotification
                object:nil];
-#endif
 }
 
 - (void)setupReceiver {
@@ -432,7 +431,6 @@ NSString *const kFIRMessagingPlistAutoInitEnabled =
 }
 
 - (void)handleIncomingLinkIfNeededFromMessage:(NSDictionary *)message {
-#if TARGET_OS_IOS || TARGET_OS_TV
   NSURL *url = [self linkURLFromMessage:message];
   if (url == nil) {
     return;
@@ -444,20 +442,17 @@ NSString *const kFIRMessagingPlistAutoInitEnabled =
     });
     return;
   }
-  UIApplication *application = [GULAppDelegateSwizzler sharedApplication];
+  UIApplication *application = FIRMessagingUIApplication();
   if (!application) {
     return;
   }
   id<UIApplicationDelegate> appDelegate = application.delegate;
   SEL continueUserActivitySelector =
       @selector(application:continueUserActivity:restorationHandler:);
-
   SEL openURLWithOptionsSelector = @selector(application:openURL:options:);
   SEL openURLWithSourceApplicationSelector =
       @selector(application:openURL:sourceApplication:annotation:);
-#if TARGET_OS_IOS
   SEL handleOpenURLSelector = @selector(application:handleOpenURL:);
-#endif
   // Due to FIRAAppDelegateProxy swizzling, this selector will most likely get chosen, whether or
   // not the actual application has implemented
   // |application:continueUserActivity:restorationHandler:|. A warning will be displayed to the user
@@ -478,6 +473,7 @@ NSString *const kFIRMessagingPlistAutoInitEnabled =
 #pragma clang diagnostic ignored "-Wunguarded-availability"
     [appDelegate application:application openURL:url options:@{}];
 #pragma clang diagnostic pop
+
   // Similarly, |application:openURL:sourceApplication:annotation:| will also always be called, due
   // to the default swizzling done by FIRAAppDelegateProxy in Firebase Analytics
   } else if ([appDelegate respondsToSelector:openURLWithSourceApplicationSelector]) {
@@ -489,15 +485,15 @@ NSString *const kFIRMessagingPlistAutoInitEnabled =
            sourceApplication:FIRMessagingAppIdentifier()
                   annotation:@{}];
 #pragma clang diagnostic pop
+#endif
   } else if ([appDelegate respondsToSelector:handleOpenURLSelector]) {
+#if TARGET_OS_IOS
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [appDelegate application:application handleOpenURL:url];
 #pragma clang diagnostic pop
 #endif
-
   }
-#endif
 }
 
 - (NSURL *)linkURLFromMessage:(NSDictionary *)message {
@@ -681,13 +677,10 @@ NSString *const kFIRMessagingPlistAutoInitEnabled =
 }
 
 - (BOOL)shouldBeConnectedAutomatically {
-#if TARGET_OS_OSX
-    return NO;
-#else
   // We require a token from Instance ID
   NSString *token = self.defaultFcmToken;
   // Only on foreground connections
-  UIApplication *application = [GULAppDelegateSwizzler sharedApplication];
+  UIApplication *application = FIRMessagingUIApplication();
   if (!application) {
     return NO;
   }
@@ -696,7 +689,6 @@ NSString *const kFIRMessagingPlistAutoInitEnabled =
                            (token.length > 0) &&
                            applicationState == UIApplicationStateActive;
   return shouldBeConnected;
-#endif
 }
 
 - (void)updateAutomaticClientConnection {

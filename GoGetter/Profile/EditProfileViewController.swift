@@ -43,6 +43,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     @IBOutlet weak var imgViewRelationShip: UIImageView!
     @IBOutlet weak var imgViewStandard: UIImageView!
     @IBOutlet weak var imgViewMetric: UIImageView!
+    @IBOutlet weak var imgViewAnywhere: UIImageView!
     
    // @IBOutlet weak var txtFldName: UITextField!
    // @IBOutlet weak var txtFldAge: UITextField!
@@ -52,6 +53,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     @IBOutlet weak var txtFldTeam3: UITextField!
     @IBOutlet weak var txtFldTeam4: UITextField!
     @IBOutlet weak var txtFldOccupation: UITextField!
+    @IBOutlet weak var txtFldBirthday: CustomTextField!
     
     @IBOutlet weak var txtViewDesc: UITextView!
 
@@ -62,7 +64,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     
     @IBOutlet weak var btnCamera: UIButton!
     @IBOutlet weak var btnMan: UIButton!
+    @IBOutlet weak var btnYourGenderMan: UIButton!
     @IBOutlet weak var btnWomen: UIButton!
+    @IBOutlet weak var btnYourGenderWomen: UIButton!
     @IBOutlet weak var btnSliderQuizz: UIButton!
     @IBOutlet weak var btnReminder: UIButton!
     @IBOutlet weak var btnGotIt: UIButton!
@@ -101,6 +105,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     @IBOutlet weak var viewWorkOutBuddy: UIView!
     @IBOutlet weak var viewShortTermDating: UIView!
     @IBOutlet weak var viewLongTermDating: UIView!
+    @IBOutlet weak var viewAnywhere: UIView!
     
     @IBOutlet weak var heightUpdateButton: NSLayoutConstraint!
     @IBOutlet weak var constraintViewWhiteHeight: NSLayoutConstraint!
@@ -135,6 +140,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     var ageStr = ""
     var locationStr = ""
     var genderPreferences = ""
+    var yourGenderPreferences = ""
     var agePreferences = ("18","25")
     var heightPreferences = ("5.0","6.0")
     var distancePreference = "10"
@@ -150,6 +156,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     var shortTermBool: Bool = false
     var longTermBool: Bool = false
     var videoCompleted: Bool = false
+    var anywhereBool: Bool = false
     
     var stackViews = [UIStackView]()
     var profileImages:[Any?] = [#imageLiteral(resourceName: "steve"),UIImage(named: ""),UIImage(named: ""),UIImage(named: ""),UIImage(named: ""),UIImage(named: "")]
@@ -247,6 +254,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         hideTheViews()
         addTheGestures()
         upTheKeyboard()
+        
+        // birthday field
+        self.txtFldBirthday.delegate = self
         
         if !UserDefaults.standard.bool(forKey: "likedNotification") && !UserDefaults.standard.bool(forKey: "matchedNotification") && !UserDefaults.standard.bool(forKey: "newMatchedNotification") && !UserDefaults.standard.bool(forKey: "chatNotification") {
             DispatchQueue.main.async {
@@ -419,6 +429,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         }
         
         var age = 25
+        
         if let dob = personalDetail["dob"] as? String {
             if dob != "" {
                 let df = DateFormatter()
@@ -430,6 +441,8 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 let now = Date()
                 let calcAge = calendar.components(.year, from: birthdayDate!, to: now, options: [])
                 age = calcAge.year!
+                
+                self.txtFldBirthday.text = df.string(from: birthdayDate ?? Date())
             }
         }
         
@@ -492,13 +505,48 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             self.btnMan.setImage(#imageLiteral(resourceName: "manUnSelected"), for: .normal)
         }
         
-        if let radius = personalDetail["location_radius"] as? String{
-            if radius != "" {
-                self.milesSlider.value = Float(radius)!
-                self.lblMiles.text = radius
-                distancePreference = radius
+        if let gender = personalDetail["gender"] as? String {
+            print(gender)
+            if gender == "F" {
+                yourGenderPreferences = "F"
+                self.btnYourGenderWomen.setImage(#imageLiteral(resourceName: "femaleSelected"), for: .normal)
+                self.btnYourGenderMan.setImage(#imageLiteral(resourceName: "manUnSelected"), for: .normal)
+
+            }else if gender == "M" {
+                yourGenderPreferences = "M"
+                self.btnYourGenderMan.setImage(#imageLiteral(resourceName: "manSelected"), for: .normal)
+                self.btnYourGenderWomen.setImage(#imageLiteral(resourceName: "femaleUnSelected"), for: .normal)
+            }
+            else {
+                yourGenderPreferences = ""
+                self.btnYourGenderWomen.setImage(#imageLiteral(resourceName: "femaleUnSelected"), for: .normal)
+                self.btnYourGenderMan.setImage(#imageLiteral(resourceName: "manUnSelected"), for: .normal)
             }
         }
+        else {
+            yourGenderPreferences = ""
+            self.btnYourGenderWomen.setImage(#imageLiteral(resourceName: "manUnSelected"), for: .normal)
+            self.btnYourGenderMan.setImage(#imageLiteral(resourceName: "manUnSelected"), for: .normal)
+        }
+        
+        if let radius = personalDetail["location_radius"] as? String{
+            if radius != "" {
+                if radius == "99999" {
+                    distancePreference = "99999"
+                    anywhereBool = true
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.imgViewAnywhere.image = #imageLiteral(resourceName: "check")
+                    }
+                } else {
+                    self.milesSlider.value = Float(radius)!
+                    self.lblMiles.text = radius
+                    distancePreference = radius
+                    anywhereBool = false
+                }
+            }
+        }
+        
         if let height = personalDetail["height"] as? String{
             if height != "" {
                 heightValue = height
@@ -600,6 +648,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         imgViewHaveFun.image = #imageLiteral(resourceName: "unCheck")
         imgViewMeetNewPeople.image = #imageLiteral(resourceName: "unCheck")
         imgViewRelationShip.image = #imageLiteral(resourceName: "unCheck")
+        imgViewAnywhere.image = #imageLiteral(resourceName: "unCheck")
         if let iAmHere = personalDetail["iam_here_to"] as? String {
             let iAmHereArray = iAmHere.components(separatedBy: ",")
             if iAmHereArray.contains("workout"){
@@ -833,6 +882,41 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
 //            return
 //        }
     }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        
+        if textField == self.txtFldBirthday {
+            var birthdayDate = Date()
+            
+            if let dob = personalDetail["dob"] as? String {
+                if dob != "" {
+                    let df = DateFormatter()
+                    df.dateFormat = "yyyy-MM-dd"
+                    df.timeZone = NSTimeZone(abbreviation: "GMT")! as TimeZone
+                    df.locale = Locale.init(identifier: "en_US_POSIX")
+                    birthdayDate = df.date(from: dob ) ?? Date()
+//                    let calendar: NSCalendar! = NSCalendar(calendarIdentifier: .gregorian)
+//                    let now = Date()
+//                    let calcAge = calendar.components(.year, from: birthdayDate!, to: now, options: [])
+//                    age = calcAge.year!
+                }
+            }
+            
+            
+            DatePickerDialog(locale: Locale(identifier: "en_US_POSIX")).show("Birthday",  doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: birthdayDate, datePickerMode: .date) {
+                (date) -> Void in
+                if let dt = date {
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "yyyy-MM-dd"
+                    self.txtFldBirthday.text = formatter.string(from: dt)
+                }
+            }
+            
+            return false
+        }
+        
+        return true
+    }
 
     //MARK:-  UITextView Delegates
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -885,6 +969,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         
         let metricImgViewGesture = UITapGestureRecognizer(target: self, action: #selector(metricUnitSelected))
         imgViewMetric.addGestureRecognizer(metricImgViewGesture)
+        
+        let anywhereImgViewGesture = UITapGestureRecognizer(target: self, action: #selector(anywhereSelected))
+        viewAnywhere.addGestureRecognizer(anywhereImgViewGesture)
     }
     
     func settingNameAgeAddress(_ name:String, _ age: String, _ location: String){
@@ -1052,6 +1139,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         parameters["user_name"] = username//self.lblName.text
         parameters["about_me"] = self.txtViewDesc.text
         parameters["looking_for"] = genderPreferences
+        parameters["gender"] = yourGenderPreferences
         parameters["age_range"] = ageRange
         parameters["height_range"] = heightRange
         parameters["height"] = heightValue
@@ -1064,6 +1152,8 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         parameters["fav_sport_team_3"] = self.txtFldTeam3.text
         parameters["fav_sport_team_4"] = self.txtFldTeam4.text
         parameters["work"] = self.txtFldOccupation.text
+        parameters["dob"] = self.txtFldBirthday.text
+        
         if isNotification {
             parameters["notification"] =  "1"
         }
@@ -1339,6 +1429,22 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         self.imgViewRelationShip.layer.borderWidth = 1
     }
     
+    @objc func anywhereSelected(){
+        if anywhereBool{
+            CustomClass.sharedInstance.playAudio(.popRed, .mp3)
+            imgViewAnywhere.image = #imageLiteral(resourceName: "unCheck")
+            anywhereBool = false
+            distancePreference = lblMiles.text!
+        }else{
+            CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+            imgViewAnywhere.image = #imageLiteral(resourceName: "check")
+            anywhereBool = true
+            distancePreference = "99999"
+        }
+        self.imgViewAnywhere.layer.borderColor = UIColor.clear.cgColor
+        self.imgViewAnywhere.layer.borderWidth = 1
+    }
+    
     @objc func standardUnitSelected(){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         selectedUnit = "Standard"
@@ -1368,6 +1474,17 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 self.scrollView.contentOffset = CGPoint(x: 0, y: 200)
                 return
             }
+        
+        if yourGenderPreferences == "" {
+            self.showAlertWithOneButton("", "Please select your gender.", "Ok")
+            self.btnYourGenderMan.layer.borderColor = UIColor.red.cgColor
+            self.btnYourGenderMan.layer.borderWidth = 1
+            self.btnYourGenderWomen.layer.borderColor = UIColor.red.cgColor
+            self.btnYourGenderWomen.layer.borderWidth = 1
+            self.scrollView.contentOffset = CGPoint(x: 0, y: 200)
+            return
+        }
+        
             if lookingFor.count == 0 {
                 self.showAlertWithOneButton("", "Please select what you are looking for.", "Ok")
                 self.imgViewHaveFun.layer.borderColor = UIColor.red.cgColor
@@ -1379,6 +1496,14 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 self.scrollView.contentOffset = CGPoint(x: 0, y: 1000)
                 return
             }
+        
+        if self.openCameraView1.imgViewProfile.isHidden
+            || self.openCameraView2.imgViewProfile.isHidden
+        {
+            self.showAlertWithOneButton("Error", "Please upload at least two photos.", "OK");
+            self.scrollView.contentOffset = CGPoint(x: 0, y: 0)
+            return
+        }
         
         if !LocalStore.store.isHeightSet() {
             let alertController = UIAlertController(title: NSLocalizedString("Confirmation", comment:""), message: "Please make sure this is your correct height, as you will not be able to edit it later.", preferredStyle: .alert)
@@ -1575,6 +1700,19 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         
     }
     
+    @IBAction func btnYourGenderMan(_ sender: Any) {
+        self.btnYourGenderMan.layer.borderColor = UIColor.clear.cgColor
+        self.btnYourGenderWomen.layer.borderColor = UIColor.clear.cgColor
+        CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+        yourGenderPreferences = "M"
+        UIView.transition(with: btnYourGenderMan, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            self.btnYourGenderMan.setImage(#imageLiteral(resourceName: "manSelected"), for: .normal)
+            self.btnYourGenderWomen.setImage(#imageLiteral(resourceName: "femaleUnSelected"), for: .normal)
+        }) { (completed:Bool) in
+            
+        }
+    }
+    
     @IBAction func btnWomen(_ sender: Any?){
         self.btnMan.layer.borderColor = UIColor.clear.cgColor
         self.btnWomen.layer.borderColor = UIColor.clear.cgColor
@@ -1583,6 +1721,19 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         UIView.transition(with: btnWomen, duration: 0.3, options: .transitionCrossDissolve, animations: {
             self.btnWomen.setImage(#imageLiteral(resourceName: "femaleSelected"), for: .normal)
             self.btnMan.setImage(#imageLiteral(resourceName: "manUnSelected"), for: .normal)
+        }) { (completed:Bool) in
+            
+        }
+    }
+    
+    @IBAction func btnYourGenderWomen(_ sender: Any) {
+        self.btnYourGenderMan.layer.borderColor = UIColor.clear.cgColor
+        self.btnYourGenderWomen.layer.borderColor = UIColor.clear.cgColor
+        CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+        yourGenderPreferences = "F"
+        UIView.transition(with: btnYourGenderWomen, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            self.btnYourGenderWomen.setImage(#imageLiteral(resourceName: "femaleSelected"), for: .normal)
+            self.btnYourGenderMan.setImage(#imageLiteral(resourceName: "manUnSelected"), for: .normal)
         }) { (completed:Bool) in
             
         }
@@ -1631,6 +1782,15 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     
     @IBAction func btnSliderQuizz(_ sender: Any?){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+        
+        if self.openCameraView1.imgViewProfile.isHidden
+            || self.openCameraView2.imgViewProfile.isHidden
+        {
+            self.showAlertWithOneButton("Error", "Please upload at least two photos.", "OK");
+            self.scrollView.contentOffset = CGPoint(x: 0, y: 0)
+            return
+        }
+        
         if !LocalStore.store.isQuizDone(){
             //if let url = UserDefaults.standard.url(forKey: "videoURL") {
                 if genderPreferences == "" {
@@ -1642,6 +1802,18 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                     self.scrollView.contentOffset = CGPoint(x: 0, y: 200)
                     return
                 }
+            
+            
+            if yourGenderPreferences == "" {
+                self.showAlertWithOneButton("", "Please select your gender.", "Ok")
+                self.btnYourGenderMan.layer.borderColor = UIColor.red.cgColor
+                self.btnYourGenderMan.layer.borderWidth = 1
+                self.btnYourGenderWomen.layer.borderColor = UIColor.red.cgColor
+                self.btnYourGenderWomen.layer.borderWidth = 1
+                self.scrollView.contentOffset = CGPoint(x: 0, y: 200)
+                return
+            }
+            
                 if lookingFor.count == 0 {
                     self.showAlertWithOneButton("", "Please select what you are looking for.", "Ok")
                     self.imgViewHaveFun.layer.borderColor = UIColor.red.cgColor
@@ -1655,50 +1827,78 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                     return
                 }
             
-            if !LocalStore.store.isHeightSet() {
-                let alertController = UIAlertController(title: NSLocalizedString("Confirmation", comment:""), message: "Please make sure this is your correct height, as you will not be able to edit it later.", preferredStyle: .alert)
-                alertController.addAction(action(NSLocalizedString("Ok", comment: ""), .default, actionHandler: { (alertAction) in
-                    LocalStore.store.heightDone = true
-//                    self.isBackClicked = false
-//                    self.saveUserPreferences()
-//                    UserDefaults.standard.set(true, forKey: "updateSettings")
-//                    UserDefaults.standard.synchronize()
-//                    let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-//                    profileController.profileDelegate = self
+//            if !LocalStore.store.isHeightSet() {
+//                let alertController = UIAlertController(title: NSLocalizedString("Confirmation", comment:""), message: "Please make sure this is your correct height, as you will not be able to edit it later.", preferredStyle: .alert)
+//                alertController.addAction(action(NSLocalizedString("Ok", comment: ""), .default, actionHandler: { (alertAction) in
+//                    LocalStore.store.heightDone = true
+////                    self.isBackClicked = false
+////                    self.saveUserPreferences()
+////                    UserDefaults.standard.set(true, forKey: "updateSettings")
+////                    UserDefaults.standard.synchronize()
+////                    let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+////                    profileController.profileDelegate = self
+////
+////                    //profileController.isSlindirQuiz = true
+////                    self.navigationController?.pushViewController(profileController, animated: true)
+//                }))
 //
-//                    //profileController.isSlindirQuiz = true
-//                    self.navigationController?.pushViewController(profileController, animated: true)
-                }))
-                
-                alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: nil))
-                
-                self.present(alertController, animated: true, completion: nil)
-                return
-            }
+//                alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: nil))
+//
+//                self.present(alertController, animated: true, completion: nil)
+//                return
+//            }
             
-            isBackClicked = false
-            self.saveUserPreferences()
-            UserDefaults.standard.set(true, forKey: "updateSettings")
-            UserDefaults.standard.synchronize()
-            if (fbLoginType == 2){
-                if !UserDefaults.standard.bool(forKey: "likedNotification") && !UserDefaults.standard.bool(forKey: "matchedNotification") && !UserDefaults.standard.bool(forKey: "newMatchedNotification") && !UserDefaults.standard.bool(forKey: "chatNotification") {
-                    DispatchQueue.main.async {
-                        self.perform(#selector(self.goToProfileControllerAfterPhoneReg), with: nil, afterDelay: 0.1)
+            let okAction = action("Yes", .default) { (action) in
+                self.isBackClicked = false
+                self.saveUserPreferences()
+                UserDefaults.standard.set(true, forKey: "updateSettings")
+                UserDefaults.standard.synchronize()
+                if (self.fbLoginType == 2){
+                    if !UserDefaults.standard.bool(forKey: "likedNotification") && !UserDefaults.standard.bool(forKey: "matchedNotification") && !UserDefaults.standard.bool(forKey: "newMatchedNotification") && !UserDefaults.standard.bool(forKey: "chatNotification") {
+                        DispatchQueue.main.async {
+                            self.perform(#selector(self.goToProfileControllerAfterPhoneReg), with: nil, afterDelay: 0.1)
+                        }
+                    }
+                    else{
+                        let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+                        profileController.profileDelegate = self
+                        profileController.isAlreadyLogin = false
+                        self.navigationController?.pushViewController(profileController, animated: true)
                     }
                 }
                 else{
                     let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
                     profileController.profileDelegate = self
-                    profileController.isAlreadyLogin = false
                     self.navigationController?.pushViewController(profileController, animated: true)
                 }
             }
-            else{
-                let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-                profileController.profileDelegate = self
-                self.navigationController?.pushViewController(profileController, animated: true)
+            
+            let cancelAction = action("No", .cancel) { (action) in
+                
             }
-        }else{
+            
+            var age = 25
+            
+            if txtFldBirthday.text != nil {
+                let df = DateFormatter()
+                df.dateFormat = "yyyy-MM-dd"
+                df.timeZone = NSTimeZone(abbreviation: "GMT")! as TimeZone
+                df.locale = Locale.init(identifier: "en_US_POSIX")
+                let birthdayDate = df.date(from: txtFldBirthday.text! )
+                let calendar: NSCalendar! = NSCalendar(calendarIdentifier: .gregorian)
+                let now = Date()
+                let calcAge = calendar.components(.year, from: birthdayDate!, to: now, options: [])
+                age = calcAge.year!
+            }
+            
+            
+            showAlertWithCustomButtons("Is this correct?",
+                                       "Your gender: " + (yourGenderPreferences == "F" ? "Woman": (yourGenderPreferences == "M" ? "Man" : "")) + "\n"
+                                        + "Your age: \(age)\n"
+                                        + "Your height \(heightValue): "
+                , okAction, cancelAction)
+            return
+        } else {
             if genderPreferences == "" {
                 self.showAlertWithOneButton("", "Please select your gender preference above.", "Ok")
                 self.btnMan.layer.borderColor = UIColor.red.cgColor
@@ -1708,6 +1908,18 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 self.scrollView.contentOffset = CGPoint(x: 0, y: 200)
                 return
             }
+            
+            if yourGenderPreferences == "" {
+                self.showAlertWithOneButton("", "Please select your gender.", "Ok")
+                self.btnYourGenderMan.layer.borderColor = UIColor.red.cgColor
+                self.btnYourGenderMan.layer.borderWidth = 1
+                self.btnYourGenderWomen.layer.borderColor = UIColor.red.cgColor
+                self.btnYourGenderWomen.layer.borderWidth = 1
+                self.scrollView.contentOffset = CGPoint(x: 0, y: 200)
+                return
+            }
+            
+            
             if lookingFor.count == 0 {
                 self.showAlertWithOneButton("", "Please select what you are looking for.", "Ok")
                 self.imgViewHaveFun.layer.borderColor = UIColor.red.cgColor
@@ -1876,6 +2088,17 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             self.scrollView.contentOffset = CGPoint(x: 0, y: 200)
             return
         }
+        
+        if yourGenderPreferences == "" {
+            self.showAlertWithOneButton("", "Please select your gender.", "Ok")
+            self.btnYourGenderMan.layer.borderColor = UIColor.red.cgColor
+            self.btnYourGenderMan.layer.borderWidth = 1
+            self.btnYourGenderWomen.layer.borderColor = UIColor.red.cgColor
+            self.btnYourGenderWomen.layer.borderWidth = 1
+            self.scrollView.contentOffset = CGPoint(x: 0, y: 200)
+            return
+        }
+        
         if lookingFor.count == 0 {
             self.showAlertWithOneButton("", "Please select what you are looking for.", "Ok")
             self.imgViewHaveFun.layer.borderColor = UIColor.red.cgColor
@@ -2407,6 +2630,11 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         exportSession.exportAsynchronously { () -> Void in
             handler(exportSession)
         }
+    }
+    
+    //MARK:-  Navigation controller Delegate
+    override func didMove(toParent parent: UIViewController?) {
+        print("Back")
     }
 }
 

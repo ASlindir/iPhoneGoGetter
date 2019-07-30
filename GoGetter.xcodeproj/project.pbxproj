@@ -76,6 +76,7 @@
 		18F6E8B81FE10EC6003F38FC /* FirebaseObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F6E8B71FE10EC6003F38FC /* FirebaseObserver.swift */; };
 		3A6417F51F84ABEC0087E8D5 /* LocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6417F41F84ABEC0087E8D5 /* LocalStore.swift */; };
 		3AAA508E1FD8558900B6DECA /* PersonalityTypeMatching.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3AAA508D1FD854F800B6DECA /* PersonalityTypeMatching.gif */; };
+		84319E5C22F01D86003FF7B5 /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84319E5B22F01D86003FF7B5 /* DatePickerDialog.swift */; };
 		84694F3022830364007AB8BA /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84694F2F22830364007AB8BA /* FormViewController.swift */; };
 		84694F362283036E007AB8BA /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84694F312283036D007AB8BA /* String.swift */; };
 		84694F372283036E007AB8BA /* CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84694F322283036D007AB8BA /* CALayer.swift */; };
@@ -310,6 +311,7 @@
 		4DDEBB81B95D628050850816 /* Pods_SlindirUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SlindirUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CA60D0D04BBB243A68B535C /* Pods_GoGetter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoGetter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		841512A1561BE204AB553446 /* Pods_SlindirTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SlindirTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		84319E5B22F01D86003FF7B5 /* DatePickerDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 		84694F2F22830364007AB8BA /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
 		84694F312283036D007AB8BA /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		84694F322283036D007AB8BA /* CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
@@ -701,6 +703,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		84319E5A22F01D77003FF7B5 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				84319E5B22F01D86003FF7B5 /* DatePickerDialog.swift */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
 		84694F29228302E1007AB8BA /* Modules */ = {
 			isa = PBXGroup;
 			children = (
@@ -712,6 +722,7 @@
 		84694F2A228302FD007AB8BA /* SignIn */ = {
 			isa = PBXGroup;
 			children = (
+				84319E5A22F01D77003FF7B5 /* Components */,
 				84694F2C22830335007AB8BA /* Extentions */,
 				84694F2B22830326007AB8BA /* Templates */,
 				84694F2D2283033D007AB8BA /* Controllers */,
@@ -1247,6 +1258,7 @@
 				0D00163E1FF0F84D0050FCE7 /* ProfileDetaiViewController.swift in Sources */,
 				0D06B8A520C2E7A6002E1703 /* JSQMessagesMediaPlaceholderView.m in Sources */,
 				B42A65A01F9F1EF500639F6B /* ChatViewController.swift in Sources */,
+				84319E5C22F01D86003FF7B5 /* DatePickerDialog.swift in Sources */,
 				B482AC541F6D5BE7008E152A /* CustomLabel.swift in Sources */,
 				18F6E8B81FE10EC6003F38FC /* FirebaseObserver.swift in Sources */,
 				CC28F7DB22947B5300CA815A /* SignInViewController.swift in Sources */,

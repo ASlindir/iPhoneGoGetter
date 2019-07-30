@@ -5700,6 +5700,56 @@ This will only take a minute.</string>
             </objects>
             <point key="canvasLocation" x="1133" y="887"/>
         </scene>
+        <!--Alert View Controller-->
+        <scene sceneID="EDQ-Oq-ptf">
+            <objects>
+                <viewController storyboardIdentifier="AlertViewController" automaticallyAdjustsScrollViewInsets="NO" id="x7B-iu-KNe" customClass="AlertViewController" customModule="GoGetter" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lYa-dt-QJg">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pn8-1L-Rqx">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="brainGameBackground" translatesAutoresizingMaskIntoConstraints="NO" id="Byp-Rj-k34">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sorry your daily limit of visits has come to an end" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DmF-2S-lbu">
+                                        <rect key="frame" x="8" y="60" width="304" height="448"/>
+                                        <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="22"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="DmF-2S-lbu" firstAttribute="top" secondItem="pn8-1L-Rqx" secondAttribute="top" constant="60" id="1D2-nZ-oga"/>
+                                    <constraint firstItem="Byp-Rj-k34" firstAttribute="top" secondItem="pn8-1L-Rqx" secondAttribute="top" id="5Zr-GR-GOJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="DmF-2S-lbu" secondAttribute="bottom" constant="60" id="E9r-mk-KUT"/>
+                                    <constraint firstAttribute="bottom" secondItem="Byp-Rj-k34" secondAttribute="bottom" id="Trw-vW-VHP"/>
+                                    <constraint firstAttribute="trailing" secondItem="Byp-Rj-k34" secondAttribute="trailing" id="cEg-KT-d4W"/>
+                                    <constraint firstItem="DmF-2S-lbu" firstAttribute="leading" secondItem="pn8-1L-Rqx" secondAttribute="leading" constant="8" id="iiO-k0-A4U"/>
+                                    <constraint firstItem="Byp-Rj-k34" firstAttribute="leading" secondItem="pn8-1L-Rqx" secondAttribute="leading" id="oNp-yW-jgK"/>
+                                    <constraint firstAttribute="trailing" secondItem="DmF-2S-lbu" secondAttribute="trailing" constant="8" id="tGC-uu-VFj"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="pn8-1L-Rqx" firstAttribute="leading" secondItem="ioA-gt-9qg" secondAttribute="leading" id="JbJ-9Q-eXu"/>
+                            <constraint firstItem="ioA-gt-9qg" firstAttribute="trailing" secondItem="pn8-1L-Rqx" secondAttribute="trailing" id="Txg-1m-vHh"/>
+                            <constraint firstItem="ioA-gt-9qg" firstAttribute="bottom" secondItem="pn8-1L-Rqx" secondAttribute="bottom" id="kNs-d7-66u"/>
+                            <constraint firstItem="ioA-gt-9qg" firstAttribute="top" secondItem="pn8-1L-Rqx" secondAttribute="top" constant="20" id="spW-IF-1fc"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ioA-gt-9qg"/>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <size key="freeformSize" width="320" height="568"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d3P-RD-J8k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4456.875" y="913.73239436619724"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Question1g" width="260" height="150"/>

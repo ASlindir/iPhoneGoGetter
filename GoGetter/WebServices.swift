@@ -51,6 +51,10 @@ enum Services: String {
     
     case updateProfile                      = "update-profile"
     
+    case updateViewCount                    = "updateViewCount"
+    
+    case queryViewCount                     = "queryViewCount"
+    
     case userDetails                        = "get-user-details"
     
     case saveUserInterests                  = "save-user-activities"

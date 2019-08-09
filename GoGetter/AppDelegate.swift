@@ -47,12 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         window?.backgroundColor = UIColor.white
 //        LoginManager().logOut()
-        
-        // test Sign In
-//        window?.rootViewController = UIStoryboard(name: "SignIn", bundle: nil).instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
-//        return true
-        
-        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         application.applicationIconBadgeNumber = 0
@@ -103,6 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 UserDefaults.standard.synchronize()
             }
         }
+        
         
         return true
     }

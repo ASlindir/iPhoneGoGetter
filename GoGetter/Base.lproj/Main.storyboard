@@ -4752,10 +4752,8 @@ This will only take a minute.</string>
                         <outlet property="stackViewUnit" destination="Rgw-7u-zwS" id="Yze-rI-RYT"/>
                         <outlet property="stackViewWhy" destination="aC6-sZ-wg8" id="ZgY-e2-bV4"/>
                         <outlet property="stackViewheight" destination="OlQ-43-G2N" id="1wJ-dB-cIM"/>
-                        <outlet property="switchKids" destination="eeM-oF-Gs9" id="s0Q-GF-wiY"/>
                         <outlet property="switchNotifications" destination="GOE-nz-hUN" id="2Yv-M0-5Qr"/>
                         <outlet property="switchSound" destination="tMx-t6-sUB" id="ba9-g0-8bU"/>
-                        <outlet property="switchWantKids" destination="Sb0-5w-cUc" id="ACg-Xf-fBb"/>
                         <outlet property="txtFldBirthday" destination="Urx-cg-7KY" id="hyT-Xw-kNr"/>
                         <outlet property="txtFldOccupation" destination="fI1-6Z-yOx" id="YpR-du-psf"/>
                         <outlet property="txtFldTeam1" destination="PQQ-o2-FzJ" id="VOE-5R-i89"/>
@@ -4779,6 +4777,9 @@ This will only take a minute.</string>
                         <outlet property="vwCamera4" destination="70t-ZY-jt1" id="8Fx-5S-9lC"/>
                         <outlet property="vwCamera5" destination="mQ0-sl-HCn" id="586-fK-rFq"/>
                         <outlet property="vwVideo" destination="XjL-mV-oKs" id="fRZ-vt-aeX"/>
+                        <outlet property="wantKidsMaybe" destination="vSS-aj-S1b" id="dFV-8x-8ty"/>
+                        <outlet property="wantKidsNo" destination="ceo-SN-deo" id="T7e-R7-05J"/>
+                        <outlet property="wantKidsYes" destination="92s-OD-6xm" id="eWy-0S-hpW"/>
                         <outlet property="widthVwCamera" destination="N3t-ax-2uA" id="Z7O-hU-bW9"/>
                     </connections>
                 </viewController>

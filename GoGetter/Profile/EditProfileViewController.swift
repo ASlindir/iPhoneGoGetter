@@ -141,7 +141,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     var locationStr = ""
     var genderPreferences = ""
     var yourGenderPreferences = ""
-    var agePreferences = ("18","25")
+    var agePreferences = ("21","41")
     var heightPreferences = ("5.0","6.0")
     var distancePreference = "10"
     var strSpeech = ""
@@ -177,6 +177,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
 //                      height: collectionView.bounds.height * scale)
 //    }
     
+    var radioHaveKids : [RadioButton]?
+    var radioWantKids : [RadioButton]?
+
     var arrayKids:[String] = []
     var lookingFor:[String] = []
     
@@ -204,6 +207,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
      override func viewDidLoad() {
         //self.indicator.isHidden = true
         super.viewDidLoad()
+        
+        radioHaveKids = [haveKidsYes, haveKidsNo, haveKidsMaybe]
+        radioWantKids = [wantKidsYes, wantKidsNo, wantKidsMaybe]
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateLocation), name: NSNotification.Name(rawValue: NSNotification.Name.RawValue("UpdateLocation")), object: nil)
         
@@ -279,7 +285,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             del.registerForRemoteNotifications()
         }
 
-        if genderPreferences == "" || lookingFor.count == 0 {
+        if genderPreferences == "" || lookingFor.count == 0 || arrayKids.count == 0 {
             return
         }
         if isRootController {
@@ -426,6 +432,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         if let aboutme = personalDetail["about_me"] as? String {
             print("About Me :- ",aboutme)
             self.txtViewDesc.text = aboutme
+            self.updateCharacterCount()
         }
         
         var age = 25

@@ -58,8 +58,13 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     @IBOutlet weak var txtViewDesc: UITextView!
     @IBOutlet weak var descCountLbl: UILabel!
 
-    @IBOutlet weak var switchKids: UISwitch!
-    @IBOutlet weak var switchWantKids: UISwitch!
+    @IBOutlet weak var haveKidsYes: RadioButton!
+    @IBOutlet weak var haveKidsNo: RadioButton!
+    @IBOutlet weak var haveKidsMaybe: RadioButton!
+    
+    @IBOutlet weak var wantKidsYes: RadioButton!
+    @IBOutlet weak var wantKidsNo: RadioButton!
+    @IBOutlet weak var wantKidsMaybe: RadioButton!
     @IBOutlet weak var switchNotifications: UISwitch!
     @IBOutlet weak var switchSound: UISwitch!
     
@@ -209,8 +214,8 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         //self.indicator.isHidden = true
         super.viewDidLoad()
         
-    //fhc    radioHaveKids = [haveKidsYes, haveKidsNo, haveKidsMaybe]
-    //fhc    radioWantKids = [wantKidsYes, wantKidsNo, wantKidsMaybe]
+        radioHaveKids = [haveKidsYes, haveKidsNo, haveKidsMaybe]
+        radioWantKids = [wantKidsYes, wantKidsNo, wantKidsMaybe]
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateLocation), name: NSNotification.Name(rawValue: NSNotification.Name.RawValue("UpdateLocation")), object: nil)
         
@@ -433,7 +438,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         if let aboutme = personalDetail["about_me"] as? String {
             print("About Me :- ",aboutme)
             self.txtViewDesc.text = aboutme
-    //fhc        self.updateCharacterCount()
+            self.updateCharacterCount()
         }
         
         var age = 25
@@ -634,22 +639,45 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             self.txtFldTeam4.text =  favSport
         }
         
-        arrayKids = []
+        arrayKids = ["",""]
         if let kids = personalDetail["kids"] as? String{
             let kidArray = kids.components(separatedBy: ",")
-            if kidArray.contains("want"){
-                self.switchWantKids.setOn(true, animated: true)
-                arrayKids.append("want")
-            }
-            else {
-                self.switchWantKids.setOn(false, animated: true)
-            }
-            if kidArray.contains("have"){
-                self.switchKids.setOn(true, animated: true)
-                arrayKids.append("have")
-            }
-            else {
-                self.switchKids.setOn(false, animated: true)
+            
+            if (kidArray.count > 0) {
+                if (kidArray.indices.contains(0)) {
+                    switch kidArray[0] {
+                    case "have" :
+                                self.haveKidsYes.isSelected = true
+                                self.haveKidsNo.isSelected = false
+                                self.haveKidsMaybe.isSelected = false
+                    case "no" :
+                                self.haveKidsYes.isSelected = false
+                                self.haveKidsNo.isSelected = true
+                                self.haveKidsMaybe.isSelected = false
+                    default :
+                                self.haveKidsYes.isSelected = false
+                                self.haveKidsNo.isSelected = false
+                                self.haveKidsMaybe.isSelected = true
+                    }
+                    arrayKids[0] = kidArray[0]
+                }
+                if (kidArray.indices.contains(1)) {
+                    switch kidArray[1] {
+                    case "want" :
+                                self.wantKidsYes.isSelected = true
+                                self.wantKidsNo.isSelected = false
+                                self.wantKidsMaybe.isSelected = false
+                    case "no" :
+                                self.wantKidsYes.isSelected = false
+                                self.wantKidsNo.isSelected = true
+                                self.wantKidsMaybe.isSelected = false
+                    default :
+                                self.wantKidsYes.isSelected = false
+                                self.wantKidsNo.isSelected = false
+                                self.wantKidsMaybe.isSelected = true
+                    }
+                    arrayKids[1] = kidArray[1]
+                }
             }
         }
         lookingFor = []
@@ -890,7 +918,14 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
 //            return
 //        }
     }
+    func updateCharacterCount() {
+        let summaryCount = self.txtViewDesc.text.count
+        self.descCountLbl.text = "\((0) + summaryCount)/300"
+    }
     
+    func textViewDidChange(_ textView: UITextView) {
+        self.updateCharacterCount()
+    }
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         
         if textField == self.txtFldBirthday {
@@ -930,7 +965,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         let numberOfChars = newText.count
-        return numberOfChars < 302
+        return numberOfChars < 301
     }
     
 //MARK:-  Local Methods
@@ -1504,15 +1539,27 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 self.scrollView.contentOffset = CGPoint(x: 0, y: 1000)
                 return
             }
-        
-        if self.openCameraView1.imgViewProfile.isHidden
-            || self.openCameraView2.imgViewProfile.isHidden
-        {
-            self.showAlertWithOneButton("Error", "Please upload at least two photos.", "OK");
-            self.scrollView.contentOffset = CGPoint(x: 0, y: 0)
-            return
-        }
-        
+            if arrayKids.count == 0 {
+                self.showAlertWithOneButton("", "Please select info about kids.", "Ok")
+
+                self.haveKidsYes.layer.borderColor = UIColor.red.cgColor
+                self.haveKidsYes.layer.borderWidth = 1
+                self.haveKidsNo.layer.borderColor = UIColor.red.cgColor
+                self.haveKidsNo.layer.borderWidth = 1
+                self.haveKidsMaybe.layer.borderColor = UIColor.red.cgColor
+                self.haveKidsMaybe.layer.borderWidth = 1
+
+                self.wantKidsYes.layer.borderColor = UIColor.red.cgColor
+                self.wantKidsYes.layer.borderWidth = 1
+                self.wantKidsNo.layer.borderColor = UIColor.red.cgColor
+                self.wantKidsNo.layer.borderWidth = 1
+                self.wantKidsMaybe.layer.borderColor = UIColor.red.cgColor
+                self.wantKidsMaybe.layer.borderWidth = 1
+                
+                self.scrollView.contentOffset = CGPoint(x: 0, y: 470)
+                return
+            }
+
         if !LocalStore.store.isHeightSet() {
             let alertController = UIAlertController(title: NSLocalizedString("Confirmation", comment:""), message: "Please make sure this is your correct height, as you will not be able to edit it later.", preferredStyle: .alert)
             alertController.addAction(action(NSLocalizedString("Ok", comment: ""), .default, actionHandler: { (alertAction) in
@@ -1671,27 +1718,44 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         }
     }
     
-    
-    @IBAction func switchKids(_ sender: Any?){
+
+    @IBAction func haveKidsTapped(_ sender: RadioButton) {
+        self.haveKidsYes.layer.borderColor = UIColor.clear.cgColor
+        self.haveKidsYes.layer.borderWidth = 1
+        self.haveKidsNo.layer.borderColor = UIColor.clear.cgColor
+        self.haveKidsNo.layer.borderWidth = 1
+        self.haveKidsMaybe.layer.borderColor = UIColor.clear.cgColor
+        self.haveKidsMaybe.layer.borderWidth = 1
+        
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-        if switchKids.isOn {
-            arrayKids.append("have")
-        }else{
-            if let index = arrayKids.index(of: "have") {
-                arrayKids.remove(at: index)
-            }
+        radioHaveKids?.forEach({ $0.isSelected = false})
+        if(arrayKids.count == 0) {
+            arrayKids.append(sender.titleText)
+            arrayKids.append("")
+        } else {
+            arrayKids[0] = sender.titleText
         }
+        sender.isSelected = true
     }
     
-    @IBAction func switchWantKids(_ sender: Any?){
+
+    @IBAction func wantKidsTapped(_ sender: RadioButton) {
+        self.wantKidsYes.layer.borderColor = UIColor.clear.cgColor
+        self.wantKidsYes.layer.borderWidth = 1
+        self.wantKidsNo.layer.borderColor = UIColor.clear.cgColor
+        self.wantKidsNo.layer.borderWidth = 1
+        self.wantKidsMaybe.layer.borderColor = UIColor.clear.cgColor
+        self.wantKidsMaybe.layer.borderWidth = 1
+
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-        if switchWantKids.isOn {
-            arrayKids.append("want")
-        }else{
-            if let index = arrayKids.index(of: "want") {
-                arrayKids.remove(at: index)
-            }
+        radioWantKids?.forEach({ $0.isSelected = false})
+        if(arrayKids.count == 0) {
+            arrayKids.append("")
+            arrayKids.append(sender.titleText)
+        } else {
+            arrayKids[1] = sender.titleText
         }
+        sender.isSelected = true
     }
     
     @IBAction func btnMan(_ sender: Any?){
@@ -1834,6 +1898,27 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
 
                     return
                 }
+
+                if arrayKids.count == 0 {
+                    self.showAlertWithOneButton("", "Please select info about kids.", "Ok")
+
+                    self.haveKidsYes.layer.borderColor = UIColor.red.cgColor
+                    self.haveKidsYes.layer.borderWidth = 1
+                    self.haveKidsNo.layer.borderColor = UIColor.red.cgColor
+                    self.haveKidsNo.layer.borderWidth = 1
+                    self.haveKidsMaybe.layer.borderColor = UIColor.red.cgColor
+                    self.haveKidsMaybe.layer.borderWidth = 1
+
+                    self.wantKidsYes.layer.borderColor = UIColor.red.cgColor
+                    self.wantKidsYes.layer.borderWidth = 1
+                    self.wantKidsNo.layer.borderColor = UIColor.red.cgColor
+                    self.wantKidsNo.layer.borderWidth = 1
+                    self.wantKidsMaybe.layer.borderColor = UIColor.red.cgColor
+                    self.wantKidsMaybe.layer.borderWidth = 1
+
+                    self.scrollView.contentOffset = CGPoint(x: 0, y: 470)
+                    return
+                }
             
 //            if !LocalStore.store.isHeightSet() {
 //                let alertController = UIAlertController(title: NSLocalizedString("Confirmation", comment:""), message: "Please make sure this is your correct height, as you will not be able to edit it later.", preferredStyle: .alert)
@@ -1940,7 +2025,27 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 
                 return
             }
-            
+            if arrayKids.count == 0 {
+                self.showAlertWithOneButton("", "Please select info about kids.", "Ok")
+
+                self.haveKidsYes.layer.borderColor = UIColor.red.cgColor
+                self.haveKidsYes.layer.borderWidth = 1
+                self.haveKidsNo.layer.borderColor = UIColor.red.cgColor
+                self.haveKidsNo.layer.borderWidth = 1
+                self.haveKidsMaybe.layer.borderColor = UIColor.red.cgColor
+                self.haveKidsMaybe.layer.borderWidth = 1
+
+                self.wantKidsYes.layer.borderColor = UIColor.red.cgColor
+                self.wantKidsYes.layer.borderWidth = 1
+                self.wantKidsNo.layer.borderColor = UIColor.red.cgColor
+                self.wantKidsNo.layer.borderWidth = 1
+                self.wantKidsMaybe.layer.borderColor = UIColor.red.cgColor
+                self.wantKidsMaybe.layer.borderWidth = 1
+
+                self.scrollView.contentOffset = CGPoint(x: 0, y: 470)
+                return
+            }
+
             if !LocalStore.store.isHeightSet() {
                 let alertController = UIAlertController(title: NSLocalizedString("Confirmation", comment:""), message: "Please make sure this is your correct height, as you will not be able to edit it later.", preferredStyle: .alert)
                 alertController.addAction(action(NSLocalizedString("Ok", comment: ""), .default, actionHandler: { (alertAction) in
@@ -2116,6 +2221,26 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             self.imgViewRelationShip.layer.borderColor = UIColor.red.cgColor
             self.imgViewRelationShip.layer.borderWidth = 1
             self.scrollView.contentOffset = CGPoint(x: 0, y: 1000)
+            return
+        }
+        if arrayKids.count == 0 {
+            self.showAlertWithOneButton("", "Please select info about kids.", "Ok")
+
+            self.haveKidsYes.layer.borderColor = UIColor.red.cgColor
+            self.haveKidsYes.layer.borderWidth = 1
+            self.haveKidsNo.layer.borderColor = UIColor.red.cgColor
+            self.haveKidsNo.layer.borderWidth = 1
+            self.haveKidsMaybe.layer.borderColor = UIColor.red.cgColor
+            self.haveKidsMaybe.layer.borderWidth = 1
+
+            self.wantKidsYes.layer.borderColor = UIColor.red.cgColor
+            self.wantKidsYes.layer.borderWidth = 1
+            self.wantKidsNo.layer.borderColor = UIColor.red.cgColor
+            self.wantKidsNo.layer.borderWidth = 1
+            self.wantKidsMaybe.layer.borderColor = UIColor.red.cgColor
+            self.wantKidsMaybe.layer.borderWidth = 1
+
+            self.scrollView.contentOffset = CGPoint(x: 0, y: 470)
             return
         }
         

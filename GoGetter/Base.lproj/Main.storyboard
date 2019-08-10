@@ -3309,18 +3309,18 @@ This will only take a minute.</string>
                                                 <rect key="frame" x="236" y="855" width="51" height="31"/>
                                                 <color key="onTintColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <connections>
-                                                    <action selector="switchKids:" destination="a0z-2r-jD6" eventType="valueChanged" id="1i6-mL-QeT"/>
+                                                    <action selector="haveKidsTapped:" destination="a0z-2r-jD6" eventType="touchUpInside" id="Yeh-2I-g57"/>
                                                 </connections>
                                             </switch>
                                             <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GAF-C4-d9o">
-                                                <rect key="frame" x="35" y="894" width="250" height="1"/>
+                                                <rect key="frame" x="35" y="902" width="250" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="kji-UL-esn"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I WANT KIDS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ld-co-30P">
-                                                <rect key="frame" x="35" y="915" width="101.5" height="23.5"/>
+                                                <rect key="frame" x="35" y="923" width="101.5" height="23.5"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>

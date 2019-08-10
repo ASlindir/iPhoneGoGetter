@@ -56,6 +56,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     @IBOutlet weak var txtFldBirthday: CustomTextField!
     
     @IBOutlet weak var txtViewDesc: UITextView!
+    @IBOutlet weak var descCountLbl: UILabel!
 
     @IBOutlet weak var switchKids: UISwitch!
     @IBOutlet weak var switchWantKids: UISwitch!
@@ -208,8 +209,8 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         //self.indicator.isHidden = true
         super.viewDidLoad()
         
-        radioHaveKids = [haveKidsYes, haveKidsNo, haveKidsMaybe]
-        radioWantKids = [wantKidsYes, wantKidsNo, wantKidsMaybe]
+    //fhc    radioHaveKids = [haveKidsYes, haveKidsNo, haveKidsMaybe]
+    //fhc    radioWantKids = [wantKidsYes, wantKidsNo, wantKidsMaybe]
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateLocation), name: NSNotification.Name(rawValue: NSNotification.Name.RawValue("UpdateLocation")), object: nil)
         
@@ -432,7 +433,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         if let aboutme = personalDetail["about_me"] as? String {
             print("About Me :- ",aboutme)
             self.txtViewDesc.text = aboutme
-            self.updateCharacterCount()
+    //fhc        self.updateCharacterCount()
         }
         
         var age = 25

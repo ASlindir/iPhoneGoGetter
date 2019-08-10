@@ -4130,6 +4130,12 @@ This will only take a minute.</string>
                                                                     <outlet property="delegate" destination="a0z-2r-jD6" id="vew-bZ-ZXf"/>
                                                                 </connections>
                                                             </textView>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/300 " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eEl-dc-w6Q" userLabel="Desc Count Label">
+                                                                <rect key="frame" x="0.0" y="240" width="250" height="20.5"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <color key="textColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
                                                         </subviews>
                                                     </stackView>
                                                     <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Rgw-7u-zwS">
@@ -4697,6 +4703,10 @@ This will only take a minute.</string>
                         <outlet property="btnYourGenderWomen" destination="7Hq-ZC-hkU" id="uDL-Hz-Pvf"/>
                         <outlet property="constraintViewWhiteHeight" destination="qZO-bE-DVV" id="KF0-7z-rNz"/>
                         <outlet property="constraintViewWhiteTop" destination="Obr-2P-WK1" id="Kdq-V7-Df1"/>
+                        <outlet property="descCountLbl" destination="eEl-dc-w6Q" id="Zaa-Vo-SZa"/>
+                        <outlet property="haveKidsMaybe" destination="N7q-gc-Dqj" id="aaR-YZ-fzw"/>
+                        <outlet property="haveKidsNo" destination="CWz-an-9gz" id="Z72-Zi-MFm"/>
+                        <outlet property="haveKidsYes" destination="lfy-BS-3BE" id="DGc-zO-y6H"/>
                         <outlet property="heightNavigation" destination="mt0-ra-DYs" id="Xqw-9e-9Lv"/>
                         <outlet property="heightSlider" destination="FFQ-LH-gkm" id="TzQ-Pt-h95"/>
                         <outlet property="heightUpdateButton" destination="Vfp-3m-t4U" id="cSP-qw-V1F"/>

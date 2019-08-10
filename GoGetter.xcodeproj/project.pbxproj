@@ -169,6 +169,7 @@
 		E733019622AE3D8A0027FA18 /* SwiftyGif.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E733019522AE3D8A0027FA18 /* SwiftyGif.framework */; };
 		E733019822AE3D8A0027FA18 /* TTGSnackbar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E733019722AE3D8A0027FA18 /* TTGSnackbar.framework */; };
 		E733019A22AE3D8A0027FA18 /* UIImage_ImageCompress.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E733019922AE3D8A0027FA18 /* UIImage_ImageCompress.framework */; };
+		E7A583BA22FF200F0075926E /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A583B922FF200F0075926E /* RadioButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -410,6 +411,7 @@
 		E733019522AE3D8A0027FA18 /* SwiftyGif.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyGif.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E733019722AE3D8A0027FA18 /* TTGSnackbar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TTGSnackbar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E733019922AE3D8A0027FA18 /* UIImage_ImageCompress.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UIImage_ImageCompress.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7A583B922FF200F0075926E /* RadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -981,6 +983,7 @@
 		B4EC52AE1F67CEC400DC3599 /* CustomClasses */ = {
 			isa = PBXGroup;
 			children = (
+				E7A583B922FF200F0075926E /* RadioButton.swift */,
 				B4EC52AF1F67CEFE00DC3599 /* CustomButton.swift */,
 				B440A14C1F6A421E008C58C7 /* Extension.swift */,
 				B40378491F6B981F009C9D34 /* CustomClass.swift */,
@@ -1305,6 +1308,7 @@
 				0D06B89C20C2E7A6002E1703 /* JSQMessagesCollectionViewCellIncoming.m in Sources */,
 				84694F4022830376007AB8BA /* SignUpViewController.swift in Sources */,
 				106DE09E1F8B4E91005D75D4 /* GalleryViewController.swift in Sources */,
+				E7A583BA22FF200F0075926E /* RadioButton.swift in Sources */,
 				0D06B89A20C2E7A6002E1703 /* JSQMessagesCollectionView.m in Sources */,
 				0D06B88A20C2E7A6002E1703 /* JSQMessagesToolbarButtonFactory.m in Sources */,
 				0D06B8A620C2E7A6002E1703 /* JSQMessagesToolbarContentView.m in Sources */,

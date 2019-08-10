@@ -60,8 +60,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
 
     @IBOutlet weak var haveKidsYes: RadioButton!
     @IBOutlet weak var haveKidsNo: RadioButton!
-    @IBOutlet weak var haveKidsMaybe: RadioButton!
-    
+
     @IBOutlet weak var wantKidsYes: RadioButton!
     @IBOutlet weak var wantKidsNo: RadioButton!
     @IBOutlet weak var wantKidsMaybe: RadioButton!
@@ -214,7 +213,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         //self.indicator.isHidden = true
         super.viewDidLoad()
         
-        radioHaveKids = [haveKidsYes, haveKidsNo, haveKidsMaybe]
+        radioHaveKids = [haveKidsYes, haveKidsNo]
         radioWantKids = [wantKidsYes, wantKidsNo, wantKidsMaybe]
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateLocation), name: NSNotification.Name(rawValue: NSNotification.Name.RawValue("UpdateLocation")), object: nil)
@@ -649,15 +648,12 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                     case "have" :
                                 self.haveKidsYes.isSelected = true
                                 self.haveKidsNo.isSelected = false
-                                self.haveKidsMaybe.isSelected = false
                     case "no" :
                                 self.haveKidsYes.isSelected = false
                                 self.haveKidsNo.isSelected = true
-                                self.haveKidsMaybe.isSelected = false
                     default :
                                 self.haveKidsYes.isSelected = false
-                                self.haveKidsNo.isSelected = false
-                                self.haveKidsMaybe.isSelected = true
+                                self.haveKidsNo.isSelected = true
                     }
                     arrayKids[0] = kidArray[0]
                 }
@@ -1546,8 +1542,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 self.haveKidsYes.layer.borderWidth = 1
                 self.haveKidsNo.layer.borderColor = UIColor.red.cgColor
                 self.haveKidsNo.layer.borderWidth = 1
-                self.haveKidsMaybe.layer.borderColor = UIColor.red.cgColor
-                self.haveKidsMaybe.layer.borderWidth = 1
 
                 self.wantKidsYes.layer.borderColor = UIColor.red.cgColor
                 self.wantKidsYes.layer.borderWidth = 1
@@ -1724,8 +1718,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         self.haveKidsYes.layer.borderWidth = 1
         self.haveKidsNo.layer.borderColor = UIColor.clear.cgColor
         self.haveKidsNo.layer.borderWidth = 1
-        self.haveKidsMaybe.layer.borderColor = UIColor.clear.cgColor
-        self.haveKidsMaybe.layer.borderWidth = 1
         
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         radioHaveKids?.forEach({ $0.isSelected = false})
@@ -1906,8 +1898,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                     self.haveKidsYes.layer.borderWidth = 1
                     self.haveKidsNo.layer.borderColor = UIColor.red.cgColor
                     self.haveKidsNo.layer.borderWidth = 1
-                    self.haveKidsMaybe.layer.borderColor = UIColor.red.cgColor
-                    self.haveKidsMaybe.layer.borderWidth = 1
 
                     self.wantKidsYes.layer.borderColor = UIColor.red.cgColor
                     self.wantKidsYes.layer.borderWidth = 1
@@ -2032,8 +2022,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 self.haveKidsYes.layer.borderWidth = 1
                 self.haveKidsNo.layer.borderColor = UIColor.red.cgColor
                 self.haveKidsNo.layer.borderWidth = 1
-                self.haveKidsMaybe.layer.borderColor = UIColor.red.cgColor
-                self.haveKidsMaybe.layer.borderWidth = 1
 
                 self.wantKidsYes.layer.borderColor = UIColor.red.cgColor
                 self.wantKidsYes.layer.borderWidth = 1
@@ -2230,8 +2218,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             self.haveKidsYes.layer.borderWidth = 1
             self.haveKidsNo.layer.borderColor = UIColor.red.cgColor
             self.haveKidsNo.layer.borderWidth = 1
-            self.haveKidsMaybe.layer.borderColor = UIColor.red.cgColor
-            self.haveKidsMaybe.layer.borderWidth = 1
 
             self.wantKidsYes.layer.borderColor = UIColor.red.cgColor
             self.wantKidsYes.layer.borderWidth = 1

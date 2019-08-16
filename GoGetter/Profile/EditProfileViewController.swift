@@ -112,11 +112,15 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     @IBOutlet weak var viewLongTermDating: UIView!
     @IBOutlet weak var viewAnywhere: UIView!
     
+    @IBOutlet weak var stackViewHaveKids: UIStackView!
+    @IBOutlet weak var viewHaveKids: UIView!
     @IBOutlet weak var heightUpdateButton: NSLayoutConstraint!
     @IBOutlet weak var constraintViewWhiteHeight: NSLayoutConstraint!
     @IBOutlet weak var constraintViewWhiteTop: NSLayoutConstraint!
     @IBOutlet weak var heightNavigation: NSLayoutConstraint!
     
+    @IBOutlet weak var viewHKNo: UIView!
+    @IBOutlet weak var viewHKYes: UIView!
     @IBOutlet weak var bottomUpdateButton: NSLayoutConstraint!
     @IBOutlet weak var mainStackView: UIStackView!
     @IBOutlet weak var stackViewTeams: UIStackView!

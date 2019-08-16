@@ -5025,6 +5025,7 @@ This will only take a minute.</string>
                         <outlet property="scrollVwCamera" destination="s1C-6t-oS1" id="w7e-Zk-Aau"/>
                         <outlet property="stackViewBtn" destination="is6-Ct-a5d" id="a7w-k8-fR8"/>
                         <outlet property="stackViewDescription" destination="k4L-3a-e1e" id="BfW-KT-R6v"/>
+                        <outlet property="stackViewHaveKids" destination="O9n-1X-u5C" id="gbs-Yq-bZC"/>
                         <outlet property="stackViewOccupation" destination="7LQ-hG-SbZ" id="EG8-Tc-dbG"/>
                         <outlet property="stackViewTeams" destination="6Np-4B-p0J" id="qK2-rg-dw7"/>
                         <outlet property="stackViewUnit" destination="Rgw-7u-zwS" id="Yze-rI-RYT"/>
@@ -5040,6 +5041,9 @@ This will only take a minute.</string>
                         <outlet property="txtFldTeam4" destination="raN-jd-yfR" id="Jzm-95-YLe"/>
                         <outlet property="txtViewDesc" destination="JXt-gI-tfR" id="8dk-qy-TIY"/>
                         <outlet property="viewAnywhere" destination="2Uf-JM-JkG" id="rjD-l7-Rxj"/>
+                        <outlet property="viewHKNo" destination="A0S-Sz-GcC" id="nfx-PZ-qAC"/>
+                        <outlet property="viewHKYes" destination="m6t-0U-vjq" id="g3E-vr-TG1"/>
+                        <outlet property="viewHaveKids" destination="tHW-2m-RyF" id="x8f-b8-lKG"/>
                         <outlet property="viewLongTermDating" destination="uNA-cr-8hl" id="Tn7-hV-TyA"/>
                         <outlet property="viewMoreSetting" destination="xjg-u6-gef" id="5pJ-Wd-XBS"/>
                         <outlet property="viewNameLocation" destination="yNy-LU-xTv" id="ObQ-gw-Mj0"/>

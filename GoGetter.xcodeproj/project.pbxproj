@@ -102,7 +102,6 @@
 		B42A87441FA893020053B7A7 /* ProfileActivitiesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42A87431FA893020053B7A7 /* ProfileActivitiesCell.swift */; };
 		B42E1B2C1F66A169009B68E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42E1B2B1F66A169009B68E2 /* AppDelegate.swift */; };
 		B42E1B2E1F66A169009B68E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42E1B2D1F66A169009B68E2 /* ViewController.swift */; };
-		B42E1B311F66A169009B68E2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B42E1B2F1F66A169009B68E2 /* Main.storyboard */; };
 		B42E1B341F66A169009B68E2 /* Slindir.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B42E1B321F66A169009B68E2 /* Slindir.xcdatamodeld */; };
 		B42E1B361F66A169009B68E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B42E1B351F66A169009B68E2 /* Assets.xcassets */; };
 		B42E1B391F66A169009B68E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B42E1B371F66A169009B68E2 /* LaunchScreen.storyboard */; };
@@ -169,6 +168,7 @@
 		E733019622AE3D8A0027FA18 /* SwiftyGif.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E733019522AE3D8A0027FA18 /* SwiftyGif.framework */; };
 		E733019822AE3D8A0027FA18 /* TTGSnackbar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E733019722AE3D8A0027FA18 /* TTGSnackbar.framework */; };
 		E733019A22AE3D8A0027FA18 /* UIImage_ImageCompress.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E733019922AE3D8A0027FA18 /* UIImage_ImageCompress.framework */; };
+		E7370AFF2306E16100EB030B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7370AFD2306E16100EB030B /* Main.storyboard */; };
 		E7A583BA22FF200F0075926E /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A583B922FF200F0075926E /* RadioButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -343,7 +343,6 @@
 		B42E1B281F66A169009B68E2 /* GoGetter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoGetter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B42E1B2B1F66A169009B68E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B42E1B2D1F66A169009B68E2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		B42E1B301F66A169009B68E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B42E1B331F66A169009B68E2 /* Slindir.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Slindir.xcdatamodel; sourceTree = "<group>"; };
 		B42E1B351F66A169009B68E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B42E1B381F66A169009B68E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -411,6 +410,7 @@
 		E733019522AE3D8A0027FA18 /* SwiftyGif.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyGif.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E733019722AE3D8A0027FA18 /* TTGSnackbar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TTGSnackbar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E733019922AE3D8A0027FA18 /* UIImage_ImageCompress.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UIImage_ImageCompress.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7370AFE2306E16100EB030B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E7A583B922FF200F0075926E /* RadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -856,8 +856,8 @@
 				B411B70F1FA8726A00A48EA3 /* ListViewController.swift */,
 				0D00163D1FF0F84D0050FCE7 /* ProfileDetaiViewController.swift */,
 				CC9CF9BE2294BD900090753A /* WelcomeViewController.swift */,
+				E7370AFD2306E16100EB030B /* Main.storyboard */,
 				84319E5E22F03D6F003FF7B5 /* AlertViewController.swift */,
-				B42E1B2F1F66A169009B68E2 /* Main.storyboard */,
 				B411B7131FA8745200A48EA3 /* Extra but NeccesaryFiles */,
 				0D06B8AA20C2E7EE002E1703 /* Slindir-Bridging-Header.h */,
 			);
@@ -1098,6 +1098,7 @@
 				B4A85F451F694DDC003BAD4A /* Pink T-shirt.ttf in Resources */,
 				B42E1B361F66A169009B68E2 /* Assets.xcassets in Resources */,
 				B4EC52B21F68008200DC3599 /* circle.gif in Resources */,
+				E7370AFF2306E16100EB030B /* Main.storyboard in Resources */,
 				B4A85F441F694DDC003BAD4A /* PermanentMarker.ttf in Resources */,
 				84694F4622830381007AB8BA /* SignIn.storyboard in Resources */,
 				B42E1B5E1F66AA9E009B68E2 /* welcome.gif in Resources */,
@@ -1108,7 +1109,6 @@
 				B4D4C3FB1F692E2900D72133 /* ForActiveSmall.gif in Resources */,
 				0D261C11205291BF0064397F /* SlindirIntro_iPhoneX.mp4 in Resources */,
 				B43614E41F74E4610057A1D2 /* RangeSlider.xib in Resources */,
-				B42E1B311F66A169009B68E2 /* Main.storyboard in Resources */,
 				0D06B8A420C2E7A6002E1703 /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
 				B4EC52AD1F67B68100DC3599 /* SlindirIntro.mp4 in Resources */,
 				0D06B88520C2E7A6002E1703 /* JSQMessagesViewController.xib in Resources */,
@@ -1320,20 +1320,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		B42E1B2F1F66A169009B68E2 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B42E1B301F66A169009B68E2 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		B42E1B371F66A169009B68E2 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				B42E1B381F66A169009B68E2 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		E7370AFD2306E16100EB030B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E7370AFE2306E16100EB030B /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

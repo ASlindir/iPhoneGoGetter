@@ -5,9 +5,6 @@
       location = "container:GoGetter.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:GoGetter.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

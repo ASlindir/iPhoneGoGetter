@@ -385,12 +385,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             self.view.layoutIfNeeded()
         }
         
-        if LocalStore.store.isHeightSet() {
-            self.heightSlider.isUserInteractionEnabled = false
-        }
-        else {
-            self.heightSlider.isUserInteractionEnabled = true
-        }
+        self.heightSlider.isUserInteractionEnabled = true
     }
 
     @objc func updateLocation() {
@@ -1558,28 +1553,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 return
             }
 
-        if !LocalStore.store.isHeightSet() {
-            let alertController = UIAlertController(title: NSLocalizedString("Confirmation", comment:""), message: "Please make sure this is your correct height, as you will not be able to edit it later.", preferredStyle: .alert)
-            alertController.addAction(action(NSLocalizedString("Ok", comment: ""), .default, actionHandler: { (alertAction) in
-                LocalStore.store.heightDone = true
-                self.isBackClicked = true
-                self.saveUserPreferences()
-                
-                UserDefaults.standard.set(true, forKey: "updateSettings")
-                UserDefaults.standard.synchronize()
-                
-                CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-                let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-                profileController.profileDelegate = self
-                profileController.isAlreadyLogin = true
-                self.navigationController?.pushViewController(profileController, animated: true)
-            }))
-            
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: nil))
-            
-            self.present(alertController, animated: true, completion: nil)
-            return
-        }
             isBackClicked = true
             self.saveUserPreferences()
  
@@ -1914,26 +1887,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                     return
                 }
             
-//            if !LocalStore.store.isHeightSet() {
-//                let alertController = UIAlertController(title: NSLocalizedString("Confirmation", comment:""), message: "Please make sure this is your correct height, as you will not be able to edit it later.", preferredStyle: .alert)
-//                alertController.addAction(action(NSLocalizedString("Ok", comment: ""), .default, actionHandler: { (alertAction) in
-//                    LocalStore.store.heightDone = true
-////                    self.isBackClicked = false
-////                    self.saveUserPreferences()
-////                    UserDefaults.standard.set(true, forKey: "updateSettings")
-////                    UserDefaults.standard.synchronize()
-////                    let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-////                    profileController.profileDelegate = self
-////
-////                    //profileController.isSlindirQuiz = true
-////                    self.navigationController?.pushViewController(profileController, animated: true)
-//                }))
-//
-//                alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: nil))
-//
-//                self.present(alertController, animated: true, completion: nil)
-//                return
-//            }
             
             let okAction = action("Yes", .default) { (action) in
                 self.isBackClicked = false
@@ -2038,25 +1991,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 return
             }
 
-            if !LocalStore.store.isHeightSet() {
-                let alertController = UIAlertController(title: NSLocalizedString("Confirmation", comment:""), message: "Please make sure this is your correct height, as you will not be able to edit it later.", preferredStyle: .alert)
-                alertController.addAction(action(NSLocalizedString("Ok", comment: ""), .default, actionHandler: { (alertAction) in
-                    LocalStore.store.heightDone = true
-                    self.saveUserPreferences()
-                    UserDefaults.standard.set(true, forKey: "updateSettings")
-                    UserDefaults.standard.synchronize()
-                    let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-                    profileController.profileDelegate = self
-//                    profileController.showBrainGame = true
-                    self.navigationController?.pushViewController(profileController, animated: true)
-                }))
-                
-                alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: nil))
-                
-                self.present(alertController, animated: true, completion: nil)
-                return
-            }
-            
+           
             self.saveUserPreferences()
             UserDefaults.standard.set(true, forKey: "updateSettings")
             UserDefaults.standard.synchronize()
@@ -2234,26 +2169,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             return
         }
         
-        if !LocalStore.store.isHeightSet() {
-            let alertController = UIAlertController(title: NSLocalizedString("Confirmation", comment:""), message: "Please make sure this is your correct height, as you will not be able to edit it later.", preferredStyle: .alert)
-            alertController.addAction(action(NSLocalizedString("Ok", comment: ""), .default, actionHandler: { (alertAction) in
-                LocalStore.store.heightDone = true
-                self.isBackClicked = true
-                self.saveUserPreferences()
-                UserDefaults.standard.set(true, forKey: "updateSettings")
-                UserDefaults.standard.synchronize()
-                CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-                let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-                profileController.profileDelegate = self
-                profileController.isAlreadyLogin = true
-                self.navigationController?.pushViewController(profileController, animated: true)
-            }))
-            
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: nil))
-            
-            self.present(alertController, animated: true, completion: nil)
-            return
-        }
         
         isBackClicked = true
         self.saveUserPreferences()

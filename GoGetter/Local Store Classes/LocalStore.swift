@@ -139,14 +139,7 @@ class LocalStore: NSObject {
         }
     }
     
-    func isHeightSet() -> Bool{
-        if UserDefaults.standard.value(forKey: UserDetails.heightSet.rawValue) == nil{
-            return false
-        }else{
-            return UserDefaults.standard.bool(forKey: UserDetails.heightSet.rawValue)
-        }
-    }
-    
+   
     func clearDataAllData(){
         let domain = Bundle.main.bundleIdentifier
         UserDefaults.standard.removePersistentDomain(forName: domain!)

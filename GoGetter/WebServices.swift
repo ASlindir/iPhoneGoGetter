@@ -34,6 +34,8 @@ enum Model: String{
     case dislike = "dislike"
     
     case clientlog = "clientlog"
+    
+    case conversation = "conversation"
 }
 
 enum ServiceType: String {
@@ -115,6 +117,12 @@ enum Services: String {
     case checkEmailCode                     = "checkEmailCode"
     
     case changePassword                     = "changePassword"
+    
+    case doQueryConversation                = "doQueryConversation"
+    
+    case inAppPurchaseComplete              = "inAppPurchaseComplete"
+    
+    case doPurchaseConversation             = "doPurchaseConversation"
 }
 
 class CommError {

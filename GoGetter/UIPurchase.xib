@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans-Regular</string>
+        </array>
+        <array key="OpenSans-SemiBold.ttf">
+            <string>OpenSans-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UIPurchase" customModule="GoGetter" customModuleProvider="target">
+            <connections>
+                <outlet property="buyButton" destination="EdI-9n-xtW" id="S9W-kZ-rKj"/>
+                <outlet property="title1Label" destination="FOn-WE-3HR" id="zf7-wG-BBS"/>
+                <outlet property="title2Label" destination="OXW-WZ-Dt0" id="NJY-rf-BOZ"/>
+                <outlet property="title3Label" destination="GH3-3K-hdI" id="2wu-uE-0Fy"/>
+                <outlet property="title4Label" destination="u5l-K1-qxa" id="nsQ-hR-tc7"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="181"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FOn-WE-3HR">
+                    <rect key="frame" x="16" y="8" width="343" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="VVd-1z-ojS"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OXW-WZ-Dt0">
+                    <rect key="frame" x="16" y="38" width="343" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="uNK-qw-Dfi"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="11"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u5l-K1-qxa">
+                    <rect key="frame" x="16" y="98" width="343" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="YfE-AB-0g2"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="11"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GH3-3K-hdI">
+                    <rect key="frame" x="16" y="68" width="343" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="nnY-60-NJD"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="11"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EdI-9n-xtW">
+                    <rect key="frame" x="16" y="128" width="343" height="46"/>
+                    <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="46" id="tcy-z4-PTn"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
+                    <state key="normal" title="BUY">
+                        <color key="titleColor" red="0.99990183119999998" green="1" blue="0.99987989659999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="touchBuyButton:" destination="-1" eventType="touchUpInside" id="kTq-0J-rDT"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="GH3-3K-hdI" firstAttribute="top" secondItem="OXW-WZ-Dt0" secondAttribute="bottom" constant="8" id="0bw-BE-0Vr"/>
+                <constraint firstItem="OXW-WZ-Dt0" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="5jr-FW-chq"/>
+                <constraint firstItem="u5l-K1-qxa" firstAttribute="top" secondItem="GH3-3K-hdI" secondAttribute="bottom" constant="8" id="Bi7-6e-PGk"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="FOn-WE-3HR" secondAttribute="trailing" constant="16" id="C4x-YJ-OQC"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="u5l-K1-qxa" secondAttribute="trailing" constant="16" id="CBo-Me-Ug2"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="EdI-9n-xtW" secondAttribute="bottom" constant="7" id="Dqi-fK-xvm"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="EdI-9n-xtW" secondAttribute="trailing" constant="16" id="H07-XM-O6Z"/>
+                <constraint firstItem="FOn-WE-3HR" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="8" id="HC8-s2-lxF"/>
+                <constraint firstItem="GH3-3K-hdI" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="Iht-Rj-OSo"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="GH3-3K-hdI" secondAttribute="trailing" constant="16" id="P74-tn-8Bb"/>
+                <constraint firstItem="FOn-WE-3HR" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="RHF-al-Oxp"/>
+                <constraint firstItem="EdI-9n-xtW" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="XPD-hc-3rW"/>
+                <constraint firstItem="EdI-9n-xtW" firstAttribute="top" relation="greaterThanOrEqual" secondItem="u5l-K1-qxa" secondAttribute="bottom" constant="8" id="hnq-c6-eQk"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="OXW-WZ-Dt0" secondAttribute="trailing" constant="16" id="p1O-tm-5cV"/>
+                <constraint firstItem="OXW-WZ-Dt0" firstAttribute="top" secondItem="FOn-WE-3HR" secondAttribute="bottom" constant="8" id="sWB-74-1a8"/>
+                <constraint firstItem="u5l-K1-qxa" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="xaX-PC-zHE"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="128.80000000000001" y="-156.07196401799101"/>
+        </view>
+    </objects>
+</document>

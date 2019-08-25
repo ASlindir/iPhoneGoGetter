@@ -27,11 +27,11 @@ PODS:
     - FacebookCore (~> 0.8.0)
     - FBSDKCoreKit (~> 5.0)
     - FBSDKShareKit (~> 5.0)
-  - FBSDKCoreKit (5.3.0):
-    - FBSDKCoreKit/Basics (= 5.3.0)
-    - FBSDKCoreKit/Core (= 5.3.0)
-  - FBSDKCoreKit/Basics (5.3.0)
-  - FBSDKCoreKit/Core (5.3.0):
+  - FBSDKCoreKit (5.4.0):
+    - FBSDKCoreKit/Basics (= 5.4.0)
+    - FBSDKCoreKit/Core (= 5.4.0)
+  - FBSDKCoreKit/Basics (5.4.0)
+  - FBSDKCoreKit/Core (5.4.0):
     - FBSDKCoreKit/Basics
   - FBSDKLoginKit (5.3.0):
     - FBSDKCoreKit (~> 5.0)
@@ -168,6 +168,7 @@ PODS:
     - SDWebImage/Core (= 4.4.7)
   - SDWebImage/Core (4.4.7)
   - SwiftyGif (4.2.0)
+  - SwiftyStoreKit (0.15.0)
   - TTGSnackbar (1.8.0)
   - "UIImage+ImageCompress (0.0.1)"
 
@@ -193,6 +194,7 @@ DEPENDENCIES:
   - NVActivityIndicatorView
   - SDWebImage (~> 4.1)
   - SwiftyGif (~> 4.2)
+  - SwiftyStoreKit
   - TTGSnackbar
   - "UIImage+ImageCompress"
 
@@ -237,6 +239,7 @@ SPEC REPOS:
     - Protobuf
     - SDWebImage
     - SwiftyGif
+    - SwiftyStoreKit
     - TTGSnackbar
     - "UIImage+ImageCompress"
 
@@ -248,7 +251,7 @@ SPEC CHECKSUMS:
   Fabric: 4ac1cdfef3004ccd83ce0959b91eda8a6e37df72
   FacebookCore: 563bb4cbcd7dd86cf89f3729252140bf256aacaa
   FacebookShare: e75d5e81ef7bd7aab2f865446c4c27015b43bae6
-  FBSDKCoreKit: 39748deefe37a005f983722e433be2ddcdd83ae7
+  FBSDKCoreKit: 026e56cf2c2cebc656cf2aec5c6898b8c4f33930
   FBSDKLoginKit: bc0329e10045789e8d40b12d4f15ddbd07a898e2
   FBSDKShareKit: f61d03f36ce4f1b379c7de7dbfe173662e68be44
   Firebase: a2b5951f30ff38fd3b3bdae9c7d340f940fd3c51
@@ -280,9 +283,10 @@ SPEC CHECKSUMS:
   Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
   SDWebImage: c10d14a8883ebd89664f02a422006f66a85c0c5d
   SwiftyGif: a149bf84df23370592f3f075561ae02c8632a314
+  SwiftyStoreKit: 033d06b6f87955405d3f844a18a7687c2438592a
   TTGSnackbar: 7edc064c82a916f9f3c4db1ec64eac44143434da
   "UIImage+ImageCompress": 6b38489f38075d569d9f25d72af7ecf5c84c1057
 
-PODFILE CHECKSUM: 4130c7b8b649437fd71cb2ef512f5cc556fd9a32
+PODFILE CHECKSUM: f0e576394e1c85c7addd550194e99b38b8a3bdff
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.7.4

@@ -16,7 +16,7 @@ import Crashlytics
 import CoreLocation
 import UserNotifications
 import FacebookCore
-
+import SwiftyStoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
@@ -38,7 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         UserDefaults.standard.set(true, forKey: "UpdateImages")
         UserDefaults.standard.synchronize()
   //      ClientLog.WriteClientLog( msgType: "ios", msg:"appstart");
-
+        
+        
         startDate = Date()
             
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -60,6 +61,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             navigationController.interactivePopGestureRecognizer?.isEnabled = false
             controller.isRootController = true
             window?.rootViewController = navigationController
+            
+////            DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+//                let controller = PurchaseViewController.loadFromNib()
+//
+//                let navigationController = UINavigationController(rootViewController: controller)
+//                navigationController.interactivePopGestureRecognizer?.isEnabled = false
+//                controller.isRootController = true
+//                self.window?.rootViewController = navigationController
+////            })
         }
         else{
 //ClientLog.WriteClientLog( msgType: "ios", msg:"not logged");
@@ -98,6 +108,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             }
         }
         
+        // see notes below for the meaning of Atomic / Non-Atomic
+        SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
+            for purchase in purchases {
+                switch purchase.transaction.transactionState {
+                case .purchased, .restored:
+                    if purchase.needsFinishTransaction {
+                        // Deliver content from server, then:
+                        SwiftyStoreKit.finishTransaction(purchase.transaction)
+                    }
+                // Unlock content
+                case .failed, .purchasing, .deferred:
+                    break // do nothing
+                }
+            }
+        }
         
         return true
     }

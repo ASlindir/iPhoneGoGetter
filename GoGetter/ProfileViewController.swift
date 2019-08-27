@@ -14,12 +14,13 @@ import AVKit
 import pop
 import DACircularProgress
 import Firebase
+import SwiftyStoreKit
 
 protocol ProfileViewControllerDelegate {
     func showMoreSettings()
 }
 
-class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, CardsViewDelegates, MFMessageComposeViewControllerDelegate{
+class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, CardsViewDelegates, MFMessageComposeViewControllerDelegate, PurchaseViewControllerDelegate {
     
 //MARK:-  IBOutlets, Variables and Constraints
  
@@ -204,9 +205,15 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     
     var cardViewArray = [CardsView]()
     
+    // purchase
+    var purchase: [PurchaseViewController.PurchaseItem] = []
+    var purchasePrompt: String? = nil
+    var purchaseScreenAction: Int = 0
+    var purshaseConvoId: Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         //Intilize and Change the neccessary things
         //let userName = LocalStore.store.getData()
        // lblAreUSure.text = "ARE YOU SURE \(userName)"
@@ -403,7 +410,8 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     //MARK:-  Notification functions
     @objc func matchNotificationRecived() {
         DispatchQueue.main.async {
-            self.showMatchingProfileView()
+            self.doConvoMatched();
+//            self.showMatchingProfileView()
         }
     }
     
@@ -539,14 +547,14 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         if let requiredData = NSKeyedUnarchiver.unarchiveObject(with: data as! Data) as? Dictionary<String, Any> {
             let userOtherDict = requiredData["request_to"] as? [String: Any]
             let userCurrentDict = LocalStore.store.getUserDetails()
-            
+
             if let username = userOtherDict!["user_name"] as? String {
                 self.lblMatchOther.text = username
             }
             if let profilePic = userOtherDict!["profile_pic"] as? String {
                 self.imgVwMatchOther.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profilePic)), placeholderImage: UIImage.init(named: "placeholder"))
             }
-            
+
             if let username = userCurrentDict["user_name"] as? String {
                 self.lblMatchCurrent.text = username
             }
@@ -1532,14 +1540,121 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         // present the view controller
         self.present(activityViewController, animated: true, completion: nil)
     }
-    
+    @objc func doConvoMatched(){
+        let data = UserDefaults.standard.object(forKey:"matchedUser")
+        
+        if let requiredData = NSKeyedUnarchiver.unarchiveObject(with: data as! Data) as? Dictionary<String, Any> {
+            let userOtherDict = requiredData["request_to"] as? [String: Any]
+            let userTo = userOtherDict?["user_fb_id"] as! String
+            
+            var parameters = Dictionary<String, Any>()
+            parameters["userId"] = LocalStore.store.getFacebookID();
+            parameters["otherUserId"] = userTo;
+            
+            Loader.startLoader(true)
+            
+            WebServices.service.webServicePostRequest(.post, .conversation, .doQueryConversation, parameters, successHandler: { (response) in
+                Loader.stopLoader()
+                let jsonDict = response
+                
+                if let convoId = jsonDict!["convoId"] as? Int {
+                    self.purshaseConvoId = convoId
+                    self.purchasePrompt = jsonDict!["prompt"] as? String
+                    
+                    if let _products = jsonDict!["products"] as? [Dictionary<String, Any?>] {
+                        for product in _products {
+                            self.purchase.append(PurchaseViewController.PurchaseItem(
+                                Productid: product["id"] as? String,
+                                ProductName: product["productName"] as? String,
+                                Description: product["description"] as? String,
+                                Price: product["price"] as? String,
+                                CoinsPurchased: product["coinsPurchased"] as? String,
+                                NumberConvos: convoId,
+                                AppleStoreID: product["iTunesProductID"] as? String,
+                                GoogleStoreID: product["googleProductID"] as? String)
+                            )
+                        }
+                    }
+                    
+                    if let screenAction = jsonDict!["screenAction"] as? Int {
+                        self.purchaseScreenAction = screenAction
+                        
+                        if screenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue {
+                            self.btnSayHello.setTitle("Go to Buy Convo Flow", for: .normal)
+                        } else if screenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue {
+                            self.btnSayHello.setTitle("Go to Buy Coins flow", for: .normal)
+                        }
+                        self.showMatchingProfileView();
+                    }
+                    
+                } else {
+                    Loader.stopLoader()
+                    self.outAlertError(message: "Error: Convo Id is null")
+                }
+            }) { (error) in
+                Loader.stopLoader()
+                self.outAlertError(message: "Error: \(error.debugDescription)")
+            }
+        }
+    }
     @IBAction func btnSayHello(_ sender: Any) {
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-        self.vwMatch.isHidden = true
-        self.view.sendSubviewToBack(self.vwMatch)
-        
-        let listController = self.storyboard?.instantiateViewController(withIdentifier: "ListViewController")
-        navigationController?.pushViewController(listController!, animated: true)
+
+        if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue {
+            Loader.startLoader(true)
+            
+            let parameters = [
+                "userId": LocalStore.store.getFacebookID(),
+                "convoId": self.purshaseConvoId
+                ] as [String : Any]
+            
+            WebServices.service.webServicePostRequest(.post, .conversation, .doPurchaseConversation, parameters, successHandler: { (response) in
+                Loader.stopLoader()
+                
+                let jsonDict = response
+                var isSuccess = false
+                
+                if let convoId = jsonDict!["convoId"] as? Int {
+                    let prompt = jsonDict!["prompt"] as? String
+                    
+                    if let screenAction = jsonDict!["screenAction"] as? Int {
+                        isSuccess = true
+                        
+                        switch screenAction {
+                        case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
+                            self.outAlertError(message: prompt ?? "Your good!")
+                            CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+                            self.vwMatch.isHidden = true
+                            self.view.sendSubviewToBack(self.vwMatch)
+                            UserDefaults.standard.set(false, forKey: "matchedNotification")
+                            UserDefaults.standard.synchronize()
+
+                            break
+                        case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
+                            self.openChat()
+                            break
+                        default:
+                            self.outAlertError(message: prompt ?? "Error")
+                        }
+                    }
+                }
+                
+                if !isSuccess {
+                    self.outAlertError(message: "Error: Convo Id is null")
+                }
+            }) { (error) in
+                Loader.stopLoader()
+                self.outAlertError(message: "Error: \(error.debugDescription)")
+            }
+        } else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue {
+            let controller = PurchaseViewController.loadFromNib()
+            controller.delegate = self
+            controller.products = self.purchase
+            controller.prompt = self.purchasePrompt
+            controller.convoId = self.purshaseConvoId
+            controller.userId = LocalStore.store.getFacebookID()
+            self.present(controller, animated: true, completion: nil)
+        }
     }
     
     @IBAction func btnMayBeLater(_ sender: Any) {
@@ -1812,12 +1927,57 @@ extension ProfileViewController: KolodaViewDelegate {
         }
         self.swipedUserDict = cardsArray[index]
     }
+
+    //MARK:-  Purchase delegates
+    
+    func didSuccessPurchase(convoId: Int, screenAction: Int, prompt: String?) {
+        switch screenAction {
+        case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
+            self.outAlertError(message: prompt ?? "Error")
+            break
+        case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
+            openChat()
+            break
+        default:
+            self.outAlertError(message: prompt ?? "Error")
+        }
+    }
+    
+    private func openChat() {
+        self.vwMatch.isHidden = true
+        self.view.sendSubviewToBack(self.vwMatch)
+        
+        let listController = self.storyboard?.instantiateViewController(withIdentifier: "ListViewController")
+        navigationController?.pushViewController(listController!, animated: true)
+    }
     
 //MARK:-  WebServices Methods
     func sendOrDeclineRequest(_ details: [String: Any]){
         let userId = LocalStore.store.getFacebookID()
         let reciver_ID = details["user_fb_id"] as! String
         let parameters = ["user_fb_id": userId , "receiving_user_fb_id":reciver_ID]
+//        let parameters = ["user_fb_id": userId , "receiving_user_fb_id":"NVqSplSj9QUQrgcmn4Mdwn3f1ao2"]
+//        let parameters = ["user_fb_id": userId , "receiving_user_fb_id":"OEhKFyfFVsW7e7ERYbRSjIpf3oU2"]
+        
+        // for test load user
+//        WebServices.service.webServicePostRequest(.post, .user, .userDetails, ["user_fb_id":parameters["receiving_user_fb_id"]], successHandler: { (response) in
+//            let jsonData = response
+//            let status = jsonData!["status"] as! String
+//            if status == "success"{
+//                let userDetails = jsonData!["user_details"] as? Dictionary<String, Any>
+//                var requiredData = LocalStore.store.getUserDetails()
+//                requiredData["request_to"] = userDetails
+//
+//                let dictData = NSKeyedArchiver.archivedData(withRootObject: requiredData)
+//                UserDefaults.standard.setValue(dictData, forKey: "matchedUser")
+//                UserDefaults.standard.set(true, forKey: "matchedNotification")
+//                UserDefaults.standard.synchronize()
+//                self.matchNotificationRecived()
+//            }
+//        }, errorHandler: {error in
+//            print(error)
+//        })
+        
         
         WebServices.service.webServicePostRequest(.post, .friend, .sendFriendRequest, parameters, successHandler: { (response) in
             DispatchQueue.main.async {
@@ -1835,9 +1995,13 @@ extension ProfileViewController: KolodaViewDelegate {
                         UserDefaults.standard.synchronize()
                         self.matchNotificationRecived()
                     }
+                } else {
+                    let message = jsonDict!["message"] as? String
+                    self.outAlertError(message: message)
                 }
             }
         }) { (error) in
+            self.outAlertError(message: error?.localizedDescription)
         }
     }
     

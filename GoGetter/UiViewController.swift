@@ -26,4 +26,22 @@ extension UIViewController {
     func outAlertSuccess(message: String?, compliteHandler: (() -> Void)? = nil) {
         outAlert(title: "Success", message: message, compliteHandler: compliteHandler)
     }
+    
+    class func loadFromNib(_ bundle: Bundle? = nil) -> Self {
+        func instanceFromNib<T: UIViewController>(_ bundle: Bundle? = nil) -> T {
+            return T(nibName: String(describing: self), bundle: bundle)
+        }
+        
+        return instanceFromNib(bundle)
+    }
+    
+    class func loadFromStoryboard(storyboardName: String, withIdentifier: String? = nil,  bundle: Bundle? = nil) -> Self {
+        func loadFromStoryboard<T: UIViewController>(storyboardName: String, withIdentifier: String,  bundle: Bundle? = nil) -> T {
+            return UIStoryboard(name: storyboardName, bundle: bundle).instantiateViewController(withIdentifier: withIdentifier) as! T
+        }
+        
+        let identifier = withIdentifier == nil ? String(describing: self) : withIdentifier!
+        
+        return loadFromStoryboard(storyboardName: storyboardName, withIdentifier: identifier, bundle: bundle)
+    }
 }

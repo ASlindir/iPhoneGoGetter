@@ -30,6 +30,7 @@ pod 'GoogleUtilities'
 pod 'KeyboardMan'
 #pod 'FlagPhoneNumber'
 pod 'CropViewController'
+pod 'SwiftyStoreKit'
 
 
 end

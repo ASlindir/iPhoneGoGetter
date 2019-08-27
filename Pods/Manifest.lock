@@ -27,11 +27,11 @@ PODS:
     - FacebookCore (~> 0.8.0)
     - FBSDKCoreKit (~> 5.0)
     - FBSDKShareKit (~> 5.0)
-  - FBSDKCoreKit (5.4.0):
-    - FBSDKCoreKit/Basics (= 5.4.0)
-    - FBSDKCoreKit/Core (= 5.4.0)
-  - FBSDKCoreKit/Basics (5.4.0)
-  - FBSDKCoreKit/Core (5.4.0):
+  - FBSDKCoreKit (5.3.0):
+    - FBSDKCoreKit/Basics (= 5.3.0)
+    - FBSDKCoreKit/Core (= 5.3.0)
+  - FBSDKCoreKit/Basics (5.3.0)
+  - FBSDKCoreKit/Core (5.3.0):
     - FBSDKCoreKit/Basics
   - FBSDKLoginKit (5.3.0):
     - FBSDKCoreKit (~> 5.0)
@@ -251,7 +251,7 @@ SPEC CHECKSUMS:
   Fabric: 4ac1cdfef3004ccd83ce0959b91eda8a6e37df72
   FacebookCore: 563bb4cbcd7dd86cf89f3729252140bf256aacaa
   FacebookShare: e75d5e81ef7bd7aab2f865446c4c27015b43bae6
-  FBSDKCoreKit: 026e56cf2c2cebc656cf2aec5c6898b8c4f33930
+  FBSDKCoreKit: 39748deefe37a005f983722e433be2ddcdd83ae7
   FBSDKLoginKit: bc0329e10045789e8d40b12d4f15ddbd07a898e2
   FBSDKShareKit: f61d03f36ce4f1b379c7de7dbfe173662e68be44
   Firebase: a2b5951f30ff38fd3b3bdae9c7d340f940fd3c51
@@ -289,4 +289,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: f0e576394e1c85c7addd550194e99b38b8a3bdff
 
-COCOAPODS: 1.7.4
+COCOAPODS: 1.7.5

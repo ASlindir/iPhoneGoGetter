@@ -169,8 +169,20 @@ class WebServices: NSObject {
             if error == nil{
                 do{
                     // check for exceptions that happened on the server... comes work but server app threw exeption
-                    print(String.init(data: data!, encoding: .utf8)!)
-                    print(response!)
+                    let dictionary = ProcessInfo.processInfo.environment
+                    var isOutResponse = true
+                    
+                    if let _value = dictionary["OUT_RESPONSE_FROM_SERVER"] {
+                        if _value == "0" {
+                            isOutResponse = false
+                        }
+                    }
+                    
+                    if isOutResponse {
+                        print(String.init(data: data!, encoding: .utf8)!)
+                        print(response!)
+                    }
+                    
             	        if let jsonData = data{
                         if (jsonData.count > 0){
                             let json = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as! Dictionary<String, 	Any>

@@ -413,7 +413,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             self.startLocationManager()
             
             // get counter of daily limit
+            #if DEBUG
+            // test
+            #else
             self.checkDailyLimit()
+            #endif
+            
         }
     }
 

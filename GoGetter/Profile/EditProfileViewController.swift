@@ -217,6 +217,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     
     var milesSliderTopContraintDefault: CGFloat = 0.0
     var milesSliderBottomContraintDefault: CGFloat = 0.0
+    var isOutGallery: Bool = false
     
      override func viewDidLoad() {
         //self.indicator.isHidden = true
@@ -1679,11 +1680,24 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             case .authorized:
                 print("You can Access Photos.")
                 
-                let galleryController = self.storyboard?.instantiateViewController(withIdentifier: "GalleryViewController") as! GalleryViewController!
-                galleryController?.fetchResult = self.allPhotos
-                galleryController?.galleryDelegate = self
-                galleryController?.selectedIndex = self.selectedIndexPath!.item - 11
-                self.present(galleryController!, animated: true, completion: nil)
+//                let galleryController = self.storyboard?.instantiateViewController(withIdentifier: "GalleryViewController") as! GalleryViewController!
+//                galleryController?.fetchResult = self.allPhotos
+//                galleryController?.galleryDelegate = self
+//                galleryController?.selectedIndex = self.selectedIndexPath!.item - 11
+//                self.present(galleryController!, animated: true, completion: nil)
+                
+                let pickerController = UIImagePickerController()
+                
+                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary)
+                {
+                    pickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
+//                    pickerController.allowsEditing = true
+                    pickerController.delegate = self
+                    pickerController.mediaTypes = ["public.image"]
+                    self.isOutGallery = true
+                    self.present(pickerController, animated: true , completion: nil)
+                }
+                
             case .denied:
                 self.showSettingAlert()
             case .notDetermined:
@@ -2348,84 +2362,102 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
 //MARK:-  UIImagePickerController Delegates
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
+        self.isOutGallery = false
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-// Local variable inserted by Swift 4.2 migrator.
-let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
-
-        let mediaType = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.mediaType)]
-        if let type = mediaType{
-            if type is String{
-                let stringType = type as! String
-                if stringType == kUTTypeMovie as String{
-                    let urlOfVideo =  info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.mediaURL)] as? URL
-                    if let url = urlOfVideo{
-                        let myasset = AVURLAsset(url: urlOfVideo!);
-                        self.imgViewProfile.image = self.thumbnailForVideoASSet(asset: myasset);
-                        DispatchQueue.main.async {
-                            self.playView(url);
-                            let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".mp4")
-                            self.compressVideo(inputURL: url as URL,asset: nil, outputURL: compressedURL) { (exportSession) in
-                                guard let session = exportSession else {
-                                    return
-                                }
-                                
-                                switch session.status {
-                                case .unknown:
-                                    break
-                                case .waiting:
-                                    break
-                                case .exporting:
-                                    break
-                                case .completed:
-                                    guard let compressedData = NSData(contentsOf: compressedURL) else {
+        if (self.isOutGallery) {
+            self.isOutGallery = false
+            
+            self.dismiss(animated: false, completion: {
+                if let imageURL = info[UIImagePickerController.InfoKey.referenceURL] as? URL {
+                    let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
+                    if let asset = result.firstObject {
+                        print(asset.value(forKey: "filename"))
+                        self.selectedAsset(asset)
+                    }
+                }
+            })
+        }
+        // camera
+        else {
+            // Local variable inserted by Swift 4.2 migrator.
+            let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+            
+            let mediaType = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.mediaType)]
+            if let type = mediaType{
+                if type is String{
+                    let stringType = type as! String
+                    if stringType == kUTTypeMovie as String{
+                        let urlOfVideo =  info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.mediaURL)] as? URL
+                        if let url = urlOfVideo{
+                            let myasset = AVURLAsset(url: urlOfVideo!);
+                            self.imgViewProfile.image = self.thumbnailForVideoASSet(asset: myasset);
+                            DispatchQueue.main.async {
+                                self.playView(url);
+                                let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".mp4")
+                                self.compressVideo(inputURL: url as URL,asset: nil, outputURL: compressedURL) { (exportSession) in
+                                    guard let session = exportSession else {
                                         return
                                     }
-                                    print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
-                                    DispatchQueue.global(qos: .userInitiated).async {
-                                        // Bounce back to the main thread to update the UI
-                                        DispatchQueue.main.async {
-                                            self.deleteOldVideoFromDocumentDirectory()
-                                            self.writeVideoToDocumentDirectory(compressedData)
-                                            self.postVideoWithData(data: compressedData as Data, imageData: self.imgViewProfile.image!.jpegData(compressionQuality: 1.0)!)
+                                    
+                                    switch session.status {
+                                    case .unknown:
+                                        break
+                                    case .waiting:
+                                        break
+                                    case .exporting:
+                                        break
+                                    case .completed:
+                                        guard let compressedData = NSData(contentsOf: compressedURL) else {
+                                            return
                                         }
+                                        print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
+                                        DispatchQueue.global(qos: .userInitiated).async {
+                                            // Bounce back to the main thread to update the UI
+                                            DispatchQueue.main.async {
+                                                self.deleteOldVideoFromDocumentDirectory()
+                                                self.writeVideoToDocumentDirectory(compressedData)
+                                                self.postVideoWithData(data: compressedData as Data, imageData: self.imgViewProfile.image!.jpegData(compressionQuality: 1.0)!)
+                                            }
+                                        }
+                                        print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
+                                    case .failed:
+                                        break
+                                    case .cancelled:
+                                        break
                                     }
-                                    print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
-                                case .failed:
-                                    break
-                                case .cancelled:
-                                    break
                                 }
+                                
                             }
-
                         }
-                    }
-                }else{
-                    self.imgViewProfile.isHidden = false
-                    self.viewVideoProfile.isHidden = true
-                    let vwCamera:UIView = self.scrollVwCamera.viewWithTag((selectedIndexPath?.row)!)!
-                    let openViewCamera:OpenCameraView = vwCamera.subviews[0] as! OpenCameraView
-                    openViewCamera.imgViewProfile.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
-                    openViewCamera.lblRecordVideo.text = "CHANGE PHOTO"
-                    if (self.selectedIndexPath?.item)! - 11 == 0 {
-                         DispatchQueue.main.async {
-                            self.postImageWithImage(image: info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as! UIImage, fileName: "profile_pic", type: "image")
-                            self.personalDetail["profile_pic"] = ""
+                    }else{
+                        self.imgViewProfile.isHidden = false
+                        self.viewVideoProfile.isHidden = true
+                        let vwCamera:UIView = self.scrollVwCamera.viewWithTag((selectedIndexPath?.row)!)!
+                        let openViewCamera:OpenCameraView = vwCamera.subviews[0] as! OpenCameraView
+                        openViewCamera.imgViewProfile.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
+                        openViewCamera.lblRecordVideo.text = "CHANGE PHOTO"
+                        if (self.selectedIndexPath?.item)! - 11 == 0 {
+                            DispatchQueue.main.async {
+                                self.postImageWithImage(image: info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as! UIImage, fileName: "profile_pic", type: "image")
+                                self.personalDetail["profile_pic"] = ""
+                            }
                         }
-                    }
-                    else {
-                         DispatchQueue.main.async {
-                            self.postImageWithImage(image: info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as! UIImage, fileName: String(format:"image%d",(self.selectedIndexPath?.item)!-11), type: "image")
-                            self.personalDetail[String(format:"image%d",(self.selectedIndexPath?.item)! - 11)] = ""
+                        else {
+                            DispatchQueue.main.async {
+                                self.postImageWithImage(image: info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as! UIImage, fileName: String(format:"image%d",(self.selectedIndexPath?.item)!-11), type: "image")
+                                self.personalDetail[String(format:"image%d",(self.selectedIndexPath?.item)! - 11)] = ""
+                            }
                         }
+                        
+                        profileImages[(selectedIndexPath!.item) - 12] = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as! UIImage
                     }
-                    
-                    profileImages[(selectedIndexPath!.item) - 12] = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as! UIImage
                 }
             }
+            
+            self.dismiss(animated: true, completion: nil)
         }
-        self.dismiss(animated: true, completion: nil)
     }
     
     

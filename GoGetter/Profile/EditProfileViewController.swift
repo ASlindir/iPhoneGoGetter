@@ -551,8 +551,8 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         
         if let radius = personalDetail["location_radius"] as? String{
             if radius != "" {
-                if radius == "99999" {
-                    distancePreference = "99999"
+                if radius == "3000" {
+                    distancePreference = "3000"
                     anywhereBool = true
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -1497,7 +1497,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
             imgViewAnywhere.image = #imageLiteral(resourceName: "check")
             anywhereBool = true
-            distancePreference = "99999"
+            distancePreference = "3000"
             self.milesSlider.isHidden = true
             self.milesSliderBottomContraint.constant = 0.0
             self.milesSliderTopConstraint.constant = 0.0

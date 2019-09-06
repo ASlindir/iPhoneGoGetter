@@ -664,7 +664,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                                 self.haveKidsNo.isSelected = true
                     default :
                                 self.haveKidsYes.isSelected = false
-                                self.haveKidsNo.isSelected = true
+                                self.haveKidsNo.isSelected = false
                     }
                     arrayKids[0] = kidArray[0]
                 }

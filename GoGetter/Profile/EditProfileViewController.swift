@@ -2256,7 +2256,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
         
-        mailComposerVC.setToRecipients(["contact@slindir.com"])
+        mailComposerVC.setToRecipients(["contact@gogetterdating.com"])
         mailComposerVC.setSubject("GoGetter feedback iOS")
         mailComposerVC.setMessageBody("", isHTML: false)
         

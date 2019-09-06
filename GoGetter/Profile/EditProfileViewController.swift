@@ -85,6 +85,8 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     @IBOutlet weak var rangeSlider: RangeSlider!
     @IBOutlet weak var rangeSliderHeight: RangeSlider!
     @IBOutlet weak var milesSlider: UISlider!
+    @IBOutlet weak var milesSliderTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var milesSliderBottomContraint: NSLayoutConstraint!
     
     @IBOutlet weak var lblAgeStart: UILabel!
     @IBOutlet weak var lblAgeMax: UILabel!
@@ -213,6 +215,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     @IBOutlet weak var lblVideoHeader: UILabel!
     var isVideoLabelBlinked:Bool = false
     
+    var milesSliderTopContraintDefault: CGFloat = 0.0
+    var milesSliderBottomContraintDefault: CGFloat = 0.0
+    
      override func viewDidLoad() {
         //self.indicator.isHidden = true
         super.viewDidLoad()
@@ -284,6 +289,10 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         }
         self.widthVwCamera.constant = UIScreen.main.bounds.width - 110
         self.view.layoutIfNeeded()
+        
+        // default contraints
+        self.milesSliderTopContraintDefault = self.milesSliderTopConstraint.constant
+        self.milesSliderBottomContraintDefault = self.milesSliderBottomContraint.constant
     }
     
     @objc func goToProfile(isAlreadyLogin : Bool){
@@ -548,6 +557,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.imgViewAnywhere.image = #imageLiteral(resourceName: "check")
+                        self.milesSlider.isHidden = true
+                        self.milesSliderTopConstraint.constant = 0.0
+                        self.milesSliderBottomContraint.constant = 0.0
                     }
                 } else {
                     self.milesSlider.value = Float(radius)!
@@ -680,6 +692,11 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         imgViewMeetNewPeople.image = #imageLiteral(resourceName: "unCheck")
         imgViewRelationShip.image = #imageLiteral(resourceName: "unCheck")
         imgViewAnywhere.image = #imageLiteral(resourceName: "unCheck")
+        
+        self.milesSlider.isHidden = false
+        self.milesSliderTopConstraint.constant = self.milesSliderTopContraintDefault
+        self.milesSliderBottomContraint.constant = self.milesSliderBottomContraintDefault
+        
         if let iAmHere = personalDetail["iam_here_to"] as? String {
             let iAmHereArray = iAmHere.components(separatedBy: ",")
             if iAmHereArray.contains("workout"){
@@ -1473,11 +1490,17 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             imgViewAnywhere.image = #imageLiteral(resourceName: "unCheck")
             anywhereBool = false
             distancePreference = lblMiles.text!
+            self.milesSlider.isHidden = false
+            self.milesSliderTopConstraint.constant = self.milesSliderTopContraintDefault
+            self.milesSliderBottomContraint.constant = self.milesSliderBottomContraintDefault
         }else{
             CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
             imgViewAnywhere.image = #imageLiteral(resourceName: "check")
             anywhereBool = true
             distancePreference = "99999"
+            self.milesSlider.isHidden = true
+            self.milesSliderBottomContraint.constant = 0.0
+            self.milesSliderTopConstraint.constant = 0.0
         }
         self.imgViewAnywhere.layer.borderColor = UIColor.clear.cgColor
         self.imgViewAnywhere.layer.borderWidth = 1

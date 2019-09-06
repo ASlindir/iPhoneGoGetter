@@ -4986,6 +4986,8 @@ This will only take a minute.</string>
                         <outlet property="lblYourPhoto" destination="zvW-7C-bTX" id="MZ6-PF-12s"/>
                         <outlet property="mainStackView" destination="jMJ-8C-I9J" id="Fpr-o9-tNc"/>
                         <outlet property="milesSlider" destination="JaL-IL-x7Z" id="64T-ZP-hjn"/>
+                        <outlet property="milesSliderBottomContraint" destination="yuh-TK-we2" id="8Xs-Aq-36f"/>
+                        <outlet property="milesSliderTopConstraint" destination="C1T-4X-tiI" id="LtA-K5-jpF"/>
                         <outlet property="rangeSlider" destination="jlD-8g-JEa" id="rkM-QJ-xQw"/>
                         <outlet property="rangeSliderHeight" destination="8tr-8x-3GF" id="eYy-8S-4G1"/>
                         <outlet property="scrollView" destination="DEe-dv-MbG" id="dOw-RI-xmV"/>

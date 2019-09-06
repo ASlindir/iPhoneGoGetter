@@ -784,8 +784,15 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                 openCameraView.btnPlay.isHidden = true
                 openCameraView.viewVideoRecordRed.backgroundColor = UIColor(red: 0, green: 166/255, blue: 175/255, alpha: 1)
                 
+                // added gesture for click on image
                 let gesture = UITapGestureRecognizer(target: self, action: #selector(btnCameraPic(_:)))
                 openCameraView.viewVideoRecordRed.addGestureRecognizer(gesture)
+                
+                // add click by image
+                let _gesture = UITapGestureRecognizer(target: self, action: #selector(btnCameraPic(_:)))
+                openCameraView.imgViewProfile.isUserInteractionEnabled = true
+                openCameraView.imgViewProfile.addGestureRecognizer(_gesture)
+                
                 let sameGesture = UITapGestureRecognizer(target: self, action: #selector(btnCameraPic(_:)))
                 openCameraView.imgViewCamera.addGestureRecognizer(sameGesture)
                 openCameraView.btnCamera.isHidden = true

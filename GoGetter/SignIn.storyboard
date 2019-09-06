@@ -548,11 +548,10 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="99/99/9999" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="auB-o9-Zdw" customClass="CustomTextField" customModule="GoGetter" customModuleProvider="target">
-                                                <rect key="frame" x="151" y="-4" width="105" height="31"/>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="auB-o9-Zdw" customClass="CustomTextField" customModule="GoGetter" customModuleProvider="target">
+                                                <rect key="frame" x="151" y="-4" width="192" height="31"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="105" id="bKr-co-bSN"/>
                                                     <constraint firstAttribute="height" constant="31" id="own-9u-hhC"/>
                                                 </constraints>
                                                 <nil key="textColor"/>
@@ -573,6 +572,7 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="wwo-7i-jLf" firstAttribute="baseline" secondItem="auB-o9-Zdw" secondAttribute="firstBaseline" id="AAC-gf-sE8"/>
+                                            <constraint firstAttribute="trailing" secondItem="auB-o9-Zdw" secondAttribute="trailing" id="Frz-4j-tOu"/>
                                             <constraint firstItem="auB-o9-Zdw" firstAttribute="leading" secondItem="wwo-7i-jLf" secondAttribute="trailing" constant="13" id="HzI-aG-o9y"/>
                                             <constraint firstItem="wwo-7i-jLf" firstAttribute="centerY" secondItem="auB-o9-Zdw" secondAttribute="centerY" id="MKe-gb-q3Y"/>
                                             <constraint firstItem="wwo-7i-jLf" firstAttribute="leading" secondItem="Nc3-y6-KbV" secondAttribute="leading" id="NM2-ZG-szY"/>

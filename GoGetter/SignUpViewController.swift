@@ -244,7 +244,7 @@ class SignUpViewController: FormViewController {
     
     @IBAction func dpDone(_ sender: Any) {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy"
+        dateFormatter.dateFormat = "yyyy-MMMM-dd"
         editBirthday.text = dateFormatter.string(from: dpDataPicker.date)
         currentData = dpDataPicker.date
         

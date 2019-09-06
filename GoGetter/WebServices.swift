@@ -155,8 +155,22 @@ class WebServices: NSObject {
         let url = URL(string: fullUrlString)
         var request = URLRequest(url: url!)
         request.httpMethod = servcieType.rawValue
+        
+        // add token to each request as json parameter
+        var params: Dictionary<String, Any> = [:]
+        
+        if parameters != nil {
+            params = parameters!
+        }
+        
+        if let ggToken = UserDefaults.standard.string(forKey: "ggToken") {
+            if !ggToken.isEmpty {
+                params["ggToken"] = ggToken
+            }
+        }
+        
         do{
-            if let params = parameters{
+            if params.count > 0 {
                 request.httpBody = try JSONSerialization.data(withJSONObject: params, 	options: .prettyPrinted)
             }
         }catch let err{
@@ -196,6 +210,10 @@ class WebServices: NSObject {
                                 }
                             }
                             else{
+                                if let ggToken = json["ggToken"] as? String {
+                                    UserDefaults.standard.set(ggToken, forKey: "ggToken")
+                                }
+                                
                                 success(json)
                             }
                         }
@@ -206,10 +224,12 @@ class WebServices: NSObject {
                         success(nil)		
                     }
                 }catch let err{
+                    print(err.localizedDescription)
                     serviceError(err)
                 }
             }else{
                 // real comm errors come here... use built in IOS default NSUrl domain messsages
+                print(error?.localizedDescription)
                 serviceError(error)
             }
         }
@@ -229,11 +249,26 @@ class WebServices: NSObject {
         
         var fileName = String(format:"image%d.jpg",Int(NSTimeIntervalSince1970))
         var mimeType:String = "image/jpg"
+        
         if type == "video" {
             mimeType = "application/octet-stream"
             fileName = String(format:"video%d.mp4",Int(NSTimeIntervalSince1970))
         }
-        request.httpBody = createBody(parameters: parameters as! [String : String],
+        
+        // add token to each request as json parameter
+        var params: Dictionary<String, Any> = [:]
+        
+        if parameters != nil {
+            params = parameters!
+        }
+        
+        if let ggToken = UserDefaults.standard.string(forKey: "ggToken") {
+            if !ggToken.isEmpty {
+                params["ggToken"] = ggToken
+            }
+        }
+        
+        request.httpBody = createBody(parameters: params as! [String : String],
                                 boundary: boundary,
                                 data: fileData,
                                 mimeType: mimeType,

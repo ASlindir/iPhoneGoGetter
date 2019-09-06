@@ -2192,10 +2192,13 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         let alertController = UIAlertController(title: NSLocalizedString("Confirmation", comment:""), message: "Are you sure you want to logout?", preferredStyle: .alert)
         alertController.addAction(action(NSLocalizedString("Yes", comment: ""), .destructive, actionHandler: { (alertAction) in
+            UserDefaults.standard.set(nil, forKey: "ggToken")
+            // wit ggToken return error
             self.callLogoutWebService()
            // LoginManager().logOut()
             LocalStore.store.clearDataAllData()
             FirebaseObserver.observer.firstLoad = false
+            
             self.deleteOldVideoFromDocumentDirectory()
             let loginController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
             self.navigationController?.setViewControllers([loginController], animated: true)
@@ -2247,9 +2250,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         let facebookId = LocalStore.store.getFacebookID()
         var parameters = Dictionary<String,Any>()
         parameters["user_fb_id"] = facebookId
+        
         WebServices.service.webServicePostRequest(.post, .user, .logout, parameters, successHandler: { (response) in
             Loader.stopLoader()
-            
         }, errorHandler: { (error) in
             
         })

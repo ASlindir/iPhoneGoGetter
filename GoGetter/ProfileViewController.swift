@@ -2472,12 +2472,19 @@ extension ProfileViewController: KolodaViewDataSource {
         
         if let kids = details["kids"] as? String{
             let kidArray = kids.components(separatedBy: ",")
-            if kidArray.contains("want"){
-                self.imgViewWantKidsScroll.image = #imageLiteral(resourceName: "checkLogo")
+            
+            if (kidArray.indices.contains(1)) {
+                if kidArray.contains("want"){
+                    self.imgViewWantKidsScroll.image = #imageLiteral(resourceName: "checkLogo")
+                }
+                else {
+                    self.imgViewWantKidsScroll.image = #imageLiteral(resourceName: "xLogo")
+                }
+            } else {
+                let myGender = details["gender"] as? String
+                self.imgViewWantKidsScroll.image = (myGender ?? "M") == "M" ? #imageLiteral(resourceName: "mshrug") : #imageLiteral(resourceName: "wshrug")
             }
-            else {
-                self.imgViewWantKidsScroll.image = #imageLiteral(resourceName: "xLogo")
-            }
+            
             if kidArray.contains("have"){
                 self.imgViewHasKidsScroll.image = #imageLiteral(resourceName: "checkLogo")
             }

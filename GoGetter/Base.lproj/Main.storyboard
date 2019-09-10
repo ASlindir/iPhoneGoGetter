@@ -5060,14 +5060,14 @@ This will only take a minute.</string>
             <objects>
                 <viewController storyboardIdentifier="ProfileDetaiViewController" id="EkX-gF-CJt" customClass="ProfileDetaiViewController" customModule="GoGetter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bai-Sj-TNB">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="2000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cVe-9v-QGR">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="2000"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="brainGameBackground" translatesAutoresizingMaskIntoConstraints="NO" id="AU3-ns-i3n">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="2000"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The premise of our unique algorithm is essentially that ‘opposites attract’ when it comes to how your brain thinks." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sI6-lU-Zf4">
                                         <rect key="frame" x="20" y="50" width="280" height="57.5"/>
@@ -5097,7 +5097,7 @@ This will only take a minute.</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iif-yu-uMT">
-                                        <rect key="frame" x="95" y="478" width="130" height="32"/>
+                                        <rect key="frame" x="95" y="1724" width="130" height="32"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="130" id="Kgm-RS-cnH"/>
@@ -5134,19 +5134,19 @@ This will only take a minute.</string>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X34-Qf-XXN">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="1980"/>
                                 <subviews>
                                     <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hSw-4l-wxd">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="1980"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="guV-hR-t86">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="2740"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="9900"/>
                                                 <subviews>
                                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="h5u-OC-Jh3">
-                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="1980"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" tag="201" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="O6J-Qc-zzx">
-                                                                <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="320" height="1980"/>
                                                             </imageView>
                                                         </subviews>
                                                         <constraints>
@@ -5162,10 +5162,10 @@ This will only take a minute.</string>
                                                         </connections>
                                                     </scrollView>
                                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="VqK-k2-xMp">
-                                                        <rect key="frame" x="0.0" y="548" width="320" height="548"/>
+                                                        <rect key="frame" x="0.0" y="1980" width="320" height="1980"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" tag="202" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rsZ-fS-ERj">
-                                                                <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="320" height="1980"/>
                                                             </imageView>
                                                         </subviews>
                                                         <constraints>
@@ -5181,10 +5181,10 @@ This will only take a minute.</string>
                                                         </connections>
                                                     </scrollView>
                                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="a8u-KZ-KN2">
-                                                        <rect key="frame" x="0.0" y="1096" width="320" height="548"/>
+                                                        <rect key="frame" x="0.0" y="3960" width="320" height="1980"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" tag="203" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ea1-fm-9ip">
-                                                                <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="320" height="1980"/>
                                                             </imageView>
                                                         </subviews>
                                                         <constraints>
@@ -5200,10 +5200,10 @@ This will only take a minute.</string>
                                                         </connections>
                                                     </scrollView>
                                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="Jfx-Mh-bA6">
-                                                        <rect key="frame" x="0.0" y="1644" width="320" height="548"/>
+                                                        <rect key="frame" x="0.0" y="5940" width="320" height="1980"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" tag="204" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hJF-yF-B2n">
-                                                                <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="320" height="1980"/>
                                                             </imageView>
                                                         </subviews>
                                                         <constraints>
@@ -5219,10 +5219,10 @@ This will only take a minute.</string>
                                                         </connections>
                                                     </scrollView>
                                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="10" translatesAutoresizingMaskIntoConstraints="NO" id="mDj-JO-XE8">
-                                                        <rect key="frame" x="0.0" y="2192" width="320" height="548"/>
+                                                        <rect key="frame" x="0.0" y="7920" width="320" height="1980"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" tag="205" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qL3-3J-YLO">
-                                                                <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="320" height="1980"/>
                                                             </imageView>
                                                         </subviews>
                                                         <constraints>
@@ -5301,14 +5301,14 @@ This will only take a minute.</string>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h2c-vv-FPN">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="2000"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vLt-4g-VvN">
-                                        <rect key="frame" x="0.0" y="80" width="320" height="494"/>
+                                        <rect key="frame" x="0.0" y="80" width="320" height="1926"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W8S-ug-hOA">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="2000"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ob9-1a-aK1">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="1527"/>
@@ -5539,8 +5539,12 @@ This will only take a minute.</string>
                                                                                 <color key="textColor" red="0.086274509799999996" green="0.1058823529" blue="0.24313725489999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
-                                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="xLogo" translatesAutoresizingMaskIntoConstraints="NO" id="MR4-nC-5sJ">
+                                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="xLogo" translatesAutoresizingMaskIntoConstraints="NO" id="MR4-nC-5sJ">
                                                                                 <rect key="frame" x="67.5" y="15" width="24" height="24"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="width" constant="24" id="alI-2G-NKY"/>
+                                                                                    <constraint firstAttribute="height" constant="24" id="g2X-rv-K85"/>
+                                                                                </constraints>
                                                                             </imageView>
                                                                         </subviews>
                                                                     </stackView>
@@ -5553,8 +5557,12 @@ This will only take a minute.</string>
                                                                                 <color key="textColor" red="0.086274509799999996" green="0.1058823529" blue="0.24313725489999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
-                                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkLogo" translatesAutoresizingMaskIntoConstraints="NO" id="ofb-fR-fib">
+                                                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mshrug" translatesAutoresizingMaskIntoConstraints="NO" id="ofb-fR-fib">
                                                                                 <rect key="frame" x="88.5" y="15" width="24" height="24"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="height" constant="24" id="WBn-ek-ZgK"/>
+                                                                                    <constraint firstAttribute="width" constant="24" id="jsd-oX-cgp"/>
+                                                                                </constraints>
                                                                             </imageView>
                                                                         </subviews>
                                                                     </stackView>
@@ -5909,6 +5917,7 @@ This will only take a minute.</string>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="cDU-Ru-ehH"/>
                     </view>
+                    <size key="freeformSize" width="320" height="2000"/>
                     <connections>
                         <outlet property="btnBack" destination="7K2-LZ-r8v" id="7ln-sQ-5mO"/>
                         <outlet property="btnBlockAndReport" destination="xAm-yg-a4M" id="Yy1-0B-L9C"/>
@@ -6628,6 +6637,7 @@ fkODAAAAAAAAAgEAAAAAAAAAWQAAAAAAAAAAAAAAAAAAQ4U
         <image name="manUnSelected" width="121" height="135.5"/>
         <image name="matchHeart" width="170" height="179.5"/>
         <image name="matric" width="50" height="50"/>
+        <image name="mshrug" width="53" height="53"/>
         <image name="pin" width="20" height="20"/>
         <image name="playIntroVideo" width="50" height="50"/>
         <image name="profileFrame" width="210" height="252.5"/>

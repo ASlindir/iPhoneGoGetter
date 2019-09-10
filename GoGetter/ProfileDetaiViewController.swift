@@ -677,19 +677,21 @@ let personalDetail = LocalStore.store.getUserDetails()
         
         if let kids = details["kids"] as? String{
             let kidArray = kids.components(separatedBy: ",")
+            let myGender = details["gender"] as? String
             
             if (kidArray.indices.contains(1)) {
-                if kidArray.contains("want"){
+                if kidArray[1] == "want" {
                     self.imgViewWantKidsScroll.image = #imageLiteral(resourceName: "checkLogo")
                 }
-                else {
+                else if kidArray[1] == "no"{
                     self.imgViewWantKidsScroll.image = #imageLiteral(resourceName: "xLogo")
                 }
+                else {
+                    self.imgViewWantKidsScroll.image = (myGender ?? "M") == "M" ? #imageLiteral(resourceName: "mshrug") : #imageLiteral(resourceName: "wshrug")
+                }
             } else {
-                let myGender = details["gender"] as? String
                 self.imgViewWantKidsScroll.image = (myGender ?? "M") == "M" ? #imageLiteral(resourceName: "mshrug") : #imageLiteral(resourceName: "wshrug")
             }
-            
             
             if kidArray.contains("have"){
                 self.imgViewHasKidsScroll.image = #imageLiteral(resourceName: "checkLogo")

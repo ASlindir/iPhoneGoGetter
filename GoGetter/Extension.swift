@@ -165,6 +165,7 @@ extension UIViewController{
                         self.writeVideo(profile_video)
                     }
                 }
+                print(userDetails)
                 
                 let dictData = NSKeyedArchiver.archivedData(withRootObject: userDetails!)
                 LocalStore.store.saveUserDetails = dictData

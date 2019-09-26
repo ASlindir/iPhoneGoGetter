@@ -56,20 +56,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             FirebaseObserver.observer.observeFriendList()
             FirebaseObserver.observer.observeFriendsRemoved()
            
-            let controller = storyboard.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
-            let navigationController = UINavigationController(rootViewController: controller)
-            navigationController.interactivePopGestureRecognizer?.isEnabled = false
-            controller.isRootController = true
-            window?.rootViewController = navigationController
-            
-////            DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
-//                let controller = PurchaseViewController.loadFromNib()
+//            let controller = storyboard.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
+//            let navigationController = UINavigationController(rootViewController: controller)
+//            navigationController.interactivePopGestureRecognizer?.isEnabled = false
+//            controller.isRootController = true
+//            window?.rootViewController = navigationController
 //
-//                let navigationController = UINavigationController(rootViewController: controller)
-//                navigationController.interactivePopGestureRecognizer?.isEnabled = false
-//                controller.isRootController = true
-//                self.window?.rootViewController = navigationController
-////            })
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+                let controller = TestPurchaseViewController.loadFromNib()
+
+                let navigationController = UINavigationController(rootViewController: controller)
+                navigationController.interactivePopGestureRecognizer?.isEnabled = false
+                controller.isRootController = true
+                self.window?.rootViewController = navigationController
+//            })
         }
         else{
 //ClientLog.WriteClientLog( msgType: "ios", msg:"not logged");

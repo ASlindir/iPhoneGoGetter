@@ -369,51 +369,59 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
     
 //MARK:-  Get Friends List
     func getFriendsList(){
+        
+//        self.friendsList.append(LocalStore.store.getUserDetails())
+//        self.friendsList.append(LocalStore.store.getUserDetails())
+//        self.friendsList.append(LocalStore.store.getUserDetails())
+//        self.friendsList.append(LocalStore.store.getUserDetails())
+//        self.collectionViewNewMatches.reloadData()
+//        print(self.friendsList)
+        
         let user_id = LocalStore.store.getFacebookID()
         let parameters = ["user_fb_id": user_id, "type":"new"]
-        
+
         Loader.startLoader(true)
-        
+
         WebServices.service.webServicePostRequest(.post, .friend, .fetchFriendList, parameters, successHandler: { (response) in
             Loader.stopLoader()
             let jsonDict = response
             let status = jsonDict!["status"] as! String
             self.friendsList.removeAll()
             if status == "success"{
-                let friendsList = jsonDict!["friendList"] as! [[String: Any]]
-                for  dict in friendsList  {
-                    if let matchDateStr = dict["match_created_on"] as? String {
-                        if matchDateStr != "" {
-                            let dateFormatter = DateFormatter()
-                            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                            dateFormatter.timeZone = NSTimeZone(abbreviation: "GMT")! as TimeZone
-                             dateFormatter.locale = Locale.init(identifier: "en_US_POSIX")
-                            let matchDate: Date? = dateFormatter.date(from: matchDateStr)
-                            print(Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0)
-                            let time = Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0
-                            if time == nil {
-                                self.removeFromNewMatches(dict["user_fb_id"] as! String)
-                            }
-                            else {
-                                //604800
-                                if CGFloat(time) > 259200 {
+                if let friendsList = jsonDict?["friendList"] as? [[String: Any]] {
+                    for  dict in friendsList  {
+                        if let matchDateStr = dict["match_created_on"] as? String {
+                            if matchDateStr != "" {
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                                dateFormatter.timeZone = NSTimeZone(abbreviation: "GMT")! as TimeZone
+                                dateFormatter.locale = Locale.init(identifier: "en_US_POSIX")
+                                let matchDate: Date? = dateFormatter.date(from: matchDateStr)
+                                print(Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0)
+                                let time = Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0
+                                if time == nil {
                                     self.removeFromNewMatches(dict["user_fb_id"] as! String)
                                 }
                                 else {
-                                    self.friendsList.append(dict)
+                                    //604800
+                                    if CGFloat(time) > 259200 {
+                                        self.removeFromNewMatches(dict["user_fb_id"] as! String)
+                                    }
+                                    else {
+                                        self.friendsList.append(dict)
+                                    }
                                 }
                             }
-                        }
-                        else{
-                            self.removeFromNewMatches(dict["user_fb_id"] as! String)
+                            else{
+                                self.removeFromNewMatches(dict["user_fb_id"] as! String)
+                            }
                         }
                     }
                 }
-                
             }
             self.collectionViewNewMatches.reloadData()
             print(self.friendsList)
-            
+
         }) { (error) in
             self.friendsList.removeAll()
             Loader.stopLoader()

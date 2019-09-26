@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="TestPurchaseCollectionViewCell" customModule="GoGetter" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="andrea" translatesAutoresizingMaskIntoConstraints="NO" id="h0X-sP-fAE" customClass="UIClockImageView" customModule="GoGetter" customModuleProvider="target">
+                        <rect key="frame" x="10" y="10" width="80" height="80"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="80" id="g5c-vr-heo"/>
+                            <constraint firstAttribute="width" constant="80" id="hA3-Wp-vP4"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="h0X-sP-fAE" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="EkB-fZ-wIM"/>
+                <constraint firstAttribute="trailing" secondItem="h0X-sP-fAE" secondAttribute="trailing" constant="10" id="U9L-m2-MN2"/>
+                <constraint firstItem="h0X-sP-fAE" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="e6n-cM-4io"/>
+                <constraint firstAttribute="bottom" secondItem="h0X-sP-fAE" secondAttribute="bottom" constant="10" id="gV5-pS-BjY"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="124" height="126"/>
+            <connections>
+                <outlet property="mainImage" destination="h0X-sP-fAE" id="7gw-xp-3uZ"/>
+            </connections>
+            <point key="canvasLocation" x="88.405797101449281" y="60.267857142857139"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="andrea" width="312.5" height="312.5"/>
+    </resources>
+</document>

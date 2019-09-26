@@ -1590,10 +1590,12 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 } else {
                     Loader.stopLoader()
                     self.outAlertError(message: "Error: Convo Id is null")
+                    UserDefaults.standard.set(false, forKey: "matchedNotification")
                 }
             }) { (error) in
                 Loader.stopLoader()
                 self.outAlertError(message: "Error: \(error.debugDescription)")
+                UserDefaults.standard.set(false, forKey: "matchedNotification")
             }
         }
     }
@@ -1955,8 +1957,8 @@ extension ProfileViewController: KolodaViewDelegate {
     func sendOrDeclineRequest(_ details: [String: Any]){
         let userId = LocalStore.store.getFacebookID()
         let reciver_ID = details["user_fb_id"] as! String
-        let parameters = ["user_fb_id": userId , "receiving_user_fb_id":reciver_ID]
-//        let parameters = ["user_fb_id": userId , "receiving_user_fb_id":"NVqSplSj9QUQrgcmn4Mdwn3f1ao2"]
+//        let parameters = ["user_fb_id": userId , "receiving_user_fb_id":reciver_ID]
+        let parameters = ["user_fb_id": userId , "receiving_user_fb_id":"NVqSplSj9QUQrgcmn4Mdwn3f1ao2"]
 //        let parameters = ["user_fb_id": userId , "receiving_user_fb_id":"OEhKFyfFVsW7e7ERYbRSjIpf3oU2"]
         
         // for test load user

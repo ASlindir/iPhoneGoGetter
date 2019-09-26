@@ -81,6 +81,10 @@
 		8426D8812312963B0053106B /* PurchasesConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8426D8802312963B0053106B /* PurchasesConst.swift */; };
 		84319E5C22F01D86003FF7B5 /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84319E5B22F01D86003FF7B5 /* DatePickerDialog.swift */; };
 		84319E5F22F03D6F003FF7B5 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84319E5E22F03D6F003FF7B5 /* AlertViewController.swift */; };
+		84528059233C578900E079D4 /* TestPurchaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84528057233C578900E079D4 /* TestPurchaseViewController.swift */; };
+		8452805A233C578900E079D4 /* TestPurchaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84528058233C578900E079D4 /* TestPurchaseViewController.xib */; };
+		8452805C233C58A300E079D4 /* UIClockImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8452805B233C58A300E079D4 /* UIClockImageView.swift */; };
+		8452805E233C594200E079D4 /* UIClockImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8452805D233C594200E079D4 /* UIClockImageView.xib */; };
 		84694F3022830364007AB8BA /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84694F2F22830364007AB8BA /* FormViewController.swift */; };
 		84694F362283036E007AB8BA /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84694F312283036D007AB8BA /* String.swift */; };
 		84694F372283036E007AB8BA /* CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84694F322283036D007AB8BA /* CALayer.swift */; };
@@ -98,6 +102,9 @@
 		8479D470230CE0F30031B73F /* UIPurchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8479D46F230CE0F30031B73F /* UIPurchase.swift */; };
 		8479D472230CE1290031B73F /* UINibView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8479D471230CE1290031B73F /* UINibView.swift */; };
 		8479D475230CE1940031B73F /* UIPurchase.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8479D474230CE1940031B73F /* UIPurchase.xib */; };
+		847ACD2E233C9B4800A1A6D5 /* TestPurchaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847ACD2C233C9B4800A1A6D5 /* TestPurchaseCollectionViewCell.swift */; };
+		847ACD2F233C9B4800A1A6D5 /* TestPurchaseCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 847ACD2D233C9B4800A1A6D5 /* TestPurchaseCollectionViewCell.xib */; };
+		847ACD33233CDF9300A1A6D5 /* TestPurchaseCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847ACD32233CDF9300A1A6D5 /* TestPurchaseCollectionViewLayout.swift */; };
 		84D38503230CFE3F000DF746 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D38502230CFE3F000DF746 /* StoreKit.framework */; };
 		B403784A1F6B981F009C9D34 /* CustomClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40378491F6B981F009C9D34 /* CustomClass.swift */; };
 		B403784D1F6BDF25009C9D34 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B403784C1F6BDF25009C9D34 /* ProfileViewController.swift */; };
@@ -327,6 +334,10 @@
 		8426D8802312963B0053106B /* PurchasesConst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasesConst.swift; sourceTree = "<group>"; };
 		84319E5B22F01D86003FF7B5 /* DatePickerDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 		84319E5E22F03D6F003FF7B5 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		84528057233C578900E079D4 /* TestPurchaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPurchaseViewController.swift; sourceTree = "<group>"; };
+		84528058233C578900E079D4 /* TestPurchaseViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestPurchaseViewController.xib; sourceTree = "<group>"; };
+		8452805B233C58A300E079D4 /* UIClockImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIClockImageView.swift; sourceTree = "<group>"; };
+		8452805D233C594200E079D4 /* UIClockImageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UIClockImageView.xib; sourceTree = "<group>"; };
 		84694F2F22830364007AB8BA /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
 		84694F312283036D007AB8BA /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		84694F322283036D007AB8BA /* CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
@@ -344,6 +355,9 @@
 		8479D46F230CE0F30031B73F /* UIPurchase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPurchase.swift; sourceTree = "<group>"; };
 		8479D471230CE1290031B73F /* UINibView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINibView.swift; sourceTree = "<group>"; };
 		8479D474230CE1940031B73F /* UIPurchase.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UIPurchase.xib; sourceTree = "<group>"; };
+		847ACD2C233C9B4800A1A6D5 /* TestPurchaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPurchaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		847ACD2D233C9B4800A1A6D5 /* TestPurchaseCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestPurchaseCollectionViewCell.xib; sourceTree = "<group>"; };
+		847ACD32233CDF9300A1A6D5 /* TestPurchaseCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPurchaseCollectionViewLayout.swift; sourceTree = "<group>"; };
 		84D38502230CFE3F000DF746 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		88E750689747537BB14B1D0D /* Pods-GoGetter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoGetter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GoGetter/Pods-GoGetter.debug.xcconfig"; sourceTree = "<group>"; };
 		A24310339104D2C31C2C86F9 /* Pods-SlindirUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SlindirUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SlindirUITests/Pods-SlindirUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -755,6 +769,7 @@
 		84694F29228302E1007AB8BA /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				847ACD28233C9AF900A1A6D5 /* Test */,
 				8479D466230CD8900031B73F /* Purchases */,
 				84694F2A228302FD007AB8BA /* SignIn */,
 			);
@@ -855,6 +870,7 @@
 			isa = PBXGroup;
 			children = (
 				8479D46F230CE0F30031B73F /* UIPurchase.swift */,
+				8452805B233C58A300E079D4 /* UIClockImageView.swift */,
 				8479D473230CE1830031B73F /* Views */,
 			);
 			name = Components;
@@ -864,8 +880,61 @@
 			isa = PBXGroup;
 			children = (
 				8479D474230CE1940031B73F /* UIPurchase.xib */,
+				8452805D233C594200E079D4 /* UIClockImageView.xib */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		847ACD28233C9AF900A1A6D5 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				847ACD31233CDF7A00A1A6D5 /* components */,
+				847ACD2B233C9B2900A1A6D5 /* cells */,
+				847ACD29233C9B1200A1A6D5 /* controllers */,
+				847ACD2A233C9B1800A1A6D5 /* views */,
+			);
+			name = Test;
+			sourceTree = "<group>";
+		};
+		847ACD29233C9B1200A1A6D5 /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				84528057233C578900E079D4 /* TestPurchaseViewController.swift */,
+			);
+			name = controllers;
+			sourceTree = "<group>";
+		};
+		847ACD2A233C9B1800A1A6D5 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				84528058233C578900E079D4 /* TestPurchaseViewController.xib */,
+			);
+			name = views;
+			sourceTree = "<group>";
+		};
+		847ACD2B233C9B2900A1A6D5 /* cells */ = {
+			isa = PBXGroup;
+			children = (
+				847ACD2C233C9B4800A1A6D5 /* TestPurchaseCollectionViewCell.swift */,
+				847ACD30233C9B4D00A1A6D5 /* views */,
+			);
+			name = cells;
+			sourceTree = "<group>";
+		};
+		847ACD30233C9B4D00A1A6D5 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				847ACD2D233C9B4800A1A6D5 /* TestPurchaseCollectionViewCell.xib */,
+			);
+			name = views;
+			sourceTree = "<group>";
+		};
+		847ACD31233CDF7A00A1A6D5 /* components */ = {
+			isa = PBXGroup;
+			children = (
+				847ACD32233CDF9300A1A6D5 /* TestPurchaseCollectionViewLayout.swift */,
+			);
+			name = components;
 			sourceTree = "<group>";
 		};
 		B403784B1F6B9B5C009C9D34 /* AudioFiles */ = {
@@ -1174,6 +1243,7 @@
 				B42A65971F9F02A100639F6B /* GoogleService-Info.plist in Resources */,
 				10E635771F88BD6C00B84098 /* OpenSans-LightItalic.ttf in Resources */,
 				10E635781F88BD6C00B84098 /* OpenSans-Bold.ttf in Resources */,
+				8452805A233C578900E079D4 /* TestPurchaseViewController.xib in Resources */,
 				0D06B8A920C2E7A6002E1703 /* JSQMessagesTypingIndicatorFooterView.xib in Resources */,
 				0D94D8E81FE5365A0006C45E /* OpenCameraView.xib in Resources */,
 				10E635791F88BD6C00B84098 /* OpenSans-SemiBoldItalic.ttf in Resources */,
@@ -1184,6 +1254,7 @@
 				10E6357C1F88BD6C00B84098 /* OpenSans-BoldItalic.ttf in Resources */,
 				B40C11D21F7D19540030F9E7 /* ProfileImageViewCell.xib in Resources */,
 				B4D245821F7CC31E001A1DE8 /* Cards.xib in Resources */,
+				847ACD2F233C9B4800A1A6D5 /* TestPurchaseCollectionViewCell.xib in Resources */,
 				B440A1491F6A395F008C58C7 /* circleLarge.gif in Resources */,
 				B4EF53651FA994E10065926D /* swipeLEFT.mp3 in Resources */,
 				0D06B89F20C2E7A6002E1703 /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */,
@@ -1194,6 +1265,7 @@
 				B42E1B361F66A169009B68E2 /* Assets.xcassets in Resources */,
 				B4EC52B21F68008200DC3599 /* circle.gif in Resources */,
 				E7370AFF2306E16100EB030B /* Main.storyboard in Resources */,
+				8452805E233C594200E079D4 /* UIClockImageView.xib in Resources */,
 				8479D46C230CD8ED0031B73F /* PurchaseViewController.xib in Resources */,
 				B4A85F441F694DDC003BAD4A /* PermanentMarker.ttf in Resources */,
 				84694F4622830381007AB8BA /* SignIn.storyboard in Resources */,
@@ -1326,6 +1398,7 @@
 				B448C2DA1F7E11E800A776D7 /* RecordVideoController.swift in Sources */,
 				0D06B89620C2E7A6002E1703 /* JSQMessagesBubbleImage.m in Sources */,
 				0D06B88C20C2E7A6002E1703 /* JSQAudioMediaViewAttributes.m in Sources */,
+				84528059233C578900E079D4 /* TestPurchaseViewController.swift in Sources */,
 				0D06B89020C2E7A6002E1703 /* JSQMessagesCollectionViewLayoutAttributes.m in Sources */,
 				84694F4322830376007AB8BA /* PhoneViewController.swift in Sources */,
 				0D06B88620C2E7A6002E1703 /* JSQMessagesAvatarImageFactory.m in Sources */,
@@ -1353,6 +1426,7 @@
 				84694F3022830364007AB8BA /* FormViewController.swift in Sources */,
 				0D06B88820C2E7A6002E1703 /* JSQMessagesMediaViewBubbleImageMasker.m in Sources */,
 				B4EF53641FA98A010065926D /* CustomCellCenterFlowLayout.swift in Sources */,
+				8452805C233C58A300E079D4 /* UIClockImageView.swift in Sources */,
 				B43614E91F7509B10057A1D2 /* EditProfileViewController.swift in Sources */,
 				0D06B89720C2E7A6002E1703 /* JSQPhotoMediaItem.m in Sources */,
 				8426D8812312963B0053106B /* PurchasesConst.swift in Sources */,
@@ -1381,6 +1455,7 @@
 				B42E1B341F66A169009B68E2 /* Slindir.xcdatamodeld in Sources */,
 				0D06B87F20C2E7A6002E1703 /* UIColor+JSQMessages.m in Sources */,
 				0D06B88E20C2E7A6002E1703 /* JSQMessagesCollectionViewFlowLayout.m in Sources */,
+				847ACD2E233C9B4800A1A6D5 /* TestPurchaseCollectionViewCell.swift in Sources */,
 				0D06B88320C2E7A6002E1703 /* JSQMessagesKeyboardController.m in Sources */,
 				10FBA7821F87760C00FCC591 /* CardsView.swift in Sources */,
 				CC9CF9BF2294BD900090753A /* WelcomeViewController.swift in Sources */,
@@ -1406,6 +1481,7 @@
 				0D06B88720C2E7A6002E1703 /* JSQMessagesBubbleImageFactory.m in Sources */,
 				84694F362283036E007AB8BA /* String.swift in Sources */,
 				B403784D1F6BDF25009C9D34 /* ProfileViewController.swift in Sources */,
+				847ACD33233CDF9300A1A6D5 /* TestPurchaseCollectionViewLayout.swift in Sources */,
 				B4D74B0D1FA1D7F000B5C551 /* CustomTextView.swift in Sources */,
 				8479D472230CE1290031B73F /* UINibView.swift in Sources */,
 				0D06B89B20C2E7A6002E1703 /* JSQMessagesCollectionViewCell.m in Sources */,

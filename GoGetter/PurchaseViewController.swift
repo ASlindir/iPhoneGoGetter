@@ -19,6 +19,9 @@ class PurchaseViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var purchaseStackView: UIStackView!
+    @IBOutlet weak var gradientView: UIView!
+    @IBOutlet weak var bottomTitle1Label: UILabel!
+    @IBOutlet weak var bottomTitle2Label: UILabel!
     
     var prompt: String? = nil
     var convoId: Int = 0
@@ -49,21 +52,34 @@ class PurchaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // stack view
         self.purchaseStackView.axis = .vertical
         self.purchaseStackView.distribution = .fillEqually
         self.purchaseStackView.translatesAutoresizingMaskIntoConstraints = false
         self.purchaseStackView.alignment = .center
         self.purchaseStackView.spacing = 4.0
         
+        // hide title
+        self.bottomTitle1Label.alpha = 0.0
+        self.bottomTitle2Label.alpha = 0.0
+        
         // title
-        self.titleLabel.text = self.prompt
+//        self.titleLabel.text = self.prompt
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.createGradientLayer()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // init views
-        self.loadPurchases()
+//        self.loadPurchases()
+        
+        // for test
+        self.loadTestPurchase()
     }
 
     // MARK: - User functions
@@ -74,16 +90,28 @@ class PurchaseViewController: UIViewController {
         let width = (self.purchaseStackView.frame.width - (space * CGFloat(count - 1))) / CGFloat(count)
         let height = self.purchaseStackView.frame.height
         
+        var viewItems: [UIPurchase] = []
+        
         for index in  0..<count {
             let view = UIPurchase(frame: CGRect(x: CGFloat(index) * (width + CGFloat(index <= count - 1 ? space : 0)), y: 0, width: width, height: height))
+            viewItems.append(view)
+            
+            view.title1Label.isHidden = true
+            view.title2Label.isHidden = true
+            view.title4Label.isHidden = true
+            view.buyButton.isHidden = true
+            
+            view.alpha = 0
+            
             self.purchaseStackView.addSubview(view)
+            
             view.set(
                 id: products[index].item.AppleStoreID ?? "",
-                title1: products[index].item.ProductName,
+                title1: products[index].item.CoinsPurchased,
                 title2: "$ \(Int(Double(products[index].item.Price!)! / Double(products[index].item.CoinsPurchased!)!)) per convo",
                 title3: "$ \(String(describing: products[index].item.Price!))",
                 title4: "\(products[index].item.CoinsPurchased!) conversation",
-                touch: {id in
+                touch: { id in
 //                    self.outAlertSuccess(message: String(describing: id!))
                     Loader.startLoader(true)
                     
@@ -168,7 +196,63 @@ class PurchaseViewController: UIViewController {
                     }
                 }
             )
+            
+            view.bestValueImageView.isHidden = true
         }
+        
+        func animateItems(counter: Int) {
+            if counter < viewItems.count {
+                self.showPurchaseAnimation(viewItems[counter], completedHandler: {
+                    
+                    let duration: Double = 0.4
+                    
+                    // rotate image
+                    func rotateView(duration: Double = 0.4, isLast: Bool = false) {
+                        UIView.animate(withDuration: duration, delay: 0.0, options: [
+                            //                        .repeat, .autoreverse
+                            ], animations: {
+                                //                        UIView.setAnimationRepeatCount(4)
+                                viewItems[counter].imageView.layer.transform = CATransform3DMakeRotation(.pi, 0, 1, 0)
+                        }, completion: { completed in
+                            UIView.animate(withDuration: duration, delay: 0.0, animations: {
+                                viewItems[counter].imageView.layer.transform = CATransform3DMakeRotation(2 * .pi, 0, 1, 0)
+                            }, completion: { completed in
+                                if !isLast {
+                                    rotateView(duration: duration, isLast: true)
+                                }
+                            })
+                        })
+                    }
+                    
+                    rotateView(duration: duration)
+                    
+                    if counter == 0 {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + duration * 2 * Double(count)) {
+                            viewItems[counter].bestValueImageView.isHidden = false
+                            self.bestValueAnimation(viewItems[counter].bestValueImageView, completedHandler: {
+                                self.showPurchaseAnimation(self.bottomTitle1Label, completedHandler: {
+                                    UIView.animate(withDuration: 0.8, animations: {
+                                        self.bottomTitle2Label.alpha = 1.0
+                                    }, completion: { (completed: Bool) in
+                                        //
+                                    })
+                                }, duration: 0.5)
+                            })
+                        }
+                    }
+                    
+                    self.showPurchaseAnimation(viewItems[counter].title1Label, duration: 0.3)
+                    self.showPurchaseAnimation(viewItems[counter].title2Label, duration: 0.3)
+                    self.showPurchaseAnimation(viewItems[counter].title4Label, duration: 0.3)
+                    self.showPurchaseAnimation(viewItems[counter].buyButton, duration: 0.3)
+                    
+                    // next view
+                    animateItems(counter: counter + 1)
+                })
+            }
+        }
+        
+        animateItems(counter: 0)
     }
     
     func loadPurchases() {
@@ -205,6 +289,103 @@ class PurchaseViewController: UIViewController {
             }
         }
     }
+    
+    func loadTestPurchase() {
+        Loader.startLoader(true)
+        
+        var parameters = Dictionary<String, Any>()
+        parameters["userId"] = LocalStore.store.getFacebookID()
+        parameters["otherUserId"] = "NVqSplSj9QUQrgcmn4Mdwn3f1ao2"
+        
+        WebServices.service.webServicePostRequest(.post, .conversation, .doQueryConversation, parameters, successHandler: { (response) in
+            Loader.stopLoader()
+            let jsonDict = response
+            
+            if let convoId = jsonDict!["convoId"] as? Int {
+                self.convoId = convoId
+                self.prompt = jsonDict!["prompt"] as? String
+                
+                if let _products = jsonDict!["products"] as? [Dictionary<String, Any?>] {
+                    for product in _products {
+                        self.products.append(PurchaseViewController.PurchaseItem(
+                            Productid: product["id"] as? String,
+                            ProductName: product["productName"] as? String,
+                            Description: product["description"] as? String,
+                            Price: product["price"] as? String,
+                            CoinsPurchased: product["coinsPurchased"] as? String,
+                            NumberConvos: convoId,
+                            AppleStoreID: product["iTunesProductID"] as? String,
+                            GoogleStoreID: product["googleProductID"] as? String)
+                        )
+                    }
+                }
+                
+                self.loadPurchases()
+                
+            } else {
+                Loader.stopLoader()
+                self.outAlertError(message: "Error: Convo Id is null")
+                UserDefaults.standard.set(false, forKey: "matchedNotification")
+            }
+        }) { (error) in
+            Loader.stopLoader()
+            self.outAlertError(message: "Error: \(error.debugDescription)")
+            UserDefaults.standard.set(false, forKey: "matchedNotification")
+        }
+    }
+    
+    func createGradientLayer() {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = self.view.bounds
+        gradientLayer.colors = [UIColor.white.cgColor, UIColor(red:0.00, green:0.65, blue:0.69, alpha:1).cgColor]
+        
+        self.gradientView.layer.addSublayer(gradientLayer)
+    }
+    
+    // MARK: - Animations
+    func bestValueAnimation(_ view: UIView, completedHandler: (() -> Void)? = nil) {
+        view.rotate(10, 0.05, finished: { (completed: Bool) in
+            view.rotate(-10, 0.05, finished: { (completed: Bool) in
+                view.rotate(10, 0.05, finished: { (completed: Bool) in
+                    view.rotate(-10, 0.05, finished: { (completed: Bool) in
+                        view.rotate(10, 0.05, finished: { (completed:Bool) in
+                            view.rotate(-10, 0.05, finished: { (completed: Bool) in
+                                view.rotate(8, 0.05, finished: { (completed: Bool) in
+                                    view.rotate(-8, 0.05, finished: { (completed: Bool) in
+                                        view.rotate(6, 0.1, finished: { (completed:Bool) in
+                                            view.rotate(-6, 0.1, finished: { (completed:Bool) in
+                                                view.rotate(2, 0.2, finished: { (completed:Bool) in
+                                                    view.rotate(-2, 0.1, finished: { (completed:Bool) in
+                                                        view.rotate(0, 0.1, finished: { (completed:Bool) in
+                                                            completedHandler?()
+                                                        })
+                                                    })
+                                                })
+                                            })
+                                        })
+                                    })
+                                })
+                            })
+                        })
+                    })
+                })
+            })
+        })
+    }
+    
+    func showPurchaseAnimation(_ view: UIView, completedHandler: (() -> Void)? = nil, duration: Double = 0.5) {
+        view.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+        view.alpha = 0
+        view.isHidden = false
+        
+        UIView.animate(withDuration: duration, animations: {
+            view.transform = CGAffineTransform(scaleX: 1, y: 1)
+            view.alpha = 1
+        }, completion: { (completed: Bool) in
+            completedHandler?()
+        })
+    }
+    
     
     // MARK: - Events
 

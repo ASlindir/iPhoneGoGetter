@@ -10,9 +10,12 @@ import Foundation
 import UIKit
 
 class UIPurchase: UINibView {
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var bestValueImageView: UIImageView!
+    
     @IBOutlet weak var title1Label: UILabel!
     @IBOutlet weak var title2Label: UILabel!
-    @IBOutlet weak var title3Label: UILabel!
+//    @IBOutlet weak var title3Label: UILabel!
     @IBOutlet weak var title4Label: UILabel!
     @IBOutlet weak var buyButton: UIButton!
     
@@ -30,8 +33,15 @@ class UIPurchase: UINibView {
         self.contentView?.backgroundColor = UIColor.clear
         
         // buttons
-        buyButton.layer.cornerRadius = buyButton.frame.size.height/2
-        buyButton.shadowButton(0.3, 2, .black, CGSize(width: 2, height: 2))
+        buyButton.layer.cornerRadius = 5.0
+        buyButton.backgroundColor = UIColor.white
+        
+        // best value
+//        self.bestValueImageView.isHidden = true
+        
+        // background
+        self.layer.cornerRadius = 5.0
+        self.backgroundColor = UIColor.white.withAlphaComponent(0.5)
     }
     
     @IBInspectable open var title: String? = nil {
@@ -42,14 +52,25 @@ class UIPurchase: UINibView {
     
     @IBAction func touchBuyButton(_ sender: Any) {
         self.touch?(self.id)
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.buyButton.transform = CGAffineTransform(scaleX: 1.15, y: 1.15)
+        }, completion: { (completed: Bool) in
+            UIView.animate(withDuration: 0.3, animations: {
+                self.buyButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            }, completion: { (completed: Bool) in
+                //
+            })
+        })
     }
     
     public func set(id: String, title1: String?, title2: String?, title3: String?, title4: String?, touch: ((String?) -> Void)? = nil) {
         self.id = id
         self.touch = touch
         self.title1Label.text = title1
-        self.title2Label.text = title2
-        self.title3Label.text = title3
-        self.title4Label.text = title4
+        self.title2Label.text = "COINS"
+//        self.title3Label.text = title3
+//        self.title4Label.text = title4
+        self.title4Label.text = title3
     }
 }

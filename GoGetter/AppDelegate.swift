@@ -62,14 +62,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 //            controller.isRootController = true
 //            window?.rootViewController = navigationController
 //
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
-                let controller = TestPurchaseViewController.loadFromNib()
-
-                let navigationController = UINavigationController(rootViewController: controller)
-                navigationController.interactivePopGestureRecognizer?.isEnabled = false
-                controller.isRootController = true
-                self.window?.rootViewController = navigationController
-//            })
+            let controller = PurchaseViewController.loadFromNib()
+//            let controller = TestPurchaseViewController.loadFromNib()
+            self.window?.rootViewController = controller
+            
         }
         else{
 //ClientLog.WriteClientLog( msgType: "ios", msg:"not logged");

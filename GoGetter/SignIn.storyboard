@@ -369,7 +369,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="97" height="24"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                 <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
+                                                <color key="highlightedColor" red="0.23137254901960785" green="0.23137254901960785" blue="0.23137254901960785" alpha="1" colorSpace="calibratedRGB"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4Mz-vJ-Vvj" customClass="CustomTextField" customModule="GoGetter" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="343" height="31"/>

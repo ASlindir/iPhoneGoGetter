@@ -101,6 +101,10 @@
 		<string>OpenSans-BoldItalic.ttf</string>
 		<string>PermanentMarker.ttf</string>
 		<string>Pink T-shirt.ttf</string>
+		<string>Pacifico.ttf</string>
+		<string>Pacifico-Regular.ttf</string>
+		<string>Takota.ttf</string>
+		<string>Barmeno Bold.otf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

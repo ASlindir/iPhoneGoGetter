@@ -105,6 +105,7 @@
 		<string>Pacifico-Regular.ttf</string>
 		<string>Takota.ttf</string>
 		<string>Barmeno Bold.otf</string>
+		<string>HelveticaNeueBold.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

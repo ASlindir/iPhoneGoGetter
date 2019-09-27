@@ -69,7 +69,7 @@ class PurchaseViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.createGradientLayer()
+        self.createGradientLayer(self.gradientView)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -332,14 +332,6 @@ class PurchaseViewController: UIViewController {
             self.outAlertError(message: "Error: \(error.debugDescription)")
             UserDefaults.standard.set(false, forKey: "matchedNotification")
         }
-    }
-    
-    func createGradientLayer() {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = self.view.bounds
-        gradientLayer.colors = [UIColor.white.cgColor, UIColor(red:0.00, green:0.65, blue:0.69, alpha:1).cgColor]
-        
-        self.gradientView.layer.addSublayer(gradientLayer)
     }
     
     // MARK: - Animations

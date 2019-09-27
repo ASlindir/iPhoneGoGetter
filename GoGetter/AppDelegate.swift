@@ -62,7 +62,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 //            controller.isRootController = true
 //            window?.rootViewController = navigationController
 //
-            let controller = PurchaseViewController.loadFromNib()
+//            let controller = PurchaseViewController.loadFromNib()
+            let controller = ReservePurchaseViewController.loadFromNib()
 //            let controller = TestPurchaseViewController.loadFromNib()
             self.window?.rootViewController = controller
             

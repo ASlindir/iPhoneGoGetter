@@ -108,6 +108,11 @@
 		847ACD37233CF55700A1A6D5 /* Takota.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 847ACD34233CF32A00A1A6D5 /* Takota.ttf */; };
 		847ACD40233CF94800A1A6D5 /* Barmeno Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 847ACD3F233CF94600A1A6D5 /* Barmeno Bold.otf */; };
 		847ACD42233CFD4D00A1A6D5 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847ACD41233CFD4D00A1A6D5 /* GradientView.swift */; };
+		847ACD45233E1C2800A1A6D5 /* ReservePurchaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847ACD43233E1C2800A1A6D5 /* ReservePurchaseViewController.swift */; };
+		847ACD46233E1C2800A1A6D5 /* ReservePurchaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 847ACD44233E1C2800A1A6D5 /* ReservePurchaseViewController.xib */; };
+		847ACD48233E216400A1A6D5 /* HelveticaNeueBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 847ACD47233E215F00A1A6D5 /* HelveticaNeueBold.ttf */; };
+		847ACD49233E251D00A1A6D5 /* Pacifico-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 847ACD3D233CF60100A1A6D5 /* Pacifico-Regular.ttf */; };
+		847ACD4A233E251F00A1A6D5 /* Pacifico.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 847ACD3E233CF60800A1A6D5 /* Pacifico.ttf */; };
 		84D38503230CFE3F000DF746 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D38502230CFE3F000DF746 /* StoreKit.framework */; };
 		B403784A1F6B981F009C9D34 /* CustomClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40378491F6B981F009C9D34 /* CustomClass.swift */; };
 		B403784D1F6BDF25009C9D34 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B403784C1F6BDF25009C9D34 /* ProfileViewController.swift */; };
@@ -366,6 +371,9 @@
 		847ACD3E233CF60800A1A6D5 /* Pacifico.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pacifico.ttf; sourceTree = "<group>"; };
 		847ACD3F233CF94600A1A6D5 /* Barmeno Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Barmeno Bold.otf"; sourceTree = "<group>"; };
 		847ACD41233CFD4D00A1A6D5 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		847ACD43233E1C2800A1A6D5 /* ReservePurchaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservePurchaseViewController.swift; sourceTree = "<group>"; };
+		847ACD44233E1C2800A1A6D5 /* ReservePurchaseViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReservePurchaseViewController.xib; sourceTree = "<group>"; };
+		847ACD47233E215F00A1A6D5 /* HelveticaNeueBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HelveticaNeueBold.ttf; sourceTree = "<group>"; };
 		84D38502230CFE3F000DF746 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		88E750689747537BB14B1D0D /* Pods-GoGetter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoGetter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GoGetter/Pods-GoGetter.debug.xcconfig"; sourceTree = "<group>"; };
 		A24310339104D2C31C2C86F9 /* Pods-SlindirUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SlindirUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SlindirUITests/Pods-SlindirUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -841,6 +849,7 @@
 		8479D466230CD8900031B73F /* Purchases */ = {
 			isa = PBXGroup;
 			children = (
+				847ACD4B233E274200A1A6D5 /* Extentions */,
 				8426D87F2312961F0053106B /* Const */,
 				841523E7230D102100F88F09 /* Helpers */,
 				8479D46E230CDB660031B73F /* Components */,
@@ -855,6 +864,7 @@
 			isa = PBXGroup;
 			children = (
 				8479D469230CD8ED0031B73F /* PurchaseViewController.swift */,
+				847ACD43233E1C2800A1A6D5 /* ReservePurchaseViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -863,6 +873,7 @@
 			isa = PBXGroup;
 			children = (
 				8479D46A230CD8ED0031B73F /* PurchaseViewController.xib */,
+				847ACD44233E1C2800A1A6D5 /* ReservePurchaseViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -953,6 +964,13 @@
 				847ACD3D233CF60100A1A6D5 /* Pacifico-Regular.ttf */,
 			);
 			path = Pacifico;
+			sourceTree = "<group>";
+		};
+		847ACD4B233E274200A1A6D5 /* Extentions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Extentions;
 			sourceTree = "<group>";
 		};
 		B403784B1F6B9B5C009C9D34 /* AudioFiles */ = {
@@ -1129,6 +1147,7 @@
 				B4A85F421F694DDC003BAD4A /* PermanentMarker.ttf */,
 				847ACD3F233CF94600A1A6D5 /* Barmeno Bold.otf */,
 				B4A85F431F694DDC003BAD4A /* Pink T-shirt.ttf */,
+				847ACD47233E215F00A1A6D5 /* HelveticaNeueBold.ttf */,
 				847ACD34233CF32A00A1A6D5 /* Takota.ttf */,
 			);
 			name = Fonts;
@@ -1265,9 +1284,12 @@
 				10E635771F88BD6C00B84098 /* OpenSans-LightItalic.ttf in Resources */,
 				10E635781F88BD6C00B84098 /* OpenSans-Bold.ttf in Resources */,
 				8452805A233C578900E079D4 /* TestPurchaseViewController.xib in Resources */,
+				847ACD49233E251D00A1A6D5 /* Pacifico-Regular.ttf in Resources */,
 				847ACD40233CF94800A1A6D5 /* Barmeno Bold.otf in Resources */,
 				0D06B8A920C2E7A6002E1703 /* JSQMessagesTypingIndicatorFooterView.xib in Resources */,
 				847ACD37233CF55700A1A6D5 /* Takota.ttf in Resources */,
+				847ACD48233E216400A1A6D5 /* HelveticaNeueBold.ttf in Resources */,
+				847ACD46233E1C2800A1A6D5 /* ReservePurchaseViewController.xib in Resources */,
 				0D94D8E81FE5365A0006C45E /* OpenCameraView.xib in Resources */,
 				10E635791F88BD6C00B84098 /* OpenSans-SemiBoldItalic.ttf in Resources */,
 				10E6357A1F88BD6C00B84098 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
@@ -1289,6 +1311,7 @@
 				B4EC52B21F68008200DC3599 /* circle.gif in Resources */,
 				E7370AFF2306E16100EB030B /* Main.storyboard in Resources */,
 				8452805E233C594200E079D4 /* UIClockImageView.xib in Resources */,
+				847ACD4A233E251F00A1A6D5 /* Pacifico.ttf in Resources */,
 				8479D46C230CD8ED0031B73F /* PurchaseViewController.xib in Resources */,
 				B4A85F441F694DDC003BAD4A /* PermanentMarker.ttf in Resources */,
 				84694F4622830381007AB8BA /* SignIn.storyboard in Resources */,
@@ -1486,6 +1509,7 @@
 				0D06B88020C2E7A6002E1703 /* UIDevice+JSQMessages.m in Sources */,
 				B43614E31F74E4610057A1D2 /* RangeSlider.swift in Sources */,
 				104B820B1F8613A5005BADDE /* WebServices.swift in Sources */,
+				847ACD45233E1C2800A1A6D5 /* ReservePurchaseViewController.swift in Sources */,
 				0D06B8A220C2E7A6002E1703 /* JSQMessagesLabel.m in Sources */,
 				1092D9071F86626F00EC3A71 /* BottomView.swift in Sources */,
 				0D06B88220C2E7A6002E1703 /* UIView+JSQMessages.m in Sources */,

@@ -44,4 +44,12 @@ extension UIViewController {
         
         return loadFromStoryboard(storyboardName: storyboardName, withIdentifier: identifier, bundle: bundle)
     }
+    
+    func createGradientLayer(_ view: UIView) {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = self.view.bounds
+        gradientLayer.colors = [UIColor.white.cgColor, UIColor(red:0.00, green:0.65, blue:0.69, alpha:1).cgColor]
+        
+        view.layer.insertSublayer(gradientLayer, at: 0)
+    }
 }

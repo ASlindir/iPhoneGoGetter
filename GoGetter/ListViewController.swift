@@ -29,8 +29,10 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
     private lazy var friendRef: DatabaseReference = Database.database().reference().child(user_id)
     
     private var userRef: DatabaseReference?
-     private var userRefOther: DatabaseReference?
+    private var userRefOther: DatabaseReference?
     private var friendRefHandle: DatabaseHandle?
+    
+    var userNewId: String? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +54,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
         observeFriendsRemoved()
         observeOnlineFriends()
         tableViewMessages.reloadData()
-        checkMatchNotifications()
+        checkMatchNotifications(isCHeckUser: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,7 +72,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
         userRef?.removeObserver(withHandle: friendRefHandle!)
     }
     
-    func checkMatchNotifications() {
+    func checkMatchNotifications(isCHeckUser: Bool = false) {
         if UserDefaults.standard.bool(forKey: "matchedNotification") {
             UserDefaults.standard.set(false, forKey: "matchedNotification")
             UserDefaults.standard.synchronize()
@@ -81,7 +83,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
                 //if let pic = userOtherDict!["profile_pic"] as? String {
                    // profile_pic = pic
                 //}
-                self.createNewFriendOnFirebase(userOtherDict!)
+                self.createNewFriendOnFirebase(userOtherDict!, isOpenChat: !isCHeckUser)
                 //let friend = Friend(id: (userOtherDict!["user_fb_id"]as? String)!, name: (userOtherDict!["user_name"]as? String)!, profilePic: profile_pic, lastMessage:nil, online: false)
                 //goToChatController(friend,friend.id)
             }
@@ -223,28 +225,37 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
         
         cell.imgViewProfile.layer.cornerRadius = 37
         
-        if let matchDateStr = friendsList[indexPath.row]["match_created_on"] as? String {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            dateFormatter.timeZone = NSTimeZone(abbreviation: "GMT")! as TimeZone
-             dateFormatter.locale = Locale.init(identifier: "en_US_POSIX")
-            let matchDate: Date? = dateFormatter.date(from: matchDateStr )
-            let time = Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0
-
-            cell.vwProgress.progressTintColor = UIColor.init(red: 35/255, green: 165/255, blue: 175/255, alpha: 0.7)
-            cell.vwProgress.trackTintColor = UIColor.clear
-            cell.vwProgress.roundedCorners = 0
-            cell.vwProgress.thicknessRatio = 1.0
-            cell.vwProgress.clockwiseProgress = 0
-            if (time >= 172800) {
-                cell.vwProgress.setProgress(1.0, animated: false)
-
-            }
-            else {
-                print(CGFloat(CGFloat(time)/172800))
-                cell.vwProgress.setProgress(CGFloat(CGFloat(time)/172800), animated: false)
-            }
-        }
+        // test
+        cell.vwProgress.progressTintColor = UIColor.green
+        cell.vwProgress.trackTintColor = UIColor.clear
+        cell.vwProgress.roundedCorners = 0
+        cell.vwProgress.thicknessRatio = 2.0
+        cell.vwProgress.clockwiseProgress = 1
+        
+        // original
+//        if let matchDateStr = friendsList[indexPath.row]["match_created_on"] as? String {
+//            let dateFormatter = DateFormatter()
+//            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//            dateFormatter.timeZone = NSTimeZone(abbreviation: "GMT")! as TimeZone
+//             dateFormatter.locale = Locale.init(identifier: "en_US_POSIX")
+//            let matchDate: Date? = dateFormatter.date(from: matchDateStr )
+//            let time = Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0
+//
+//            cell.vwProgress.progressTintColor = UIColor.init(red: 35/255, green: 165/255, blue: 175/255, alpha: 0.7)
+//            cell.vwProgress.trackTintColor = UIColor.clear
+//            cell.vwProgress.roundedCorners = 0
+//            cell.vwProgress.thicknessRatio = 1.0
+//            cell.vwProgress.clockwiseProgress = 0
+//            if (time >= 172800) {
+//                cell.vwProgress.setProgress(1.0, animated: false)
+//
+//            }
+//            else {
+//                print(CGFloat(CGFloat(time)/172800))
+//                cell.vwProgress.setProgress(CGFloat(CGFloat(time)/172800), animated: false)
+//            }
+//        }
+        
         return cell
     }
     
@@ -370,69 +381,71 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
 //MARK:-  Get Friends List
     func getFriendsList(){
         
-//        self.friendsList.append(LocalStore.store.getUserDetails())
-//        self.friendsList.append(LocalStore.store.getUserDetails())
-//        self.friendsList.append(LocalStore.store.getUserDetails())
-//        self.friendsList.append(LocalStore.store.getUserDetails())
-//        self.collectionViewNewMatches.reloadData()
+        // test
+        self.friendsList.append(LocalStore.store.getUserDetails())
+        self.friendsList.append(LocalStore.store.getUserDetails())
+        self.friendsList.append(LocalStore.store.getUserDetails())
+        self.friendsList.append(LocalStore.store.getUserDetails())
+        self.collectionViewNewMatches.reloadData()
 //        print(self.friendsList)
         
-        let user_id = LocalStore.store.getFacebookID()
-        let parameters = ["user_fb_id": user_id, "type":"new"]
-
-        Loader.startLoader(true)
-
-        WebServices.service.webServicePostRequest(.post, .friend, .fetchFriendList, parameters, successHandler: { (response) in
-            Loader.stopLoader()
-            let jsonDict = response
-            let status = jsonDict!["status"] as! String
-            self.friendsList.removeAll()
-            if status == "success"{
-                if let friendsList = jsonDict?["friendList"] as? [[String: Any]] {
-                    for  dict in friendsList  {
-                        if let matchDateStr = dict["match_created_on"] as? String {
-                            if matchDateStr != "" {
-                                let dateFormatter = DateFormatter()
-                                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                                dateFormatter.timeZone = NSTimeZone(abbreviation: "GMT")! as TimeZone
-                                dateFormatter.locale = Locale.init(identifier: "en_US_POSIX")
-                                let matchDate: Date? = dateFormatter.date(from: matchDateStr)
-                                print(Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0)
-                                let time = Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0
-                                if time == nil {
-                                    self.removeFromNewMatches(dict["user_fb_id"] as! String)
-                                }
-                                else {
-                                    //604800
-                                    if CGFloat(time) > 259200 {
-                                        self.removeFromNewMatches(dict["user_fb_id"] as! String)
-                                    }
-                                    else {
-                                        self.friendsList.append(dict)
-                                    }
-                                }
-                            }
-                            else{
-                                self.removeFromNewMatches(dict["user_fb_id"] as! String)
-                            }
-                        }
-                    }
-                }
-            }
-            self.collectionViewNewMatches.reloadData()
-            print(self.friendsList)
-
-        }) { (error) in
-            self.friendsList.removeAll()
-            Loader.stopLoader()
-            self.collectionViewNewMatches.reloadData()
-        }
+        // original
+//        let user_id = LocalStore.store.getFacebookID()
+//        let parameters = ["user_fb_id": user_id, "type":"new"]
+//
+//        Loader.startLoader(true)
+//
+//        WebServices.service.webServicePostRequest(.post, .friend, .fetchFriendList, parameters, successHandler: { (response) in
+//            Loader.stopLoader()
+//            let jsonDict = response
+//            let status = jsonDict!["status"] as! String
+//            self.friendsList.removeAll()
+//            if status == "success"{
+//                if let friendsList = jsonDict?["friendList"] as? [[String: Any]] {
+//                    for  dict in friendsList  {
+//                        if let matchDateStr = dict["match_created_on"] as? String {
+//                            if matchDateStr != "" {
+//                                let dateFormatter = DateFormatter()
+//                                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//                                dateFormatter.timeZone = NSTimeZone(abbreviation: "GMT")! as TimeZone
+//                                dateFormatter.locale = Locale.init(identifier: "en_US_POSIX")
+//                                let matchDate: Date? = dateFormatter.date(from: matchDateStr)
+//                                print(Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0)
+//                                let time = Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0
+//                                if time == nil {
+//                                    self.removeFromNewMatches(dict["user_fb_id"] as! String)
+//                                }
+//                                else {
+//                                    //604800
+//                                    if CGFloat(time) > 259200 {
+//                                        self.removeFromNewMatches(dict["user_fb_id"] as! String)
+//                                    }
+//                                    else {
+//                                        self.friendsList.append(dict)
+//                                    }
+//                                }
+//                            }
+//                            else{
+//                                self.removeFromNewMatches(dict["user_fb_id"] as! String)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            self.collectionViewNewMatches.reloadData()
+//            print(self.friendsList)
+//
+//        }) { (error) in
+//            self.friendsList.removeAll()
+//            Loader.stopLoader()
+//            self.collectionViewNewMatches.reloadData()
+//        }
     }
     
     
     //MARK:-  Firebase Related Methods
 
-    func createNewFriendOnFirebase(_ friendDict:[String:Any]) {
+    func createNewFriendOnFirebase(_ friendDict:[String:Any], isOpenChat: Bool = true) {
         let id = friendDict["user_fb_id"] as! String
         var name = ""
         var profilePic = ""
@@ -480,7 +493,9 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.userRef = friendRef.child(self.user_id).child("friends")
         self.userRef?.observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.hasChild(id){
-                self.goToChatController(friend!,id)
+                if isOpenChat {
+                    self.goToChatController(friend!,id)
+                }
             }else{
                 //add friend to own friendlist
                 self.createFriends(id, name, profilePic)

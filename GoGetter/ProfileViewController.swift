@@ -46,13 +46,11 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     
     @IBOutlet weak var lblActiveCenterY: NSLayoutConstraint!
     @IBOutlet weak var vwMatch: UIView!
-    @IBOutlet weak var leadingRightS: NSLayoutConstraint!
-    @IBOutlet weak var trailingLeftS: NSLayoutConstraint!
-    @IBOutlet weak var lblMatch: UILabel!
-    @IBOutlet weak var imgVwSlindir: UIImageView!
-    @IBOutlet weak var imgVwSLeft: UIImageView!
-    @IBOutlet weak var imgVwSRight: UIImageView!
-    @IBOutlet weak var imgVwHeart: UIImageView!
+    
+    @IBOutlet weak var imgLogoMatch: UIImageView!
+    @IBOutlet weak var imgLogoMatchWhite: UIImageView!
+    @IBOutlet weak var imgGetterBlack: UIImageView!
+
     @IBOutlet weak var leadingMatchCurrent: NSLayoutConstraint!
     @IBOutlet weak var trailingMatchOther: NSLayoutConstraint!
     @IBOutlet weak var btnSayHello: UIButton!
@@ -562,11 +560,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 self.imgVwMatchCurrent.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profilePic)), placeholderImage: UIImage.init(named: "placeholder"))
             }
             
-            self.imgVwHeart.alpha = 0
-            self.imgVwHeart?.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
-            
-            self.imgVwSlindir?.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
-            self.imgVwSlindir.alpha = 0
+            self.animateTitle()
             
             self.btnSayHello?.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
             self.btnSayHello.alpha = 0
@@ -574,18 +568,10 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             self.btnMayBeLater?.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
             self.btnMayBeLater.alpha = 0
             
-            self.lblMatch.alpha = 0
-            self.lblMatch?.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
             
             UIView.animate(withDuration: 0.6, animations: {
                 self.leadingMatchCurrent.constant = 30
                 self.trailingMatchOther.constant = 30
-                
-                self.leadingRightS.constant = (UIScreen.main.bounds.size.width/2) - 5
-                self.trailingLeftS.constant = (UIScreen.main.bounds.size.width/2) - 5
-                
-                self.imgVwHeart.alpha = 0.7
-                self.imgVwHeart?.transform = CGAffineTransform(scaleX: 1, y: 1)
                 
                 self.view.layoutIfNeeded()
             }, completion: { (completed) in
@@ -593,44 +579,20 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                     self.leadingMatchCurrent.constant = -30
                     self.trailingMatchOther.constant = -30
                     
-                    self.leadingRightS.constant = (UIScreen.main.bounds.size.width/2) + 5
-                    self.trailingLeftS.constant = (UIScreen.main.bounds.size.width/2) + 5
-                    
-                    self.imgVwHeart.alpha = 0.9
-                    
                     self.view.layoutIfNeeded()
                 }, completion: { (completed) in
                     UIView.animate(withDuration: 0.2, animations: {
                         self.leadingMatchCurrent.constant = 1
                         self.trailingMatchOther.constant = 1
                         
-                        self.leadingRightS.constant = (UIScreen.main.bounds.size.width/2)
-                        self.trailingLeftS.constant = (UIScreen.main.bounds.size.width/2)
-                        self.imgVwHeart.alpha = 1
-                        
                         self.view.layoutIfNeeded()
                     }, completion: { (completed) in
                         UIView.animate(withDuration: 0.4, animations: {
-                            self.imgVwHeart?.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
-                            self.imgVwHeart.alpha = 0
-                            self.imgVwSLeft.alpha = 0
-                            self.imgVwSRight.alpha = 0
-                            
-                            self.imgVwSlindir?.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-                            self.imgVwSlindir.alpha = 1
                             
                             self.btnSayHello?.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
                             self.btnSayHello.alpha = 1
-                            
-                            
-                            
-                            self.lblMatch.alpha = 1
-                            self.lblMatch?.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-                            
                         }, completion: { (completed) in
-                            self.lblMatch?.transform = CGAffineTransform(scaleX: 1, y: 1)
                             self.btnSayHello?.transform = CGAffineTransform(scaleX: 1, y: 1)
-                            self.imgVwSlindir?.transform = CGAffineTransform(scaleX: 1, y: 1)
                             
                             self.animateSayHelloBtn()
                         })
@@ -641,11 +603,26 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         
     }
     
+    func animateTitle(){
+        //        imgViewS.isHidden = true
+        imgLogoMatch.isHidden = true
+        
+        imgLogoMatchWhite.isHidden = false
+        imgGetterBlack.isHidden = false
+        
+        let centerWhite = self.imgLogoMatchWhite.center.x
+        let centerGo = self.imgGetterBlack.center.x
+        
+        self.imgLogoMatchWhite.center.x -= self.view.bounds.width
+        self.imgGetterBlack.center.x += self.view.bounds.width
+        
+        UIView.animateKeyframes(withDuration: 1, delay: 0, options: [], animations: {
+            self.imgLogoMatchWhite.center.x = centerWhite
+            self.imgGetterBlack.center.x = centerGo
+        }, completion: nil)
+    }
+    
     func animateSayHelloBtn() {
-        UIView.animate(withDuration: 0.46) {
-            self.btnMayBeLater?.transform = CGAffineTransform(scaleX: 1, y: 1)
-            self.btnMayBeLater.alpha = 1
-        }
         self.btnSayHello.rotate(10, 0.05, finished: { (completed: Bool) in
             self.btnSayHello.rotate(-10, 0.05, finished: { (completed: Bool) in
                 self.btnSayHello.rotate(10, 0.05, finished: { (completed: Bool) in
@@ -659,7 +636,8 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                                                 self.btnSayHello.rotate(2, 0.2, finished: { (completed:Bool) in
                                                     self.btnSayHello.rotate(-2, 0.1, finished: { (completed:Bool) in
                                                         self.btnSayHello.rotate(0, 0.1, finished: { (completed:Bool) in
-
+                                                            self.btnMayBeLater?.transform = CGAffineTransform(scaleX: 1, y: 1)
+                                                            self.btnMayBeLater.alpha = 1
                                                         })
                                                     })
                                                 })
@@ -1540,65 +1518,69 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         // present the view controller
         self.present(activityViewController, animated: true, completion: nil)
     }
+    
     @objc func doConvoMatched(){
-        let data = UserDefaults.standard.object(forKey:"matchedUser")
-        
-        if let requiredData = NSKeyedUnarchiver.unarchiveObject(with: data as! Data) as? Dictionary<String, Any> {
-            let userOtherDict = requiredData["request_to"] as? [String: Any]
-            let userTo = userOtherDict?["user_fb_id"] as! String
+        if self.purchase.count  == 0 {
+            let data = UserDefaults.standard.object(forKey:"matchedUser")
             
-            var parameters = Dictionary<String, Any>()
-            parameters["userId"] = LocalStore.store.getFacebookID();
-            parameters["otherUserId"] = userTo;
-            
-            Loader.startLoader(true)
-            
-            WebServices.service.webServicePostRequest(.post, .conversation, .doQueryConversation, parameters, successHandler: { (response) in
-                Loader.stopLoader()
-                let jsonDict = response
+            if let requiredData = NSKeyedUnarchiver.unarchiveObject(with: data as! Data) as? Dictionary<String, Any> {
+                let userOtherDict = requiredData["request_to"] as? [String: Any]
+                let userTo = userOtherDict?["user_fb_id"] as! String
                 
-                if let convoId = jsonDict!["convoId"] as? Int {
-                    self.purshaseConvoId = convoId
-                    self.purchasePrompt = jsonDict!["prompt"] as? String
-                    
-                    if let _products = jsonDict!["products"] as? [Dictionary<String, Any?>] {
-                        for product in _products {
-                            self.purchase.append(PurchaseViewController.PurchaseItem(
-                                Productid: product["id"] as? String,
-                                ProductName: product["productName"] as? String,
-                                Description: product["description"] as? String,
-                                Price: product["price"] as? String,
-                                CoinsPurchased: product["coinsPurchased"] as? String,
-                                NumberConvos: convoId,
-                                AppleStoreID: product["iTunesProductID"] as? String,
-                                GoogleStoreID: product["googleProductID"] as? String)
-                            )
-                        }
-                    }
-                    
-                    if let screenAction = jsonDict!["screenAction"] as? Int {
-                        self.purchaseScreenAction = screenAction
-                        
-                        if screenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue {
-                            self.btnSayHello.setTitle("Go to Buy Convo Flow", for: .normal)
-                        } else if screenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue {
-                            self.btnSayHello.setTitle("Go to Buy Coins flow", for: .normal)
-                        }
-                        self.showMatchingProfileView();
-                    }
-                    
-                } else {
+                var parameters = Dictionary<String, Any>()
+                parameters["userId"] = LocalStore.store.getFacebookID();
+                parameters["otherUserId"] = userTo;
+                
+                Loader.startLoader(true)
+                
+                WebServices.service.webServicePostRequest(.post, .conversation, .doQueryConversation, parameters, successHandler: { (response) in
                     Loader.stopLoader()
-                    self.outAlertError(message: "Error: Convo Id is null")
+                    let jsonDict = response
+                    
+                    if let convoId = jsonDict!["convoId"] as? Int {
+                        self.purshaseConvoId = convoId
+                        self.purchasePrompt = jsonDict!["prompt"] as? String
+                        
+                        if let _products = jsonDict!["products"] as? [Dictionary<String, Any?>] {
+                            for product in _products {
+                                self.purchase.append(PurchaseViewController.PurchaseItem(
+                                    Productid: product["id"] as? String,
+                                    ProductName: product["productName"] as? String,
+                                    Description: product["description"] as? String,
+                                    Price: product["price"] as? String,
+                                    CoinsPurchased: product["coinsPurchased"] as? String,
+                                    NumberConvos: convoId,
+                                    AppleStoreID: product["iTunesProductID"] as? String,
+                                    GoogleStoreID: product["googleProductID"] as? String)
+                                )
+                            }
+                        }
+                        
+                        if let screenAction = jsonDict!["screenAction"] as? Int {
+                            self.purchaseScreenAction = screenAction
+                            
+                            if screenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue {
+                                //self.btnSayHello.setTitle("Go to Buy Convo Flow", for: .normal)
+                            } else if screenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue {
+                                //self.btnSayHello.setTitle("Go to Buy Coins flow", for: .normal)
+                            }
+                            self.showMatchingProfileView();
+                        }
+                        
+                    } else {
+                        Loader.stopLoader()
+                        self.outAlertError(message: "Error: Convo Id is null")
+                        UserDefaults.standard.set(false, forKey: "matchedNotification")
+                    }
+                }) { (error) in
+                    Loader.stopLoader()
+                    self.outAlertError(message: "Error: \(error.debugDescription)")
                     UserDefaults.standard.set(false, forKey: "matchedNotification")
                 }
-            }) { (error) in
-                Loader.stopLoader()
-                self.outAlertError(message: "Error: \(error.debugDescription)")
-                UserDefaults.standard.set(false, forKey: "matchedNotification")
             }
         }
     }
+    
     @IBAction func btnSayHello(_ sender: Any) {
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
 
@@ -1932,25 +1914,26 @@ extension ProfileViewController: KolodaViewDelegate {
 
     //MARK:-  Purchase delegates
     
-    func didSuccessPurchase(convoId: Int, screenAction: Int, prompt: String?) {
+    func didSuccessPurchase(userId: String?, convoId: Int, screenAction: Int, prompt: String?) {
         switch screenAction {
         case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
             self.outAlertError(message: prompt ?? "Error")
             break
         case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
-            openChat()
+            openChat(userNewId: userId)
             break
         default:
             self.outAlertError(message: prompt ?? "Error")
         }
     }
     
-    private func openChat() {
+    private func openChat(userNewId: String? = nil) {
         self.vwMatch.isHidden = true
         self.view.sendSubviewToBack(self.vwMatch)
         
-        let listController = self.storyboard?.instantiateViewController(withIdentifier: "ListViewController")
-        navigationController?.pushViewController(listController!, animated: true)
+        let listController = self.storyboard?.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
+        listController.userNewId = userNewId
+        navigationController?.pushViewController(listController, animated: true)
     }
     
 //MARK:-  WebServices Methods
@@ -1962,49 +1945,49 @@ extension ProfileViewController: KolodaViewDelegate {
 //        let parameters = ["user_fb_id": userId , "receiving_user_fb_id":"OEhKFyfFVsW7e7ERYbRSjIpf3oU2"]
         
         // for test load user
-//        WebServices.service.webServicePostRequest(.post, .user, .userDetails, ["user_fb_id":parameters["receiving_user_fb_id"]], successHandler: { (response) in
-//            let jsonData = response
-//            let status = jsonData!["status"] as! String
-//            if status == "success"{
-//                let userDetails = jsonData!["user_details"] as? Dictionary<String, Any>
-//                var requiredData = LocalStore.store.getUserDetails()
-//                requiredData["request_to"] = userDetails
-//
-//                let dictData = NSKeyedArchiver.archivedData(withRootObject: requiredData)
-//                UserDefaults.standard.setValue(dictData, forKey: "matchedUser")
-//                UserDefaults.standard.set(true, forKey: "matchedNotification")
-//                UserDefaults.standard.synchronize()
-//                self.matchNotificationRecived()
-//            }
-//        }, errorHandler: {error in
-//            print(error)
-//        })
-        
-        
-        WebServices.service.webServicePostRequest(.post, .friend, .sendFriendRequest, parameters, successHandler: { (response) in
-            DispatchQueue.main.async {
-                let jsonDict = response
-                let status = jsonDict!["status"] as! String
-                if status == "success"{
-                    if let requiredData = jsonDict!["requiredData"] as? [String: Any] {
-                        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                            AnalyticsParameterItemID: "id-Match",
-                            AnalyticsParameterItemName: "Match"
-                            ])
-                        let dictData = NSKeyedArchiver.archivedData(withRootObject: requiredData)
-                        UserDefaults.standard.setValue(dictData, forKey: "matchedUser")
-                        UserDefaults.standard.set(true, forKey: "matchedNotification")
-                        UserDefaults.standard.synchronize()
-                        self.matchNotificationRecived()
-                    }
-                } else {
-                    let message = jsonDict!["message"] as? String
-                    self.outAlertError(message: message)
-                }
+        WebServices.service.webServicePostRequest(.post, .user, .userDetails, ["user_fb_id":parameters["receiving_user_fb_id"]], successHandler: { (response) in
+            let jsonData = response
+            let status = jsonData!["status"] as! String
+            if status == "success"{
+                let userDetails = jsonData!["user_details"] as? Dictionary<String, Any>
+                var requiredData = LocalStore.store.getUserDetails()
+                requiredData["request_to"] = userDetails
+
+                let dictData = NSKeyedArchiver.archivedData(withRootObject: requiredData)
+                UserDefaults.standard.setValue(dictData, forKey: "matchedUser")
+                UserDefaults.standard.set(true, forKey: "matchedNotification")
+                UserDefaults.standard.synchronize()
+                self.matchNotificationRecived()
             }
-        }) { (error) in
-            self.outAlertError(message: error?.localizedDescription)
-        }
+        }, errorHandler: {error in
+            print(error)
+        })
+        
+        // original
+//        WebServices.service.webServicePostRequest(.post, .friend, .sendFriendRequest, parameters, successHandler: { (response) in
+//            DispatchQueue.main.async {
+//                let jsonDict = response
+//                let status = jsonDict!["status"] as! String
+//                if status == "success"{
+//                    if let requiredData = jsonDict!["requiredData"] as? [String: Any] {
+//                        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+//                            AnalyticsParameterItemID: "id-Match",
+//                            AnalyticsParameterItemName: "Match"
+//                            ])
+//                        let dictData = NSKeyedArchiver.archivedData(withRootObject: requiredData)
+//                        UserDefaults.standard.setValue(dictData, forKey: "matchedUser")
+//                        UserDefaults.standard.set(true, forKey: "matchedNotification")
+//                        UserDefaults.standard.synchronize()
+//                        self.matchNotificationRecived()
+//                    }
+//                } else {
+//                    let message = jsonDict!["message"] as? String
+//                    self.outAlertError(message: message)
+//                }
+//            }
+//        }) { (error) in
+//            self.outAlertError(message: error?.localizedDescription)
+//        }
     }
     
     func dislikeUser(_ details: [String: Any]) {

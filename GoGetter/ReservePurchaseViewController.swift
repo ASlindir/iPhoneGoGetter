@@ -14,6 +14,8 @@ class ReservePurchaseViewController: UIViewController {
     @IBOutlet weak var notYetButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     
+    var userId: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

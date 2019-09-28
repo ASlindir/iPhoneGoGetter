@@ -46,6 +46,9 @@ class PurchaseManagerViewController: UIViewController, PurchaseStatisticViewCont
         self.bottomLabel.isUserInteractionEnabled = true
         self.bottomLabel.addGestureRecognizer(tap)
         
+        // default
+         self.setCountForTitle(label: self.titleLabel, title: "You have 0 coins left", value: "0", color: UIColor(red:0.00, green:0.65, blue:0.69, alpha:1.0))
+        
         //
         self.loadUserConvoStats(compliteHandler: {
             self.loadPurchaseFromServer()
@@ -120,13 +123,7 @@ class PurchaseManagerViewController: UIViewController, PurchaseStatisticViewCont
             
             if let userCoinRecord = jsonDict!["userCoinRecord"] as? [String:Any?] {
                 if let coinsNotReserved = userCoinRecord["coinsNotReserved"] as? String {
-                    let string = NSMutableAttributedString(string: "You have \(coinsNotReserved) coins left")
-                    let range: NSRange = string.mutableString.range(of: coinsNotReserved, options: .caseInsensitive)
-                   
-                    string.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor(red:0.00, green:0.65, blue:0.69, alpha:1.0), range: range)
-                    string.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Barmeno-Bold", size: 35.0)!, range: range)
-                    
-                    self.titleLabel.attributedText = string
+                    self.setCountForTitle(label: self.titleLabel, title: "You have \(coinsNotReserved) coins left", value: coinsNotReserved, color: UIColor(red:0.00, green:0.65, blue:0.69, alpha:1.0))
                 }
             }
             
@@ -258,7 +255,7 @@ class PurchaseManagerViewController: UIViewController, PurchaseStatisticViewCont
                                         isSuccess = true
 
                                         self.dismiss(animated: true, completion: {
-                                            self.delegate?.didSuccessPurchase(convoId: convoId, screenAction: screenAction, prompt: prompt)
+                                            self.delegate?.didSuccessPurchase(userId: nil, convoId: convoId, screenAction: screenAction, prompt: prompt)
                                         })
                                     }
                                 }
@@ -296,6 +293,16 @@ class PurchaseManagerViewController: UIViewController, PurchaseStatisticViewCont
         
         viewItems[maxItem].bestValueImageView.isHidden = false
         
+    }
+    
+    func setCountForTitle(label: UILabel, title: String, value: String, color: UIColor) {
+        let string = NSMutableAttributedString(string: title)
+        let range: NSRange = string.mutableString.range(of: value, options: .caseInsensitive)
+        
+        string.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
+        string.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Barmeno-Bold", size: 35.0)!, range: range)
+        
+        label.attributedText = string
     }
     
     // MARK: - PurchaseStatisticViewControllerDelegate

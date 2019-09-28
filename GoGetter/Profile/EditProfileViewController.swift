@@ -296,8 +296,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         self.milesSliderTopContraintDefault = self.milesSliderTopConstraint.constant
         self.milesSliderBottomContraintDefault = self.milesSliderBottomContraint.constant
         
-        // did
-        self.loadUserConvoStats()
     }
     
     @objc func goToProfile(isAlreadyLogin : Bool){
@@ -400,6 +398,8 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         }
         
         self.heightSlider.isUserInteractionEnabled = true
+        
+        self.loadUserConvoStats()
     }
 
     @objc func updateLocation() {
@@ -2335,6 +2335,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         parameters["userId"] = LocalStore.store.getFacebookID()
         
         WebServices.service.webServicePostRequest(.post, .conversation, .doQueryConvoStats, parameters, successHandler: { (response) in
+            Loader.stopLoader()
             let jsonDict = response
             
             if let userCoinRecord = jsonDict!["userCoinRecord"] as? [String:Any?] {
@@ -2345,6 +2346,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             
             compliteHandler?()
         }) { (error) in
+            Loader.stopLoader()
             self.outAlertError(message: "Error: \(error.debugDescription)")
             compliteHandler?()
         }
@@ -2787,7 +2789,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     }
     
     // MARK:- PurchaseViewControllerDelegate
-    func didSuccessPurchase(convoId: Int, screenAction: Int, prompt: String?) {
+    func didSuccessPurchase(userId: String?, convoId: Int, screenAction: Int, prompt: String?) {
         self.loadUserConvoStats()
     }
 }

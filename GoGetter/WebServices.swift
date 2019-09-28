@@ -123,6 +123,8 @@ enum Services: String {
     case inAppPurchaseComplete              = "inAppPurchaseComplete"
     
     case doPurchaseConversation             = "doPurchaseConversation"
+    
+    case doQueryConvoStats             = "doQueryConvoStats"
 }
 
 class CommError {

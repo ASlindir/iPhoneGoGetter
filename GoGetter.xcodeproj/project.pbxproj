@@ -81,6 +81,12 @@
 		8426D8812312963B0053106B /* PurchasesConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8426D8802312963B0053106B /* PurchasesConst.swift */; };
 		84319E5C22F01D86003FF7B5 /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84319E5B22F01D86003FF7B5 /* DatePickerDialog.swift */; };
 		84319E5F22F03D6F003FF7B5 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84319E5E22F03D6F003FF7B5 /* AlertViewController.swift */; };
+		84401CD0233E2DC200735302 /* BlopSoundEffect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 84401CCF233E2DC200735302 /* BlopSoundEffect.mp3 */; };
+		84401CD2233E2DE600735302 /* CashRegister.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 84401CD1233E2DE600735302 /* CashRegister.mp3 */; };
+		84401CD8233F15FF00735302 /* PurchaseManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84401CD6233F15FF00735302 /* PurchaseManagerViewController.swift */; };
+		84401CD9233F15FF00735302 /* PurchaseManagerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84401CD7233F15FF00735302 /* PurchaseManagerViewController.xib */; };
+		84401CDC233F1EF900735302 /* PurchaseStatisticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84401CDA233F1EF900735302 /* PurchaseStatisticViewController.swift */; };
+		84401CDD233F1EF900735302 /* PurchaseStatisticViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84401CDB233F1EF900735302 /* PurchaseStatisticViewController.xib */; };
 		84528059233C578900E079D4 /* TestPurchaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84528057233C578900E079D4 /* TestPurchaseViewController.swift */; };
 		8452805A233C578900E079D4 /* TestPurchaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84528058233C578900E079D4 /* TestPurchaseViewController.xib */; };
 		8452805C233C58A300E079D4 /* UIClockImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8452805B233C58A300E079D4 /* UIClockImageView.swift */; };
@@ -342,6 +348,12 @@
 		8426D8802312963B0053106B /* PurchasesConst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasesConst.swift; sourceTree = "<group>"; };
 		84319E5B22F01D86003FF7B5 /* DatePickerDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 		84319E5E22F03D6F003FF7B5 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		84401CCF233E2DC200735302 /* BlopSoundEffect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = BlopSoundEffect.mp3; sourceTree = "<group>"; };
+		84401CD1233E2DE600735302 /* CashRegister.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = CashRegister.mp3; sourceTree = "<group>"; };
+		84401CD6233F15FF00735302 /* PurchaseManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseManagerViewController.swift; sourceTree = "<group>"; };
+		84401CD7233F15FF00735302 /* PurchaseManagerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PurchaseManagerViewController.xib; sourceTree = "<group>"; };
+		84401CDA233F1EF900735302 /* PurchaseStatisticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseStatisticViewController.swift; sourceTree = "<group>"; };
+		84401CDB233F1EF900735302 /* PurchaseStatisticViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PurchaseStatisticViewController.xib; sourceTree = "<group>"; };
 		84528057233C578900E079D4 /* TestPurchaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPurchaseViewController.swift; sourceTree = "<group>"; };
 		84528058233C578900E079D4 /* TestPurchaseViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestPurchaseViewController.xib; sourceTree = "<group>"; };
 		8452805B233C58A300E079D4 /* UIClockImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIClockImageView.swift; sourceTree = "<group>"; };
@@ -865,6 +877,8 @@
 			children = (
 				8479D469230CD8ED0031B73F /* PurchaseViewController.swift */,
 				847ACD43233E1C2800A1A6D5 /* ReservePurchaseViewController.swift */,
+				84401CD6233F15FF00735302 /* PurchaseManagerViewController.swift */,
+				84401CDA233F1EF900735302 /* PurchaseStatisticViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -874,6 +888,8 @@
 			children = (
 				8479D46A230CD8ED0031B73F /* PurchaseViewController.xib */,
 				847ACD44233E1C2800A1A6D5 /* ReservePurchaseViewController.xib */,
+				84401CD7233F15FF00735302 /* PurchaseManagerViewController.xib */,
+				84401CDB233F1EF900735302 /* PurchaseStatisticViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -982,6 +998,8 @@
 				B49E8BE61F78D110000992A6 /* PopRed.mp3 */,
 				B4EF53611FA985770065926D /* swipeLEFT.mp3 */,
 				B4EF53621FA985770065926D /* swipeRight.mp3 */,
+				84401CCF233E2DC200735302 /* BlopSoundEffect.mp3 */,
+				84401CD1233E2DE600735302 /* CashRegister.mp3 */,
 			);
 			name = AudioFiles;
 			sourceTree = "<group>";
@@ -1292,6 +1310,7 @@
 				847ACD46233E1C2800A1A6D5 /* ReservePurchaseViewController.xib in Resources */,
 				0D94D8E81FE5365A0006C45E /* OpenCameraView.xib in Resources */,
 				10E635791F88BD6C00B84098 /* OpenSans-SemiBoldItalic.ttf in Resources */,
+				84401CD2233E2DE600735302 /* CashRegister.mp3 in Resources */,
 				10E6357A1F88BD6C00B84098 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				0D06B89D20C2E7A6002E1703 /* JSQMessagesCollectionViewCellIncoming.xib in Resources */,
 				B4D74B091FA1A29000B5C551 /* Videocountdow.mp3 in Resources */,
@@ -1311,11 +1330,14 @@
 				B4EC52B21F68008200DC3599 /* circle.gif in Resources */,
 				E7370AFF2306E16100EB030B /* Main.storyboard in Resources */,
 				8452805E233C594200E079D4 /* UIClockImageView.xib in Resources */,
+				84401CD0233E2DC200735302 /* BlopSoundEffect.mp3 in Resources */,
 				847ACD4A233E251F00A1A6D5 /* Pacifico.ttf in Resources */,
 				8479D46C230CD8ED0031B73F /* PurchaseViewController.xib in Resources */,
 				B4A85F441F694DDC003BAD4A /* PermanentMarker.ttf in Resources */,
+				84401CDD233F1EF900735302 /* PurchaseStatisticViewController.xib in Resources */,
 				84694F4622830381007AB8BA /* SignIn.storyboard in Resources */,
 				B42E1B5E1F66AA9E009B68E2 /* welcome.gif in Resources */,
+				84401CD9233F15FF00735302 /* PurchaseManagerViewController.xib in Resources */,
 				3AAA508E1FD8558900B6DECA /* PersonalityTypeMatching.gif in Resources */,
 				B4A85F3F1F6943FA003BAD4A /* browser.gif in Resources */,
 				0DAA3F2D1FF3597A00B96E9F /* bottomView.mp3 in Resources */,
@@ -1451,6 +1473,7 @@
 				B40C11D11F7D19540030F9E7 /* ProfileImageViewCell.swift in Sources */,
 				B43A62C51FBD4E0700FE15C4 /* MessagesTableViewCell.swift in Sources */,
 				0D06B8A120C2E7A6002E1703 /* JSQMessagesInputToolbar.m in Sources */,
+				84401CDC233F1EF900735302 /* PurchaseStatisticViewController.swift in Sources */,
 				84694F392283036E007AB8BA /* UiViewController.swift in Sources */,
 				0D06B89320C2E7A6002E1703 /* JSQMediaItem.m in Sources */,
 				0D06B87C20C2E7A6002E1703 /* JSQSystemSoundPlayer+JSQMessages.m in Sources */,
@@ -1539,6 +1562,7 @@
 				106DE09E1F8B4E91005D75D4 /* GalleryViewController.swift in Sources */,
 				E7A583BA22FF200F0075926E /* RadioButton.swift in Sources */,
 				0D06B89A20C2E7A6002E1703 /* JSQMessagesCollectionView.m in Sources */,
+				84401CD8233F15FF00735302 /* PurchaseManagerViewController.swift in Sources */,
 				0D06B88A20C2E7A6002E1703 /* JSQMessagesToolbarButtonFactory.m in Sources */,
 				0D06B8A620C2E7A6002E1703 /* JSQMessagesToolbarContentView.m in Sources */,
 				B4EC52B01F67CEFE00DC3599 /* CustomButton.swift in Sources */,

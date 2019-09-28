@@ -56,16 +56,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             FirebaseObserver.observer.observeFriendList()
             FirebaseObserver.observer.observeFriendsRemoved()
            
-//            let controller = storyboard.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
-//            let navigationController = UINavigationController(rootViewController: controller)
-//            navigationController.interactivePopGestureRecognizer?.isEnabled = false
-//            controller.isRootController = true
-//            window?.rootViewController = navigationController
+            let controller = storyboard.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
+            let navigationController = UINavigationController(rootViewController: controller)
+            navigationController.interactivePopGestureRecognizer?.isEnabled = false
+            controller.isRootController = true
+            window?.rootViewController = navigationController
 //
 //            let controller = PurchaseViewController.loadFromNib()
-            let controller = ReservePurchaseViewController.loadFromNib()
+//            let controller = PurchaseManagerViewController.loadFromNib()
+//            let controller = ReservePurchaseViewController.loadFromNib()
 //            let controller = TestPurchaseViewController.loadFromNib()
-            self.window?.rootViewController = controller
+//            let controller = PurchaseManagerViewController.loadFromNib()
+//            self.window?.rootViewController = controller
             
         }
         else{

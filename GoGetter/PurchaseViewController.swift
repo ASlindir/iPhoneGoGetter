@@ -91,6 +91,8 @@ class PurchaseViewController: UIViewController {
         let height = self.purchaseStackView.frame.height
         
         var viewItems: [UIPurchase] = []
+        var maxCoins = 0
+        var maxItems = 0
         
         for index in  0..<count {
             let view = UIPurchase(frame: CGRect(x: CGFloat(index) * (width + CGFloat(index <= count - 1 ? space : 0)), y: 0, width: width, height: height))
@@ -104,6 +106,16 @@ class PurchaseViewController: UIViewController {
             view.alpha = 0
             
             self.purchaseStackView.addSubview(view)
+            var countCoins = 0
+            
+            if products[index].item.CoinsPurchased != nil {
+                countCoins = Int(products[index].item.CoinsPurchased!) ?? 0
+            }
+            
+            if maxCoins < countCoins {
+                maxCoins = countCoins
+                maxItems = index
+            }
             
             view.set(
                 id: products[index].item.AppleStoreID ?? "",
@@ -112,7 +124,6 @@ class PurchaseViewController: UIViewController {
                 title3: "$ \(String(describing: products[index].item.Price!))",
                 title4: "\(products[index].item.CoinsPurchased!) conversation",
                 touch: { id in
-//                    self.outAlertSuccess(message: String(describing: id!))
                     Loader.startLoader(true)
                     
                     SwiftyStoreKit.purchaseProduct(id!, quantity: 1, atomically: false) { result in
@@ -200,7 +211,7 @@ class PurchaseViewController: UIViewController {
             view.bestValueImageView.isHidden = true
         }
         
-        func animateItems(counter: Int) {
+        func animateItems(counter: Int, maxItem: Int = 0) {
             if counter < viewItems.count {
                 self.showPurchaseAnimation(viewItems[counter], completedHandler: {
                     
@@ -226,7 +237,7 @@ class PurchaseViewController: UIViewController {
                     
                     rotateView(duration: duration)
                     
-                    if counter == 0 {
+                    if counter == maxItem {
                         DispatchQueue.main.asyncAfter(deadline: .now() + duration * 2 * Double(count)) {
                             viewItems[counter].bestValueImageView.isHidden = false
                             self.bestValueAnimation(viewItems[counter].bestValueImageView, completedHandler: {
@@ -247,12 +258,12 @@ class PurchaseViewController: UIViewController {
                     self.showPurchaseAnimation(viewItems[counter].buyButton, duration: 0.3)
                     
                     // next view
-                    animateItems(counter: counter + 1)
+                    animateItems(counter: counter + 1, maxItem: maxItem)
                 })
             }
         }
         
-        animateItems(counter: 0)
+        animateItems(counter: 0, maxItem: maxItems)
     }
     
     func loadPurchases() {

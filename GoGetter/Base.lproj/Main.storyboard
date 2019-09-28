@@ -3014,10 +3014,10 @@ This will only take a minute.</string>
                                 <rect key="frame" x="0.0" y="80" width="320" height="3420"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ttx-tn-IA6">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="3233.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="3303.5"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XjL-mV-oKs">
-                                                <rect key="frame" x="55" y="2568" width="210" height="253"/>
+                                                <rect key="frame" x="55" y="2641.5" width="210" height="253"/>
                                                 <subviews>
                                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZYL-rP-phW">
                                                         <rect key="frame" x="19" y="26" width="172" height="179"/>
@@ -3039,7 +3039,7 @@ This will only take a minute.</string>
                                                                 <rect key="frame" x="10" y="5" width="154" height="18.5"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADD VIDEO" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3DP-Be-8iW">
-                                                                        <rect key="frame" x="10" y="-0.5" width="76" height="19.5"/>
+                                                                        <rect key="frame" x="10" y="1" width="74" height="16.5"/>
                                                                         <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="14"/>
                                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                         <nil key="highlightedColor"/>
@@ -3072,7 +3072,7 @@ This will only take a minute.</string>
                                                         </constraints>
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mnh-lt-UVV">
-                                                        <rect key="frame" x="55" y="76.5" width="100" height="100"/>
+                                                        <rect key="frame" x="97" y="115.5" width="16" height="22"/>
                                                         <state key="normal" image="videoIcon"/>
                                                         <connections>
                                                             <action selector="btnRecordVideo:" destination="a0z-2r-jD6" eventType="touchUpInside" id="D0t-4t-Z5v"/>
@@ -3307,21 +3307,68 @@ This will only take a minute.</string>
                                                     <outlet property="delegate" destination="a0z-2r-jD6" id="1s6-PX-4OV"/>
                                                 </connections>
                                             </scrollView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PGa-5y-Gcq">
+                                                <rect key="frame" x="0.0" y="342" width="320" height="100"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="GoGetterSilverCoinWithShadow" translatesAutoresizingMaskIntoConstraints="NO" id="KYu-wq-g6u">
+                                                        <rect key="frame" x="35" y="10" width="80" height="80"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="80" id="TrL-VV-Had"/>
+                                                            <constraint firstAttribute="height" constant="80" id="cXs-RI-azd"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CvE-qB-pKo">
+                                                        <rect key="frame" x="135" y="36" width="150" height="28"/>
+                                                        <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="28" id="COd-F4-dxi"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="13"/>
+                                                        <state key="normal" title="MANAGE COINS ...">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="btnManageCoins:" destination="a0z-2r-jD6" eventType="touchUpInside" id="mjj-aP-nnJ"/>
+                                                        </connections>
+                                                    </button>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ld3-6P-Dme">
+                                                        <rect key="frame" x="95" y="14" width="24" height="24"/>
+                                                        <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="24" id="EwK-zY-ZBz"/>
+                                                            <constraint firstAttribute="height" constant="24" id="lF6-8L-GVk"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="KYu-wq-g6u" firstAttribute="leading" secondItem="PGa-5y-Gcq" secondAttribute="leading" constant="35" id="13D-g9-lvw"/>
+                                                    <constraint firstItem="Ld3-6P-Dme" firstAttribute="leading" secondItem="PGa-5y-Gcq" secondAttribute="leading" constant="95" id="GYx-Rh-yaq"/>
+                                                    <constraint firstAttribute="trailing" secondItem="CvE-qB-pKo" secondAttribute="trailing" constant="35" id="Gya-VV-JSS"/>
+                                                    <constraint firstAttribute="height" constant="100" id="ZjM-Bs-2Rm"/>
+                                                    <constraint firstItem="CvE-qB-pKo" firstAttribute="centerY" secondItem="PGa-5y-Gcq" secondAttribute="centerY" id="aLO-zD-cap"/>
+                                                    <constraint firstItem="KYu-wq-g6u" firstAttribute="centerY" secondItem="PGa-5y-Gcq" secondAttribute="centerY" id="gJZ-Bq-XZr"/>
+                                                    <constraint firstItem="CvE-qB-pKo" firstAttribute="leading" secondItem="KYu-wq-g6u" secondAttribute="trailing" constant="20" id="lrV-dI-1MM"/>
+                                                    <constraint firstItem="Ld3-6P-Dme" firstAttribute="top" secondItem="PGa-5y-Gcq" secondAttribute="top" constant="14" id="rKr-Dd-dOQ"/>
+                                                </constraints>
+                                            </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I’M LOOKING FOR:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ro2-Zk-omT">
-                                                <rect key="frame" x="35" y="342" width="123" height="23.5"/>
+                                                <rect key="frame" x="35" y="467" width="123" height="20"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0sb-GW-Xo3">
-                                                <rect key="frame" x="35" y="377.5" width="250" height="1"/>
+                                                <rect key="frame" x="35" y="499" width="250" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="iOI-FG-NVc"/>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKP-t5-bzU">
-                                                <rect key="frame" x="35" y="403.5" width="121" height="136"/>
+                                                <rect key="frame" x="35" y="525" width="121" height="136"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="rKP-t5-bzU" secondAttribute="height" multiplier="121:136" id="CXv-xL-N18"/>
                                                 </constraints>
@@ -3331,20 +3378,20 @@ This will only take a minute.</string>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kSz-aP-qg5">
-                                                <rect key="frame" x="164" y="403.5" width="121" height="136"/>
+                                                <rect key="frame" x="164" y="525" width="121" height="136"/>
                                                 <state key="normal" image="femaleUnSelected"/>
                                                 <connections>
                                                     <action selector="btnWomen:" destination="a0z-2r-jD6" eventType="touchUpInside" id="str-D0-Wbb"/>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AGE RANGE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0eI-cF-94e">
-                                                <rect key="frame" x="35" y="564.5" width="94.5" height="23.5"/>
+                                                <rect key="frame" x="35" y="686" width="97.5" height="20"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jlD-8g-JEa" customClass="RangeSlider" customModule="GoGetter" customModuleProvider="target">
-                                                <rect key="frame" x="35" y="624" width="250" height="30"/>
+                                                <rect key="frame" x="35" y="742" width="250" height="30"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="Ikb-HJ-v9j"/>
@@ -3371,29 +3418,29 @@ This will only take a minute.</string>
                                                 </connections>
                                             </view>
                                             <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H20-wo-bf9">
-                                                <rect key="frame" x="35" y="603" width="250" height="1"/>
+                                                <rect key="frame" x="35" y="721" width="250" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="aeE-KW-xId"/>
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Vkx-yi-dJ8">
-                                                <rect key="frame" x="220" y="565.5" width="65" height="22"/>
+                                                <rect key="frame" x="222" y="686.5" width="63" height="19"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="21" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hYO-7m-zPi">
-                                                        <rect key="frame" x="0.0" y="0.0" width="18.5" height="22"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="18" height="19"/>
                                                         <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="16"/>
                                                         <color key="textColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="To" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2DZ-tz-SWP">
-                                                        <rect key="frame" x="23.5" y="0.0" width="18" height="22"/>
+                                                        <rect key="frame" x="23" y="0.0" width="17" height="19"/>
                                                         <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="16"/>
                                                         <color key="textColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="253" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="41" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dj1-gv-71D">
-                                                        <rect key="frame" x="46.5" y="0.0" width="18.5" height="22"/>
+                                                        <rect key="frame" x="45" y="0.0" width="18" height="19"/>
                                                         <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="16"/>
                                                         <color key="textColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -3401,7 +3448,7 @@ This will only take a minute.</string>
                                                 </subviews>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WITHIN:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="24O-Tr-hpO">
-                                                <rect key="frame" x="35" y="684" width="67" height="23.5"/>
+                                                <rect key="frame" x="35" y="802" width="67" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="67" id="BuW-bC-mAt"/>
                                                 </constraints>
@@ -3410,16 +3457,16 @@ This will only take a minute.</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Vva-5z-1va">
-                                                <rect key="frame" x="210" y="685" width="75" height="22"/>
+                                                <rect key="frame" x="209.5" y="802.5" width="75.5" height="19"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kuj-bA-jau">
-                                                        <rect key="frame" x="0.0" y="0.0" width="18.5" height="22"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="18" height="19"/>
                                                         <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="16"/>
                                                         <color key="textColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="MILES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Be-PP-sVB">
-                                                        <rect key="frame" x="28.5" y="0.0" width="46.5" height="22"/>
+                                                        <rect key="frame" x="28" y="0.0" width="47.5" height="19"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="46.5" id="Zxf-Tl-WdW"/>
                                                         </constraints>
@@ -3430,14 +3477,14 @@ This will only take a minute.</string>
                                                 </subviews>
                                             </stackView>
                                             <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7l9-et-q78">
-                                                <rect key="frame" x="35" y="722.5" width="250" height="1"/>
+                                                <rect key="frame" x="35" y="837" width="250" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="OgM-Xh-0mC"/>
                                                 </constraints>
                                             </view>
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="0.0" maxValue="250" translatesAutoresizingMaskIntoConstraints="NO" id="JaL-IL-x7Z" customClass="CustomSlider" customModule="GoGetter" customModuleProvider="target">
-                                                <rect key="frame" x="33" y="748.5" width="254" height="31"/>
+                                                <rect key="frame" x="33" y="863" width="254" height="31"/>
                                                 <color key="minimumTrackTintColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="maximumTrackTintColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <userDefinedRuntimeAttributes>
@@ -3447,7 +3494,7 @@ This will only take a minute.</string>
                                                 </userDefinedRuntimeAttributes>
                                             </slider>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Uf-JM-JkG">
-                                                <rect key="frame" x="35" y="789.5" width="250" height="50"/>
+                                                <rect key="frame" x="35" y="904" width="250" height="50"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unCheck" translatesAutoresizingMaskIntoConstraints="NO" id="hKg-i6-VPy">
                                                         <rect key="frame" x="8" y="8" width="30" height="30"/>
@@ -3457,7 +3504,7 @@ This will only take a minute.</string>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ANYWHERE" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AWj-K5-uUh">
-                                                        <rect key="frame" x="46" y="15" width="196" height="20.5"/>
+                                                        <rect key="frame" x="46" y="16.5" width="196" height="17.5"/>
                                                         <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
@@ -3473,13 +3520,13 @@ This will only take a minute.</string>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I HAVE KIDS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J0e-zg-gBN">
-                                                <rect key="frame" x="35" y="869.5" width="95.5" height="23.5"/>
+                                                <rect key="frame" x="35" y="984" width="96" height="20"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="O9n-1X-u5C" userLabel="Stack View HK">
-                                                <rect key="frame" x="250" y="893" width="100" height="100"/>
+                                                <rect key="frame" x="250" y="1004" width="100" height="100"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m6t-0U-vjq">
                                                         <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
@@ -3603,12 +3650,12 @@ This will only take a minute.</string>
                                                 </constraints>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I WANT KIDS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ld-co-30P">
-                                                <rect key="frame" x="35" y="993" width="101.5" height="23.5"/>
+                                                <rect key="frame" x="35" y="1104" width="101" height="20"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="k6s-9P-hF0" userLabel="Stack View WK">
-                                                <rect key="frame" x="250" y="1016.5" width="100" height="130"/>
+                                                <rect key="frame" x="250" y="1124" width="100" height="130"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A2D-EQ-dRc">
                                                         <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
@@ -3794,16 +3841,16 @@ This will only take a minute.</string>
                                                 </constraints>
                                             </stackView>
                                             <view hidden="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xjg-u6-gef">
-                                                <rect key="frame" x="75.5" y="-328.5" width="169" height="50"/>
+                                                <rect key="frame" x="82" y="-328.5" width="156.5" height="50"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MORE SETTINGS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="naA-1D-AQ9">
-                                                        <rect key="frame" x="0.0" y="15" width="119" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="16.5" width="120.5" height="17.5"/>
                                                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="15"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="setting" translatesAutoresizingMaskIntoConstraints="NO" id="b2l-mM-UQj">
-                                                        <rect key="frame" x="129" y="10" width="30" height="30"/>
+                                                        <rect key="frame" x="130.5" y="10" width="16" height="30"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
                                                                 <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3824,7 +3871,7 @@ This will only take a minute.</string>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="HGw-52-QdO">
-                                                <rect key="frame" x="32" y="2906.5" width="256" height="45.5"/>
+                                                <rect key="frame" x="32" y="2980" width="256" height="45.5"/>
                                                 <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                 <state key="normal" title="TAKE THE GOGETTER BRAIN GAME">
@@ -3835,7 +3882,7 @@ This will only take a minute.</string>
                                                 </connections>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xl4-gw-Aed" customClass="CustomButton" customModule="GoGetter" customModuleProvider="target">
-                                                <rect key="frame" x="80" y="2972" width="160" height="28.5"/>
+                                                <rect key="frame" x="80" y="3045.5" width="160" height="28.5"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="13"/>
                                                 <state key="normal" title="REMINDER ME LATER">
                                                     <color key="titleColor" red="0.99990183119999998" green="1" blue="0.99987989659999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3869,7 +3916,7 @@ This will only take a minute.</string>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kdx-Xz-tI1">
-                                                <rect key="frame" x="32" y="2841" width="256" height="45.5"/>
+                                                <rect key="frame" x="32" y="2914.5" width="256" height="45.5"/>
                                                 <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                 <state key="normal" title="SELECT ACTIVITIES AGAIN">
@@ -3880,7 +3927,7 @@ This will only take a minute.</string>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Sf-gj-Vns">
-                                                <rect key="frame" x="32" y="3074.5" width="256" height="45.5"/>
+                                                <rect key="frame" x="32" y="3144.5" width="256" height="45.5"/>
                                                 <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                 <state key="normal" title="UPDATE">
@@ -3891,47 +3938,47 @@ This will only take a minute.</string>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PUSH NOTIFICATIONS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9q-yy-ycZ">
-                                                <rect key="frame" x="35" y="2972" width="177" height="23.5"/>
+                                                <rect key="frame" x="35" y="3045.5" width="177" height="20"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GOE-nz-hUN">
-                                                <rect key="frame" x="236" y="2968.5" width="51" height="31"/>
+                                                <rect key="frame" x="236" y="3040" width="51" height="31"/>
                                                 <color key="onTintColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <connections>
                                                     <action selector="switchPushNotification:" destination="a0z-2r-jD6" eventType="valueChanged" id="Kfv-lR-beu"/>
                                                 </connections>
                                             </switch>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SOUNDS/VIBRATION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ev7-Az-ZzI">
-                                                <rect key="frame" x="35" y="3028.5" width="167" height="23.5"/>
+                                                <rect key="frame" x="35" y="3100" width="164.5" height="20"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tMx-t6-sUB">
-                                                <rect key="frame" x="236" y="3024.5" width="51" height="31"/>
+                                                <rect key="frame" x="236" y="3094.5" width="51" height="31"/>
                                                 <color key="onTintColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <connections>
                                                     <action selector="switchSoundVibration:" destination="a0z-2r-jD6" eventType="valueChanged" id="B4d-D3-vdj"/>
                                                 </connections>
                                             </switch>
                                             <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TGN-0c-bSN">
-                                                <rect key="frame" x="35" y="3063.5" width="250" height="1"/>
+                                                <rect key="frame" x="35" y="3133.5" width="250" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="brf-DM-ZLs"/>
                                                 </constraints>
                                             </view>
                                             <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vtP-GC-O9C">
-                                                <rect key="frame" x="35" y="3007.5" width="250" height="1"/>
+                                                <rect key="frame" x="35" y="3079" width="250" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="YEs-Le-Gac"/>
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ZZc-pz-XpF">
-                                                <rect key="frame" x="35" y="3180" width="250" height="33.5"/>
+                                                <rect key="frame" x="35" y="3250" width="250" height="33.5"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AQZ-m9-jc9">
                                                         <rect key="frame" x="0.0" y="0.0" width="92.5" height="33.5"/>
@@ -3959,7 +4006,7 @@ This will only take a minute.</string>
                                                 </constraints>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vOD-qE-9O9">
-                                                <rect key="frame" x="35" y="2509.5" width="250" height="38.5"/>
+                                                <rect key="frame" x="35" y="2583" width="250" height="38.5"/>
                                                 <edgeInsets key="layoutMargins" top="0.0" left="30" bottom="0.0" right="30"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="ADD A VIDEO OF YOU DOING SOMETHING FUN ">
@@ -3980,7 +4027,7 @@ This will only take a minute.</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Xh-hO-wdf">
-                                                <rect key="frame" x="32" y="3130" width="280" height="40"/>
+                                                <rect key="frame" x="32" y="3200" width="280" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="wcd-iR-GYr"/>
                                                 </constraints>
@@ -3989,7 +4036,7 @@ This will only take a minute.</string>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sWe-aK-vTR">
-                                                <rect key="frame" x="32" y="3141.5" width="280" height="17"/>
+                                                <rect key="frame" x="32" y="3211.5" width="280" height="17"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="FEEDBACK? PLEASE TELL US,">
                                                         <attributes>
@@ -4047,7 +4094,7 @@ This will only take a minute.</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YOUR PHOTO" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zvW-7C-bTX">
-                                                        <rect key="frame" x="102" y="0.5" width="116.5" height="26"/>
+                                                        <rect key="frame" x="101" y="0.5" width="118.5" height="26"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="26" id="1vS-Mp-M1m"/>
                                                         </constraints>
@@ -4059,19 +4106,19 @@ This will only take a minute.</string>
                                                         <rect key="frame" x="10" y="46.5" width="300" height="36"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NAME," textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uNN-gR-9Yd">
-                                                                <rect key="frame" x="30" y="5.5" width="57.5" height="25"/>
+                                                                <rect key="frame" x="30" y="7.5" width="56.5" height="21"/>
                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="18"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AGE," textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4me-HX-Wtn">
-                                                                <rect key="frame" x="110.5" y="5" width="39.5" height="26"/>
+                                                                <rect key="frame" x="109.5" y="5" width="41.5" height="26"/>
                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="18"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LOCATION" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rrn-q2-7c3">
-                                                                <rect key="frame" x="206.5" y="5.5" width="90" height="25"/>
+                                                                <rect key="frame" x="206" y="7.5" width="88.5" height="21"/>
                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="18"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -4089,25 +4136,25 @@ This will only take a minute.</string>
                                                         </constraints>
                                                     </view>
                                                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow2" translatesAutoresizingMaskIntoConstraints="NO" id="X8U-ei-QZl">
-                                                        <rect key="frame" x="45" y="91" width="50" height="186.5"/>
+                                                        <rect key="frame" x="45" y="91" width="50" height="16"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="50" id="0wi-1k-H7R"/>
                                                         </constraints>
                                                     </imageView>
                                                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow2" translatesAutoresizingMaskIntoConstraints="NO" id="oAf-sD-efE">
-                                                        <rect key="frame" x="130.5" y="91" width="50" height="186.5"/>
+                                                        <rect key="frame" x="129.5" y="91" width="50" height="16"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="50" id="VPJ-Va-y6g"/>
                                                         </constraints>
                                                     </imageView>
                                                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow2" translatesAutoresizingMaskIntoConstraints="NO" id="mdu-UJ-42R">
-                                                        <rect key="frame" x="236.5" y="91" width="50" height="186.5"/>
+                                                        <rect key="frame" x="235.5" y="91" width="50" height="16"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="50" id="4g3-0k-W7P"/>
                                                         </constraints>
                                                     </imageView>
                                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="THEN SCROLL FOR MORE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VdD-XL-naC">
-                                                        <rect key="frame" x="52" y="327.5" width="216" height="26"/>
+                                                        <rect key="frame" x="49" y="157" width="222.5" height="26"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="26" id="F3Z-kK-HOk"/>
                                                         </constraints>
@@ -4116,7 +4163,7 @@ This will only take a minute.</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zsb-4K-kdX">
-                                                        <rect key="frame" x="51" y="403.5" width="218" height="38.5"/>
+                                                        <rect key="frame" x="51" y="233" width="218" height="38.5"/>
                                                         <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="Zsb-4K-kdX" secondAttribute="height" multiplier="208:37" id="kBl-Ad-zCV"/>
@@ -4156,31 +4203,31 @@ This will only take a minute.</string>
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="jMJ-8C-I9J">
-                                                <rect key="frame" x="35" y="1176.5" width="250" height="1313"/>
+                                                <rect key="frame" x="35" y="1284" width="250" height="1279"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="6Np-4B-p0J">
-                                                        <rect key="frame" x="0.0" y="0.0" width="250" height="193.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="250" height="190"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FAVORITE SPORTS TEAMS:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="to8-FF-csm">
-                                                                <rect key="frame" x="0.0" y="0.0" width="210.5" height="23.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="217" height="20"/>
                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                                 <color key="textColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dU6-NO-VmU">
-                                                                <rect key="frame" x="0.0" y="43.5" width="250" height="150"/>
+                                                                <rect key="frame" x="0.0" y="40" width="250" height="150"/>
                                                                 <subviews>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="OSw-xE-IJJ">
                                                                         <rect key="frame" x="0.0" y="0.0" width="250" height="30"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wfP-bW-m1q">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="9" height="30"/>
+                                                                                <rect key="frame" x="0.0" y="0.0" width="8.5" height="30"/>
                                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PQQ-o2-FzJ" customClass="CustomTextField" customModule="GoGetter" customModuleProvider="target">
-                                                                                <rect key="frame" x="24" y="0.0" width="226" height="30"/>
+                                                                                <rect key="frame" x="23.5" y="0.0" width="226.5" height="30"/>
                                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="30" id="3KM-aW-jTo"/>
@@ -4206,13 +4253,13 @@ This will only take a minute.</string>
                                                                         <rect key="frame" x="0.0" y="40" width="250" height="30"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6D-sP-4wZ">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="9" height="30"/>
+                                                                                <rect key="frame" x="0.0" y="0.0" width="8.5" height="30"/>
                                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zhs-uj-Ry4" customClass="CustomTextField" customModule="GoGetter" customModuleProvider="target">
-                                                                                <rect key="frame" x="24" y="0.0" width="226" height="30"/>
+                                                                                <rect key="frame" x="23.5" y="0.0" width="226.5" height="30"/>
                                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="30" id="udQ-Xr-W97"/>
@@ -4238,13 +4285,13 @@ This will only take a minute.</string>
                                                                         <rect key="frame" x="0.0" y="80" width="250" height="30"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Si6-RP-apt">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="9" height="30"/>
+                                                                                <rect key="frame" x="0.0" y="0.0" width="8.5" height="30"/>
                                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="32h-V1-v3l" customClass="CustomTextField" customModule="GoGetter" customModuleProvider="target">
-                                                                                <rect key="frame" x="24" y="0.0" width="226" height="30"/>
+                                                                                <rect key="frame" x="23.5" y="0.0" width="226.5" height="30"/>
                                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="30" id="CiL-Iy-3ib"/>
@@ -4270,13 +4317,13 @@ This will only take a minute.</string>
                                                                         <rect key="frame" x="0.0" y="120" width="250" height="30"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gXA-d2-xzk">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="9" height="30"/>
+                                                                                <rect key="frame" x="0.0" y="0.0" width="8.5" height="30"/>
                                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="raN-jd-yfR" customClass="CustomTextField" customModule="GoGetter" customModuleProvider="target">
-                                                                                <rect key="frame" x="24" y="0.0" width="226" height="30"/>
+                                                                                <rect key="frame" x="23.5" y="0.0" width="226.5" height="30"/>
                                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="30" id="cc5-xu-0QD"/>
@@ -4309,16 +4356,16 @@ This will only take a minute.</string>
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="7LQ-hG-SbZ">
-                                                        <rect key="frame" x="0.0" y="213.5" width="250" height="73.5"/>
+                                                        <rect key="frame" x="0.0" y="210" width="250" height="70"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OCCUPATION:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aq1-ci-5jc">
-                                                                <rect key="frame" x="0.0" y="0.0" width="113.5" height="23.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="113.5" height="20"/>
                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                                 <color key="textColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="PQ1-tH-hgR">
-                                                                <rect key="frame" x="0.0" y="43.5" width="250" height="30"/>
+                                                                <rect key="frame" x="0.0" y="40" width="250" height="30"/>
                                                                 <subviews>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="eI1-Sp-FYp">
                                                                         <rect key="frame" x="0.0" y="0.0" width="250" height="30"/>
@@ -4357,16 +4404,16 @@ This will only take a minute.</string>
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="aC6-sZ-wg8">
-                                                        <rect key="frame" x="0.0" y="307" width="250" height="201.5"/>
+                                                        <rect key="frame" x="0.0" y="300" width="250" height="198"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I AM HERE FOR:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qEs-cp-9u2">
-                                                                <rect key="frame" x="0.0" y="0.0" width="126" height="23.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="128.5" height="20"/>
                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                                 <color key="textColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="miv-NR-8PW">
-                                                                <rect key="frame" x="0.0" y="43.5" width="194" height="158"/>
+                                                                <rect key="frame" x="0.0" y="40" width="194" height="158"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uNA-cr-8hl">
                                                                         <rect key="frame" x="0.0" y="0.0" width="179.5" height="46"/>
@@ -4379,7 +4426,7 @@ This will only take a minute.</string>
                                                                                 </constraints>
                                                                             </imageView>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Long-term dating" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mDk-g0-Jnm">
-                                                                                <rect key="frame" x="46" y="13" width="125.5" height="20.5"/>
+                                                                                <rect key="frame" x="46" y="14.5" width="125.5" height="17.5"/>
                                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
@@ -4405,7 +4452,7 @@ This will only take a minute.</string>
                                                                                 </constraints>
                                                                             </imageView>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Short-term dating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DHc-BE-2in">
-                                                                                <rect key="frame" x="46" y="13" width="140" height="20.5"/>
+                                                                                <rect key="frame" x="46" y="14.5" width="140" height="17.5"/>
                                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
@@ -4431,7 +4478,7 @@ This will only take a minute.</string>
                                                                                 </constraints>
                                                                             </imageView>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A Workout buddy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0uu-lb-Hib">
-                                                                                <rect key="frame" x="46" y="13" width="126" height="20.5"/>
+                                                                                <rect key="frame" x="46" y="14.5" width="126" height="17.5"/>
                                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
@@ -4451,31 +4498,31 @@ This will only take a minute.</string>
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="OlQ-43-G2N">
-                                                        <rect key="frame" x="0.0" y="528.5" width="250" height="86.5"/>
+                                                        <rect key="frame" x="0.0" y="518" width="250" height="80"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="qU8-Fn-CkB">
-                                                                <rect key="frame" x="0.0" y="0.0" width="250" height="46.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="250" height="40"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Height Range Desired:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rNJ-qj-PgM">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="125" height="46.5"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="125" height="40"/>
                                                                         <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="8n1-uy-eFL">
-                                                                        <rect key="frame" x="125" y="0.0" width="125" height="20.5"/>
+                                                                        <rect key="frame" x="125" y="0.0" width="125" height="17.5"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5' 0&quot;" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T5X-jn-NPV">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="38.5" height="20.5"/>
+                                                                                <rect key="frame" x="0.0" y="0.0" width="38.5" height="17.5"/>
                                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pnm-ix-lnY">
-                                                                                <rect key="frame" x="43.5" y="0.0" width="38" height="20.5"/>
+                                                                                <rect key="frame" x="43.5" y="0.0" width="38" height="17.5"/>
                                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6' 0&quot;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pJK-rQ-vgD">
-                                                                                <rect key="frame" x="86.5" y="0.0" width="38.5" height="20.5"/>
+                                                                                <rect key="frame" x="86.5" y="0.0" width="38.5" height="17.5"/>
                                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="15"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
@@ -4487,7 +4534,7 @@ This will only take a minute.</string>
                                                                 </constraints>
                                                             </stackView>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8tr-8x-3GF" customClass="RangeSlider" customModule="GoGetter" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="56.5" width="250" height="30"/>
+                                                                <rect key="frame" x="0.0" y="50" width="250" height="30"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="30" id="c2p-M5-dm8"/>
                                                                 </constraints>
@@ -4518,16 +4565,16 @@ This will only take a minute.</string>
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Ufb-T5-VIY">
-                                                        <rect key="frame" x="0.0" y="635" width="250" height="179.5"/>
+                                                        <rect key="frame" x="0.0" y="618" width="250" height="176"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YOUR GENDER:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CaY-Eh-KKb">
-                                                                <rect key="frame" x="0.0" y="0.0" width="124" height="23.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="127" height="20"/>
                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                                 <color key="textColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zYW-cE-0dr">
-                                                                <rect key="frame" x="0.0" y="43.5" width="250" height="136"/>
+                                                                <rect key="frame" x="0.0" y="40" width="250" height="136"/>
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v8Y-7l-tGd">
                                                                         <rect key="frame" x="0.0" y="0.0" width="121" height="136"/>
@@ -4559,16 +4606,16 @@ This will only take a minute.</string>
                                                         </constraints>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="EtZ-a7-T97">
-                                                        <rect key="frame" x="0.0" y="834.5" width="250" height="73.5"/>
+                                                        <rect key="frame" x="0.0" y="814" width="250" height="70"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YOUR BIRTHDAY:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wgj-Ix-jxf">
-                                                                <rect key="frame" x="0.0" y="0.0" width="138" height="23.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="138" height="20"/>
                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                                 <color key="textColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="WJ4-Ts-e3h">
-                                                                <rect key="frame" x="0.0" y="43.5" width="250" height="30"/>
+                                                                <rect key="frame" x="0.0" y="40" width="250" height="30"/>
                                                                 <subviews>
                                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="bE9-VI-ecH">
                                                                         <rect key="frame" x="0.0" y="0.0" width="250" height="30"/>
@@ -4607,19 +4654,19 @@ This will only take a minute.</string>
                                                         </constraints>
                                                     </stackView>
                                                     <stackView clipsSubviews="YES" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="vnc-Mx-Ed9">
-                                                        <rect key="frame" x="0.0" y="928" width="250" height="104.5"/>
+                                                        <rect key="frame" x="0.0" y="904" width="250" height="101"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rat-HN-COG">
-                                                                <rect key="frame" x="0.0" y="0.0" width="250" height="23.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="250" height="20"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YOUR HEIGHT:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHM-d2-qIf">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="125" height="23.5"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="125" height="20"/>
                                                                         <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5'6&quot;" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ig-ux-gT9">
-                                                                        <rect key="frame" x="125" y="0.0" width="125" height="23.5"/>
+                                                                        <rect key="frame" x="125" y="0.0" width="125" height="20"/>
                                                                         <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="17"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
@@ -4630,7 +4677,7 @@ This will only take a minute.</string>
                                                                 </constraints>
                                                             </stackView>
                                                             <slider clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5.5999999999999996" minValue="4" maxValue="8" translatesAutoresizingMaskIntoConstraints="NO" id="FFQ-LH-gkm" customClass="CustomSlider" customModule="GoGetter" customModuleProvider="target">
-                                                                <rect key="frame" x="-2" y="48.5" width="254" height="31"/>
+                                                                <rect key="frame" x="-2" y="45" width="254" height="31"/>
                                                                 <color key="minimumTrackTintColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <color key="maximumTrackTintColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <userDefinedRuntimeAttributes>
@@ -4640,7 +4687,7 @@ This will only take a minute.</string>
                                                                 </userDefinedRuntimeAttributes>
                                                             </slider>
                                                             <view alpha="0.30000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6w9-c0-exa">
-                                                                <rect key="frame" x="0.0" y="103.5" width="250" height="1"/>
+                                                                <rect key="frame" x="0.0" y="100" width="250" height="1"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="1" id="nQi-YR-xEt"/>
@@ -4650,15 +4697,15 @@ This will only take a minute.</string>
                                                         <color key="tintColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="k4L-3a-e1e">
-                                                        <rect key="frame" x="0.0" y="1052.5" width="250" height="260.5"/>
+                                                        <rect key="frame" x="0.0" y="1025" width="250" height="254"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tell us a bit about yourself and what you are looking for..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eZV-hy-S6t">
-                                                                <rect key="frame" x="0.0" y="0.0" width="250" height="44"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="250" height="37.5"/>
                                                                 <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="16"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JXt-gI-tfR" customClass="CustomTextView" customModule="GoGetter" customModuleProvider="target">
-                                                                <rect key="frame" x="0.0" y="64" width="250" height="156"/>
+                                                                <rect key="frame" x="0.0" y="57.5" width="250" height="156"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="156" id="l9O-M3-3LM"/>
                                                                 </constraints>
@@ -4681,7 +4728,7 @@ This will only take a minute.</string>
                                                                 </connections>
                                                             </textView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/300 " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eEl-dc-w6Q" userLabel="Desc Count Label">
-                                                                <rect key="frame" x="0.0" y="240" width="250" height="20.5"/>
+                                                                <rect key="frame" x="0.0" y="233.5" width="250" height="20.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <color key="textColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -4689,7 +4736,7 @@ This will only take a minute.</string>
                                                         </subviews>
                                                     </stackView>
                                                     <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Rgw-7u-zwS">
-                                                        <rect key="frame" x="0.0" y="1313" width="250" height="80"/>
+                                                        <rect key="frame" x="0.0" y="1279" width="250" height="80"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SELECT YOUR UNIT SYSTEM:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WBg-44-S7d">
                                                                 <rect key="frame" x="0.0" y="0.0" width="250" height="0.0"/>
@@ -4731,7 +4778,7 @@ This will only take a minute.</string>
                                                         </constraints>
                                                     </stackView>
                                                     <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="is6-Ct-a5d">
-                                                        <rect key="frame" x="0.0" y="1313" width="250" height="44.5"/>
+                                                        <rect key="frame" x="0.0" y="1279" width="250" height="44.5"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5TR-6Y-TOT">
                                                                 <rect key="frame" x="0.0" y="0.0" width="250" height="44.5"/>
@@ -4754,6 +4801,7 @@ This will only take a minute.</string>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="s1C-6t-oS1" firstAttribute="leading" secondItem="Ttx-tn-IA6" secondAttribute="leading" id="0cM-lR-JEj"/>
+                                            <constraint firstItem="PGa-5y-Gcq" firstAttribute="leading" secondItem="Ttx-tn-IA6" secondAttribute="leading" id="18X-Qr-cPX"/>
                                             <constraint firstAttribute="trailing" secondItem="7l9-et-q78" secondAttribute="trailing" constant="35" id="1PI-SZ-aai"/>
                                             <constraint firstItem="0sb-GW-Xo3" firstAttribute="leading" secondItem="Ttx-tn-IA6" secondAttribute="leading" constant="35" id="4K5-zG-Bxe"/>
                                             <constraint firstItem="GOE-nz-hUN" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="e9q-yy-ycZ" secondAttribute="trailing" constant="24" id="5fH-Pc-gXv"/>
@@ -4775,7 +4823,8 @@ This will only take a minute.</string>
                                             <constraint firstItem="bjZ-SA-0EN" firstAttribute="leading" secondItem="Ttx-tn-IA6" secondAttribute="leading" id="F4a-Qd-yjM"/>
                                             <constraint firstItem="2Uf-JM-JkG" firstAttribute="leading" secondItem="Ttx-tn-IA6" secondAttribute="leading" constant="35" id="FdC-ZS-5Qn"/>
                                             <constraint firstAttribute="trailing" secondItem="s1C-6t-oS1" secondAttribute="trailing" id="FzI-9d-Ekw"/>
-                                            <constraint firstItem="Ro2-Zk-omT" firstAttribute="top" secondItem="yNy-LU-xTv" secondAttribute="bottom" constant="25" id="GLd-yj-NFn"/>
+                                            <constraint firstItem="Ro2-Zk-omT" firstAttribute="top" secondItem="yNy-LU-xTv" secondAttribute="bottom" constant="150" id="GLd-yj-NFn"/>
+                                            <constraint firstItem="Ro2-Zk-omT" firstAttribute="top" secondItem="PGa-5y-Gcq" secondAttribute="bottom" constant="25" id="HGW-iJ-wSo"/>
                                             <constraint firstItem="vtP-GC-O9C" firstAttribute="leading" secondItem="Ttx-tn-IA6" secondAttribute="leading" constant="35" id="IdY-xb-c8m"/>
                                             <constraint firstItem="jlD-8g-JEa" firstAttribute="top" secondItem="H20-wo-bf9" secondAttribute="bottom" constant="20" id="Ipg-D9-IGN"/>
                                             <constraint firstItem="0eI-cF-94e" firstAttribute="leading" secondItem="Ttx-tn-IA6" secondAttribute="leading" constant="35" id="IxK-LF-aRb"/>
@@ -4818,6 +4867,7 @@ This will only take a minute.</string>
                                             <constraint firstItem="kdx-Xz-tI1" firstAttribute="width" secondItem="kdx-Xz-tI1" secondAttribute="height" multiplier="208:37" id="aX8-7N-AcK"/>
                                             <constraint firstAttribute="trailing" secondItem="tMx-t6-sUB" secondAttribute="trailing" constant="35" id="arX-4L-oMF"/>
                                             <constraint firstItem="O9n-1X-u5C" firstAttribute="top" secondItem="J0e-zg-gBN" secondAttribute="bottom" id="bIo-IP-Kdj"/>
+                                            <constraint firstAttribute="trailing" secondItem="PGa-5y-Gcq" secondAttribute="trailing" id="cE0-8D-sBf"/>
                                             <constraint firstItem="e9q-yy-ycZ" firstAttribute="leading" secondItem="Ttx-tn-IA6" secondAttribute="leading" constant="35" id="cds-Zb-GEz"/>
                                             <constraint firstItem="rKP-t5-bzU" firstAttribute="leading" secondItem="Ttx-tn-IA6" secondAttribute="leading" constant="35" id="dIf-XF-Bat"/>
                                             <constraint firstItem="ZZc-pz-XpF" firstAttribute="leading" secondItem="Ttx-tn-IA6" secondAttribute="leading" constant="35" id="dVT-ZO-tLS"/>
@@ -4980,6 +5030,7 @@ This will only take a minute.</string>
                         <outlet property="lblAgeHide" destination="4me-HX-Wtn" id="Nk0-LO-Cok"/>
                         <outlet property="lblAgeMax" destination="Dj1-gv-71D" id="9pR-nT-M40"/>
                         <outlet property="lblAgeStart" destination="hYO-7m-zPi" id="beK-br-WKd"/>
+                        <outlet property="lblCountCoins" destination="Ld3-6P-Dme" id="dlh-zo-TVe"/>
                         <outlet property="lblHeight" destination="4ig-ux-gT9" id="eHR-w5-FZN"/>
                         <outlet property="lblHeightMax" destination="pJK-rQ-vgD" id="qE4-v4-CUY"/>
                         <outlet property="lblHeightMin" destination="T5X-jn-NPV" id="nxQ-Zf-aXY"/>
@@ -6030,6 +6081,7 @@ This will only take a minute.</string>
         </scene>
     </scenes>
     <resources>
+        <image name="GoGetterSilverCoinWithShadow" width="405.5" height="426.5"/>
         <image name="Question1g" width="260" height="150"/>
         <image name="arrow2" width="132.5" height="186.5"/>
         <image name="back" width="30" height="30"/>

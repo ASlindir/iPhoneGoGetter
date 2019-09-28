@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Barmeno Bold.otf">
+            <string>Barmeno-Bold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PurchaseManagerViewController" customModule="GoGetter" customModuleProvider="target">
+            <connections>
+                <outlet property="backButton" destination="gb4-yx-M3E" id="pUS-4v-jLw"/>
+                <outlet property="bottomLabel" destination="Gi7-Lk-J3Q" id="D9K-vg-HB4"/>
+                <outlet property="gradientView" destination="2Zw-Nw-7u7" id="J17-V8-JeX"/>
+                <outlet property="purchaseStackView" destination="6zf-nN-0W2" id="Mz8-tK-5xv"/>
+                <outlet property="titleLabel" destination="6nd-wr-6Uf" id="uvX-rf-4YT"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Zw-Nw-7u7">
+                    <rect key="frame" x="0.0" y="242" width="414" height="620"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gogetterWithS" translatesAutoresizingMaskIntoConstraints="NO" id="Yu4-Rx-MiX">
+                    <rect key="frame" x="147" y="69" width="120" height="61.5"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="120" id="Kmo-JP-dmS"/>
+                        <constraint firstAttribute="height" constant="61.5" id="nqv-xF-oh2"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gb4-yx-M3E">
+                    <rect key="frame" x="8" y="80" width="44" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="1vi-xK-24I"/>
+                        <constraint firstAttribute="width" constant="44" id="4tw-2S-mdS"/>
+                    </constraints>
+                    <state key="normal" image="back"/>
+                    <connections>
+                        <action selector="touchBackButton:" destination="-1" eventType="touchUpInside" id="dNK-lE-l7E"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have 8 coins left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nd-wr-6Uf">
+                    <rect key="frame" x="35" y="160.5" width="344" height="28"/>
+                    <fontDescription key="fontDescription" name="Barmeno-Bold" family="Barmeno" pointSize="28"/>
+                    <color key="textColor" red="0.23137254900000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6zf-nN-0W2">
+                    <rect key="frame" x="8" y="218.5" width="398" height="555.5"/>
+                </stackView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="COIN STATISTICS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gi7-Lk-J3Q">
+                    <rect key="frame" x="30" y="804" width="354" height="28"/>
+                    <fontDescription key="fontDescription" name="Barmeno-Bold" family="Barmeno" pointSize="28"/>
+                    <color key="textColor" red="0.23137254900000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Yu4-Rx-MiX" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="3zm-ge-EDv"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6nd-wr-6Uf" secondAttribute="trailing" constant="35" id="Ac1-wS-mum"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="2Zw-Nw-7u7" secondAttribute="trailing" id="PWZ-lT-o6y"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="2Zw-Nw-7u7" secondAttribute="bottom" id="RDp-aR-EMk"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Gi7-Lk-J3Q" secondAttribute="trailing" constant="30" id="RbK-Z6-BNf"/>
+                <constraint firstItem="6zf-nN-0W2" firstAttribute="top" secondItem="6nd-wr-6Uf" secondAttribute="bottom" constant="30" id="Rez-fP-jwX"/>
+                <constraint firstItem="6nd-wr-6Uf" firstAttribute="top" secondItem="Yu4-Rx-MiX" secondAttribute="bottom" constant="30" id="SJl-2Q-Rzs"/>
+                <constraint firstItem="Yu4-Rx-MiX" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="25" id="SNL-c3-iZ4"/>
+                <constraint firstItem="Gi7-Lk-J3Q" firstAttribute="top" secondItem="6zf-nN-0W2" secondAttribute="bottom" constant="30" id="Sgx-E0-eOF"/>
+                <constraint firstItem="6nd-wr-6Uf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="35" id="ff6-W3-BNB"/>
+                <constraint firstItem="2Zw-Nw-7u7" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="198" id="fpe-tJ-5dG"/>
+                <constraint firstItem="gb4-yx-M3E" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="jro-wp-Yug"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6zf-nN-0W2" secondAttribute="trailing" constant="8" id="kKu-5H-ltM"/>
+                <constraint firstItem="Gi7-Lk-J3Q" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="qB6-ds-foH"/>
+                <constraint firstItem="2Zw-Nw-7u7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="rRU-4s-Sp8"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Gi7-Lk-J3Q" secondAttribute="bottom" constant="30" id="u3R-36-JUd"/>
+                <constraint firstItem="6zf-nN-0W2" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="uwR-Tp-KEM"/>
+                <constraint firstItem="gb4-yx-M3E" firstAttribute="centerY" secondItem="Yu4-Rx-MiX" secondAttribute="centerY" id="zrR-xV-YDg"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="34.782608695652179" y="34.821428571428569"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="back" width="30" height="30"/>
+        <image name="gogetterWithS" width="213" height="72"/>
+    </resources>
+</document>

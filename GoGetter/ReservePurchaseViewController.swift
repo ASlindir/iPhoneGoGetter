@@ -18,6 +18,9 @@ class ReservePurchaseViewController: UIViewController {
         super.viewDidLoad()
 
         // buttons
+        self.goButton.adjustsImageWhenHighlighted = false
+        self.goButton.adjustsImageWhenDisabled = false
+        
         self.notYetButton.backgroundColor = UIColor.clear
         self.notYetButton.layer.borderWidth = 1.0
         self.notYetButton.layer.borderColor = UIColor(red:0.82, green:0.84, blue:0.84, alpha:1.0).cgColor
@@ -54,4 +57,16 @@ class ReservePurchaseViewController: UIViewController {
         self.gradientView.layer.addSublayer(gradientLayer)
     }
 
+    @IBAction func touchGo(_ sender: Any) {
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: [.autoreverse], animations: {
+            self.goButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        }, completion: {finished in
+            self.goButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        })
+    }
+    
+    @IBAction func touchNotYet(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
 }

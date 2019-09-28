@@ -16,6 +16,9 @@ enum Audios : String{
     case swipeLeft = "swipeLEFT"
     case swipeRight = "swipeRight"
     case bottomView = "bottomView"
+    
+    case blop = "BlopSoundEffect"
+    case cash = "CashRegister"
 }
 
 enum SongExtnsions: String{

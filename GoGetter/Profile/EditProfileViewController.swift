@@ -18,7 +18,7 @@ import UIImage_ImageCompress
 import MessageUI
 import CropViewController
 
-class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryViewControllerDelegates, UINavigationControllerDelegate, UIImagePickerControllerDelegate, RecordVideoDelegate, ProfileViewControllerDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, UITextViewDelegate, MFMailComposeViewControllerDelegate, CropViewControllerDelegate {
+class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryViewControllerDelegates, UINavigationControllerDelegate, UIImagePickerControllerDelegate, RecordVideoDelegate, ProfileViewControllerDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, UITextViewDelegate, MFMailComposeViewControllerDelegate, CropViewControllerDelegate, PurchaseManagerViewControllerDelegate, PurchaseViewControllerDelegate {
     
 //MARK:-  IBOutlets, Variables and Constants
     
@@ -102,6 +102,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     @IBOutlet weak var lblMoreSettings: UILabel!
     @IBOutlet weak var lblHeightMin: UILabel!
     @IBOutlet weak var lblHeightMax: UILabel!
+    @IBOutlet weak var lblCountCoins: UILabel!
     
     @IBOutlet weak var viewTop: UIView!
     @IBOutlet weak var viewMoreSetting: UIView!
@@ -294,6 +295,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         // default contraints
         self.milesSliderTopContraintDefault = self.milesSliderTopConstraint.constant
         self.milesSliderBottomContraintDefault = self.milesSliderBottomContraint.constant
+        
+        // did
+        self.loadUserConvoStats()
     }
     
     @objc func goToProfile(isAlreadyLogin : Bool){
@@ -902,6 +906,10 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         openCameraView5.frame = CGRect(x: -0.5, y: -10, width: width, height: height)
         openCameraView5.widthOpenCamera.constant = width
         openCameraView5.heightOpenCamera.constant = height
+        
+        self.lblCountCoins.layer.cornerRadius = self.lblCountCoins.frame.height / 2.0
+        self.lblCountCoins.layer.masksToBounds = true
+        self.lblCountCoins.text = "0"
         
     }
     
@@ -1865,6 +1873,12 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         }
     }
     
+    @IBAction func btnManageCoins(_ sender: Any) {
+        let controller = PurchaseManagerViewController.loadFromNib()
+        controller.delegateManager = self
+        self.present(controller, animated: true, completion: nil)
+    }
+    
     @IBAction func btnSliderQuizz(_ sender: Any?){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         
@@ -2314,6 +2328,28 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         })
     }
     
+    func loadUserConvoStats(compliteHandler: (() -> Void)? = nil) {
+        Loader.startLoader(true)
+        
+        var parameters = Dictionary<String, Any>()
+        parameters["userId"] = LocalStore.store.getFacebookID()
+        
+        WebServices.service.webServicePostRequest(.post, .conversation, .doQueryConvoStats, parameters, successHandler: { (response) in
+            let jsonDict = response
+            
+            if let userCoinRecord = jsonDict!["userCoinRecord"] as? [String:Any?] {
+                if let coinsNotReserved = userCoinRecord["coinsNotReserved"] as? String {
+                    self.lblCountCoins.text = coinsNotReserved
+                }
+            }
+            
+            compliteHandler?()
+        }) { (error) in
+            self.outAlertError(message: "Error: \(error.debugDescription)")
+            compliteHandler?()
+        }
+    }
+    
     // MARK: MFMailComposeViewControllerDelegate Method
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
@@ -2738,6 +2774,21 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     //MARK:-  Navigation controller Delegate
     override func didMove(toParent parent: UIViewController?) {
         print("Back")
+    }
+    
+    // MARK: - PurchaseManagerViewControllerDelegate
+    
+    func didBackToMathes() {
+        CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+        let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+        profileController.profileDelegate = self
+        profileController.isAlreadyLogin = true
+        navigationController?.pushViewController(profileController, animated: true)
+    }
+    
+    // MARK:- PurchaseViewControllerDelegate
+    func didSuccessPurchase(convoId: Int, screenAction: Int, prompt: String?) {
+        self.loadUserConvoStats()
     }
 }
 

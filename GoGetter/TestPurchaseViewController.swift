@@ -7,11 +7,16 @@
 //
 
 import UIKit
+import Firebase
+import DACircularProgress
 
 class TestPurchaseViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     @IBOutlet weak var testClockImage: UIClockImageView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var leadingCollectionConstraint: NSLayoutConstraint!
+    @IBOutlet weak var circularView: DACircularProgressView!
+    @IBOutlet weak var circularImageView: UIImageView!
+    @IBOutlet weak var circleView: UICircleUserView!
     
     var leadingCollectionConstraintDefault: CGFloat = 0.0
     
@@ -44,11 +49,26 @@ class TestPurchaseViewController: UIViewController, UICollectionViewDelegate, UI
         
         // init constraints
         self.leadingCollectionConstraintDefault = self.leadingCollectionConstraint.constant
+        
+        // circular
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.circularImageView.layer.cornerRadius = self.circularImageView.frame.height / 2.0
+            self.circularImageView.layer.borderColor = UIColor.clear.cgColor
+            self.circularImageView.layer.borderWidth = 2.0
+            
+            self.circularView.progressTintColor = UIColor.white
+            self.circularView.trackTintColor = UIColor.green
+            
+            self.circularView.setProgress(0.35, animated: false)
+        }
     }
 
     @IBAction func touchStart(_ sender: Any) {
         self.showHideAnimation(self.testClockImage)
         self.animationAddItemToCollection()
+        //self.circleView.animationShow()
+        self.circleView.animationClick()
+//        self.circleView.animationChangeColor(color: UIColor.red)
     }
     
     func showHideAnimation(_ view: UIView) {

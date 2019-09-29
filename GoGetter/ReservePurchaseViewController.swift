@@ -15,6 +15,7 @@ class ReservePurchaseViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     
     var userId: String? = nil
+    var isPinkName: Bool = false
     var didGoHandler: ((String?) -> Void)? = nil
     
     override func viewDidLoad() {
@@ -81,7 +82,17 @@ class ReservePurchaseViewController: UIViewController {
                 if status == "success"{
                     if let userDetails = jsonData!["user_details"] as? Dictionary<String, Any> {
                         if let name = userDetails["user_name"] as? String {
-                            self.titleLabel.text = "Reserve a coin for \(name)"
+                            if self.isPinkName {
+                                let string = NSMutableAttributedString(string: "Reserve a coin for \(name)")
+                                let range: NSRange = string.mutableString.range(of: name, options: .caseInsensitive)
+                                
+                                string.addAttribute(NSAttributedString.Key.foregroundColor, value:  UIColor(red:0.94, green:0.37, blue:0.65, alpha:1.0), range: range)
+                                string.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Pacifico-Regular", size: 24.0)!, range: range)
+                                
+                                self.titleLabel.attributedText = string
+                            } else {
+                                self.titleLabel.text = "Reserve a coin for \(name)"
+                            }
                         }
                     }
                 }

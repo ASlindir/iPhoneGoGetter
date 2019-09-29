@@ -16,6 +16,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
     @IBOutlet weak var collectionViewNewMatches: UICollectionView!
     
     @IBOutlet weak var leadingCollectionViewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomCollectionViewConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableViewMessages: UITableView!
     
     var friendsList = [[String: Any]]()
@@ -35,7 +36,9 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     var userNewId: String? = nil
     var leadingCollectionConstraintDefault: CGFloat = 0.0
+    var bottomCollectionViewConstraintDefault: CGFloat = 0.0
     var isAnimatateFirstItem: Bool = false
+    var isAnimatateFirstItemInTable: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +54,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
         
         // constraints
         self.leadingCollectionConstraintDefault = self.leadingCollectionViewConstraint.constant
+        self.bottomCollectionViewConstraintDefault = self.bottomCollectionViewConstraint.constant
         
         // test
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -228,14 +232,56 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewMatchesCell", for: indexPath) as! NewMatchesCollectionViewCell
-        let name = friendsList[indexPath.row]["user_name"] as! String
-        cell.lblName.text = name
+//        let name = friendsList[indexPath.row]["user_name"] as! String
+       
         if let profile_pic = friendsList[indexPath.row]["profile_pic"] as? String {
-        cell.imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic)), placeholderImage: UIImage.init(named: "placeholder"))
+            cell.circleView.imageView.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic)), placeholderImage: UIImage.init(named: "placeholder"))
         }
         
-        cell.imgViewProfile.layer.cornerRadius = 37
-        cell.lblName.isHidden = true
+        cell.circleView.tapHandler = nil
+        
+        if let matchDateStr = friendsList[indexPath.row]["match_created_on"] as? String {
+            cell.circleView.shapeColor = UIColor(red:0.66, green:0.66, blue:0.66, alpha:1.0)
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            dateFormatter.timeZone = NSTimeZone(abbreviation: "GMT")! as TimeZone
+             dateFormatter.locale = Locale.init(identifier: "en_US_POSIX")
+            let matchDate: Date? = dateFormatter.date(from: matchDateStr )
+            let time = Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0
+
+            if (time >= 172800) {
+                cell.circleView.addCircle(100)
+            } else {
+                print(CGFloat(CGFloat(time)/172800))
+                cell.circleView.addCircle(CGFloat(CGFloat(time)/172800) * 100.0)
+            }
+        } else {
+            // test
+            if indexPath.item % 2 == 0 {
+                cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)
+                cell.circleView.tapHandler = {circleView in
+                    self.animationAddItemToTable()
+                }
+            } else {
+                // pink
+                cell.circleView.shapeColor = UIColor(red:0.94, green:0.37, blue:0.65, alpha:1.0)
+                cell.circleView.tapHandler = {circleView in
+                    circleView.animationClick(completion: {
+                        let controller = ReservePurchaseViewController.loadFromNib()
+                        controller.userId = LocalStore.store.getFacebookID()
+                        controller.isPinkName = true
+                        controller.didGoHandler = {userId in
+                            self.animationAddItemToTable()
+                        }
+                        self.present(controller, animated: true, completion: nil)
+                    })
+                }
+            }
+            
+            
+            cell.circleView.addCircle(0)
+        }
         
         if isAnimatateFirstItem && indexPath.item == 0 {
             cell.contentView.isHidden = true
@@ -261,37 +307,6 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
             cell.contentView.isHidden = false
         }
         
-        // test
-        cell.vwProgress.progressTintColor = UIColor.green
-        cell.vwProgress.trackTintColor = UIColor.clear
-        cell.vwProgress.roundedCorners = 0
-        cell.vwProgress.thicknessRatio = 2.0
-        cell.vwProgress.clockwiseProgress = 1
-        
-        // original
-//        if let matchDateStr = friendsList[indexPath.row]["match_created_on"] as? String {
-//            let dateFormatter = DateFormatter()
-//            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//            dateFormatter.timeZone = NSTimeZone(abbreviation: "GMT")! as TimeZone
-//             dateFormatter.locale = Locale.init(identifier: "en_US_POSIX")
-//            let matchDate: Date? = dateFormatter.date(from: matchDateStr )
-//            let time = Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0
-//
-//            cell.vwProgress.progressTintColor = UIColor.init(red: 35/255, green: 165/255, blue: 175/255, alpha: 0.7)
-//            cell.vwProgress.trackTintColor = UIColor.clear
-//            cell.vwProgress.roundedCorners = 0
-//            cell.vwProgress.thicknessRatio = 1.0
-//            cell.vwProgress.clockwiseProgress = 0
-//            if (time >= 172800) {
-//                cell.vwProgress.setProgress(1.0, animated: false)
-//
-//            }
-//            else {
-//                print(CGFloat(CGFloat(time)/172800))
-//                cell.vwProgress.setProgress(CGFloat(CGFloat(time)/172800), animated: false)
-//            }
-//        }
-        
         return cell
     }
     
@@ -306,7 +321,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
     
 //MARK:-  UICollectionView Delegates Flow Layout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 92, height: 125)
+        return CGSize(width: 105, height: 105)
     }
     
 //MARK:-  UITableView Data Sources
@@ -418,7 +433,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.isAnimatateFirstItem = true
         self.friendsList.append(LocalStore.store.getUserDetails())
         
-        self.leadingCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault + 93
+        self.leadingCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault + 105
         UIView.animate(withDuration: 0.75, animations: {
             self.view.layoutIfNeeded()
         }, completion: {res in
@@ -450,14 +465,50 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
         })
     }
     
+    func animationAddItemToTable() {
+//        self.isAnimatateFirstItemInTable = true
+//
+//        let friendDict = LocalStore.store.getUserDetails()
+//
+//        let id = friendDict["user_fb_id"] as! String
+//        var name = ""
+//        var profilePic = ""
+//        if let friendname = friendDict["user_name"] as? String {
+//            name = friendname
+//        }
+//        if let profilePicFriend = friendDict["profile_pic"] as? String {
+//            profilePic = profilePicFriend
+//        }
+//
+//        let idSelf = self.user_id
+//        var nameSelf = ""
+//        var profilePicSelf = ""
+//        if let myName = personalDetail["user_name"] as? String {
+//            nameSelf = myName
+//        }
+//        if let myProfilePic = personalDetail["profile_pic"] as? String {
+//            profilePicSelf = myProfilePic
+//        }
+//
+//        self.friends.append(Friend(id: idSelf, name: nameSelf, profilePic: profilePicSelf, lastMessage: nil, online: false))
+//
+//        self.bottomCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault + 105
+//        UIView.animate(withDuration: 0.75, animations: {
+//            self.view.layoutIfNeeded()
+//        }, completion: {res in
+//            self.leadingCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault
+//            self.collectionViewNewMatches.reloadData()
+//        })
+    }
+    
 //MARK:-  Get Friends List
     func getFriendsList(){
         
         // test
-        self.friendsList.append(LocalStore.store.getUserDetails())
-        self.friendsList.append(LocalStore.store.getUserDetails())
-        self.friendsList.append(LocalStore.store.getUserDetails())
-        self.friendsList.append(LocalStore.store.getUserDetails())
+        for index in 0..<10 {
+            self.friendsList.append(LocalStore.store.getUserDetails())
+        }
+        
         self.collectionViewNewMatches.reloadData()
 //        print(self.friendsList)
         

@@ -10,10 +10,5 @@ import UIKit
 import DACircularProgress
 
 class NewMatchesCollectionViewCell: UICollectionViewCell {
-    
-    @IBOutlet weak var imgViewProfile: UIImageView!
-    
-    @IBOutlet weak var lblName: UILabel!
-    
-    @IBOutlet weak var vwProgress: DACircularProgressView!
+    @IBOutlet weak var circleView: UICircleUserView!
 }

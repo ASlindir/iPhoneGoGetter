@@ -79,6 +79,8 @@
 		841523E9230D102B00F88F09 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841523E8230D102B00F88F09 /* IAPHelper.swift */; };
 		841523EB230D105800F88F09 /* MainProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841523EA230D105800F88F09 /* MainProducts.swift */; };
 		8426D8812312963B0053106B /* PurchasesConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8426D8802312963B0053106B /* PurchasesConst.swift */; };
+		842F7D532340D18F004B30A4 /* UICircleUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F7D522340D18F004B30A4 /* UICircleUserView.swift */; };
+		842F7D552340D19A004B30A4 /* UICircleUserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842F7D542340D19A004B30A4 /* UICircleUserView.xib */; };
 		84319E5C22F01D86003FF7B5 /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84319E5B22F01D86003FF7B5 /* DatePickerDialog.swift */; };
 		84319E5F22F03D6F003FF7B5 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84319E5E22F03D6F003FF7B5 /* AlertViewController.swift */; };
 		84401CD0233E2DC200735302 /* BlopSoundEffect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 84401CCF233E2DC200735302 /* BlopSoundEffect.mp3 */; };
@@ -346,6 +348,8 @@
 		841523E8230D102B00F88F09 /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
 		841523EA230D105800F88F09 /* MainProducts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainProducts.swift; sourceTree = "<group>"; };
 		8426D8802312963B0053106B /* PurchasesConst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasesConst.swift; sourceTree = "<group>"; };
+		842F7D522340D18F004B30A4 /* UICircleUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICircleUserView.swift; sourceTree = "<group>"; };
+		842F7D542340D19A004B30A4 /* UICircleUserView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UICircleUserView.xib; sourceTree = "<group>"; };
 		84319E5B22F01D86003FF7B5 /* DatePickerDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 		84319E5E22F03D6F003FF7B5 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		84401CCF233E2DC200735302 /* BlopSoundEffect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = BlopSoundEffect.mp3; sourceTree = "<group>"; };
@@ -907,6 +911,7 @@
 				8479D46F230CE0F30031B73F /* UIPurchase.swift */,
 				8452805B233C58A300E079D4 /* UIClockImageView.swift */,
 				847ACD41233CFD4D00A1A6D5 /* GradientView.swift */,
+				842F7D522340D18F004B30A4 /* UICircleUserView.swift */,
 				8479D473230CE1830031B73F /* Views */,
 			);
 			name = Components;
@@ -917,6 +922,7 @@
 			children = (
 				8479D474230CE1940031B73F /* UIPurchase.xib */,
 				8452805D233C594200E079D4 /* UIClockImageView.xib */,
+				842F7D542340D19A004B30A4 /* UICircleUserView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1300,6 +1306,7 @@
 				10E635761F88BD6C00B84098 /* OpenSans-ExtraBold.ttf in Resources */,
 				B42A65971F9F02A100639F6B /* GoogleService-Info.plist in Resources */,
 				10E635771F88BD6C00B84098 /* OpenSans-LightItalic.ttf in Resources */,
+				842F7D552340D19A004B30A4 /* UICircleUserView.xib in Resources */,
 				10E635781F88BD6C00B84098 /* OpenSans-Bold.ttf in Resources */,
 				8452805A233C578900E079D4 /* TestPurchaseViewController.xib in Resources */,
 				847ACD49233E251D00A1A6D5 /* Pacifico-Regular.ttf in Resources */,
@@ -1539,6 +1546,7 @@
 				0D06B89E20C2E7A6002E1703 /* JSQMessagesCollectionViewCellOutgoing.m in Sources */,
 				841523E9230D102B00F88F09 /* IAPHelper.swift in Sources */,
 				84694F372283036E007AB8BA /* CALayer.swift in Sources */,
+				842F7D532340D18F004B30A4 /* UICircleUserView.swift in Sources */,
 				841523EB230D105800F88F09 /* MainProducts.swift in Sources */,
 				0D06B89520C2E7A6002E1703 /* JSQMessagesAvatarImage.m in Sources */,
 				8479D46B230CD8ED0031B73F /* PurchaseViewController.swift in Sources */,

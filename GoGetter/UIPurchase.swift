@@ -51,8 +51,6 @@ class UIPurchase: UINibView {
     }
     
     @IBAction func touchBuyButton(_ sender: Any) {
-        self.touch?(self.id)
-        
         CustomClass.sharedInstance.playAudio(.cash, .mp3)
         
         UIView.animate(withDuration: 0.3, animations: {
@@ -61,7 +59,7 @@ class UIPurchase: UINibView {
             UIView.animate(withDuration: 0.3, animations: {
                 self.buyButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             }, completion: { (completed: Bool) in
-                //
+                 self.touch?(self.id)
             })
         })
     }

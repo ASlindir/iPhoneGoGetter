@@ -15,6 +15,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
     @IBOutlet weak var heightNavigation: NSLayoutConstraint!
     @IBOutlet weak var collectionViewNewMatches: UICollectionView!
     
+    @IBOutlet weak var leadingCollectionViewConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableViewMessages: UITableView!
     
     var friendsList = [[String: Any]]()
@@ -33,6 +34,8 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
     private var friendRefHandle: DatabaseHandle?
     
     var userNewId: String? = nil
+    var leadingCollectionConstraintDefault: CGFloat = 0.0
+    var isAnimatateFirstItem: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +48,14 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
         }
         
         getDetails()
+        
+        // constraints
+        self.leadingCollectionConstraintDefault = self.leadingCollectionViewConstraint.constant
+        
+        // test
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.animationAddItemToCollection()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -224,6 +235,31 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
         }
         
         cell.imgViewProfile.layer.cornerRadius = 37
+        cell.lblName.isHidden = true
+        
+        if isAnimatateFirstItem && indexPath.item == 0 {
+            cell.contentView.isHidden = true
+            
+            cell.contentView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+            cell.contentView.isHidden = false
+            cell.contentView.alpha = 0
+            
+            CustomClass.sharedInstance.playAudio(.blop, .mp3)
+            
+            UIView.animate(withDuration: 0.5, animations: {
+                cell.contentView.transform = CGAffineTransform(scaleX: 1.15, y: 1.15)
+                cell.contentView.alpha = 1
+            }, completion: { (completed: Bool) in
+                UIView.animate(withDuration: 0.25, animations: {
+                    cell.contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                }, completion: { (completed: Bool) in
+                    self.isAnimatateFirstItem = false
+                    self.collectionViewNewMatches.reloadData()
+                })
+            })
+        } else {
+            cell.contentView.isHidden = false
+        }
         
         // test
         cell.vwProgress.progressTintColor = UIColor.green
@@ -376,6 +412,42 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
             chatController.userRef = userRefs
             self.navigationController?.pushViewController(chatController, animated: true)
         }
+    }
+    
+    func animationAddItemToCollection() {
+        self.isAnimatateFirstItem = true
+        self.friendsList.append(LocalStore.store.getUserDetails())
+        
+        self.leadingCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault + 93
+        UIView.animate(withDuration: 0.75, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: {res in
+            self.leadingCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault
+//            self.friendsList = [nil] + self.items
+//            self.collectionViewNewMatches.reloadData()
+//
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                if let cell = self.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? TestPurchaseCollectionViewCell {
+//
+//                    //                      UIView.animate(withDuration: 0.5, delay: 0.5, options: .curveEaseInOut, animations: {
+//                    //                        self.imageVIew.alpha = 0.0
+//                    //                    }) { _ in print("Animation Done") }
+//
+//                    let perc: CGFloat = 10.0
+//
+//                    cell.mainImage.addCircle(perc)
+//                    cell.mainImage.isHidden = false
+//                    cell.layer.zPosition = 1000
+//
+//                    cell.mainImage.animationHide(completion: {
+//                        self.items[0] = perc
+//                        self.collectionView.reloadData()
+//                    })
+//                }
+//            }
+            
+            self.collectionViewNewMatches.reloadData()
+        })
     }
     
 //MARK:-  Get Friends List

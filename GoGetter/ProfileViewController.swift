@@ -1920,7 +1920,12 @@ extension ProfileViewController: KolodaViewDelegate {
             self.outAlertError(message: prompt ?? "Error")
             break
         case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
-            openChat(userNewId: userId)
+            let controller = ReservePurchaseViewController.loadFromNib()
+            controller.userId = userId
+            controller.didGoHandler = {userId in
+                self.openChat(userNewId: userId)
+            }
+            self.present(controller, animated: true, completion: nil)
             break
         default:
             self.outAlertError(message: prompt ?? "Error")

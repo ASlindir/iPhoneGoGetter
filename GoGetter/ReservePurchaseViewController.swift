@@ -14,7 +14,8 @@ class ReservePurchaseViewController: UIViewController {
     @IBOutlet weak var notYetButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     
-    var userId: String = ""
+    var userId: String? = nil
+    var didGoHandler: ((String?) -> Void)? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,18 +28,26 @@ class ReservePurchaseViewController: UIViewController {
         self.notYetButton.layer.borderWidth = 1.0
         self.notYetButton.layer.borderColor = UIColor(red:0.82, green:0.84, blue:0.84, alpha:1.0).cgColor
         self.notYetButton.setTitleColor(UIColor(red:0.82, green:0.84, blue:0.84, alpha:1.0), for: .normal)
+        
+        // load user
+        self.loadDetailsOfUser()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.createGradientLayer(self.gradientView)
+        
+        self.goButton.isHidden = true
+        self.notYetButton.isHidden = true
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         self.goButton.layer.cornerRadius = self.goButton.frame.height / 2.0
+        self.goButton.isHidden = false
         self.notYetButton.layer.cornerRadius = self.notYetButton.frame.height / 2.0
+        self.notYetButton.isHidden = false
+        self.createGradientLayer(self.gradientView)
     }
     
     /*
@@ -58,12 +67,40 @@ class ReservePurchaseViewController: UIViewController {
         
         self.gradientView.layer.addSublayer(gradientLayer)
     }
+    
+    func loadDetailsOfUser() {
+        Loader.startLoader(true)
+        
+        if self.userId != nil {
+            let parameters = ["user_fb_id": self.userId!]
+            
+            WebServices.service.webServicePostRequest(.post, .user, .userDetails, parameters, successHandler: { (response) in
+                Loader.stopLoader()
+                let jsonData = response
+                let status = jsonData!["status"] as! String
+                if status == "success"{
+                    if let userDetails = jsonData!["user_details"] as? Dictionary<String, Any> {
+                        if let name = userDetails["user_name"] as? String {
+                            self.titleLabel.text = "Reserve a coin for \(name)"
+                        }
+                    }
+                }
+            }, errorHandler: {error in
+                Loader.stopLoader()
+                self.outAlertError(message: "Error: \(error.debugDescription)")
+            })
+        }
+        
+    }
 
     @IBAction func touchGo(_ sender: Any) {
         UIView.animate(withDuration: 0.3, delay: 0.0, options: [.autoreverse], animations: {
             self.goButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         }, completion: {finished in
             self.goButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            self.dismiss(animated: true, completion: {
+                self.didGoHandler?(self.userId)
+            })
         })
     }
     

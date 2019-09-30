@@ -37,8 +37,8 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
     var userNewId: String? = nil
     var leadingCollectionConstraintDefault: CGFloat = 0.0
     var bottomCollectionViewConstraintDefault: CGFloat = 0.0
-    var isAnimatateFirstItem: Bool = false
-    var isAnimatateFirstItemInTable: Bool = false
+    var isAnimateFirstItem: Bool = false
+    var isAnimateFirstItemInTable: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -258,11 +258,44 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
             }
         } else {
             // test
-            if indexPath.item % 2 == 0 {
-                cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)
+            if indexPath.item == 0 {
+                cell.circleView.shapeColor = UIColor(red:0.66, green:0.66, blue:0.66, alpha:1.0)
+                cell.circleView.addCircle(20)
                 cell.circleView.tapHandler = {circleView in
                     self.animationAddItemToTable()
                 }
+            } else if indexPath.item % 2 == 0 {
+                cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)
+                cell.circleView.tapHandler = {circleView in
+                    self.animationAddItemToTable()
+                   
+                    let copiedView: UIView = cell.circleView.copyView()
+                    
+                    copiedView.center.x = CGFloat((indexPath.item + 1) * 105 - 105 / 2 + 10)
+                    copiedView.center.y = 198
+                    copiedView.layer.zPosition = 1000
+                    
+//                    copiedView.frame.origin = self.view.convert(cell.circleView.frame.origin, to: nil)
+                    
+                    copiedView.isHidden = false
+                    self.view.addSubview(copiedView)
+                    cell.circleView.isHidden = true
+                    
+                    self.friendsList.remove(at: indexPath.item)
+                    self.collectionViewNewMatches.deleteItems(at: [indexPath])
+
+                    UIView.animateKeyframes(withDuration: 1, delay: 0, options: [], animations: {
+                        copiedView.center.x = cell.contentView.frame.width / 2
+                        copiedView.center.y = 390
+                    }, completion: {finished in
+                        self.collectionViewNewMatches.reloadData()
+                        copiedView.removeFromSuperview()
+                        self.isAnimateFirstItemInTable = false
+                        self.tableViewMessages.reloadData()
+                    })
+                }
+                
+                cell.circleView.addCircle(0)
             } else {
                 // pink
                 cell.circleView.shapeColor = UIColor(red:0.94, green:0.37, blue:0.65, alpha:1.0)
@@ -277,13 +310,12 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
                         self.present(controller, animated: true, completion: nil)
                     })
                 }
+                
+                cell.circleView.addCircle(0)
             }
-            
-            
-            cell.circleView.addCircle(0)
         }
         
-        if isAnimatateFirstItem && indexPath.item == 0 {
+        if isAnimateFirstItem && indexPath.item == 0 {
             cell.contentView.isHidden = true
             
             cell.contentView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
@@ -299,7 +331,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
                 UIView.animate(withDuration: 0.25, animations: {
                     cell.contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
                 }, completion: { (completed: Bool) in
-                    self.isAnimatateFirstItem = false
+                    self.isAnimateFirstItem = false
                     self.collectionViewNewMatches.reloadData()
                 })
             })
@@ -377,6 +409,12 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
         let profile_pic = friends[indexPath.row].profilePic
         cell.imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic)), placeholderImage: UIImage.init(named: "placeholder"))
         
+        cell.circleView.imageView.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic)), placeholderImage: UIImage.init(named: "placeholder"))
+        cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)
+        cell.circleView.addCircle(0)
+        cell.circleLabel.textColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)
+        cell.circleLabel.text = "Pending \(friends[indexPath.row].name)'s activation ..."
+        
         cell.imgViewProfile.layer.cornerRadius = 42.5
         
         if !friends[indexPath.row].online {
@@ -398,6 +436,40 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
             }
         }else{
             cell.lblMessage.text = ""
+        }
+        
+        
+        if self.isAnimateFirstItemInTable && indexPath.item == 0 {
+            cell.contentView.isHidden = true
+        } else {
+            cell.contentView.isHidden = false
+        }
+        
+        // test
+        if self.friends.count > 1 && indexPath.item == 0 {
+            cell.circleView.isHidden = false
+            cell.circleLabel.isHidden = false
+            
+            cell.imgViewProfile.isHidden = true
+            cell.lblName.isHidden = true
+            cell.lblMessage.isHidden = true
+            cell.imgViewNewMessage.isHidden = true
+            cell.borderLabel.isHidden = true
+            
+            cell.circleLabel.alpha = 0
+            
+            UIView.animate(withDuration: 1.0, delay: 0.0, options: [.repeat, .autoreverse], animations: {
+                cell.circleLabel.alpha = 1
+            }, completion: nil)
+        } else {
+            cell.circleView.isHidden = true
+            cell.circleLabel.isHidden = true
+            
+            cell.imgViewProfile.isHidden = false
+            cell.lblName.isHidden = false
+            cell.lblMessage.isHidden = false
+            cell.imgViewNewMessage.isHidden = false
+            cell.borderLabel.isHidden = false
         }
         
         return cell
@@ -430,7 +502,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     func animationAddItemToCollection() {
-        self.isAnimatateFirstItem = true
+        self.isAnimateFirstItem = true
         self.friendsList.append(LocalStore.store.getUserDetails())
         
         self.leadingCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault + 105
@@ -466,32 +538,32 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     func animationAddItemToTable() {
-//        self.isAnimatateFirstItemInTable = true
-//
-//        let friendDict = LocalStore.store.getUserDetails()
-//
-//        let id = friendDict["user_fb_id"] as! String
-//        var name = ""
-//        var profilePic = ""
-//        if let friendname = friendDict["user_name"] as? String {
-//            name = friendname
-//        }
-//        if let profilePicFriend = friendDict["profile_pic"] as? String {
-//            profilePic = profilePicFriend
-//        }
-//
-//        let idSelf = self.user_id
-//        var nameSelf = ""
-//        var profilePicSelf = ""
-//        if let myName = personalDetail["user_name"] as? String {
-//            nameSelf = myName
-//        }
-//        if let myProfilePic = personalDetail["profile_pic"] as? String {
-//            profilePicSelf = myProfilePic
-//        }
-//
-//        self.friends.append(Friend(id: idSelf, name: nameSelf, profilePic: profilePicSelf, lastMessage: nil, online: false))
-//
+        self.isAnimateFirstItemInTable = true
+
+        let friendDict = LocalStore.store.getUserDetails()
+
+        let id = friendDict["user_fb_id"] as! String
+        var name = ""
+        var profilePic = ""
+        if let friendname = friendDict["user_name"] as? String {
+            name = friendname
+        }
+        if let profilePicFriend = friendDict["profile_pic"] as? String {
+            profilePic = profilePicFriend
+        }
+
+        let idSelf = self.user_id
+        var nameSelf = ""
+        var profilePicSelf = ""
+        if let myName = personalDetail["user_name"] as? String {
+            nameSelf = myName
+        }
+        if let myProfilePic = personalDetail["profile_pic"] as? String {
+            profilePicSelf = myProfilePic
+        }
+
+        self.friends.insert(Friend(id: idSelf, name: nameSelf, profilePic: profilePicSelf, lastMessage: nil, online: false), at: 0)
+
 //        self.bottomCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault + 105
 //        UIView.animate(withDuration: 0.75, animations: {
 //            self.view.layoutIfNeeded()
@@ -499,6 +571,10 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
 //            self.leadingCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault
 //            self.collectionViewNewMatches.reloadData()
 //        })
+        
+        self.tableViewMessages.beginUpdates()
+        self.tableViewMessages.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        self.tableViewMessages.endUpdates()
     }
     
 //MARK:-  Get Friends List

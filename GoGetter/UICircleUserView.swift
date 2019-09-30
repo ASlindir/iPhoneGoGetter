@@ -43,6 +43,10 @@ class UICircleUserView: UINibView {
     }
     
     override func commonInit() {
+        
+        self.backgroundColor = UIColor.clear
+        self.circularView.backgroundColor = UIColor.clear
+        
         // taps
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.tap))
         self.isUserInteractionEnabled = true
@@ -56,6 +60,7 @@ class UICircleUserView: UINibView {
         self.layer.zPosition = 0
         self.circularView.layer.zPosition = 1000
         self.imageView.layer.zPosition = 1000
+        self.circularView.layer.backgroundColor = UIColor.clear.cgColor
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.imageView.layer.cornerRadius = self.imageView.frame.size.width / 2.0

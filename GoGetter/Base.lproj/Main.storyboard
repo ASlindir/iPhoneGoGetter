@@ -19,6 +19,9 @@
         <array key="OpenSans-SemiBold.ttf">
             <string>OpenSans-SemiBold</string>
         </array>
+        <array key="OpenSans-SemiBoldItalic.ttf">
+            <string>OpenSans-SemiBoldItalic</string>
+        </array>
         <array key="PermanentMarker.ttf">
             <string>PermanentMarker</string>
         </array>
@@ -2520,6 +2523,23 @@ This will only take a minute.</string>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Xh-o3-TZw" customClass="UICircleUserView" customModule="GoGetter" customModuleProvider="target">
+                                                    <rect key="frame" x="3" y="10" width="95" height="95"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="95" id="AAQ-ob-zFm"/>
+                                                        <constraint firstAttribute="height" constant="95" id="o6R-SQ-A28"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="shapeColor">
+                                                            <color key="value" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="shapeWidth">
+                                                            <real key="value" value="6"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="image" keyPath="image" value="andrea"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="G8G-2B-rJZ">
                                                     <rect key="frame" x="81" y="45.5" width="24" height="24"/>
                                                     <color key="backgroundColor" red="0.15042048692703247" green="0.64923882484436035" blue="0.68766993284225464" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2555,26 +2575,43 @@ This will only take a minute.</string>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pyo-4V-Oeg">
+                                                    <rect key="frame" x="113" y="45" width="185" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="N6Y-gM-JJu"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="OpenSans-SemiBoldItalic" family="Open Sans" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="G8G-2B-rJZ" firstAttribute="centerY" secondItem="guX-AX-UAn" secondAttribute="centerY" id="01J-1z-Fve"/>
                                                 <constraint firstItem="3l4-vj-dp0" firstAttribute="leading" secondItem="guX-AX-UAn" secondAttribute="trailing" constant="5" id="7Lr-UE-w0q"/>
                                                 <constraint firstItem="guX-AX-UAn" firstAttribute="top" secondItem="qyB-CG-VBB" secondAttribute="top" constant="15" id="BC1-IL-rFy"/>
+                                                <constraint firstItem="pyo-4V-Oeg" firstAttribute="leading" secondItem="dNi-Bt-wWT" secondAttribute="leading" id="C16-7G-jas"/>
                                                 <constraint firstItem="G8G-2B-rJZ" firstAttribute="trailing" secondItem="guX-AX-UAn" secondAttribute="trailing" constant="12" id="IX8-1Y-aWP"/>
                                                 <constraint firstAttribute="bottom" secondItem="guX-AX-UAn" secondAttribute="bottom" constant="15.5" id="Lpn-5E-B3V"/>
                                                 <constraint firstItem="3l4-vj-dp0" firstAttribute="top" secondItem="dNi-Bt-wWT" secondAttribute="bottom" constant="34.5" id="NE4-03-EmM"/>
                                                 <constraint firstItem="guX-AX-UAn" firstAttribute="leading" secondItem="qyB-CG-VBB" secondAttribute="leading" constant="8" id="ROJ-NB-3EN"/>
                                                 <constraint firstItem="E3w-x9-obS" firstAttribute="leading" secondItem="guX-AX-UAn" secondAttribute="trailing" constant="20" id="XGD-1H-HDM"/>
                                                 <constraint firstAttribute="trailing" secondItem="E3w-x9-obS" secondAttribute="trailing" constant="8" id="dHA-C2-3qR"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="pyo-4V-Oeg" secondAttribute="trailing" constant="7" id="eIr-gB-gXR"/>
                                                 <constraint firstItem="E3w-x9-obS" firstAttribute="top" secondItem="guX-AX-UAn" secondAttribute="top" constant="10" id="eQY-kD-Man"/>
                                                 <constraint firstAttribute="bottom" secondItem="3l4-vj-dp0" secondAttribute="bottom" id="epR-XM-LNm"/>
+                                                <constraint firstItem="pyo-4V-Oeg" firstAttribute="centerY" secondItem="qyB-CG-VBB" secondAttribute="centerY" constant="-2.5" id="jfi-2a-N5B"/>
                                                 <constraint firstAttribute="trailing" secondItem="dNi-Bt-wWT" secondAttribute="trailing" constant="8" id="jpp-Dk-NqP"/>
                                                 <constraint firstAttribute="trailing" secondItem="3l4-vj-dp0" secondAttribute="trailing" id="l0V-V0-9Nt"/>
                                                 <constraint firstItem="dNi-Bt-wWT" firstAttribute="leading" secondItem="G8G-2B-rJZ" secondAttribute="trailing" constant="8" id="luM-91-WEb"/>
                                                 <constraint firstItem="dNi-Bt-wWT" firstAttribute="top" secondItem="E3w-x9-obS" secondAttribute="bottom" constant="10" id="vXq-Wt-8qV"/>
+                                                <constraint firstItem="1Xh-o3-TZw" firstAttribute="leading" secondItem="qyB-CG-VBB" secondAttribute="leading" constant="3" id="wN4-u2-sLm"/>
+                                                <constraint firstItem="1Xh-o3-TZw" firstAttribute="top" secondItem="qyB-CG-VBB" secondAttribute="top" constant="10" id="zoG-fY-KVr"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="borderLabel" destination="3l4-vj-dp0" id="gmb-JA-eTQ"/>
+                                            <outlet property="circleLabel" destination="pyo-4V-Oeg" id="MwX-Ob-c7T"/>
+                                            <outlet property="circleView" destination="1Xh-o3-TZw" id="efs-4U-uIX"/>
                                             <outlet property="imgViewNewMessage" destination="G8G-2B-rJZ" id="bfT-XK-OUB"/>
                                             <outlet property="imgViewProfile" destination="guX-AX-UAn" id="V65-Om-dWj"/>
                                             <outlet property="lblMessage" destination="dNi-Bt-wWT" id="l5Z-49-esD"/>

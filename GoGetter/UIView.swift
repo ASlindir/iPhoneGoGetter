@@ -36,4 +36,30 @@ extension UIView {
         let nib = UINib(nibName: nibName, bundle: bundle)
         return nib.instantiate(withOwner: self, options: nil).first as? UIView
     }
+    
+    func copyView() -> UIView {
+        self.isHidden = false //The copy not works if is hidden, just prevention
+        let viewCopy = self.snapshotView(afterScreenUpdates: true)
+        self.isHidden = true
+        return viewCopy!
+    }
+    
+    func takeSnapshotOfView() -> UIImage? {
+        
+        let size = CGSize(width: frame.size.width, height: frame.size.height)
+        let rect = CGRect.init(origin: .init(x: 0, y: 0), size: frame.size)
+        
+        UIGraphicsBeginImageContext(size)
+        drawHierarchy(in: rect, afterScreenUpdates: true)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext()
+        
+        guard let imageData = image?.pngData() else {
+            return nil
+        }
+        
+        return UIImage.init(data: imageData)
+    }
 }

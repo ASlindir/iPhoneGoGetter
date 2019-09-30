@@ -15,6 +15,9 @@ class MessagesTableViewCell: UITableViewCell {
     
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblMessage: UILabel!
+    @IBOutlet weak var circleView: UICircleUserView!
+    @IBOutlet weak var circleLabel: UILabel!
+    @IBOutlet weak var borderLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

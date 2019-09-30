@@ -1950,49 +1950,49 @@ extension ProfileViewController: KolodaViewDelegate {
 //        let parameters = ["user_fb_id": userId , "receiving_user_fb_id":"OEhKFyfFVsW7e7ERYbRSjIpf3oU2"]
         
         // for test load user
-        WebServices.service.webServicePostRequest(.post, .user, .userDetails, ["user_fb_id":parameters["receiving_user_fb_id"]], successHandler: { (response) in
-            let jsonData = response
-            let status = jsonData!["status"] as! String
-            if status == "success"{
-                let userDetails = jsonData!["user_details"] as? Dictionary<String, Any>
-                var requiredData = LocalStore.store.getUserDetails()
-                requiredData["request_to"] = userDetails
-
-                let dictData = NSKeyedArchiver.archivedData(withRootObject: requiredData)
-                UserDefaults.standard.setValue(dictData, forKey: "matchedUser")
-                UserDefaults.standard.set(true, forKey: "matchedNotification")
-                UserDefaults.standard.synchronize()
-                self.matchNotificationRecived()
-            }
-        }, errorHandler: {error in
-            print(error)
-        })
+//        WebServices.service.webServicePostRequest(.post, .user, .userDetails, ["user_fb_id":parameters["receiving_user_fb_id"]], successHandler: { (response) in
+//            let jsonData = response
+//            let status = jsonData!["status"] as! String
+//            if status == "success"{
+//                let userDetails = jsonData!["user_details"] as? Dictionary<String, Any>
+//                var requiredData = LocalStore.store.getUserDetails()
+//                requiredData["request_to"] = userDetails
+//
+//                let dictData = NSKeyedArchiver.archivedData(withRootObject: requiredData)
+//                UserDefaults.standard.setValue(dictData, forKey: "matchedUser")
+//                UserDefaults.standard.set(true, forKey: "matchedNotification")
+//                UserDefaults.standard.synchronize()
+//                self.matchNotificationRecived()
+//            }
+//        }, errorHandler: {error in
+//            print(error)
+//        })
         
         // original
-//        WebServices.service.webServicePostRequest(.post, .friend, .sendFriendRequest, parameters, successHandler: { (response) in
-//            DispatchQueue.main.async {
-//                let jsonDict = response
-//                let status = jsonDict!["status"] as! String
-//                if status == "success"{
-//                    if let requiredData = jsonDict!["requiredData"] as? [String: Any] {
-//                        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-//                            AnalyticsParameterItemID: "id-Match",
-//                            AnalyticsParameterItemName: "Match"
-//                            ])
-//                        let dictData = NSKeyedArchiver.archivedData(withRootObject: requiredData)
-//                        UserDefaults.standard.setValue(dictData, forKey: "matchedUser")
-//                        UserDefaults.standard.set(true, forKey: "matchedNotification")
-//                        UserDefaults.standard.synchronize()
-//                        self.matchNotificationRecived()
-//                    }
-//                } else {
-//                    let message = jsonDict!["message"] as? String
-//                    self.outAlertError(message: message)
-//                }
-//            }
-//        }) { (error) in
-//            self.outAlertError(message: error?.localizedDescription)
-//        }
+        WebServices.service.webServicePostRequest(.post, .friend, .sendFriendRequest, parameters, successHandler: { (response) in
+            DispatchQueue.main.async {
+                let jsonDict = response
+                let status = jsonDict!["status"] as! String
+                if status == "success"{
+                    if let requiredData = jsonDict!["requiredData"] as? [String: Any] {
+                        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+                            AnalyticsParameterItemID: "id-Match",
+                            AnalyticsParameterItemName: "Match"
+                            ])
+                        let dictData = NSKeyedArchiver.archivedData(withRootObject: requiredData)
+                        UserDefaults.standard.setValue(dictData, forKey: "matchedUser")
+                        UserDefaults.standard.set(true, forKey: "matchedNotification")
+                        UserDefaults.standard.synchronize()
+                        self.matchNotificationRecived()
+                    }
+                } else {
+                    let message = jsonDict!["message"] as? String
+                    self.outAlertError(message: message)
+                }
+            }
+        }) { (error) in
+            self.outAlertError(message: error?.localizedDescription)
+        }
     }
     
     func dislikeUser(_ details: [String: Any]) {

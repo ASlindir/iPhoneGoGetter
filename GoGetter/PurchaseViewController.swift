@@ -127,92 +127,92 @@ class PurchaseViewController: UIViewController {
                 title4: "\(products[index].item.CoinsPurchased!) conversation",
                 touch: { id in
                     // test
-                    self.dismiss(animated: true, completion: {
-                        self.delegate?.didSuccessPurchase(userId: self.userId, convoId: self.convoId, screenAction: 2, prompt: self.prompt)
-                    })
+//                    self.dismiss(animated: true, completion: {
+//                        self.delegate?.didSuccessPurchase(userId: self.userId, convoId: self.convoId, screenAction: 2, prompt: self.prompt)
+//                    })
 
                     // original
-//                    Loader.startLoader(true)
-//
-//                    SwiftyStoreKit.purchaseProduct(id!, quantity: 1, atomically: false) { result in
-//                        Loader.stopLoader()
-//
-//                        switch result {
-//                        case .success(let product):
-//                            // fetch content from your server, then:
-//                            if product.needsFinishTransaction {
-//                                SwiftyStoreKit.finishTransaction(product.transaction)
-//                            }
-//
-//                            print("Purchase Success: \(product.productId)")
-//
-//                            Loader.startLoader(true)
-//
-//                            var formattedDate: String = ""
-//
-//                            if let date = product.transaction.transactionDate {
-//                                let format = DateFormatter()
-//                                format.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//                                formattedDate = format.string(from: date)
-//                            }
-//
-//                            var parameters = Dictionary<String, Any>()
-//                            parameters["convoId"] = self.convoId
-//                            parameters["userId"] = self.userId
-//
-//                            let productInfo = [
-//                                "purchaseStatus": PurchasesConst.PurchaseStatus.PURCHASE_SUCCESS.rawValue,
-//                                "appstore": "G",
-//                                "amount": Double(products[index].item.Price!)!,
-//                                "transctionID": product.transaction.transactionIdentifier != nil ? (product.transaction.transactionIdentifier)! : "",
-//                                "dateTime": formattedDate,
-//                                "productId": Int(products[index].item.Productid ?? "0")!
-//                                ] as [String : Any]
-//                            parameters["purchaseInfo"] = productInfo
-//
-//                            WebServices.service.webServicePostRequest(.post, .conversation, .inAppPurchaseComplete, parameters, successHandler: { (response) in
-//                                Loader.stopLoader()
-//
-//                                let jsonDict = response
-//                                var isSuccess = false
-//
-//                                if let convoId = jsonDict!["convoId"] as? Int {
-//                                    let prompt = jsonDict!["prompt"] as? String
-//
-//                                    if let screenAction = jsonDict!["screenAction"] as? Int {
-//                                        isSuccess = true
-//
-//                                        self.dismiss(animated: true, completion: {
-//                                            self.delegate?.didSuccessPurchase(userId: self.userId, convoId: convoId, screenAction: screenAction, prompt: prompt)
-//                                        })
-//                                    }
-//                                }
-//
-//                                if !isSuccess {
-//                                    self.outAlertError(message: "Error: Convo Id is null")
-//                                }
-//                            }) { (error) in
-//                                Loader.stopLoader()
-//                                self.outAlertError(message: "Error: \(error.debugDescription)")
-//                            }
-//                        case .error(let error):
-//                            switch error.code {
-//                            case .unknown: print("Unknown error. Please contact support")
-//                            case .clientInvalid: print("Not allowed to make the payment")
-//                            case .paymentCancelled: break
-//                            case .paymentInvalid: print("The purchase identifier was invalid")
-//                            case .paymentNotAllowed: print("The device is not allowed to make the payment")
-//                            case .storeProductNotAvailable: print("The product is not available in the current storefront")
-//                            case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
-//                            case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
-//                            case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
-//                            default:
-//                                print((error as NSError).localizedDescription)
-//                            }
-//
-//                            self.outAlertError(message: "Error: \((error as NSError).localizedDescription)")
-//                        }
-//                    }
+                    Loader.startLoader(true)
+
+                    SwiftyStoreKit.purchaseProduct(id!, quantity: 1, atomically: false) { result in
+                        Loader.stopLoader()
+
+                        switch result {
+                        case .success(let product):
+                            // fetch content from your server, then:
+                            if product.needsFinishTransaction {
+                                SwiftyStoreKit.finishTransaction(product.transaction)
+                            }
+
+                            print("Purchase Success: \(product.productId)")
+
+                            Loader.startLoader(true)
+
+                            var formattedDate: String = ""
+
+                            if let date = product.transaction.transactionDate {
+                                let format = DateFormatter()
+                                format.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                                formattedDate = format.string(from: date)
+                            }
+
+                            var parameters = Dictionary<String, Any>()
+                            parameters["convoId"] = self.convoId
+                            parameters["userId"] = self.userId
+
+                            let productInfo = [
+                                "purchaseStatus": PurchasesConst.PurchaseStatus.PURCHASE_SUCCESS.rawValue,
+                                "appstore": "G",
+                                "amount": Double(products[index].item.Price!)!,
+                                "transctionID": product.transaction.transactionIdentifier != nil ? (product.transaction.transactionIdentifier)! : "",
+                                "dateTime": formattedDate,
+                                "productId": Int(products[index].item.Productid ?? "0")!
+                                ] as [String : Any]
+                            parameters["purchaseInfo"] = productInfo
+
+                            WebServices.service.webServicePostRequest(.post, .conversation, .inAppPurchaseComplete, parameters, successHandler: { (response) in
+                                Loader.stopLoader()
+
+                                let jsonDict = response
+                                var isSuccess = false
+
+                                if let convoId = jsonDict!["convoId"] as? Int {
+                                    let prompt = jsonDict!["prompt"] as? String
+
+                                    if let screenAction = jsonDict!["screenAction"] as? Int {
+                                        isSuccess = true
+
+                                        self.dismiss(animated: true, completion: {
+                                            self.delegate?.didSuccessPurchase(userId: self.userId, convoId: convoId, screenAction: screenAction, prompt: prompt)
+                                        })
+                                    }
+                                }
+
+                                if !isSuccess {
+                                    self.outAlertError(message: "Error: Convo Id is null")
+                                }
+                            }) { (error) in
+                                Loader.stopLoader()
+                                self.outAlertError(message: "Error: \(error.debugDescription)")
+                            }
+                        case .error(let error):
+                            switch error.code {
+                            case .unknown: print("Unknown error. Please contact support")
+                            case .clientInvalid: print("Not allowed to make the payment")
+                            case .paymentCancelled: break
+                            case .paymentInvalid: print("The purchase identifier was invalid")
+                            case .paymentNotAllowed: print("The device is not allowed to make the payment")
+                            case .storeProductNotAvailable: print("The product is not available in the current storefront")
+                            case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
+                            case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
+                            case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
+                            default:
+                                print((error as NSError).localizedDescription)
+                            }
+
+                            self.outAlertError(message: "Error: \((error as NSError).localizedDescription)")
+                        }
+                    }
                 }
             )
             

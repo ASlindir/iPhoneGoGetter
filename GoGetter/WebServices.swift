@@ -119,7 +119,9 @@ enum Services: String {
     case changePassword                     = "changePassword"
     
     case doQueryConversation                = "doQueryConversation"
-    
+
+    case doGetProducts                      = "doGetProducts"
+
     case inAppPurchaseComplete              = "inAppPurchaseComplete"
     
     case doPurchaseConversation             = "doPurchaseConversation"

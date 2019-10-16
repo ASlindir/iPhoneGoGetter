@@ -1549,7 +1549,6 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                                     Description: product["description"] as? String,
                                     Price: product["price"] as? String,
                                     CoinsPurchased: product["coinsPurchased"] as? String,
-                                    NumberConvos: convoId,
                                     AppleStoreID: product["iTunesProductID"] as? String,
                                     GoogleStoreID: product["googleProductID"] as? String)
                                 )

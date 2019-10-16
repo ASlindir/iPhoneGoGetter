@@ -73,16 +73,10 @@ class PurchaseManagerViewController: UIViewController, PurchaseStatisticViewCont
         parameters["userId"] = LocalStore.store.getFacebookID()
         
         // hook
-        parameters["otherUserId"] = "NVqSplSj9QUQrgcmn4Mdwn3f1ao2"
         
-        WebServices.service.webServicePostRequest(.post, .conversation, .doQueryConversation, parameters, successHandler: { (response) in
+        WebServices.service.webServicePostRequest(.post, .conversation, .doGetProducts, parameters, successHandler: { (response) in
             Loader.stopLoader()
             let jsonDict = response
-            
-            if let convoId = jsonDict!["convoId"] as? Int {
-                self.convoId = convoId
-                self.prompt = jsonDict!["prompt"] as? String
-                
                 if let _products = jsonDict!["products"] as? [Dictionary<String, Any?>] {
                     for product in _products {
                         self.products.append(PurchaseViewController.PurchaseItem(
@@ -91,7 +85,6 @@ class PurchaseManagerViewController: UIViewController, PurchaseStatisticViewCont
                             Description: product["description"] as? String,
                             Price: product["price"] as? String,
                             CoinsPurchased: product["coinsPurchased"] as? String,
-                            NumberConvos: convoId,
                             AppleStoreID: product["iTunesProductID"] as? String,
                             GoogleStoreID: product["googleProductID"] as? String)
                         )
@@ -100,10 +93,6 @@ class PurchaseManagerViewController: UIViewController, PurchaseStatisticViewCont
                 
                 self.loadPurchases()
                 
-            } else {
-                Loader.stopLoader()
-                self.outAlertError(message: "Error: Convo Id is null")
-            }
         }) { (error) in
             Loader.stopLoader()
             self.outAlertError(message: "Error: \(error.debugDescription)")

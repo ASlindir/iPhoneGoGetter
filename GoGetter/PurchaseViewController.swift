@@ -36,7 +36,6 @@ class PurchaseViewController: UIViewController {
         let Description: String?
         let Price: String?
         let CoinsPurchased: String?
-        let NumberConvos: Int?
         let AppleStoreID: String?
         let GoogleStoreID: String?
     }
@@ -332,7 +331,6 @@ class PurchaseViewController: UIViewController {
                             Description: product["description"] as? String,
                             Price: product["price"] as? String,
                             CoinsPurchased: product["coinsPurchased"] as? String,
-                            NumberConvos: convoId,
                             AppleStoreID: product["iTunesProductID"] as? String,
                             GoogleStoreID: product["googleProductID"] as? String)
                         )

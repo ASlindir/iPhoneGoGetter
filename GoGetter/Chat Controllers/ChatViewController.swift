@@ -166,7 +166,7 @@ class ChatViewController: JSQMessagesViewController{
         UIApplication.shared.applicationIconBadgeNumber = 0
         let data = UserDefaults.standard.object(forKey:"ChatUser")
         if let messageData = NSKeyedUnarchiver.unarchiveObject(with: data as! Data) as? Dictionary<String, Any> {
-            if let sender_id = messageData["senderId"] as! String!, let name = messageData["senderName"] as! String!, let text = messageData["text"] as! String! , text.count > 0{
+            if let sender_id = messageData["senderId"] as! String?, let name = messageData["senderName"] as! String?, let text = messageData["text"] as! String? , text.count > 0{
                 if sender_id != self.receiver_id! {
                     self.showMessageView(String(format:"%@: %@",name, text), messageData)
                 }

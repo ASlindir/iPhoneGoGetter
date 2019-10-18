@@ -27,7 +27,7 @@ class CustomClass: NSObject {
 
 //Variables and Constants
     
-    var audioPlayer: AVAudioPlayer?
+    var audioPlayer: AVAudioPlayer!
     
     var isAudioPlay: Bool! {
         get{
@@ -46,9 +46,9 @@ class CustomClass: NSObject {
         if LocalStore.store.isSoundOn(){
             let music = Bundle.main.path(forResource: fileName.rawValue, ofType: fileExtension.rawValue)
             do {
-                if audioPlayer == nil{
-                    audioPlayer = AVAudioPlayer()
-                }
+/*                if audioPlayer == nil{
+                    audioPlayer = AVAudioPlayer?
+                }*/
                 audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: music!))
                 audioPlayer?.volume = 1
 //                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient);

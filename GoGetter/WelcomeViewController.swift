@@ -662,7 +662,7 @@
             let cell = collectionView.cellForItem(at: indexPath) as! WelcomeCollectionCell
             if selectedIndex.contains(arrayTitles[indexPath.row]) {
                 CustomClass.sharedInstance.playAudio(.popRed, .mp3)
-                if let index = selectedIndex.index(of: arrayTitles[indexPath.row]) {
+                if let index = selectedIndex.firstIndex(of: arrayTitles[indexPath.row]) {
                     selectedIndex.remove(at: index)
                 }
                 cell.lblTitle.isHidden = false

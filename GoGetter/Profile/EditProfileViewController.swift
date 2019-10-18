@@ -1362,7 +1362,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             case .authorized:
                 print("You can Access Photos.")
                 
-                let galleryController = self.storyboard?.instantiateViewController(withIdentifier: "GalleryViewController") as! GalleryViewController!
+                let galleryController = self.storyboard?.instantiateViewController(withIdentifier: "GalleryViewController") as! GalleryViewController?
                 galleryController?.fetchResult = self.allPhotos
                 galleryController?.galleryDelegate = self
                 galleryController?.selectedIndex = 10
@@ -1406,7 +1406,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             CustomClass.sharedInstance.playAudio(.popRed, .mp3)
             imgViewHaveFun.image = #imageLiteral(resourceName: "unCheck")
             workoutBool = false
-            if let index = lookingFor.index(of: "workout") {
+            if let index = lookingFor.firstIndex(of: "workout") {
                 lookingFor.remove(at: index)
             }
         }else{
@@ -1428,7 +1428,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             CustomClass.sharedInstance.playAudio(.popRed, .mp3)
             imgViewMeetNewPeople.image = #imageLiteral(resourceName: "unCheck")
             shortTermBool = false
-            if let index = lookingFor.index(of: "short-Term") {
+            if let index = lookingFor.firstIndex(of: "short-Term") {
                 lookingFor.remove(at: index)
             }
         }else{
@@ -1450,7 +1450,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             CustomClass.sharedInstance.playAudio(.popRed, .mp3)
             imgViewRelationShip.image = #imageLiteral(resourceName: "unCheck")
             longTermBool = false
-            if let index = lookingFor.index(of: "longTerm") {
+            if let index = lookingFor.firstIndex(of: "longTerm") {
                 lookingFor.remove(at: index)
             }
         }else{
@@ -1649,7 +1649,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             case .authorized:
                 print("You can Access Photos.")
                 
-                let galleryController = self.storyboard?.instantiateViewController(withIdentifier: "GalleryViewController") as! GalleryViewController!
+                let galleryController = self.storyboard?.instantiateViewController(withIdentifier: "GalleryViewController") as! GalleryViewController?
                 galleryController?.fetchResult = self.allPhotos
                 galleryController?.galleryDelegate = self
                 galleryController?.selectedIndex = self.selectedIndexPath!.item - 11
@@ -2495,6 +2495,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         let selectedImage = image
         self.profileImages[(self.selectedIndexPath!.item) - 11] = selectedImage
         cropViewController.dismiss(animated: true, completion: {
+            
             DispatchQueue.main.async {
                 //                    let cell: SettingCollectionViewCell = self.collectionView.cellForItem(at: self.selectedIndexPath!) as! SettingCollectionViewCell
                 let vwCamera:UIView = self.scrollVwCamera.viewWithTag((self.selectedIndexPath?.row)!)!
@@ -2511,7 +2512,6 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
                     self.postImageWithImage(image: selectedImage, fileName: String(format:"image%d",(self.selectedIndexPath?.item)! - 11), type: "image")
                     
                     self.personalDetail[String(format:"image%d",(self.selectedIndexPath?.item)!-12)] = ""
-                    
                 }
             }
         })

@@ -116,7 +116,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
                     }
                     
                     
-                    if let index = self.friends.index(where: { (friend) -> Bool in
+                    if let index = self.friends.firstIndex(where: { (friend) -> Bool in
                         friend.id  == (userOtherDict["user_fb_id"] as? String)!
                     }){
                         UserDefaults.standard.set(false, forKey: "chatNotification")
@@ -134,7 +134,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
                     if let pic = userOtherDict["profilePic"] as? String {
                         profile_pic = pic
                     }
-                    if let index = self.friends.index(where: { (friend) -> Bool in
+                    if let index = self.friends.firstIndex(where: { (friend) -> Bool in
                         friend.id  == (userOtherDict["senderId"] as? String)!
                     }){
                         UserDefaults.standard.set(false, forKey: "chatNotification")
@@ -165,7 +165,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
                 if let pic = userOtherDict["profile_pic"] as? String {
                     profile_pic = pic
                 }
-                if let index = self.friends.index(where: { (friend) -> Bool in
+                if let index = self.friends.firstIndex(where: { (friend) -> Bool in
                     friend.id  == (userOtherDict["user_fb_id"] as? String)!
                 }){
                     UserDefaults.standard.set(false, forKey: "chatNotification")
@@ -181,7 +181,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
                 if let pic = userOtherDict["profilePic"] as? String {
                     profile_pic = pic
                 }
-                if let index = self.friends.index(where: { (friend) -> Bool in
+                if let index = self.friends.firstIndex(where: { (friend) -> Bool in
                     friend.id  == (userOtherDict["senderId"] as? String)!
                 }){
                     UserDefaults.standard.set(false, forKey: "chatNotification")
@@ -503,7 +503,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
             let friendData = snapshot.value as! Dictionary<String, Any>
             print("Friends :- ",friendData)
             let id = snapshot.key
-            if let name = friendData["name"] as! String!, name.count > 0{
+            if let name = friendData["name"] as! String?, name.count > 0{
                 let user_id = LocalStore.store.getFacebookID()
                 if friendData["id"] as? String == user_id {
                 }else{
@@ -547,12 +547,12 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
             let friendData = snapshot.value as! Dictionary<String, Any>
             print("Friends :- ",friendData)
             let id = snapshot.key
-            if let name = friendData["name"] as! String!, name.count > 0{
+            if let name = friendData["name"] as! String?, name.count > 0{
                 let user_id = LocalStore.store.getFacebookID()
                 if user_id != "" {
                     if friendData["id"] as? String == user_id{
                     }else{
-                        if let index = self.friends.index(where: { (friend) -> Bool in
+                        if let index = self.friends.firstIndex(where: { (friend) -> Bool in
                             friend.id  == id
                         }){
                             self.friends.remove(at: index)
@@ -578,7 +578,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
             if let friendData = data as? [String: Any] {
                 print("Friends :- ",friendData)
                 let id = String(format:"%@",friendData["id"] as! CVarArg)
-                let index = self.friends.index(where: { (friend) -> Bool in
+                let index = self.friends.firstIndex(where: { (friend) -> Bool in
                     friend.id  == id
                 })
                 var profile_pic = ""

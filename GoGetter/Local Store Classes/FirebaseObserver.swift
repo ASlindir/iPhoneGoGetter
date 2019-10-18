@@ -111,7 +111,7 @@ class FirebaseObserver: NSObject {
                 UserDefaults.standard.setValue(dictData, forKey: "ChatUser")
                 UserDefaults.standard.synchronize()
                 
-                if let id = messageData["senderId"] as! String!, let name = messageData["senderName"] as! String!, let text = messageData["text"] as! String! , text.count > 0{
+                if let id = messageData["senderId"] as! String?, let name = messageData["senderName"] as! String?, let text = messageData["text"] as! String? , text.count > 0{
                     if id != self.user_id{
                         if del.currentController.isKind(of: ChatViewController.self) {
                             UserDefaults.standard.set(true, forKey: "chatNotification")
@@ -123,7 +123,7 @@ class FirebaseObserver: NSObject {
                         }
                     }
                 }
-                else if let id = messageData["senderId"] as! String!, let name = messageData["senderName"] as! String!, let _ = messageData["photoURL"] as! String!{
+                else if let id = messageData["senderId"] as! String?, let name = messageData["senderName"] as! String?, let _ = messageData["photoURL"] as! String?{
                     if id != self.user_id{
                         if del.currentController.isKind(of: ChatViewController.self) {
                             UserDefaults.standard.set(true, forKey: "chatNotification")
@@ -205,10 +205,10 @@ class FirebaseObserver: NSObject {
         newMessageRefHandle = userRef?.observe(.childRemoved, with: { (snapshot) in
             let friendData = snapshot.value as! Dictionary<String, Any>
             print("Friends :- ",friendData)
-            if let name = friendData["name"] as! String!, name.count > 0{
+            if let name = friendData["name"] as! String?, name.count > 0{
                 if friendData["id"] as? String == self.user_id{
                 }else{
-                    if let index = self.friendArray.index(where: { (friend) -> Bool in
+                    if let index = self.friendArray.firstIndex(where: { (friend) -> Bool in
                         friend["id"] as? String == friendData["id"] as? String
                     }) {
                         self.friendArray.remove(at: index)

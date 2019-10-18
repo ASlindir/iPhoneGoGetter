@@ -1060,7 +1060,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             CustomClass.sharedInstance.playAudio(.popRed, .mp3)
             
             let cell = tableView.cellForRow(at: indexPath) as! QuestionTableViewCell
-            if let index = selectedQuestions.index(of: indexPath.row){
+            if let index = selectedQuestions.firstIndex(of: indexPath.row){
                 
                 let key = "\(indexPath.row + 1)"
                 selectedQuestionDict[key] = "0"

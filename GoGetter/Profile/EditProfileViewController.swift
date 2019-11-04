@@ -2494,7 +2494,8 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         // 'image' is the newly cropped version of the original image
         let selectedImage = image
         self.profileImages[(self.selectedIndexPath!.item) - 11] = selectedImage
-        cropViewController.dismiss(animated: true, completion: {
+        
+        cropViewController.dismiss(animated: false, completion: {
             
             DispatchQueue.main.async {
                 //                    let cell: SettingCollectionViewCell = self.collectionView.cellForItem(at: self.selectedIndexPath!) as! SettingCollectionViewCell

@@ -244,7 +244,7 @@ class PurchaseManagerViewController: UIViewController, PurchaseStatisticViewCont
                                         isSuccess = true
 
                                         self.dismiss(animated: true, completion: {
-                                            self.delegate?.didSuccessPurchase(userId: nil, convoId: convoId, screenAction: screenAction, prompt: prompt)
+                                            self.delegate?.didSuccessPurchase(userId: nil)
                                         })
                                     }
                                 }

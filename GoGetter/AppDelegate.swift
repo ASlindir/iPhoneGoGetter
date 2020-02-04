@@ -109,6 +109,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 UserDefaults.standard.synchronize()
             }
         }
+        else{
+                UserDefaults.standard.set(false, forKey: "matchedNotification")
+        }
         
         // see notes below for the meaning of Atomic / Non-Atomic
         SwiftyStoreKit.completeTransactions(atomically: true) { purchases in

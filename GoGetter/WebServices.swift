@@ -66,7 +66,7 @@ enum Services: String {
     case saveUserQuiz                       = "save-user-quiz"
     case fetchUserQuiz                      = "fetch-user-quiz"
     
-//Match API
+//Match API	
     case fetchMatchedProfile                = "fetch-matched-profiles"
     
 //Set User Location API
@@ -119,6 +119,8 @@ enum Services: String {
     case changePassword                     = "changePassword"
     
     case doQueryConversation                = "doQueryConversation"
+
+    case doQueryConversationForPurchase                = "doQueryConversationForPurchase"
 
     case doGetProducts                      = "doGetProducts"
 

@@ -2789,7 +2789,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     }
     
     // MARK:- PurchaseViewControllerDelegate
-    func didSuccessPurchase(userId: String?, convoId: Int, screenAction: Int, prompt: String?) {
+    func didSuccessPurchase(userId: String?) {
         self.loadUserConvoStats()
     }
 }

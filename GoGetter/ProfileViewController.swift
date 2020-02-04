@@ -408,7 +408,8 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     //MARK:-  Notification functions
     @objc func matchNotificationRecived() {
         DispatchQueue.main.async {
-            self.doConvoMatched();
+            self.showMatchingProfileView();
+//            self.doConvoMatched();
 //            self.showMatchingProfileView()
         }
     }
@@ -561,7 +562,8 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             }
             
             self.animateTitle()
-            
+            //self.doConvoMatched();
+
             self.btnSayHello?.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
             self.btnSayHello.alpha = 0
             
@@ -1533,7 +1535,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 
                 Loader.startLoader(true)
                 
-                WebServices.service.webServicePostRequest(.post, .conversation, .doQueryConversation, parameters, successHandler: { (response) in
+                WebServices.service.webServicePostRequest(.post, .conversation, .doQueryConversationForPurchase, parameters, successHandler: { (response) in
                     Loader.stopLoader()
                     let jsonDict = response
                     
@@ -1559,11 +1561,30 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                             self.purchaseScreenAction = screenAction
                             
                             if screenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue {
-                                //self.btnSayHello.setTitle("Go to Buy Convo Flow", for: .normal)
+                                let controller = ReservePurchaseViewController.loadFromNib()
+                                controller.userId = LocalStore.store.getFacebookID()
+                                controller.didGoHandler = {userId in
+                                    self.purchaseScreenAction = PurchasesConst.ScreenAction.BUY_CONVO.rawValue
+                                    self.DoPurchaseConversation();
+                                    // get
+                    //                self.openChat(userNewId: userId)
+                                }
+                                self.present(controller, animated: true, completion: nil)
+
+/*                                self.outAlertError(message: "conv purchased in test Your good!")
+                                CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+                                self.vwMatch.isHidden = true
+                                self.view.sendSubviewToBack(self.vwMatch)
+                                UserDefaults.standard.set(false, forKey: "matchedNotification")
+                                UserDefaults.standard.synchronize()*/
                             } else if screenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue {
-                                //self.btnSayHello.setTitle("Go to Buy Coins flow", for: .normal)
-                            }
-                            self.showMatchingProfileView();
+                               let controller = PurchaseViewController.loadFromNib()
+                              controller.delegate = self
+                              controller.products = self.purchase
+                              controller.prompt = self.purchasePrompt
+                              controller.convoId = self.purshaseConvoId
+                              controller.userId = LocalStore.store.getFacebookID()
+                              self.present(controller, animated: true, completion: nil)                            }
                         }
                         
                     } else {
@@ -1580,64 +1601,70 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         }
     }
     
+    func DoPurchaseConversation(){
+      if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue {
+           Loader.startLoader(true)
+           
+           let parameters = [
+               "userId": LocalStore.store.getFacebookID(),
+               "convoId": self.purshaseConvoId
+               ] as [String : Any]
+           
+           WebServices.service.webServicePostRequest(.post, .conversation, .doPurchaseConversation, parameters, successHandler: { (response) in
+               Loader.stopLoader()
+               
+               let jsonDict = response
+               var isSuccess = false
+               
+               if let convoId = jsonDict!["convoId"] as? Int {
+                   let prompt = jsonDict!["prompt"] as? String
+                   
+                   if let screenAction = jsonDict!["screenAction"] as? Int {
+                       isSuccess = true
+                       
+                       switch screenAction {
+                       case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
+                           self.outAlertError(message: prompt ?? "Good Choice")
+                           CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+                           self.vwMatch.isHidden = true
+                           self.view.sendSubviewToBack(self.vwMatch)
+                           UserDefaults.standard.set(false, forKey: "matchedNotification")
+                           UserDefaults.standard.synchronize()
+                           break
+                       case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
+                           self.openChat()
+                           break
+                       default:
+                           self.outAlertError(message: prompt ?? "Error")
+                       }
+                   }
+               }
+               
+               if !isSuccess {
+                   self.outAlertError(message: "Error: doPurchaseConversation failed")
+               }
+           }) { (error) in
+               Loader.stopLoader()
+               self.outAlertError(message: "Error: \(error.debugDescription)")
+           }
+       }
+      
+      /* beleived to be obsolete fhc...
+ else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue {
+           let controller = PurchaseViewController.loadFromNib()
+           controller.delegate = self
+           controller.products = self.purchase
+           controller.prompt = self.purchasePrompt
+           controller.convoId = self.purshaseConvoId
+           controller.userId = LocalStore.store.getFacebookID()
+           self.present(controller, animated: true, completion: nil)
+       }*/
+
+    }
     @IBAction func btnSayHello(_ sender: Any) {
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+        self.doConvoMatched();
 
-        if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue {
-            Loader.startLoader(true)
-            
-            let parameters = [
-                "userId": LocalStore.store.getFacebookID(),
-                "convoId": self.purshaseConvoId
-                ] as [String : Any]
-            
-            WebServices.service.webServicePostRequest(.post, .conversation, .doPurchaseConversation, parameters, successHandler: { (response) in
-                Loader.stopLoader()
-                
-                let jsonDict = response
-                var isSuccess = false
-                
-                if let convoId = jsonDict!["convoId"] as? Int {
-                    let prompt = jsonDict!["prompt"] as? String
-                    
-                    if let screenAction = jsonDict!["screenAction"] as? Int {
-                        isSuccess = true
-                        
-                        switch screenAction {
-                        case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
-                            self.outAlertError(message: prompt ?? "Your good!")
-                            CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-                            self.vwMatch.isHidden = true
-                            self.view.sendSubviewToBack(self.vwMatch)
-                            UserDefaults.standard.set(false, forKey: "matchedNotification")
-                            UserDefaults.standard.synchronize()
-
-                            break
-                        case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
-                            self.openChat()
-                            break
-                        default:
-                            self.outAlertError(message: prompt ?? "Error")
-                        }
-                    }
-                }
-                
-                if !isSuccess {
-                    self.outAlertError(message: "Error: Convo Id is null")
-                }
-            }) { (error) in
-                Loader.stopLoader()
-                self.outAlertError(message: "Error: \(error.debugDescription)")
-            }
-        } else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue {
-            let controller = PurchaseViewController.loadFromNib()
-            controller.delegate = self
-            controller.products = self.purchase
-            controller.prompt = self.purchasePrompt
-            controller.convoId = self.purshaseConvoId
-            controller.userId = LocalStore.store.getFacebookID()
-            self.present(controller, animated: true, completion: nil)
-        }
     }
     
     @IBAction func btnMayBeLater(_ sender: Any) {
@@ -1913,22 +1940,25 @@ extension ProfileViewController: KolodaViewDelegate {
 
     //MARK:-  Purchase delegates
     
-    func didSuccessPurchase(userId: String?, convoId: Int, screenAction: Int, prompt: String?) {
-        switch screenAction {
+    func didSuccessPurchase(userId: String?) {
+/*        switch screenAction {
         case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
             self.outAlertError(message: prompt ?? "Error")
             break
-        case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
+        case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:*/
             let controller = ReservePurchaseViewController.loadFromNib()
             controller.userId = userId
             controller.didGoHandler = {userId in
-                self.openChat(userNewId: userId)
+                self.purchaseScreenAction = PurchasesConst.ScreenAction.BUY_CONVO.rawValue
+                self.DoPurchaseConversation();
+                // get
+//                self.openChat(userNewId: userId)
             }
             self.present(controller, animated: true, completion: nil)
-            break
+/*            break
         default:
             self.outAlertError(message: prompt ?? "Error")
-        }
+        }*/
     }
     
     private func openChat(userNewId: String? = nil) {
@@ -1944,8 +1974,8 @@ extension ProfileViewController: KolodaViewDelegate {
     func sendOrDeclineRequest(_ details: [String: Any]){
         let userId = LocalStore.store.getFacebookID()
         let reciver_ID = details["user_fb_id"] as! String
-//        let parameters = ["user_fb_id": userId , "receiving_user_fb_id":reciver_ID]
-        let parameters = ["user_fb_id": userId , "receiving_user_fb_id":"NVqSplSj9QUQrgcmn4Mdwn3f1ao2"]
+        let parameters = ["user_fb_id": userId , "receiving_user_fb_id":reciver_ID]
+//        let parameters = ["user_fb_id": userId , "receiving_user_fb_id":"NVqSplSj9QUQrgcmn4Mdwn3f1ao2"]
 //        let parameters = ["user_fb_id": userId , "receiving_user_fb_id":"OEhKFyfFVsW7e7ERYbRSjIpf3oU2"]
         
         // for test load user
@@ -1974,10 +2004,10 @@ extension ProfileViewController: KolodaViewDelegate {
                 let status = jsonDict!["status"] as! String
                 if status == "success"{
                     if let requiredData = jsonDict!["requiredData"] as? [String: Any] {
-                        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+               /* fhc         Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
                             AnalyticsParameterItemID: "id-Match",
                             AnalyticsParameterItemName: "Match"
-                            ])
+                            ])*/
                         let dictData = NSKeyedArchiver.archivedData(withRootObject: requiredData)
                         UserDefaults.standard.setValue(dictData, forKey: "matchedUser")
                         UserDefaults.standard.set(true, forKey: "matchedNotification")

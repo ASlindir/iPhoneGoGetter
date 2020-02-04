@@ -11,7 +11,7 @@ import StoreKit
 import SwiftyStoreKit
 
 protocol PurchaseViewControllerDelegate {
-    func didSuccessPurchase(userId: String?, convoId: Int, screenAction: Int, prompt: String?)
+    func didSuccessPurchase(userId: String?)
 }
 
 class PurchaseViewController: UIViewController {
@@ -161,7 +161,7 @@ class PurchaseViewController: UIViewController {
 
                             let productInfo = [
                                 "purchaseStatus": PurchasesConst.PurchaseStatus.PURCHASE_SUCCESS.rawValue,
-                                "appstore": "G",
+                                "appstore": "A",
                                 "amount": Double(products[index].item.Price!)!,
                                 "transctionID": product.transaction.transactionIdentifier != nil ? (product.transaction.transactionIdentifier)! : "",
                                 "dateTime": formattedDate,
@@ -171,25 +171,17 @@ class PurchaseViewController: UIViewController {
 
                             WebServices.service.webServicePostRequest(.post, .conversation, .inAppPurchaseComplete, parameters, successHandler: { (response) in
                                 Loader.stopLoader()
-
                                 let jsonDict = response
-                                var isSuccess = false
-
-                                if let convoId = jsonDict!["convoId"] as? Int {
-                                    let prompt = jsonDict!["prompt"] as? String
-
-                                    if let screenAction = jsonDict!["screenAction"] as? Int {
-                                        isSuccess = true
-
-                                        self.dismiss(animated: true, completion: {
-                                            self.delegate?.didSuccessPurchase(userId: self.userId, convoId: convoId, screenAction: screenAction, prompt: prompt)
-                                        })
-                                    }
+                                let status = jsonDict!["status"] as! String
+                                if status == "success"{
+                                    self.dismiss(animated: true, completion: {
+                                        self.delegate?.didSuccessPurchase(userId: self.userId)
+                                    })
                                 }
-
-                                if !isSuccess {
-                                    self.outAlertError(message: "Error: Convo Id is null")
+                                else{
+                                    self.outAlertError(message: "Error: cannot purchase at this time, please try again later");
                                 }
+                                
                             }) { (error) in
                                 Loader.stopLoader()
                                 self.outAlertError(message: "Error: \(error.debugDescription)")

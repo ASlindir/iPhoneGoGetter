@@ -53,13 +53,13 @@ open class TTGSnackbar: UIView {
     // MARK: - Class property.
     
     /// Snackbar default frame
-    fileprivate static let snackbarDefaultFrame: CGRect = CGRect(x: 0, y: 0, width: 320, height: 44)
+    public static var snackbarDefaultFrame: CGRect = CGRect(x: 0, y: 0, width: 320, height: 44)
     
     /// Snackbar min height
-    fileprivate static let snackbarMinHeight: CGFloat = 44
+    public static var snackbarMinHeight: CGFloat = 44
     
     /// Snackbar icon imageView default width
-    fileprivate static let snackbarIconImageViewWidth: CGFloat = 32
+    public static var snackbarIconImageViewWidth: CGFloat = 32
     
     // MARK: - Typealias.
     
@@ -778,18 +778,21 @@ private extension TTGSnackbar {
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 2)
         
-        contentView = UIView()
+        let contentView = UIView()
+        self.contentView = contentView
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.frame = TTGSnackbar.snackbarDefaultFrame
         contentView.backgroundColor = UIColor.clear
         
-        iconImageView = UIImageView()
+        let iconImageView = UIImageView()
+        self.iconImageView = iconImageView
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         iconImageView.backgroundColor = UIColor.clear
         iconImageView.contentMode = iconContentMode
         contentView.addSubview(iconImageView)
         
-        messageLabel = UILabel()
+        let messageLabel = UILabel()
+        self.messageLabel = messageLabel
         messageLabel.accessibilityIdentifier = "messageLabel"
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.textColor = UIColor.white
@@ -801,7 +804,8 @@ private extension TTGSnackbar {
         messageLabel.text = message
         contentView.addSubview(messageLabel)
         
-        actionButton = UIButton()
+        let actionButton = UIButton()
+        self.actionButton = actionButton
         actionButton.accessibilityIdentifier = "actionButton"
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         actionButton.backgroundColor = UIColor.clear
@@ -814,7 +818,8 @@ private extension TTGSnackbar {
         actionButton.addTarget(self, action: #selector(doAction(_:)), for: .touchUpInside)
         contentView.addSubview(actionButton)
         
-        secondActionButton = UIButton()
+        let secondActionButton = UIButton()
+        self.secondActionButton = secondActionButton
         secondActionButton.accessibilityIdentifier = "secondActionButton"
         secondActionButton.translatesAutoresizingMaskIntoConstraints = false
         secondActionButton.backgroundColor = UIColor.clear
@@ -827,12 +832,14 @@ private extension TTGSnackbar {
         secondActionButton.addTarget(self, action: #selector(doAction(_:)), for: .touchUpInside)
         contentView.addSubview(secondActionButton)
         
-        separateView = UIView()
+        let separateView = UIView()
+        self.separateView = separateView
         separateView.translatesAutoresizingMaskIntoConstraints = false
         separateView.backgroundColor = separateViewBackgroundColor
         contentView.addSubview(separateView)
         
-        activityIndicatorView = UIActivityIndicatorView(style: .white)
+        let activityIndicatorView = UIActivityIndicatorView(style: .white)
+        self.activityIndicatorView = activityIndicatorView
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         activityIndicatorView.stopAnimating()
         contentView.addSubview(activityIndicatorView)

@@ -19,6 +19,8 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
     @IBOutlet weak var bottomCollectionViewConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableViewMessages: UITableView!
     
+    var headerFriendsList = [Dictionary<String, Any>]()
+    var bodyFriendsList = [Dictionary<String, Any>]()
     var friendsList = [[String: Any]]()
     
     var senderDisplayName: String?
@@ -576,7 +578,26 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.tableViewMessages.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
         self.tableViewMessages.endUpdates()
     }
-    
+
+    func LoadHeaderObjects(dict : Dictionary<String, Any>?, collectionName : String, whichList : Int)->Bool{
+        var cc = false
+        if let collFriendList = dict![collectionName] as? [Dictionary<String, String>] {
+            for  f in collFriendList  {
+                cc = true
+                var headerItem =  Dictionary<String, Any>()
+                headerItem["user_name"] = f["user_name"]
+                headerItem["user_fb_id"] = f["user_fb_id"]
+                headerItem["profile_pic"] = f["profile_pic"]
+                headerItem["match_created_on"] = f["match_created_on"]
+                headerItem["which_list"] = whichList
+                headerFriendsList.append(headerItem)
+  //              arrayChatListHeaderModals.add(chatListHeaderModal);
+            }
+            //                chatListAdapter.notifyDataSetChanged();
+        }
+        return cc;
+    }
+
 //MARK:-  Get Friends List
     func getFriendsList(){
         
@@ -600,6 +621,10 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
             let status = jsonDict!["status"] as! String
             self.friendsList.removeAll()
             if status == "success"{
+                self.LoadHeaderObjects(dict: jsonDict, collectionName: "iPaid", whichList: 1)
+                self.LoadHeaderObjects(dict: jsonDict, collectionName: "bothPaid", whichList: 2)
+                self.LoadHeaderObjects(dict: jsonDict, collectionName: "theyPaid", whichList: 0)
+                self.LoadHeaderObjects(dict: jsonDict, collectionName: "neitherPaid", whichList: 3)
                 if let friendsList = jsonDict?["friendList"] as? [[String: Any]] {
                     for  dict in friendsList  {
                         if let matchDateStr = dict["match_created_on"] as? String {

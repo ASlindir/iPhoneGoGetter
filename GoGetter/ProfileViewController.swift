@@ -409,12 +409,14 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     @objc func matchNotificationRecived() {
         DispatchQueue.main.async {
             self.showMatchingProfileView();
+            self.doConvoMatched();
 //            self.doConvoMatched();
 //            self.showMatchingProfileView()
         }
     }
     
     @objc func newMatchNotificationRecived() {
+        // verify that we have created a convo
         let listController = self.storyboard?.instantiateViewController(withIdentifier: "ListViewController")
         navigationController?.pushViewController(listController!, animated: true)
     }
@@ -1522,7 +1524,6 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     }
     
     @objc func doConvoMatched(){
-        if self.purchase.count  == 0 {
             let data = UserDefaults.standard.object(forKey:"matchedUser")
             
             if let requiredData = NSKeyedUnarchiver.unarchiveObject(with: data as! Data) as? Dictionary<String, Any> {
@@ -1542,49 +1543,24 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                     if let convoId = jsonDict!["convoId"] as? Int {
                         self.purshaseConvoId = convoId
                         self.purchasePrompt = jsonDict!["prompt"] as? String
-                        
-                        if let _products = jsonDict!["products"] as? [Dictionary<String, Any?>] {
-                            for product in _products {
-                                self.purchase.append(PurchaseViewController.PurchaseItem(
-                                    Productid: product["id"] as? String,
-                                    ProductName: product["productName"] as? String,
-                                    Description: product["description"] as? String,
-                                    Price: product["price"] as? String,
-                                    CoinsPurchased: product["coinsPurchased"] as? String,
-                                    AppleStoreID: product["iTunesProductID"] as? String,
-                                    GoogleStoreID: product["googleProductID"] as? String)
-                                )
+                        if self.purchase.count  == 0 {
+                            if let _products = jsonDict!["products"] as? [Dictionary<String, Any?>] {
+                                for product in _products {
+                                    self.purchase.append(PurchaseViewController.PurchaseItem(
+                                        Productid: product["id"] as? String,
+                                        ProductName: product["productName"] as? String,
+                                        Description: product["description"] as? String,
+                                        Price: product["price"] as? String,
+                                        CoinsPurchased: product["coinsPurchased"] as? String,
+                                        AppleStoreID: product["iTunesProductID"] as? String,
+                                        GoogleStoreID: product["googleProductID"] as? String)
+                                    )
+                                }
                             }
                         }
                         
                         if let screenAction = jsonDict!["screenAction"] as? Int {
                             self.purchaseScreenAction = screenAction
-                            
-                            if screenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue {
-                                let controller = ReservePurchaseViewController.loadFromNib()
-                                controller.userId = LocalStore.store.getFacebookID()
-                                controller.didGoHandler = {userId in
-                                    self.purchaseScreenAction = PurchasesConst.ScreenAction.BUY_CONVO.rawValue
-                                    self.DoPurchaseConversation();
-                                    // get
-                    //                self.openChat(userNewId: userId)
-                                }
-                                self.present(controller, animated: true, completion: nil)
-
-/*                                self.outAlertError(message: "conv purchased in test Your good!")
-                                CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-                                self.vwMatch.isHidden = true
-                                self.view.sendSubviewToBack(self.vwMatch)
-                                UserDefaults.standard.set(false, forKey: "matchedNotification")
-                                UserDefaults.standard.synchronize()*/
-                            } else if screenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue {
-                               let controller = PurchaseViewController.loadFromNib()
-                              controller.delegate = self
-                              controller.products = self.purchase
-                              controller.prompt = self.purchasePrompt
-                              controller.convoId = self.purshaseConvoId
-                              controller.userId = LocalStore.store.getFacebookID()
-                              self.present(controller, animated: true, completion: nil)                            }
                         }
                         
                     } else {
@@ -1598,9 +1574,39 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                     UserDefaults.standard.set(false, forKey: "matchedNotification")
                 }
             }
-        }
     }
-    
+/*    @objc func doConvoQueryToCreate(){
+            let data = UserDefaults.standard.object(forKey:"matchedUser")
+            
+            if let requiredData = NSKeyedUnarchiver.unarchiveObject(with: data as! Data) as? Dictionary<String, Any> {
+                let userOtherDict = requiredData["request_to"] as? [String: Any]
+                let userTo = userOtherDict?["user_fb_id"] as! String
+                
+                var parameters = Dictionary<String, Any>()
+                parameters["userId"] = LocalStore.store.getFacebookID();
+                parameters["otherUserId"] = userTo;
+                
+                Loader.startLoader(true)
+                
+                WebServices.service.webServicePostRequest(.post, .conversation, .doQueryConversation, parameters, successHandler: { (response) in
+                    Loader.stopLoader()
+                    let jsonDict = response
+                    
+                    if let convoId = jsonDict!["convoId"] as? Int {
+                        // we are good convo exists
+                    } else {
+                        Loader.stopLoader()
+                        self.outAlertError(message: "Error: Convo Id is null in doConvoQueryToCreate")
+                        UserDefaults.standard.set(false, forKey: "matchedNotification")
+                    }
+                }) { (error) in
+                    Loader.stopLoader()
+                    self.outAlertError(message: "Error: \(error.debugDescription)")
+                    UserDefaults.standard.set(false, forKey: "matchedNotification")
+                }
+            }
+    }*/
+
     func DoPurchaseConversation(){
       if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue {
            Loader.startLoader(true)
@@ -1624,7 +1630,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                        
                        switch screenAction {
                        case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
-                           self.outAlertError(message: prompt ?? "Good Choice")
+                           self.outAlert(title: "Good Choice", message: prompt)
                            CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
                            self.vwMatch.isHidden = true
                            self.view.sendSubviewToBack(self.vwMatch)
@@ -1663,8 +1669,35 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     }
     @IBAction func btnSayHello(_ sender: Any) {
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-        self.doConvoMatched();
+        if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue {
+            let controller = ReservePurchaseViewController.loadFromNib()
+            controller.userId = LocalStore.store.getFacebookID()
+            controller.didGoHandler = {userId in
+                self.purchaseScreenAction = PurchasesConst.ScreenAction.BUY_CONVO.rawValue
+                self.DoPurchaseConversation();
+                // get
+            //    self.openChat(userNewId: userId)
+            }
+            // go screen
+            self.present(controller, animated: true, completion: nil)
 
+            self.outAlertError(message: "conv purchased in test Your good!")
+            CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+            self.vwMatch.isHidden = true
+            self.view.sendSubviewToBack(self.vwMatch)
+            UserDefaults.standard.set(false, forKey: "matchedNotification")
+            UserDefaults.standard.synchronize()
+        } else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue {
+            let controller = PurchaseViewController.loadFromNib()
+              controller.delegate = self
+              controller.products = self.purchase
+              controller.prompt = self.purchasePrompt
+              controller.convoId = self.purshaseConvoId
+              controller.userId = LocalStore.store.getFacebookID()
+              self.present(controller, animated: true, completion: nil)
+        }
+
+//        self.doConvoMatched();
     }
     
     @IBAction func btnMayBeLater(_ sender: Any) {

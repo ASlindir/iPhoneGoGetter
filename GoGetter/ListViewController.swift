@@ -229,95 +229,108 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.friendsList.count
+        //return self.friendsList.count
+        return self.headerFriendsList.count
     }
     
+    // render a single match circle in the top of the view controller
+    // this contains 'nobody paid' 3 and 'theypaid' entries 0
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewMatchesCell", for: indexPath) as! NewMatchesCollectionViewCell
 //        let name = friendsList[indexPath.row]["user_name"] as! String
        
-        if let profile_pic = friendsList[indexPath.row]["profile_pic"] as? String {
+        let friend = headerFriendsList[indexPath.item] as Dictionary<String, Any>
+        
+        if let profile_pic = friend["profile_pic"] as? String {
             cell.circleView.imageView.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic)), placeholderImage: UIImage.init(named: "placeholder"))
         }
-        
+    
         cell.circleView.tapHandler = nil
         
-        if let matchDateStr = friendsList[indexPath.row]["match_created_on"] as? String {
-            cell.circleView.shapeColor = UIColor(red:0.66, green:0.66, blue:0.66, alpha:1.0)
-            
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            dateFormatter.timeZone = NSTimeZone(abbreviation: "GMT")! as TimeZone
-             dateFormatter.locale = Locale.init(identifier: "en_US_POSIX")
-            let matchDate: Date? = dateFormatter.date(from: matchDateStr )
-            let time = Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0
+        // 0 they paid, 1 ipaid, 2bothpaid, 3neither paid
+        let whichList = friend["which_list"] as! Int
 
-            if (time >= 172800) {
-                cell.circleView.addCircle(100)
-            } else {
-                print(CGFloat(CGFloat(time)/172800))
-                cell.circleView.addCircle(CGFloat(CGFloat(time)/172800) * 100.0)
-            }
-        } else {
-            // test
-//            if indexPath.item == 0 {
-//                cell.circleView.shapeColor = UIColor(red:0.66, green:0.66, blue:0.66, alpha:1.0)
-//                cell.circleView.addCircle(20)
-//                cell.circleView.tapHandler = {circleView in
-//                    self.animationAddItemToTable()
-//                }
-//            } else if indexPath.item % 2 == 0 {
-//                cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)
-//                cell.circleView.tapHandler = {circleView in
-//                    self.animationAddItemToTable()
-//
-//                    let copiedView: UIView = cell.circleView.copyView()
-//
-//                    copiedView.center.x = CGFloat((indexPath.item + 1) * 105 - 105 / 2 + 10)
-//                    copiedView.center.y = 198
-//                    copiedView.layer.zPosition = 1000
-//
-////                    copiedView.frame.origin = self.view.convert(cell.circleView.frame.origin, to: nil)
-//
-//                    copiedView.isHidden = false
-//                    self.view.addSubview(copiedView)
-//                    cell.circleView.isHidden = true
-//
-//                    self.friendsList.remove(at: indexPath.item)
-//                    self.collectionViewNewMatches.deleteItems(at: [indexPath])
-//
-//                    UIView.animateKeyframes(withDuration: 1, delay: 0, options: [], animations: {
-//                        copiedView.center.x = cell.contentView.frame.width / 2
-//                        copiedView.center.y = 390
-//                    }, completion: {finished in
-//                        self.collectionViewNewMatches.reloadData()
-//                        copiedView.removeFromSuperview()
-//                        self.isAnimateFirstItemInTable = false
-//                        self.tableViewMessages.reloadData()
-//                    })
-//                }
-//
-//                cell.circleView.addCircle(0)
-//            } else {
-//                // pink
-//                cell.circleView.shapeColor = UIColor(red:0.94, green:0.37, blue:0.65, alpha:1.0)
-//                cell.circleView.tapHandler = {circleView in
-//                    circleView.animationClick(completion: {
-//                        let controller = ReservePurchaseViewController.loadFromNib()
-//                        controller.userId = LocalStore.store.getFacebookID()
-//                        controller.isPinkName = true
-//                        controller.didGoHandler = {userId in
-//                            self.animationAddItemToTable()
-//                        }
-//                        self.present(controller, animated: true, completion: nil)
-//                    })
-//                }
-//
-//                cell.circleView.addCircle(0)
-//            }
+        switch whichList {
+            case 0:
+                cell.circleView.shapeColor = UIColor(red:0.94, green:0.37, blue:0.65, alpha:1.0) // pink, they paid
+            case 3:
+                cell.circleView.shapeColor = UIColor(red:0.66, green:0.66, blue:0.66, alpha:1.0) // gray neither paid
+                cell.circleView.addCircle(20)
+                cell.circleView.tapHandler = {circleView in
+                    self.animationAddItemToTable()
+                }
+            default:
+                NSLog("error bad which value")
         }
         
-        if isAnimateFirstItem && indexPath.item == 0 {
+        cell.circleView.addCircle(20)
+        cell.circleView.tapHandler = {circleView in
+           circleView.animationClick(completion: {
+               let controller = ReservePurchaseViewController.loadFromNib()
+               controller.userId = LocalStore.store.getFacebookID()
+               controller.isPinkName = true
+               controller.didGoHandler = {userId in
+                   self.animationAddItemToTable()
+               }
+               self.present(controller, animated: true, completion: nil)
+           })
+        }
+//        cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)  //neither paid gray
+
+/*
+            } else if indexPath.item % 2 == 0 {
+                cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)
+                cell.circleView.tapHandler = {circleView in
+                    self.animationAddItemToTable()
+
+                    let copiedView: UIView = cell.circleView.copyView()
+
+                    copiedView.center.x = CGFloat((indexPath.item + 1) * 105 - 105 / 2 + 10)
+                    copiedView.center.y = 198
+                    copiedView.layer.zPosition = 1000
+
+//                    copiedView.frame.origin = self.view.convert(cell.circleView.frame.origin, to: nil)
+
+                    copiedView.isHidden = false
+                    self.view.addSubview(copiedView)
+                    cell.circleView.isHidden = true
+
+                    self.headerFriendsList.remove(at: indexPath.item)
+                    self.collectionViewNewMatches.deleteItems(at: [indexPath])
+
+                    UIView.animateKeyframes(withDuration: 1, delay: 0, options: [], animations: {
+                        copiedView.center.x = cell.contentView.frame.width / 2
+                        copiedView.center.y = 390
+                    }, completion: {finished in
+                        self.collectionViewNewMatches.reloadData()
+                        copiedView.removeFromSuperview()
+                        self.isAnimateFirstItemInTable = false
+                        self.tableViewMessages.reloadData()
+                    })
+                }
+
+                cell.circleView.addCircle(0)
+            } else {
+                // pink
+                cell.circleView.shapeColor = UIColor(red:0.94, green:0.37, blue:0.65, alpha:1.0)
+                cell.circleView.tapHandler = {circleView in
+                    circleView.animationClick(completion: {
+                        let controller = ReservePurchaseViewController.loadFromNib()
+                        controller.userId = LocalStore.store.getFacebookID()
+                        controller.isPinkName = true
+                        controller.didGoHandler = {userId in
+                            self.animationAddItemToTable()
+                        }
+                        self.present(controller, animated: true, completion: nil)
+                    })
+                }
+
+                cell.circleView.addCircle(0)
+            }
+ */
+//        }
+        
+        /*if isAnimateFirstItem && indexPath.item == 0 {
             cell.contentView.isHidden = true
             
             cell.contentView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
@@ -339,7 +352,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
             })
         } else {
             cell.contentView.isHidden = false
-        }
+        }*/
         
         return cell
     }
@@ -402,44 +415,63 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return friends.count
+        return bodyFriendsList.count
     }
     
+    
+    // boyd friends are eitehr bothpaid 2 or ipaid 1
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell") as! MessagesTableViewCell
-        cell.lblName.text = friends[indexPath.row].name
-        let profile_pic = friends[indexPath.row].profilePic
-        cell.imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic)), placeholderImage: UIImage.init(named: "placeholder"))
         
-        cell.circleView.imageView.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic)), placeholderImage: UIImage.init(named: "placeholder"))
-        cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)
-        cell.circleView.addCircle(0)
+        
+        let friend = bodyFriendsList[indexPath.item] as Dictionary<String, Any>
+        
+        let profile_pic = friend["profile_pic"] as? String
+
+        cell.circleView.tapHandler = nil
+        
+        // 0 they paid, 1 ipaid, 2bothpaid, 3neither paid
+        let whichList = friend["which_list"] as! Int
+
+        switch whichList {
+        case 1:
+            cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0) // blue, i paid, no action just waiting
+        case 2:
+            cell.circleView.shapeColor = UIColor.white // both paid white // should never see in header!
+        default:
+            NSLog("error bad which value")
+        
+        }
+        cell.circleView.addCircle(20)
+
+        let fname = friend["user_name"] as? String
+        cell.lblName.text = fname
+        cell.imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic!)), placeholderImage: UIImage.init(named: "placeholder"))
+        cell.lblMessage.text = ""
+        cell.circleView.imageView.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic!)), placeholderImage: UIImage.init(named: "placeholder"))
         cell.circleLabel.textColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)
-        cell.circleLabel.text = "Pending \(friends[indexPath.row].name)'s activation ..."
-        
-        cell.imgViewProfile.layer.cornerRadius = 42.5
-        
-        if !friends[indexPath.row].online {
-            cell.imgViewNewMessage.backgroundColor = UIColor.gray
+        if friend["which_list"] as! Int ==  1{
+            cell.circleLabel.text = "Pending "+fname!+"'s activation ..."
         }
-        else {
-            cell.imgViewNewMessage.backgroundColor = UIColor.init(red: 38/255, green: 166/255, blue: 175/255, alpha: 1)
-        }
-        
-        
-        cell.lblMessage.font = UIFont.init(name: "OpenSans-Regular", size: 16)
-        if let lastMessageDict = friends[indexPath.row].lastMessage{
-            let lastMessage = lastMessageDict["text"] as? String
-            cell.lblMessage.text = lastMessage
-            if let unread = lastMessageDict["unread"] as? String {
-                if unread == "1" {
-                    cell.lblMessage.font = UIFont.init(name: "OpenSans-Bold", size: 16)
+        else{ // both paid, official friend
+            if !friends[indexPath.row].online {
+                cell.imgViewNewMessage.backgroundColor = UIColor.gray
+            }
+            else {
+                cell.imgViewNewMessage.backgroundColor = UIColor.init(red: 38/255, green: 166/255, blue: 175/255, alpha: 1)
+            }
+            cell.lblMessage.font = UIFont.init(name: "OpenSans-Regular", size: 16)
+            if let lastMessageDict = friends[indexPath.row].lastMessage{
+                let lastMessage = lastMessageDict["text"] as? String
+                cell.lblMessage.text = lastMessage
+                if let unread = lastMessageDict["unread"] as? String {
+                    if unread == "1" {
+                        cell.lblMessage.font = UIFont.init(name: "OpenSans-Bold", size: 16)
+                    }
                 }
             }
-        }else{
-            cell.lblMessage.text = ""
         }
-        
+        cell.imgViewProfile.layer.cornerRadius = 42.5
         
         if self.isAnimateFirstItemInTable && indexPath.item == 0 {
             cell.contentView.isHidden = true
@@ -584,13 +616,19 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
         if let collFriendList = dict![collectionName] as? [Dictionary<String, String>] {
             for  f in collFriendList  {
                 cc = true
-                var headerItem =  Dictionary<String, Any>()
-                headerItem["user_name"] = f["user_name"]
-                headerItem["user_fb_id"] = f["user_fb_id"]
-                headerItem["profile_pic"] = f["profile_pic"]
-                headerItem["match_created_on"] = f["match_created_on"]
-                headerItem["which_list"] = whichList
-                headerFriendsList.append(headerItem)
+                var item =  Dictionary<String, Any>()
+                item["user_name"] = f["user_name"]
+                item["user_fb_id"] = f["user_fb_id"]
+                item["profile_pic"] = f["profile_pic"]
+                item["match_created_on"] = f["match_created_on"]
+                item["which_list"] = whichList
+                
+                if whichList == 0 || whichList == 3{
+                    headerFriendsList.append(item)
+                }
+                else{
+                    bodyFriendsList.append(item)
+                }
   //              arrayChatListHeaderModals.add(chatListHeaderModal);
             }
             //                chatListAdapter.notifyDataSetChanged();

@@ -207,7 +207,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     var purchase: [PurchaseViewController.PurchaseItem] = []
     var purchasePrompt: String? = nil
     var purchaseScreenAction: Int = 0
-    var purshaseConvoId: Int = 0
+    var purchaseConvoId: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -1541,7 +1541,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                     let jsonDict = response
                     
                     if let convoId = jsonDict!["convoId"] as? Int {
-                        self.purshaseConvoId = convoId
+                        self.purchaseConvoId = convoId
                         self.purchasePrompt = jsonDict!["prompt"] as? String
                         if self.purchase.count  == 0 {
                             if let _products = jsonDict!["products"] as? [Dictionary<String, Any?>] {
@@ -1613,7 +1613,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
            
            let parameters = [
                "userId": LocalStore.store.getFacebookID(),
-               "convoId": self.purshaseConvoId
+               "convoId": self.purchaseConvoId
                ] as [String : Any]
            
            WebServices.service.webServicePostRequest(.post, .conversation, .doPurchaseConversation, parameters, successHandler: { (response) in
@@ -1692,7 +1692,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
               controller.delegate = self
               controller.products = self.purchase
               controller.prompt = self.purchasePrompt
-              controller.convoId = self.purshaseConvoId
+              controller.convoId = self.purchaseConvoId
               controller.userId = LocalStore.store.getFacebookID()
               self.present(controller, animated: true, completion: nil)
         }

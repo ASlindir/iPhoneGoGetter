@@ -13,6 +13,7 @@ class FreebieViewController: UIViewController {
    
     @IBOutlet weak var btnNext: UIButton!
     
+    @IBOutlet weak var gradientView: UIView!
     var userId: String? = nil
     var isPinkName: Bool = false
     var didGoHandler: ((String?) -> Void)? = nil
@@ -20,6 +21,7 @@ class FreebieViewController: UIViewController {
     override func viewDidLoad() {
          super.viewDidLoad()
         btnNext.isHidden = false
+         self.createGradientLayer(self.gradientView)
          // buttons
      }
 
@@ -32,7 +34,6 @@ class FreebieViewController: UIViewController {
          super.viewDidAppear(animated)
          
      }
-    
     @IBAction func onClick(_ sender: Any) {
     }
 }

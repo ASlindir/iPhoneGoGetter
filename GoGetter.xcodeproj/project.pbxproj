@@ -202,6 +202,9 @@
 		E733019A22AE3D8A0027FA18 /* UIImage_ImageCompress.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E733019922AE3D8A0027FA18 /* UIImage_ImageCompress.framework */; };
 		E7370AFF2306E16100EB030B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7370AFD2306E16100EB030B /* Main.storyboard */; };
 		E7A583BA22FF200F0075926E /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A583B922FF200F0075926E /* RadioButton.swift */; };
+		E7BFCF672440056A003594FC /* FreebieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BFCF662440056A003594FC /* FreebieViewController.swift */; };
+		E7BFCF692440063D003594FC /* FreebieViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7BFCF682440063D003594FC /* FreebieViewController.xib */; };
+		E7BFCF6B2440B9D6003594FC /* FreebieTransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BFCF6A2440B9D6003594FC /* FreebieTransitionDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -476,6 +479,9 @@
 		E733019922AE3D8A0027FA18 /* UIImage_ImageCompress.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UIImage_ImageCompress.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7370AFE2306E16100EB030B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E7A583B922FF200F0075926E /* RadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
+		E7BFCF662440056A003594FC /* FreebieViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreebieViewController.swift; sourceTree = "<group>"; };
+		E7BFCF682440063D003594FC /* FreebieViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FreebieViewController.xib; sourceTree = "<group>"; };
+		E7BFCF6A2440B9D6003594FC /* FreebieTransitionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreebieTransitionDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -883,6 +889,8 @@
 				847ACD43233E1C2800A1A6D5 /* ReservePurchaseViewController.swift */,
 				84401CD6233F15FF00735302 /* PurchaseManagerViewController.swift */,
 				84401CDA233F1EF900735302 /* PurchaseStatisticViewController.swift */,
+				E7BFCF662440056A003594FC /* FreebieViewController.swift */,
+				E7BFCF6A2440B9D6003594FC /* FreebieTransitionDelegate.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -891,6 +899,7 @@
 			isa = PBXGroup;
 			children = (
 				8479D46A230CD8ED0031B73F /* PurchaseViewController.xib */,
+				E7BFCF682440063D003594FC /* FreebieViewController.xib */,
 				847ACD44233E1C2800A1A6D5 /* ReservePurchaseViewController.xib */,
 				84401CD7233F15FF00735302 /* PurchaseManagerViewController.xib */,
 				84401CDB233F1EF900735302 /* PurchaseStatisticViewController.xib */,
@@ -1307,6 +1316,7 @@
 				B42A65971F9F02A100639F6B /* GoogleService-Info.plist in Resources */,
 				10E635771F88BD6C00B84098 /* OpenSans-LightItalic.ttf in Resources */,
 				842F7D552340D19A004B30A4 /* UICircleUserView.xib in Resources */,
+				E7BFCF692440063D003594FC /* FreebieViewController.xib in Resources */,
 				10E635781F88BD6C00B84098 /* OpenSans-Bold.ttf in Resources */,
 				8452805A233C578900E079D4 /* TestPurchaseViewController.xib in Resources */,
 				847ACD49233E251D00A1A6D5 /* Pacifico-Regular.ttf in Resources */,
@@ -1477,7 +1487,9 @@
 				0D06B89020C2E7A6002E1703 /* JSQMessagesCollectionViewLayoutAttributes.m in Sources */,
 				84694F4322830376007AB8BA /* PhoneViewController.swift in Sources */,
 				0D06B88620C2E7A6002E1703 /* JSQMessagesAvatarImageFactory.m in Sources */,
+				E7BFCF672440056A003594FC /* FreebieViewController.swift in Sources */,
 				B40C11D11F7D19540030F9E7 /* ProfileImageViewCell.swift in Sources */,
+				E7BFCF6B2440B9D6003594FC /* FreebieTransitionDelegate.swift in Sources */,
 				B43A62C51FBD4E0700FE15C4 /* MessagesTableViewCell.swift in Sources */,
 				0D06B8A120C2E7A6002E1703 /* JSQMessagesInputToolbar.m in Sources */,
 				84401CDC233F1EF900735302 /* PurchaseStatisticViewController.swift in Sources */,

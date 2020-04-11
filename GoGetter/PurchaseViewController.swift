@@ -14,6 +14,7 @@ protocol PurchaseViewControllerDelegate {
     func didSuccessPurchase(userId: String?)
 }
 
+
 class PurchaseViewController: UIViewController {
     @IBOutlet weak var logoImageVIew: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -29,6 +30,7 @@ class PurchaseViewController: UIViewController {
     var items: [Purchase] = []
     var userId: String = ""
     var currentProduct: Purchase?
+    let freebieTransitionDelegate: UIViewControllerTransitioningDelegate = FreebieTransitionDelegate()
     
     struct PurchaseItem {
         let Productid: String?
@@ -50,7 +52,7 @@ class PurchaseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.transitioningDelegate = freebieTransitionDelegate
         // stack view
         self.purchaseStackView.axis = .vertical
         self.purchaseStackView.distribution = .fillEqually
@@ -289,6 +291,23 @@ class PurchaseViewController: UIViewController {
                     }
                     
                     self.initViews(products: self.items)
+                    self.view.isUserInteractionEnabled = false
+                    let deadlineTime = DispatchTime.now() + .seconds(5)
+                    DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
+                                let freebieView = FreebieViewController.loadFromNib()
+                        //        let secondView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: String(describing: SecondViewController.self))
+                        freebieView.transitioningDelegate = self.freebieTransitionDelegate
+                                self.present(freebieView, animated: true, completion: {
+                              //  self.dismiss(animated: false, completion: nil)
+                                })
+                    }
+
+//                    let isFreebie = LocalStore.store.coinFreebie
+//                    if (isFreebie!){
+//                        let controller = FreebieViewController.loadFromNib()
+//                       self.present(controller, animated: true, completion: nil)
+//                    }
+                    
                 }
                 else if let invalidProductId = result.invalidProductIDs.first {
                     self.outAlertError(message: "Invalid product identifier: \(invalidProductId)")

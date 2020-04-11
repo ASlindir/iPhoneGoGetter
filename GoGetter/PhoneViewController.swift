@@ -209,6 +209,7 @@ class PhoneViewController: FormViewController {
 
                     if status == "success" {
                         LocalStore.store.facebookID = userDetails!["user_fb_id"] as! String?
+                        LocalStore.store.coinFreebie = true
                         self.authFirebaseForPhoneRegistration(token: token, jsonData: jsonData)
                     } else if status == "duplicate" {
                         Loader.stopLoader()

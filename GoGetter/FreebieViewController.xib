@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Barmeno Bold.otf">
+            <string>Barmeno-Bold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FreebieViewController" customModule="GoGetter" customModuleProvider="target">
+            <connections>
+                <outlet property="btnNext" destination="HIe-43-oUJ" id="qVW-G5-1hu"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8tt-RH-Owv">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="GoGetterSilverCoin" translatesAutoresizingMaskIntoConstraints="NO" id="Ugu-cF-9Yk">
+                            <rect key="frame" x="67" y="248" width="241" height="229"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="229" id="8B0-fk-J3q"/>
+                                <constraint firstAttribute="width" constant="241" id="iEE-Fd-hul"/>
+                            </constraints>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HIe-43-oUJ" userLabel="btnNext">
+                            <rect key="frame" x="145" y="517" width="85" height="36"/>
+                            <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="36" id="KdQ-s1-kGS"/>
+                                <constraint firstAttribute="width" constant="85" id="fsV-AI-KP0"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
+                            <state key="normal" title="NEXT">
+                                <color key="titleColor" red="0.99990183119999998" green="1" blue="0.99987989659999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="onClick:" destination="-1" eventType="touchUpInside" id="6ef-NK-uyV"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YOUR FIRST COIN" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fuQ-iL-lEk" userLabel="OnUs">
+                            <rect key="frame" x="64.5" y="119" width="246.5" height="33"/>
+                            <fontDescription key="fontDescription" name="Barmeno-Bold" family="Barmeno" pointSize="33"/>
+                            <color key="textColor" red="0.0" green="0.64647048709999999" blue="0.68678611519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IS ON US!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ZJ-O0-umQ" userLabel="OnUS2">
+                            <rect key="frame" x="120" y="164" width="135" height="33"/>
+                            <fontDescription key="fontDescription" name="Barmeno-Bold" family="Barmeno" pointSize="33"/>
+                            <color key="textColor" red="0.0" green="0.64647048709999999" blue="0.68678611519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstItem="Ugu-cF-9Yk" firstAttribute="centerX" secondItem="8tt-RH-Owv" secondAttribute="centerX" id="6Dp-BI-OJd"/>
+                        <constraint firstItem="HIe-43-oUJ" firstAttribute="top" secondItem="Ugu-cF-9Yk" secondAttribute="bottom" constant="40" id="AfH-6g-BAz"/>
+                        <constraint firstItem="fuQ-iL-lEk" firstAttribute="centerX" secondItem="8tt-RH-Owv" secondAttribute="centerX" id="BL2-gZ-wze"/>
+                        <constraint firstItem="0ZJ-O0-umQ" firstAttribute="top" secondItem="fuQ-iL-lEk" secondAttribute="bottom" constant="12" id="bb7-Cz-GSi"/>
+                        <constraint firstItem="Ugu-cF-9Yk" firstAttribute="top" secondItem="0ZJ-O0-umQ" secondAttribute="bottom" constant="51" id="ecC-wh-uBL"/>
+                        <constraint firstItem="HIe-43-oUJ" firstAttribute="centerX" secondItem="8tt-RH-Owv" secondAttribute="centerX" id="sR3-94-V1j"/>
+                        <constraint firstItem="0ZJ-O0-umQ" firstAttribute="centerX" secondItem="8tt-RH-Owv" secondAttribute="centerX" id="wR6-1r-LKw"/>
+                    </constraints>
+                </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gogetterWithS" translatesAutoresizingMaskIntoConstraints="NO" id="jfx-mI-JG8">
+                    <rect key="frame" x="116" y="10" width="143" height="84"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="84" id="6Vh-32-Ut7"/>
+                        <constraint firstAttribute="width" constant="143" id="ZhC-26-PgC"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="8tt-RH-Owv" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="0Y6-Vc-BZV"/>
+                <constraint firstItem="jfx-mI-JG8" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="10" id="Gr4-fd-kLy"/>
+                <constraint firstItem="8tt-RH-Owv" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Jxf-g1-Ny3"/>
+                <constraint firstItem="8tt-RH-Owv" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="lJw-rU-QHy"/>
+                <constraint firstItem="8tt-RH-Owv" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="me2-1m-pZq"/>
+                <constraint firstItem="jfx-mI-JG8" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="p41-Xg-9pT"/>
+                <constraint firstItem="fuQ-iL-lEk" firstAttribute="top" secondItem="jfx-mI-JG8" secondAttribute="bottom" constant="25" id="qK4-M0-yku"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="-948" y="58.920539730134934"/>
+        </view>
+        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YOUR FIRST COIN" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fF3-jh-WDg" userLabel="OnUs">
+            <rect key="frame" x="0.0" y="0.0" width="344" height="56"/>
+            <constraints>
+                <constraint firstAttribute="height" constant="85" id="0Ru-Rn-5cn"/>
+            </constraints>
+            <fontDescription key="fontDescription" name="Barmeno-Bold" family="Barmeno" pointSize="33"/>
+            <color key="textColor" red="0.0" green="0.64647048709999999" blue="0.68678611519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <nil key="highlightedColor"/>
+            <point key="canvasLocation" x="-934" y="-325"/>
+        </label>
+    </objects>
+    <resources>
+        <image name="GoGetterSilverCoin" width="400" height="400"/>
+        <image name="gogetterWithS" width="213" height="72"/>
+    </resources>
+</document>

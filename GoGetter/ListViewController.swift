@@ -277,19 +277,7 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
                     controller.userId = LocalStore.store.getFacebookID()
                     controller.isPinkName = whichList == 0 ? true : false
                     controller.didGoHandler = {userId in
-                        // in any case we have paid so this goes to the bottom
-                        // get the friend in the header array
-                        var idx = 0
-                        for h in self.headerFriendsList {
-                            if h["user_fb_id"] as? String == friend["user_fb_id"] as? String{
-                                // have the index
-                                self.bodyFriendsList.append(h)
-                                self.headerFriendsList.remove(at: idx)
-                                break
-                            }
-                            idx += 1
-                        }
-                        self.animationAddItemToTable()
+                        self.DoPurchaseConversation(friend : friend, whichList: whichList)
                     }
                     self.present(controller, animated: true, completion: nil)
                 }
@@ -309,56 +297,58 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
            UserDefaults.standard.set(false, forKey: "matchedNotification")
        }
    }
+    
+    func DoPurchaseConversation(friend : Dictionary<String, Any>, whichList : Int){
+      Loader.startLoader(true)
 
-/*       func DoPurchaseConversation(){
-          Loader.startLoader(true)
-          item["which_list"] = whichList
-          item["convoId"] = f["convoId"]
-          item["user_match_fb_id"] = f["user_match_fb_id"]
-
-          let parameters = [
-              "userId": LocalStore.store.getFacebookID(),
-              "convoId": self.purchaseConvoId
-              ] as [String : Any]
+      let parameters = [
+          "userId": LocalStore.store.getFacebookID(),
+          "convoId": self.purchaseConvoId
+          ] as [String : Any]
+      
+      WebServices.service.webServicePostRequest(.post, .conversation, .doPurchaseConversation, parameters, successHandler: { (response) in
+          Loader.stopLoader()
           
-          WebServices.service.webServicePostRequest(.post, .conversation, .doPurchaseConversation, parameters, successHandler: { (response) in
-              Loader.stopLoader()
-              
-              let jsonDict = response
-              var isSuccess = false
-              
-              if let convoId = jsonDict!["convoId"] as? Int {
-                  let prompt = jsonDict!["prompt"] as? String
-                  
-                  if let screenAction = jsonDict!["screenAction"] as? Int {
-                      isSuccess = true
-                      
-                      switch screenAction {
-                      case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
-                          self.outAlert(title: "Good Choice", message: prompt)
-                          CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-                          self.vwMatch.isHidden = true
-                          self.view.sendSubviewToBack(self.vwMatch)
-                          UserDefaults.standard.set(false, forKey: "matchedNotification")
-                          UserDefaults.standard.synchronize()
+          let jsonDict = response
+          var isSuccess = false
+          
+          if let convoId = jsonDict!["convoid"] as? Int {
+              if let screenAction = jsonDict!["screenAction"] as? Int {
+                  isSuccess = true
+                  // in any case we have paid so this goes to the bottom
+                  var idx = 0
+                  for h in self.headerFriendsList {
+                      if h["user_fb_id"] as? String == friend["user_fb_id"] as? String{
+                          // have the index
+                          self.bodyFriendsList.append(h)
+                          self.headerFriendsList.remove(at: idx)
                           break
-                      case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
-                          self.openChat()
-                          break
-                      default:
-                          self.outAlertError(message: prompt ?? "Error")
                       }
+                      idx += 1
                   }
+                  self.animationAddItemToTable()
+
+/*                  switch screenAction {
+                  case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
+                        self.animationAddItemToTable()
+                      break
+                  case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
+                      self.openChat()
+                      break
+                  default:
+                      self.outAlertError(message: prompt ?? "Error")
+                  }*/
               }
-              
-              if !isSuccess {
-                  self.outAlertError(message: "Error: doPurchaseConversation failed")
-              }
-          }) { (error) in
-              Loader.stopLoader()
-              self.outAlertError(message: "Error: \(error.debugDescription)")
           }
-       }*/
+          
+          if !isSuccess {
+              self.outAlertError(message: "Error: doPurchaseConversation failed")
+          }
+      }) { (error) in
+          Loader.stopLoader()
+          self.outAlertError(message: "Error: \(error.debugDescription)")
+      }
+    }
 
     // render a single match circle in the top of the view controller
     // this contains 'nobody paid' 3 and 'theypaid' entries 0

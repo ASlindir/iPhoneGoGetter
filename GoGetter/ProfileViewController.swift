@@ -1667,27 +1667,44 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
        }*/
 
     }
+//                let controller = ReservePurchaseViewController.loadFromNib()
+//                controller.userId = LocalStore.store.getFacebookID()
+//                controller.didGoHandler = {userId in
+//                    self.purchaseScreenAction = PurchasesConst.ScreenAction.BUY_CONVO.rawValue
+//                    self.DoPurchaseConversation();
+//                    // get
+//                //    self.openChat(userNewId: userId)
+//                }
+//                // go screen
+//                self.present(controller, animated: true, completion: nil)
+//
+//    //    fhc        self.outAlertError(message: "conv purchased in test Your good!")
+//                CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+//                self.vwMatch.isHidden = true
+//                self.view.sendSubviewToBack(self.vwMatch)
+//                UserDefaults.standard.set(false, forKey: "matchedNotification")
+//                UserDefaults.standard.synchronize()
+
     @IBAction func btnSayHello(_ sender: Any) {
+        LocalStore.store.coinFreebie = true
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-        if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue {
+        if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue && !LocalStore.store.coinFreebie!{
             let controller = ReservePurchaseViewController.loadFromNib()
             controller.userId = LocalStore.store.getFacebookID()
             controller.didGoHandler = {userId in
-                self.purchaseScreenAction = PurchasesConst.ScreenAction.BUY_CONVO.rawValue
-                self.DoPurchaseConversation();
                 // get
             //    self.openChat(userNewId: userId)
             }
             // go screen
             self.present(controller, animated: true, completion: nil)
 
-            self.outAlertError(message: "conv purchased in test Your good!")
+//    fhc        self.outAlertError(message: "conv purchased in test Your good!")
             CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
             self.vwMatch.isHidden = true
             self.view.sendSubviewToBack(self.vwMatch)
             UserDefaults.standard.set(false, forKey: "matchedNotification")
             UserDefaults.standard.synchronize()
-        } else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue {
+        } else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue || LocalStore.store.coinFreebie! {
             let controller = PurchaseViewController.loadFromNib()
               controller.delegate = self
               controller.products = self.purchase

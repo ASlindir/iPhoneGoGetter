@@ -15,7 +15,9 @@ enum UserDetails: String {
     case name = "name"
     
     case facebookId = "facebookID"
-    
+
+    case coinFreebie = "coinFreebie"
+
     case isLogin = "isLogin"
     
     case isFirstTime = "isFirstTime"
@@ -53,7 +55,13 @@ class LocalStore: NSObject {
             saveFacebookID()
         }
     }
-    
+
+    var coinFreebie: Bool?{
+        didSet{
+            saveCoinFreebie()
+        }
+    }
+
     var facebookDetails: [String:Any]?{
         didSet{
             saveFacebookDetails()
@@ -164,7 +172,10 @@ class LocalStore: NSObject {
     private func saveFacebookID(){
         UserDefaults.standard.set(facebookID, forKey: UserDetails.facebookId.rawValue)
     }
-    
+    private func saveCoinFreebie(){
+        UserDefaults.standard.set(coinFreebie, forKey: UserDetails.coinFreebie.rawValue)
+    }
+
     private func saveFacebookDetails(){
         UserDefaults.standard.set(facebookDetails, forKey: UserDetails.facebookDetailsKey.rawValue)
     }

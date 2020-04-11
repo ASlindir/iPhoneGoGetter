@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Barmeno Bold.otf">
+            <string>Barmeno-Bold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PurchaseStatisticViewController" customModule="GoGetter" customModuleProvider="target">
+            <connections>
+                <outlet property="backButton" destination="50g-cf-kiK" id="kMb-M1-xXO"/>
+                <outlet property="backToMachesButton" destination="HIe-43-oUJ" id="9f3-Qf-S8o"/>
+                <outlet property="gradientView" destination="Qz2-0n-ouu" id="jsq-Hb-gT2"/>
+                <outlet property="reserveLabel" destination="fuQ-iL-lEk" id="1TQ-xI-3jH"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qz2-0n-ouu" customClass="UIImageView">
+                    <rect key="frame" x="0.0" y="198" width="375" height="469"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HIe-43-oUJ">
+                            <rect key="frame" x="136" y="338" width="103" height="40"/>
+                            <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="42" id="dZz-xS-Ylb"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
+                            <state key="normal" title="NEXT">
+                                <color key="titleColor" red="0.99990183119999998" green="1" blue="0.99987989659999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="touchBackToMathes:" destination="-1" eventType="touchUpInside" id="QCz-0n-o92"/>
+                            </connections>
+                        </button>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="GoGetterSilverCoin" translatesAutoresizingMaskIntoConstraints="NO" id="Ugu-cF-9Yk">
+                            <rect key="frame" x="39" y="60" width="283" height="172"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="YOUR FIRST COIN IS ON US!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fuQ-iL-lEk" userLabel="OnUs">
+                    <rect key="frame" x="28" y="121" width="331" height="95"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="iuI-1z-myG"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Barmeno-Bold" family="Barmeno" pointSize="33"/>
+                    <color key="textColor" red="0.0" green="0.64647048709999999" blue="0.68678611519999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="50g-cf-kiK">
+                    <rect key="frame" x="8" y="36" width="44" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="sEd-VW-edl"/>
+                        <constraint firstAttribute="width" constant="44" id="ynO-VR-91i"/>
+                    </constraints>
+                    <state key="normal" image="back"/>
+                    <connections>
+                        <action selector="touchBackbutton:" destination="-1" eventType="touchUpInside" id="6Ea-9n-sw2"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="gogetterWithS" translatesAutoresizingMaskIntoConstraints="NO" id="jfx-mI-JG8">
+                    <rect key="frame" x="112" y="20" width="151" height="80"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="120" id="Rxa-d2-pwr"/>
+                        <constraint firstAttribute="height" constant="61.5" id="T0E-W2-IP9"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="jfx-mI-JG8" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="DZo-kP-sST"/>
+                <constraint firstItem="fuQ-iL-lEk" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="50" id="K9d-Mu-L0d"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="fuQ-iL-lEk" secondAttribute="trailing" constant="50" id="MnU-VR-84c"/>
+                <constraint firstItem="50g-cf-kiK" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="Xuu-hj-YEP"/>
+                <constraint firstItem="Qz2-0n-ouu" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="198" id="Zu0-78-iFP"/>
+                <constraint firstItem="Qz2-0n-ouu" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="anp-pe-Jut"/>
+                <constraint firstItem="50g-cf-kiK" firstAttribute="centerY" secondItem="jfx-mI-JG8" secondAttribute="centerY" id="dNM-FX-Ddd"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Qz2-0n-ouu" secondAttribute="bottom" id="dos-3X-J01"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Qz2-0n-ouu" secondAttribute="trailing" id="kEf-YV-1UP"/>
+                <constraint firstItem="jfx-mI-JG8" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="25" id="zfe-tH-7o4"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="-943.20000000000005" y="60.719640179910051"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="GoGetterSilverCoin" width="400" height="400"/>
+        <image name="back" width="30" height="30"/>
+        <image name="gogetterWithS" width="213" height="72"/>
+    </resources>
+</document>

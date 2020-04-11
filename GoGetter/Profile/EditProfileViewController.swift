@@ -377,6 +377,8 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         }else{
             btnBack.isHidden = true
         }
+         self.lblCountCoins.text = "1"
+        
         if LocalStore.store.isQuizDone() {
             btnBack.isHidden = false
             self.btnSliderQuizz.setTitle("Learn more about the GoGetter personality match", for: .normal)
@@ -909,8 +911,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         
         self.lblCountCoins.layer.cornerRadius = self.lblCountCoins.frame.height / 2.0
         self.lblCountCoins.layer.masksToBounds = true
-        self.lblCountCoins.text = "0"
-        
     }
     
 //MARK:-  UIKeyboard Methdos

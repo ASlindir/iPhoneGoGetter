@@ -13,9 +13,13 @@ import SwiftyStoreKit
 protocol PurchaseViewControllerDelegate {
     func didSuccessPurchase(userId: String?)
 }
+protocol GGChildViewDelegate{
+    func childClosing()
+}
 
 
-class PurchaseViewController: UIViewController {
+class PurchaseViewController: UIViewController, GGChildViewDelegate {
+    
     @IBOutlet weak var logoImageVIew: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var backButton: UIButton!
@@ -31,7 +35,8 @@ class PurchaseViewController: UIViewController {
     var userId: String = ""
     var currentProduct: Purchase?
     let freebieTransitionDelegate: UIViewControllerTransitioningDelegate = FreebieTransitionDelegate()
-    
+    var closingDelegate: GGChildViewDelegate? = nil
+
     struct PurchaseItem {
         let Productid: String?
         let ProductName: String?
@@ -49,7 +54,10 @@ class PurchaseViewController: UIViewController {
     
     var delegate: PurchaseViewControllerDelegate? = nil
     var isRootController: Bool = false
-    
+    func childClosing() {
+        self.dismiss(animated: true, completion: nil)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.transitioningDelegate = freebieTransitionDelegate
@@ -294,12 +302,11 @@ class PurchaseViewController: UIViewController {
                     self.view.isUserInteractionEnabled = false
                     let deadlineTime = DispatchTime.now() + .seconds(5)
                     DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
-                                let freebieView = FreebieViewController.loadFromNib()
-                        //        let secondView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: String(describing: SecondViewController.self))
-                        freebieView.transitioningDelegate = self.freebieTransitionDelegate
-                                self.present(freebieView, animated: true, completion: {
-                              //  self.dismiss(animated: false, completion: nil)
-                                })
+                        let freebieVC = FreebieViewController.loadFromNib()
+                        freebieVC.purchaseConvoId = self.convoId
+                        freebieVC.transitioningDelegate = self.freebieTransitionDelegate
+                        freebieVC.closingDelegate = self
+                        self.present(freebieVC, animated: true, completion: nil)
                     }
 
 //                    let isFreebie = LocalStore.store.coinFreebie

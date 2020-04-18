@@ -8,7 +8,12 @@
 
 import UIKit
 
-class ReservePurchaseViewController: UIViewController {
+class ReservePurchaseViewController: UIViewController, GGChildViewDelegate {
+    
+    func childClosing() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     @IBOutlet weak var gradientView: UIView!
     @IBOutlet weak var goButton: UIButton!
     @IBOutlet weak var notYetButton: UIButton!
@@ -17,9 +22,16 @@ class ReservePurchaseViewController: UIViewController {
     var userId: String? = nil
     var isPinkName: Bool = false
     var didGoHandler: ((String?) -> Void)? = nil
-    
+    var purchaseConvoId: Int = 0
+    var closingDelegate: GGChildViewDelegate? = nil
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        didGoHandler = {userId in
+//            self.purchaseScreenAction = PurchasesConst.ScreenAction.BUY_CONVO.rawValue
+            self.DoPurchaseConversation();
+        }
+
 
         // buttons
         self.goButton.adjustsImageWhenHighlighted = false
@@ -50,7 +62,16 @@ class ReservePurchaseViewController: UIViewController {
         self.notYetButton.isHidden = false
         self.createGradientLayer(self.gradientView)
     }
-    
+    private func openChat(userNewId: String? = nil) {
+//        self.vwMatch.isHidden = true
+//        self.view.sendSubviewToBack(self.vwMatch)
+        
+        let listController = self.storyboard?.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
+        listController.userNewId = userNewId
+        navigationController?.pushViewController(listController, animated: true)
+        self.dismiss(animated: false, completion: nil)
+    }
+
     /*
     // MARK: - Navigation
 
@@ -69,6 +90,54 @@ class ReservePurchaseViewController: UIViewController {
         self.gradientView.layer.addSublayer(gradientLayer)
     }
     
+    func DoPurchaseConversation(){
+             Loader.startLoader(true)
+             
+             let parameters = [
+                 "userId": LocalStore.store.getFacebookID(),
+                 "convoId": self.purchaseConvoId
+                 ] as [String : Any]
+             
+             WebServices.service.webServicePostRequest(.post, .conversation, .doPurchaseConversation, parameters, successHandler: { (response) in
+                 Loader.stopLoader()
+                 
+                 let jsonDict = response
+                 var isSuccess = false
+                 
+                 if let convoId = jsonDict!["convoId"] as? Int {
+                     let prompt = jsonDict!["prompt"] as? String
+                     
+                     if let screenAction = jsonDict!["screenAction"] as? Int {
+                         isSuccess = true
+                         
+                         switch screenAction {
+                         case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
+                             self.outAlert(title: "Good Choice", message: prompt)
+                             CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+                             self.closingDelegate?.childClosing()
+                             self.dismiss(animated: false, completion: nil)
+//                             self.vwMatch.isHidden = true
+//                             self.view.sendSubviewToBack(self.vwMatch)
+//                             UserDefaults.standard.set(false, forKey: "matchedNotification")
+//                             UserDefaults.standard.synchronize()
+                             break
+                         case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
+                             self.openChat()
+                             break
+                         default:
+                             self.outAlertError(message: prompt ?? "Error")
+                         }
+                     }
+                 }
+                 
+                 if !isSuccess {
+                     self.outAlertError(message: "Error: doPurchaseConversation failed")
+                 }
+             }) { (error) in
+                 Loader.stopLoader()
+                 self.outAlertError(message: "Error: \(error.debugDescription)")
+             }
+    }
     func loadDetailsOfUser() {
         Loader.startLoader(true)
         

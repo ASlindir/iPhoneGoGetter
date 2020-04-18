@@ -375,9 +375,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func saveUserLocation() {
         var parameters = Dictionary<String, Any?>()
         parameters["user_fb_id"] = LocalStore.store.getFacebookID()
-        parameters["latitude"] = String(format:"%f", self.latitude)
-        parameters["longitude"] = String(format:"%f", self.longitude)
-        
+//        parameters["latitude"] = String(format:"%f", self.latitude)
+//        parameters["longitude"] = String(format:"%f", self.longitude)
+        parameters["latitude"] = String(format:"%f", 32.715736)
+        parameters["longitude"] = String(format:"%f", -117.161087)
         WebServices.service.webServicePostRequest(.post, .user, .setLocation, parameters as Dictionary<String, Any>, successHandler: { (response) in
             if self.currentController != nil {
                 self.currentController.getUserDetails(false)

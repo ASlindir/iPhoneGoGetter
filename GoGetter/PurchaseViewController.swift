@@ -18,7 +18,7 @@ protocol PurchaseViewControllerDelegate {
 //}
 class InAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
-    let animationDuration = 0.5
+    let animationDuration = 3.0
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return animationDuration
@@ -33,9 +33,10 @@ class InAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
         containerView.addSubview(toViewController!.view)
 
-        toViewController!.view.frame = CGRect(x: screenWidth * -1, y: 0, width: screenWidth, height: screenHeight)
-
+        toViewController!.view.frame = CGRect(x: 0, y: screenHeight * 2, width: screenWidth, height: screenHeight)
+        toViewController!.view.alpha = 0.0
         UIView.animate(withDuration: animationDuration, animations: {
+            toViewController!.view.alpha = 1.0
             toViewController!.view.frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
         }, completion: { finished in
             let cancelled = transitionContext.transitionWasCancelled

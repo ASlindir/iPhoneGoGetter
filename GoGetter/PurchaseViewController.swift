@@ -16,7 +16,51 @@ protocol PurchaseViewControllerDelegate {
 //protocol GGChildViewDelegate{
 //    func childClosing()
 //}
+class InAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
+    let animationDuration = 0.5
+
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        return animationDuration
+    }
+
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+
+        let screenHeight = UIScreen.main.bounds.height
+        let screenWidth = UIScreen.main.bounds.width
+        let containerView = transitionContext.containerView
+        let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
+
+        containerView.addSubview(toViewController!.view)
+
+        toViewController!.view.frame = CGRect(x: screenWidth * -1, y: 0, width: screenWidth, height: screenHeight)
+
+        UIView.animate(withDuration: animationDuration, animations: {
+            toViewController!.view.frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
+        }, completion: { finished in
+            let cancelled = transitionContext.transitionWasCancelled
+            transitionContext.completeTransition(!cancelled)
+        })
+
+    }
+
+}
+extension PurchaseViewController: UINavigationControllerDelegate {
+
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        switch operation {
+        case .push:
+            if toVC is FreebieViewController{
+               return InAnimator()
+            }
+            return nil
+        case .pop:
+            return nil
+        default:
+            return nil
+        }
+    }
+}
 
 class PurchaseViewController: UIViewController {
         
@@ -34,7 +78,6 @@ class PurchaseViewController: UIViewController {
     var items: [Purchase] = []
     var userId: String = ""
     var currentProduct: Purchase?
-    var freebieTransitionDelegate: UIViewControllerTransitioningDelegate? = FreebieTransitionDelegate()
     var profileDelegate: ProfileViewControllerDelegate?
     
     struct PurchaseItem {
@@ -57,7 +100,6 @@ class PurchaseViewController: UIViewController {
          
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.transitioningDelegate = freebieTransitionDelegate
         // stack view
         self.purchaseStackView.axis = .vertical
         self.purchaseStackView.distribution = .fillEqually
@@ -302,7 +344,7 @@ class PurchaseViewController: UIViewController {
                         freebieVC.purchaseConvoId = self.convoId
                         freebieVC.userId = self.userId
                         freebieVC.profileDelegate = self.profileDelegate
-                        freebieVC.transitioningDelegate = self.freebieTransitionDelegate
+                        self.navigationController?.delegate = self;
 //                        freebieVC.closingDelegate = self
                         self.navigationController?.pushViewController(freebieVC, animated: true)
                     }

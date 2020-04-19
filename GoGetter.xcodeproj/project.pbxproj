@@ -204,7 +204,6 @@
 		E7A583BA22FF200F0075926E /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A583B922FF200F0075926E /* RadioButton.swift */; };
 		E7BFCF672440056A003594FC /* FreebieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BFCF662440056A003594FC /* FreebieViewController.swift */; };
 		E7BFCF692440063D003594FC /* FreebieViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7BFCF682440063D003594FC /* FreebieViewController.xib */; };
-		E7BFCF6B2440B9D6003594FC /* FreebieTransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BFCF6A2440B9D6003594FC /* FreebieTransitionDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -481,7 +480,6 @@
 		E7A583B922FF200F0075926E /* RadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		E7BFCF662440056A003594FC /* FreebieViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreebieViewController.swift; sourceTree = "<group>"; };
 		E7BFCF682440063D003594FC /* FreebieViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FreebieViewController.xib; sourceTree = "<group>"; };
-		E7BFCF6A2440B9D6003594FC /* FreebieTransitionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreebieTransitionDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -890,7 +888,6 @@
 				84401CD6233F15FF00735302 /* PurchaseManagerViewController.swift */,
 				84401CDA233F1EF900735302 /* PurchaseStatisticViewController.swift */,
 				E7BFCF662440056A003594FC /* FreebieViewController.swift */,
-				E7BFCF6A2440B9D6003594FC /* FreebieTransitionDelegate.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1489,7 +1486,6 @@
 				0D06B88620C2E7A6002E1703 /* JSQMessagesAvatarImageFactory.m in Sources */,
 				E7BFCF672440056A003594FC /* FreebieViewController.swift in Sources */,
 				B40C11D11F7D19540030F9E7 /* ProfileImageViewCell.swift in Sources */,
-				E7BFCF6B2440B9D6003594FC /* FreebieTransitionDelegate.swift in Sources */,
 				B43A62C51FBD4E0700FE15C4 /* MessagesTableViewCell.swift in Sources */,
 				0D06B8A120C2E7A6002E1703 /* JSQMessagesInputToolbar.m in Sources */,
 				84401CDC233F1EF900735302 /* PurchaseStatisticViewController.swift in Sources */,

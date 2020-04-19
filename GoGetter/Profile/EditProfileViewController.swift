@@ -20,6 +20,7 @@ import CropViewController
 
 class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryViewControllerDelegates, UINavigationControllerDelegate, UIImagePickerControllerDelegate, RecordVideoDelegate, ProfileViewControllerDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, UITextViewDelegate, MFMailComposeViewControllerDelegate, CropViewControllerDelegate, PurchaseManagerViewControllerDelegate, PurchaseViewControllerDelegate {
     
+    
 //MARK:-  IBOutlets, Variables and Constants
     
     var playerViewController:AVPlayerViewController!
@@ -219,6 +220,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     var milesSliderTopContraintDefault: CGFloat = 0.0
     var milesSliderBottomContraintDefault: CGFloat = 0.0
     var isOutGallery: Bool = false
+    var _currentProfileViewcontroller : ProfileViewController? = nil
     
      override func viewDidLoad() {
         //self.indicator.isHidden = true
@@ -298,6 +300,13 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         
     }
     
+    func pushToProfileController(isAlreadyLogin : Bool){
+        _currentProfileViewcontroller = (self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController)
+        self._currentProfileViewcontroller!.profileDelegate = self
+        self._currentProfileViewcontroller!.isAlreadyLogin = isAlreadyLogin
+        navigationController?.pushViewController(self._currentProfileViewcontroller!, animated: false)
+    }
+    
     @objc func goToProfile(isAlreadyLogin : Bool){
         self.view.alpha = 1
         
@@ -311,10 +320,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         }
         if isRootController {
             self.getUserDetails(false)
-            let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-            profileController.profileDelegate = self
-            profileController.isAlreadyLogin = isAlreadyLogin
-            navigationController?.pushViewController(profileController, animated: false)
+            pushToProfileController(isAlreadyLogin: isAlreadyLogin)
         }
         
     }
@@ -1599,10 +1605,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         UserDefaults.standard.synchronize()
         
             CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-            let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-            profileController.profileDelegate = self
-            profileController.isAlreadyLogin = true
-            navigationController?.pushViewController(profileController, animated: true)
+            pushToProfileController(isAlreadyLogin: true)
        // }
 //        else {
 //            self.scrollView.contentOffset = CGPoint(x: 0, y: 2000)
@@ -1958,16 +1961,11 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                         }
                     }
                     else{
-                        let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-                        profileController.profileDelegate = self
-                        profileController.isAlreadyLogin = false
-                        self.navigationController?.pushViewController(profileController, animated: true)
+                        self.pushToProfileController(isAlreadyLogin: false)
                     }
                 }
                 else{
-                    let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-                    profileController.profileDelegate = self
-                    self.navigationController?.pushViewController(profileController, animated: true)
+                    self.pushToProfileController(isAlreadyLogin: false)
                 }
             }
             
@@ -2053,19 +2051,18 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             self.saveUserPreferences()
             UserDefaults.standard.set(true, forKey: "updateSettings")
             UserDefaults.standard.synchronize()
-            let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-            profileController.profileDelegate = self
-            profileController.showBrainGame = true
-            self.navigationController?.pushViewController(profileController, animated: true)
+
+            _currentProfileViewcontroller = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+            _currentProfileViewcontroller!.profileDelegate = self
+            _currentProfileViewcontroller!.showBrainGame = true
+            self.navigationController?.pushViewController(_currentProfileViewcontroller!, animated: true)
             //self.quizDone()
         }
     }
     
     @IBAction func btnReminderLater(_ sender: Any?){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-        let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-        profileController.profileDelegate = self
-        navigationController?.pushViewController(profileController, animated: true)
+        self.pushToProfileController(isAlreadyLogin: false)
     }
     
     @objc func onSliderValueChanged(_ slider: UISlider, event: UIEvent){
@@ -2233,18 +2230,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         UserDefaults.standard.set(true, forKey: "updateSettings")
         UserDefaults.standard.synchronize()
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-        let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-        profileController.profileDelegate = self
-        profileController.isAlreadyLogin = true
-        navigationController?.pushViewController(profileController, animated: true)
-        // }
-        //        else {
-        //            self.scrollView.contentOffset = CGPoint(x: 0, y: 2000)
-        //            self.vwVideo.layer.borderColor = UIColor.red.cgColor
-        //            self.vwVideo.layer.borderWidth = 1
-        //            self.showAlertWithOneButton("", "Please upload an activity video of you doing something fun.", "Ok")
-        //        }
-        
+        self.pushToProfileController(isAlreadyLogin: true)
     }
     @IBAction func btnLogout(_ sender: Any?){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
@@ -2395,6 +2381,12 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
 //MARK:-  Profile Delegate
     func showMoreSettings() {
         moreSettingAnimation()
+    }
+    func showMoreProfiles() {
+        didBackToMatches()
+    }
+    func getCurrentProfileViewController() -> ProfileViewController?{
+        return _currentProfileViewcontroller
     }
     
 //MARK:-  UIImagePickerController Delegates
@@ -2780,12 +2772,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     
     // MARK: - PurchaseManagerViewControllerDelegate
     
-    func didBackToMathes() {
+    func didBackToMatches() {
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-        let profileController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-        profileController.profileDelegate = self
-        profileController.isAlreadyLogin = true
-        navigationController?.pushViewController(profileController, animated: true)
+        self.pushToProfileController(isAlreadyLogin: true)
     }
     
     // MARK:- PurchaseViewControllerDelegate

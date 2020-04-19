@@ -3,7 +3,7 @@
 //  GoGetter
 //
 //  Created by Batth on 15/09/17.
-//  Copyright © 2017 Batth. All rights reserved.
+//  Copyright © 2017 Batth. All rights reserved.de
 //
 
 import UIKit
@@ -18,6 +18,8 @@ import SwiftyStoreKit
 
 protocol ProfileViewControllerDelegate {
     func showMoreSettings()
+    func showMoreProfiles()
+    func getCurrentProfileViewController() -> ProfileViewController?
 }
 
 class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, CardsViewDelegates, MFMessageComposeViewControllerDelegate, PurchaseViewControllerDelegate {
@@ -1684,7 +1686,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
 //                self.view.sendSubviewToBack(self.vwMatch)
 //                UserDefaults.standard.set(false, forKey: "matchedNotification")
 //                UserDefaults.standard.synchronize()
-
+    
     @IBAction func btnSayHello(_ sender: Any) {
         LocalStore.store.coinFreebie = true
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
@@ -1705,13 +1707,20 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             UserDefaults.standard.set(false, forKey: "matchedNotification")
             UserDefaults.standard.synchronize()
         } else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue || LocalStore.store.coinFreebie! {
-            let controller = PurchaseViewController.loadFromNib()
-              controller.delegate = self
-              controller.products = self.purchase
-              controller.prompt = self.purchasePrompt
-              controller.convoId = self.purchaseConvoId
-              controller.userId = LocalStore.store.getFacebookID()
-              self.present(controller, animated: true, completion: nil)
+            self.dismiss(animated: true, completion:{
+                let purchaseViewController = PurchaseViewController.loadFromNib()
+                purchaseViewController.delegate = self
+                purchaseViewController.products = self.purchase
+                purchaseViewController.prompt = self.purchasePrompt
+                purchaseViewController.convoId = self.purchaseConvoId
+                purchaseViewController.userId = LocalStore.store.getFacebookID()
+                purchaseViewController.profileDelegate = self.profileDelegate
+                self.navigationController?.pushViewController(purchaseViewController, animated: true)
+                self.vwMatch.isHidden = true
+                self.view.sendSubviewToBack(self.vwMatch)
+                UserDefaults.standard.set(false, forKey: "matchedNotification")
+                UserDefaults.standard.synchronize()
+            })
         }
 
 //        self.doConvoMatched();

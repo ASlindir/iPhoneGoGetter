@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class FreebieViewController: UIViewController, GGChildViewDelegate {
+class FreebieViewController: UIViewController {
     
    
     @IBOutlet weak var btnNext: UIButton!
@@ -19,13 +19,9 @@ class FreebieViewController: UIViewController, GGChildViewDelegate {
     var isPinkName: Bool = false
     var didGoHandler: ((String?) -> Void)? = nil
     var purchaseConvoId: Int = 0
-    var closingDelegate: GGChildViewDelegate? = nil
-
-    func childClosing() {
-        closingDelegate!.childClosing()
-        self.dismiss(animated: true, completion: nil)
-    }
-
+    var rpController : ReservePurchaseViewController? = nil
+    var profileDelegate: ProfileViewControllerDelegate?
+    
     override func viewDidLoad() {
          super.viewDidLoad()
         btnNext.isHidden = false
@@ -42,21 +38,17 @@ class FreebieViewController: UIViewController, GGChildViewDelegate {
          super.viewDidAppear(animated)
          
      }
+    
     @IBAction func onClick(_ sender: Any) {
-        let controller = ReservePurchaseViewController.loadFromNib()
-        controller.userId = userId
-        controller.purchaseConvoId = purchaseConvoId
-        controller.closingDelegate = self
-//        controller.didGoHandler = {userId in
-//            self.purchaseScreenAction = PurchasesConst.ScreenAction.BUY_CONVO.rawValue
-//            self.DoPurchaseConversation();
-//            // get
-////                self.openChat(userNewId: userId)
-//        }
-        
-        self.present(controller, animated: true, completion: nil)
-//        dismiss(animated: false, completion: nil)
-//    fhc        self.outAlertError(message: "conv purchased in test Your good!")
-        CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+//         self.navigationController?.popToRootViewController(animated: true)
+//        self.dismiss(animated: false, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            let xrpController = ReservePurchaseViewController.loadFromNib()
+            xrpController.userId = self.userId
+            xrpController.profileDelegate = self.profileDelegate
+            xrpController.purchaseConvoId = self.purchaseConvoId
+            self.navigationController?.pushViewController(xrpController, animated: true)
+//            CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+        }
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol PurchaseStatisticViewControllerDelegate {
-    func didBackToMathes()
+    func didBackToMatches()
 }
 
 class PurchaseStatisticViewController: UIViewController {
@@ -103,7 +103,7 @@ class PurchaseStatisticViewController: UIViewController {
     
     @IBAction func touchBackToMathes(_ sender: Any) {
         self.dismiss(animated: true, completion: {
-            self.delegate?.didBackToMathes()
+            self.delegate?.didBackToMatches()
         })
     }
 }

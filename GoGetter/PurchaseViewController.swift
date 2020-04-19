@@ -13,13 +13,13 @@ import SwiftyStoreKit
 protocol PurchaseViewControllerDelegate {
     func didSuccessPurchase(userId: String?)
 }
-protocol GGChildViewDelegate{
-    func childClosing()
-}
+//protocol GGChildViewDelegate{
+//    func childClosing()
+//}
 
 
-class PurchaseViewController: UIViewController, GGChildViewDelegate {
-    
+class PurchaseViewController: UIViewController {
+        
     @IBOutlet weak var logoImageVIew: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var backButton: UIButton!
@@ -27,16 +27,16 @@ class PurchaseViewController: UIViewController, GGChildViewDelegate {
     @IBOutlet weak var gradientView: UIView!
     @IBOutlet weak var bottomTitle1Label: UILabel!
     @IBOutlet weak var bottomTitle2Label: UILabel!
-    
+
     var prompt: String? = nil
     var convoId: Int = 0
     var products: [PurchaseItem] = []
     var items: [Purchase] = []
     var userId: String = ""
     var currentProduct: Purchase?
-    let freebieTransitionDelegate: UIViewControllerTransitioningDelegate = FreebieTransitionDelegate()
-    var closingDelegate: GGChildViewDelegate? = nil
-
+    var freebieTransitionDelegate: UIViewControllerTransitioningDelegate? = FreebieTransitionDelegate()
+    var profileDelegate: ProfileViewControllerDelegate?
+    
     struct PurchaseItem {
         let Productid: String?
         let ProductName: String?
@@ -54,10 +54,7 @@ class PurchaseViewController: UIViewController, GGChildViewDelegate {
     
     var delegate: PurchaseViewControllerDelegate? = nil
     var isRootController: Bool = false
-    func childClosing() {
-        self.dismiss(animated: true, completion: nil)
-    }
-
+         
     override func viewDidLoad() {
         super.viewDidLoad()
         self.transitioningDelegate = freebieTransitionDelegate
@@ -300,13 +297,14 @@ class PurchaseViewController: UIViewController, GGChildViewDelegate {
                     
                     self.initViews(products: self.items)
                     self.view.isUserInteractionEnabled = false
-                    let deadlineTime = DispatchTime.now() + .seconds(5)
-                    DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                         let freebieVC = FreebieViewController.loadFromNib()
                         freebieVC.purchaseConvoId = self.convoId
+                        freebieVC.userId = self.userId
+                        freebieVC.profileDelegate = self.profileDelegate
                         freebieVC.transitioningDelegate = self.freebieTransitionDelegate
-                        freebieVC.closingDelegate = self
-                        self.present(freebieVC, animated: true, completion: nil)
+//                        freebieVC.closingDelegate = self
+                        self.navigationController?.pushViewController(freebieVC, animated: true)
                     }
 
 //                    let isFreebie = LocalStore.store.coinFreebie
@@ -417,10 +415,12 @@ class PurchaseViewController: UIViewController, GGChildViewDelegate {
     // MARK: - Events
 
     @IBAction func touchBackButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+         self.navigationController?.popViewController(animated: true)
+//        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func tapNoThanks(sender: UITapGestureRecognizer) {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
+        //self.dismiss(animated: true, completion: nil)
     }
 }

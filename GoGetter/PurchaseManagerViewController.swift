@@ -11,7 +11,7 @@ import StoreKit
 import SwiftyStoreKit
 
 protocol PurchaseManagerViewControllerDelegate {
-    func didBackToMathes()
+    func didBackToMatches()
 }
 
 class PurchaseManagerViewController: UIViewController, PurchaseStatisticViewControllerDelegate, PurchaseManagerViewControllerDelegate {
@@ -296,9 +296,9 @@ class PurchaseManagerViewController: UIViewController, PurchaseStatisticViewCont
     
     // MARK: - PurchaseStatisticViewControllerDelegate
     
-    func didBackToMathes() {
+    func didBackToMatches() {
         self.dismiss(animated: false, completion: {
-            self.delegateManager?.didBackToMathes()
+            self.delegateManager?.didBackToMatches()
         })
     }
 

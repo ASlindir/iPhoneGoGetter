@@ -8,11 +8,8 @@
 
 import UIKit
 
-class ReservePurchaseViewController: UIViewController, GGChildViewDelegate {
+class ReservePurchaseViewController: UIViewController {
     
-    func childClosing() {
-        self.dismiss(animated: true, completion: nil)
-    }
     
     @IBOutlet weak var gradientView: UIView!
     @IBOutlet weak var goButton: UIButton!
@@ -23,8 +20,8 @@ class ReservePurchaseViewController: UIViewController, GGChildViewDelegate {
     var isPinkName: Bool = false
     var didGoHandler: ((String?) -> Void)? = nil
     var purchaseConvoId: Int = 0
-    var closingDelegate: GGChildViewDelegate? = nil
-
+    var profileDelegate: ProfileViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         didGoHandler = {userId in
@@ -65,7 +62,9 @@ class ReservePurchaseViewController: UIViewController, GGChildViewDelegate {
     private func openChat(userNewId: String? = nil) {
 //        self.vwMatch.isHidden = true
 //        self.view.sendSubviewToBack(self.vwMatch)
-        
+//        self.closingDelegate?.childClosing()
+        self.dismiss(animated: false, completion: nil)
+
         let listController = self.storyboard?.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
         listController.userNewId = userNewId
         navigationController?.pushViewController(listController, animated: true)
@@ -112,12 +111,18 @@ class ReservePurchaseViewController: UIViewController, GGChildViewDelegate {
                          
                          switch screenAction {
                          case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
-                             self.outAlert(title: "Good Choice", message: prompt)
                              CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-                             self.closingDelegate?.childClosing()
-                             self.dismiss(animated: false, completion: nil)
+                             self.outAlert(title: "Good Choice", message: prompt, compliteHandler:{
+//                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                let profileController = self.profileDelegate?.getCurrentProfileViewController()
+                                self.navigationController?.popToViewController(profileController!, animated: false)
+//                                self.profileDelegate?.showMoreProfiles()
+//                                }
+//                                self.closingDelegate?.childClosing()
+//                                self.dismiss(animated: false, completion:nil)
+                               })
 //                             self.vwMatch.isHidden = true
-//                             self.view.sendSubviewToBack(self.vwMatch)
+//                   trans          self.view.sendSubviewToBack(self.vwMatch)
 //                             UserDefaults.standard.set(false, forKey: "matchedNotification")
 //                             UserDefaults.standard.synchronize()
                              break
@@ -178,9 +183,7 @@ class ReservePurchaseViewController: UIViewController, GGChildViewDelegate {
             self.goButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         }, completion: {finished in
             self.goButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            self.dismiss(animated: true, completion: {
-                self.didGoHandler?(self.userId)
-            })
+            self.didGoHandler?(self.userId)
         })
     }
     

@@ -29,7 +29,6 @@ class ReservePurchaseViewController: UIViewController {
             self.DoPurchaseConversation();
         }
 
-
         // buttons
         self.goButton.adjustsImageWhenHighlighted = false
         self.goButton.adjustsImageWhenDisabled = false
@@ -64,10 +63,10 @@ class ReservePurchaseViewController: UIViewController {
 //        self.view.sendSubviewToBack(self.vwMatch)
 //        self.closingDelegate?.childClosing()
         self.dismiss(animated: false, completion: nil)
-
-        let listController = self.storyboard?.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let listController = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
         listController.userNewId = userNewId
-        navigationController?.pushViewController(listController, animated: true)
+        self.navigationController?.pushViewController(listController, animated: true)
         self.dismiss(animated: false, completion: nil)
     }
 
@@ -113,18 +112,14 @@ class ReservePurchaseViewController: UIViewController {
                          case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
                              CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
                              self.outAlert(title: "Good Choice", message: prompt, compliteHandler:{
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                self.openChat(userNewId: self.userId)
+                                }
 //                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                let profileController = self.profileDelegate?.getCurrentProfileViewController()
-                                self.navigationController?.popToViewController(profileController!, animated: false)
-//                                self.profileDelegate?.showMoreProfiles()
-//                                }
-//                                self.closingDelegate?.childClosing()
-//                                self.dismiss(animated: false, completion:nil)
-                               })
-//                             self.vwMatch.isHidden = true
-//                   trans          self.view.sendSubviewToBack(self.vwMatch)
-//                             UserDefaults.standard.set(false, forKey: "matchedNotification")
-//                             UserDefaults.standard.synchronize()
+//                                let profileController = self.profileDelegate?.getCurrentProfileViewController()
+//                                self.navigationController?.popToViewController(profileController!, animated: false)
+                             })
+                                
                              break
                          case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
                              self.openChat()

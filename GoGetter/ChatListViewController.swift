@@ -223,7 +223,19 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             senderDisplayName = name
         }
     }
-    
+    func getPercentComplete(matchDateStr : String) -> CGFloat{
+    let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = NSTimeZone(abbreviation: "GMT")! as TimeZone
+        dateFormatter.locale = Locale.init(identifier: "en_US_POSIX")
+        let matchDate: Date? = dateFormatter.date(from: matchDateStr)
+        print(Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0)
+        let time = Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0
+        // time is in secs
+        let percComplete = time/172800
+        return CGFloat(percComplete)
+    }
+        
 //MARK:-  UICollection View Data Sources
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -308,57 +320,57 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
        }
    }
     
-    func DoPurchaseConversation(friend : Dictionary<String, Any>, whichList : Int){
-      Loader.startLoader(true)
-
-      let parameters = [
-          "userId": LocalStore.store.getFacebookID(),
-          "convoId": self.purchaseConvoId
-          ] as [String : Any]
-      
-      WebServices.service.webServicePostRequest(.post, .conversation, .doPurchaseConversation, parameters, successHandler: { (response) in
-          Loader.stopLoader()
-          
-          let jsonDict = response
-          var isSuccess = false
-          
-          if let convoId = jsonDict!["convoid"] as? Int {
-              if let screenAction = jsonDict!["screenAction"] as? Int {
-                  isSuccess = true
-                  // in any case we have paid so this goes to the bottom
-                  var idx = 0
-                  for h in self.headerFriendsList {
-                      if h["user_fb_id"] as? String == friend["user_fb_id"] as? String{
-                          // have the index
-                          self.bodyFriendsList.append(h)
-                          self.headerFriendsList.remove(at: idx)
-                          break
-                      }
-                      idx += 1
-                  }
-                  self.animationAddItemToTable()
-
-/*                  switch screenAction {
-                  case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
-                        self.animationAddItemToTable()
-                      break
-                  case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
-                      self.openChat()
-                      break
-                  default:
-                      self.outAlertError(message: prompt ?? "Error")
-                  }*/
-              }
-          }
-          
-          if !isSuccess {
-              self.outAlertError(message: "Error: doPurchaseConversation failed")
-          }
-      }) { (error) in
-          Loader.stopLoader()
-          self.outAlertError(message: "Error: \(error.debugDescription)")
-      }
-    }
+//    func DoPurchaseConversation(friend : Dictionary<String, Any>, whichList : Int){
+//      Loader.startLoader(true)
+//
+//      let parameters = [
+//          "userId": LocalStore.store.getFacebookID(),
+//          "convoId": self.purchaseConvoId
+//          ] as [String : Any]
+//
+//      WebServices.service.webServicePostRequest(.post, .conversation, .doPurchaseConversation, parameters, successHandler: { (response) in
+//          Loader.stopLoader()
+//
+//          let jsonDict = response
+//          var isSuccess = false
+//
+//          if let convoId = jsonDict!["convoid"] as? Int {
+//              if let screenAction = jsonDict!["screenAction"] as? Int {
+//                  isSuccess = true
+//                  // in any case we have paid so this goes to the bottom
+//                  var idx = 0
+//                  for h in self.headerFriendsList {
+//                      if h["user_fb_id"] as? String == friend["user_fb_id"] as? String{
+//                          // have the index
+//                          self.bodyFriendsList.append(h)
+//                          self.headerFriendsList.remove(at: idx)
+//                          break
+//                      }
+//                      idx += 1
+//                  }
+//                  self.animationAddItemToTable()
+//
+///*                  switch screenAction {
+//                  case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
+//                        self.animationAddItemToTable()
+//                      break
+//                  case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
+//                      self.openChat()
+//                      break
+//                  default:
+//                      self.outAlertError(message: prompt ?? "Error")
+//                  }*/
+//              }
+//          }
+//
+//          if !isSuccess {
+//              self.outAlertError(message: "Error: doPurchaseConversation failed")
+//          }
+//      }) { (error) in
+//          Loader.stopLoader()
+//          self.outAlertError(message: "Error: \(error.debugDescription)")
+//      }
+//    }
 
     // render a single match circle in the top of the view controller
     // this contains 'nobody paid' 3 and 'theypaid' entries 0
@@ -376,13 +388,13 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         
         // 0 they paid, 1 ipaid, 2bothpaid, 3neither paid
         let whichList = friend["which_list"] as! Int
+        let match_created_on = friend["match_created_on"] as! String
 
         switch whichList {
             case 0:
                 cell.circleView.shapeColor = UIColor(red:0.94, green:0.37, blue:0.65, alpha:1.0) // pink, they paid
             case 3:
                 cell.circleView.shapeColor = UIColor(red:0.66, green:0.66, blue:0.66, alpha:1.0) // gray neither paid
-                cell.circleView.addCircle(20)
                 cell.circleView.tapHandler = {circleView in
                     self.animationAddItemToTable()
                 }
@@ -390,7 +402,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                 NSLog("error bad which value")
         }
         
-        cell.circleView.addCircle(20)
+        cell.circleView.addCircle(getPercentComplete(matchDateStr: match_created_on))
         cell.circleView.tapHandler = {circleView in
            circleView.animationClick(completion: {
                self.doConvoBeginPurchase(friend: friend, whichList: whichList)
@@ -553,7 +565,8 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         
         // 0 they paid, 1 ipaid, 2bothpaid, 3neither paid
         let whichList = friend["which_list"] as! Int
-
+        let match_created_on = friend["match_created_on"] as! String
+        
         switch whichList {
         case 1:
             cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0) // blue, i paid, no action just waiting
@@ -563,7 +576,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             NSLog("error bad which value")
         
         }
-        cell.circleView.addCircle(20)
+        cell.circleView.addCircle(getPercentComplete(matchDateStr: match_created_on))
 
         let fname = friend["user_name"] as? String
         cell.lblName.text = fname
@@ -800,7 +813,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                                 }
                                 else {
                                     //604800
-                                    if CGFloat(time) > 259200 {
+                                    if CGFloat(time) > 172800 {// 48 hours as seconds
                                         self.removeFromNewMatches(dict["user_fb_id"] as! String)
                                     }
                                     else {

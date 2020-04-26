@@ -129,7 +129,7 @@ class SignUpViewController: FormViewController {
         // data picker
         dpContainer.layer.addBorder(edge: [.top], color: UIColor(red:0.00, green:0.65, blue:0.69, alpha:1.0), thickness: 1.5)
         dpDataPicker.maximumDate = Calendar.current.date(byAdding: .year, value: -21, to: Date())
-        dpDataPicker.minimumDate = Calendar.current.date(byAdding: .year, value: -41, to: Date())
+        dpDataPicker.minimumDate = Calendar.current.date(byAdding: .year, value: -80, to: Date())
     }
     
     override func viewWillAppear(_ animated: Bool) {

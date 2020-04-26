@@ -32,7 +32,7 @@ class PurchaseStatisticViewController: UIViewController {
         // default colors
         self.setCountForTitle(label: self.coinsLeftLabel, title: "You have 0 coins left", value: "0", color: UIColor(red:0.00, green:0.65, blue:0.69, alpha:1.0))
         self.setCountForTitle(label: self.reserveLabel, title: "0 coins on reserve", value: "0", color: UIColor(red:0.27, green:0.64, blue:0.97, alpha:1.0))
-        self.setCountForTitle(label: self.waitingLabel, title: "0 mathes waiting", value: "0", color: UIColor(red:0.87, green:0.42, blue:0.65, alpha:1.0))
+        self.setCountForTitle(label: self.waitingLabel, title: "0 matches waiting", value: "0", color: UIColor(red:0.87, green:0.42, blue:0.65, alpha:1.0))
     }
     
     override func viewDidLayoutSubviews() {
@@ -72,7 +72,7 @@ class PurchaseStatisticViewController: UIViewController {
                 }
                 
                 if let value = userCoinRecord["coinsNotReserved"] as? String {
-                     self.setCountForTitle(label: self.waitingLabel, title: "\(value) mathes waiting", value: value, color: UIColor(red:0.87, green:0.42, blue:0.65, alpha:1.0))
+                     self.setCountForTitle(label: self.waitingLabel, title: "\(value) matches waiting", value: value, color: UIColor(red:0.87, green:0.42, blue:0.65, alpha:1.0))
                 }
                 
             }

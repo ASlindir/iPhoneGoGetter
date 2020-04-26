@@ -1715,6 +1715,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 purchaseViewController.convoId = self.purchaseConvoId
                 purchaseViewController.userId = LocalStore.store.getFacebookID()
                 purchaseViewController.profileDelegate = self.profileDelegate
+                purchaseViewController.chatListViewController = nil
                 self.navigationController?.pushViewController(purchaseViewController, animated: true)
                 self.vwMatch.isHidden = true
                 self.view.sendSubviewToBack(self.vwMatch)
@@ -2024,7 +2025,7 @@ extension ProfileViewController: KolodaViewDelegate {
         self.vwMatch.isHidden = true
         self.view.sendSubviewToBack(self.vwMatch)
         
-        let listController = self.storyboard?.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
+        let listController = self.storyboard?.instantiateViewController(withIdentifier: "ListViewController") as! ChatListViewController
         listController.userNewId = userNewId
         navigationController?.pushViewController(listController, animated: true)
     }

@@ -9,8 +9,7 @@
 import UIKit
 import Firebase
 import SDWebImage
-
-class ListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate {
+class ChatListViewController: UIViewController,  UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var heightNavigation: NSLayoutConstraint!
     @IBOutlet weak var collectionViewNewMatches: UICollectionView!
@@ -22,7 +21,6 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
     var headerFriendsList = [Dictionary<String, Any>]()
     var bodyFriendsList = [Dictionary<String, Any>]()
     var friendsList = [[String: Any]]()
-    
     var senderDisplayName: String?
     
     var newChannelTextField: UITextField?
@@ -226,7 +224,6 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
         }
     }
     
-    
 //MARK:-  UICollection View Data Sources
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -273,13 +270,26 @@ class ListViewController: UIViewController, UICollectionViewDataSource, UICollec
             if let screenAction = jsonDict!["screenAction"] as? Int {
                 self.purchaseScreenAction = screenAction
                 if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue {
-                    let controller = ReservePurchaseViewController.loadFromNib()
-                    controller.userId = LocalStore.store.getFacebookID()
-                    controller.isPinkName = whichList == 0 ? true : false
-                    controller.didGoHandler = {userId in
-                        self.DoPurchaseConversation(friend : friend, whichList: whichList)
-                    }
-                    self.present(controller, animated: true, completion: nil)
+                    
+                    
+                    let purchaseViewController = PurchaseViewController.loadFromNib()
+//              fhc      purchaseViewController.delegate = self
+                    purchaseViewController.products = self.purchase
+                    purchaseViewController.prompt = self.purchasePrompt
+                    purchaseViewController.convoId = self.purchaseConvoId
+                    purchaseViewController.userId = LocalStore.store.getFacebookID()
+                    purchaseViewController.chatListViewController = self
+                    purchaseViewController.profileDelegate = nil
+                    self.navigationController?.pushViewController(purchaseViewController, animated: true)
+// fhc
+                    
+//                    let controller = ReservePurchaseViewController.loadFromNib()
+//                    controller.userId = LocalStore.store.getFacebookID()
+//                    controller.isPinkName = whichList == 0 ? true : false
+//                    controller.didGoHandler = {userId in
+//                        self.DoPurchaseConversation(friend : friend, whichList: whichList)
+//                    }
+//                    self.present(controller, animated: true, completion: nil)
                 }
                 else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue {
                     

@@ -270,7 +270,7 @@ class FirebaseObserver: NSObject {
                 UserDefaults.standard.synchronize()
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "chatNotification"), object: nil, userInfo: messageData)
                 
-            }else if del.currentController.isKind(of: ListViewController.self){
+            }else if del.currentController.isKind(of: ChatListViewController.self){
                 UserDefaults.standard.set(true, forKey: "chatNotification")
                 UserDefaults.standard.synchronize()
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "chatListNotification"), object: nil, userInfo: messageData)

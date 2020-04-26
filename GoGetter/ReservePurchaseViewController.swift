@@ -21,6 +21,7 @@ class ReservePurchaseViewController: UIViewController {
     var didGoHandler: ((String?) -> Void)? = nil
     var purchaseConvoId: Int = 0
     var profileDelegate: ProfileViewControllerDelegate?
+     var chatListViewController : ChatListViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +65,7 @@ class ReservePurchaseViewController: UIViewController {
 //        self.closingDelegate?.childClosing()
         self.dismiss(animated: false, completion: nil)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let listController = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ListViewController
+        let listController = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ChatListViewController
         listController.userNewId = userNewId
         self.navigationController?.pushViewController(listController, animated: true)
         self.dismiss(animated: false, completion: nil)
@@ -112,12 +113,18 @@ class ReservePurchaseViewController: UIViewController {
                          case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
                              CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
                              self.outAlert(title: "Good Choice", message: prompt, compliteHandler:{
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                self.openChat(userNewId: self.userId)
-                                }
 //                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-//                                let profileController = self.profileDelegate?.getCurrentProfileViewController()
-//                                self.navigationController?.popToViewController(profileController!, animated: false)
+//                                self.openChat(userNewId: self.userId)
+//                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                    if (self.chatListViewController == nil){
+                                        let profileController = self.profileDelegate?.getCurrentProfileViewController()
+                                        self.navigationController?.popToViewController(profileController!, animated: false)
+                                    }
+                                    else{
+                                        self.navigationController?.popToViewController(self.chatListViewController!, animated: false)
+                                    }
+                                }
                              })
                                 
                              break

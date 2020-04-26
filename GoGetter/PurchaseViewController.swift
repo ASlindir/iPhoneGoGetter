@@ -80,6 +80,7 @@ class PurchaseViewController: UIViewController {
     var userId: String = ""
     var currentProduct: Purchase?
     var profileDelegate: ProfileViewControllerDelegate?
+    var chatListViewController : ChatListViewController?
     
     struct PurchaseItem {
         let Productid: String?
@@ -345,6 +346,8 @@ class PurchaseViewController: UIViewController {
                         freebieVC.purchaseConvoId = self.convoId
                         freebieVC.userId = self.userId
                         freebieVC.profileDelegate = self.profileDelegate
+                        freebieVC.chatListViewController = self.chatListViewController
+                        
                         self.navigationController?.delegate = self;
 //                        freebieVC.closingDelegate = self
                         self.navigationController?.pushViewController(freebieVC, animated: true)

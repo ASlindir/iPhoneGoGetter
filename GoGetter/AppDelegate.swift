@@ -287,7 +287,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     if self.currentController.isKind(of: ProfileViewController.self){
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMatchedNotification"), object: nil, userInfo: requiredData)
                     }
-                    else if self.currentController.isKind(of: ListViewController.self) {
+                    else if self.currentController.isKind(of: ChatListViewController.self) {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMatchListNotification"), object: nil, userInfo: requiredData)
                     }
                     else if self.currentController.isKind(of: EditProfileViewController.self) {
@@ -319,7 +319,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             if self.currentController.isKind(of: ProfileViewController.self) {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "chatNotification"), object: nil, userInfo: requiredData)
                 
-            }else if self.currentController.isKind(of: ListViewController.self){
+            }else if self.currentController.isKind(of: ChatListViewController.self){
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "chatListNotification"), object: nil, userInfo: requiredData)
                 
             }else {

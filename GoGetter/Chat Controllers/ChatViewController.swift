@@ -456,7 +456,7 @@ class ChatViewController: JSQMessagesViewController{
             if ids == self.receiver_id{
                 let alert = UIAlertController(title:String(format:"This conversation is no longer available.",(self.friend?.name)!), message: nil, preferredStyle: .alert)
                 let ok = UIAlertAction(title: "Ok", style: .cancel) { (action: UIAlertAction) in
-                    if (self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 2].isKind(of: ListViewController.self))! {
+                    if (self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 2].isKind(of: ChatListViewController.self))! {
                         self.navigationController?.popViewController(animated: true)
                     }
                     else {

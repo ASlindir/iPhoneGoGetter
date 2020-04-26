@@ -21,6 +21,7 @@ class FreebieViewController: UIViewController {
     var purchaseConvoId: Int = 0
     var rpController : ReservePurchaseViewController? = nil
     var profileDelegate: ProfileViewControllerDelegate?
+    var chatListViewController : ChatListViewController?
     
     override func viewDidLoad() {
          super.viewDidLoad()
@@ -47,6 +48,7 @@ class FreebieViewController: UIViewController {
             xrpController.userId = self.userId
             xrpController.profileDelegate = self.profileDelegate
             xrpController.purchaseConvoId = self.purchaseConvoId
+            xrpController.chatListViewController = self.chatListViewController
             self.navigationController?.pushViewController(xrpController, animated: true)
 //            CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         }

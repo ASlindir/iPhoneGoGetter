@@ -16,6 +16,8 @@ class ReservePurchaseViewController: UIViewController {
     @IBOutlet weak var notYetButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var FemaleStackView: UIStackView!
+    @IBOutlet weak var MaleStackView: UIStackView!
     var userId: String? = nil
     var isPinkName: Bool = false
     var didGoHandler: ((String?) -> Void)? = nil
@@ -25,6 +27,8 @@ class ReservePurchaseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.FemaleStackView.isHidden = true
+        self.MaleStackView.isHidden = true
         didGoHandler = {userId in
 //            self.purchaseScreenAction = PurchasesConst.ScreenAction.BUY_CONVO.rawValue
             self.DoPurchaseConversation();
@@ -150,13 +154,23 @@ class ReservePurchaseViewController: UIViewController {
         
         if self.userId != nil {
             let parameters = ["user_fb_id": self.userId!]
-            
             WebServices.service.webServicePostRequest(.post, .user, .userDetails, parameters, successHandler: { (response) in
                 Loader.stopLoader()
                 let jsonData = response
                 let status = jsonData!["status"] as! String
                 if status == "success"{
                     if let userDetails = jsonData!["user_details"] as? Dictionary<String, Any> {
+                        let gender = userDetails["gender"] as? String
+                        if gender == "M"{
+                            self.isPinkName = false
+                            self.MaleStackView.isHidden = false
+                            self.FemaleStackView.isHidden = true
+                        }
+                        else{
+                            self.isPinkName = true
+                            self.MaleStackView.isHidden = true
+                            self.FemaleStackView.isHidden = false
+                        }
                         if let name = userDetails["user_name"] as? String {
                             if self.isPinkName {
                                 let string = NSMutableAttributedString(string: "Reserve a coin for \(name)")

@@ -333,7 +333,7 @@ class PurchaseViewController: UIViewController {
                     for purchase in self.products {
                         for product in result.retrievedProducts {
                             if purchase.AppleStoreID == product.productIdentifier {
-                                self.items.append(Purchase(item: purchase, details: product))
+                                self.items.insert(Purchase(item: purchase, details: product), at: 0)
                                 break
                             }
                         }

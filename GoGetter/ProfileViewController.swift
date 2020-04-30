@@ -159,6 +159,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     @IBOutlet weak var lblAlert: UILabel!
     @IBOutlet weak var btnGotIt: UIButton!
     
+    var matched_user_id = ""
     var selectedCardScrollVw = UIScrollView()
     var selectedCardVw = CardsView()
     
@@ -550,7 +551,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         if let requiredData = NSKeyedUnarchiver.unarchiveObject(with: data as! Data) as? Dictionary<String, Any> {
             let userOtherDict = requiredData["request_to"] as? [String: Any]
             let userCurrentDict = LocalStore.store.getUserDetails()
-
+            matched_user_id = userOtherDict?["user_fb_id"] as! String
             if let username = userOtherDict!["user_name"] as? String {
                 self.lblMatchOther.text = username
             }
@@ -1692,7 +1693,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue && !LocalStore.store.coinFreebie!{
             let controller = ReservePurchaseViewController.loadFromNib()
-            controller.userId = LocalStore.store.getFacebookID()
+            controller.userId = matched_user_id
             controller.didGoHandler = {userId in
                 // get
             //    self.openChat(userNewId: userId)
@@ -1713,7 +1714,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 purchaseViewController.products = self.purchase
                 purchaseViewController.prompt = self.purchasePrompt
                 purchaseViewController.convoId = self.purchaseConvoId
-                purchaseViewController.userId = LocalStore.store.getFacebookID()
+                purchaseViewController.userId = self.matched_user_id
                 purchaseViewController.profileDelegate = self.profileDelegate
                 purchaseViewController.chatListViewController = nil
                 self.navigationController?.pushViewController(purchaseViewController, animated: true)

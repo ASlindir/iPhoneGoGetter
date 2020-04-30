@@ -232,8 +232,13 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         print(Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0)
         let time = Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0
         // time is in secs
-        let percComplete = time/172800
-        return CGFloat(percComplete)
+        let percComplete = (CGFloat(time)/CGFloat(172800))
+        if (percComplete > 1){
+            return CGFloat(1)
+        }
+        else{
+            return percComplete * CGFloat(100)
+        }
     }
         
 //MARK:-  UICollection View Data Sources
@@ -289,7 +294,8 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                     purchaseViewController.products = self.purchase
                     purchaseViewController.prompt = self.purchasePrompt
                     purchaseViewController.convoId = self.purchaseConvoId
-                    purchaseViewController.userId = LocalStore.store.getFacebookID()
+                    purchaseViewController.userId = userTo
+//                    purchaseViewController.userId = LocalStore.store.getFacebookID()
                     purchaseViewController.chatListViewController = self
                     purchaseViewController.profileDelegate = nil
                     self.navigationController?.pushViewController(purchaseViewController, animated: true)
@@ -389,14 +395,16 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         // 0 they paid, 1 ipaid, 2bothpaid, 3neither paid
         let whichList = friend["which_list"] as! Int
         let match_created_on = friend["match_created_on"] as! String
-
         switch whichList {
             case 0:
                 cell.circleView.shapeColor = UIColor(red:0.94, green:0.37, blue:0.65, alpha:1.0) // pink, they paid
+                cell.circleView.tapHandler = {circleView in
+                 self.doConvoBeginPurchase(friend: friend, whichList: whichList)
+                }
             case 3:
                 cell.circleView.shapeColor = UIColor(red:0.66, green:0.66, blue:0.66, alpha:1.0) // gray neither paid
                 cell.circleView.tapHandler = {circleView in
-                    self.animationAddItemToTable()
+                     self.doConvoBeginPurchase(friend: friend, whichList: whichList)
                 }
             default:
                 NSLog("error bad which value")
@@ -566,12 +574,20 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         // 0 they paid, 1 ipaid, 2bothpaid, 3neither paid
         let whichList = friend["which_list"] as! Int
         let match_created_on = friend["match_created_on"] as! String
-        
         switch whichList {
         case 1:
             cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0) // blue, i paid, no action just waiting
+            cell.circleView.tapHandler = {circleView in
+//                self.animationAddItemToTable()
+            }
         case 2:
             cell.circleView.shapeColor = UIColor.white // both paid white // should never see in header!
+            cell.circleView.tapHandler = {circleView in
+            let friendItem = self.friends[indexPath.item]
+            self.goToChatController(friendItem, friendItem.id)
+                let theFriend = self.friends[indexPath.item]
+                self.goToChatController(theFriend, theFriend.id )
+            }
         default:
             NSLog("error bad which value")
         
@@ -745,33 +761,61 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         self.tableViewMessages.endUpdates()
     }
 
-    func LoadHeaderObjects(dict : Dictionary<String, Any>?, collectionName : String, whichList : Int)->Bool{
-        var cc = false
-        if let collFriendList = dict![collectionName] as? [Dictionary<String, String>] {
-            for  f in collFriendList  {
-                cc = true
-                var item =  Dictionary<String, Any>()
-                item["user_name"] = f["user_name"]
-                item["user_fb_id"] = f["user_fb_id"]
-                item["profile_pic"] = f["profile_pic"]
-                item["match_created_on"] = f["match_created_on"]
-                item["which_list"] = whichList
-                
-                if whichList == 0 || whichList == 3{
-                    headerFriendsList.append(item)
-                }
-                else{
-                    bodyFriendsList.append(item)
-                }
-  //              arrayChatListHeaderModals.add(chatListHeaderModal);
-            }
-            //                chatListAdapter.notifyDataSetChanged();
-        }
-        return cc;
-    }
-
+ 
 //MARK:-  Get Friends List
-    func getFriendsList(){
+    // validate that 48 hour time has not expired
+    func checkMatchExpired(dict : Dictionary<String,Any>)-> Bool{
+        if let matchDateStr = dict["match_created_on"] as? String {
+           if matchDateStr != "" {
+               let dateFormatter = DateFormatter()
+               dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+               dateFormatter.timeZone = NSTimeZone(abbreviation: "GMT")! as TimeZone
+               dateFormatter.locale = Locale.init(identifier: "en_US_POSIX")
+               let matchDate: Date? = dateFormatter.date(from: matchDateStr)
+               print(Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0)
+               let time = Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0
+               //604800
+               if CGFloat(time) > 172800 {// 48 hours as seconds
+                   self.removeFromNewMatches(dict["user_fb_id"] as! String)
+                    return true // expired
+               }
+               else {
+                   self.friendsList.append(dict)
+               }
+           }
+           else{
+               self.removeFromNewMatches(dict["user_fb_id"] as! String)
+               return true // expired
+           }
+       }
+        return false
+    }
+     func LoadHeaderObjects(dict : Dictionary<String, Any>?, collectionName : String, whichList : Int)->Bool{
+          var cc = false
+          if let collFriendList = dict![collectionName] as? [Dictionary<String, String>] {
+              for  f in collFriendList  {
+                  cc = true
+                  var item =  Dictionary<String, Any>()
+                  item["user_name"] = f["user_name"]
+                  item["user_fb_id"] = f["user_fb_id"]
+                  item["profile_pic"] = f["profile_pic"]
+                  item["match_created_on"] = f["match_created_on"]
+                  item["which_list"] = whichList
+                  if ( !self.checkMatchExpired(dict : item)){
+                      if whichList == 0 || whichList == 3{
+                          headerFriendsList.append(item)
+                      }
+                      else{
+                          bodyFriendsList.append(item)
+                      }
+                  }
+    //              arrayChatListHeaderModals.add(chatListHeaderModal);
+              }
+              //                chatListAdapter.notifyDataSetChanged();
+          }
+          return cc;
+      }
+func getFriendsList(){
         
         // test
 //        for index in 0..<10 {
@@ -797,36 +841,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                 self.LoadHeaderObjects(dict: jsonDict, collectionName: "bothPaid", whichList: 2)
                 self.LoadHeaderObjects(dict: jsonDict, collectionName: "theyPaid", whichList: 0)
                 self.LoadHeaderObjects(dict: jsonDict, collectionName: "neitherPaid", whichList: 3)
-                if let friendsList = jsonDict?["friendList"] as? [[String: Any]] {
-                    for  dict in friendsList  {
-                        if let matchDateStr = dict["match_created_on"] as? String {
-                            if matchDateStr != "" {
-                                let dateFormatter = DateFormatter()
-                                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                                dateFormatter.timeZone = NSTimeZone(abbreviation: "GMT")! as TimeZone
-                                dateFormatter.locale = Locale.init(identifier: "en_US_POSIX")
-                                let matchDate: Date? = dateFormatter.date(from: matchDateStr)
-                                print(Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0)
-                                let time = Calendar.current.dateComponents([.second], from: matchDate!, to: Date()).second ?? 0
-                                if time == nil {
-                                    self.removeFromNewMatches(dict["user_fb_id"] as! String)
-                                }
-                                else {
-                                    //604800
-                                    if CGFloat(time) > 172800 {// 48 hours as seconds
-                                        self.removeFromNewMatches(dict["user_fb_id"] as! String)
-                                    }
-                                    else {
-                                        self.friendsList.append(dict)
-                                    }
-                                }
-                            }
-                            else{
-                                self.removeFromNewMatches(dict["user_fb_id"] as! String)
-                            }
-                        }
-                    }
-                }
             }
             self.collectionViewNewMatches.reloadData()
             print(self.friendsList)

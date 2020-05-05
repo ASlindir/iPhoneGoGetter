@@ -126,6 +126,10 @@ class ReservePurchaseViewController: UIViewController {
                                         self.navigationController?.popToViewController(profileController!, animated: false)
                                     }
                                     else{
+                                        let friendDict = LocalStore.store.getUserDetails()
+                                        self.chatListViewController!.createNewFriendOnFirebase(friendDict, isOpenChat: false)
+//                                        addToFriends
+                                        self.chatListViewController!.doHeaderToBodyAnimation = true
                                         self.navigationController?.popToViewController(self.chatListViewController!, animated: false)
                                     }
                                 }
@@ -133,7 +137,11 @@ class ReservePurchaseViewController: UIViewController {
                                 
                              break
                          case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
-                             self.openChat()
+                            let friendDict = LocalStore.store.getUserDetails()
+                            self.chatListViewController!.createNewFriendOnFirebase(friendDict, isOpenChat: false)
+                             self.navigationController?.popToViewController(self.chatListViewController!, animated: false)
+                            self.chatListViewController!.doHeaderToBodyAnimation = true
+//                             self.openChat()
                              break
                          default:
                              self.outAlertError(message: prompt ?? "Error")

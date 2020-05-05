@@ -34,6 +34,9 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
     private var userRefOther: DatabaseReference?
     private var friendRefHandle: DatabaseHandle?
     
+    var doHeaderToBodyAnimation : Bool = false
+    var animatingItem : Int = -1
+
     var userNewId: String? = nil
     var leadingCollectionConstraintDefault: CGFloat = 0.0
     var bottomCollectionViewConstraintDefault: CGFloat = 0.0
@@ -69,19 +72,18 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.friends.removeAll()
-        observeFriendsAdded()
-        observeFriendsRemoved()
-        observeOnlineFriends()
-        tableViewMessages.reloadData()
-        checkMatchNotifications(isCHeckUser: true)
+            observeFriendsAdded()
+            observeFriendsRemoved()
+            observeOnlineFriends()
+            tableViewMessages.reloadData()
+            checkMatchNotifications(isCHeckUser: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let del:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         del.currentController = self
-        
+        self.friends.removeAll()
         getFriendsList()
     }
     
@@ -240,7 +242,84 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             return percComplete * CGFloat(100)
         }
     }
+
+        @objc func doConvoBeginPurchase(friend : Dictionary<String, Any>, whichList : Int){
+           
+           let userTo = friend["user_fb_id"] as! String
+           
+           var parameters = Dictionary<String, Any>()
+           parameters["userId"] = LocalStore.store.getFacebookID();
+           parameters["otherUserId"] = userTo;
+           
+           Loader.startLoader(true)
+           
+           WebServices.service.webServicePostRequest(.post, .conversation, .doQueryConversationForPurchase, parameters, successHandler: { (response) in
+                Loader.stopLoader()
+                let jsonDict = response
+
+                if let convoId = jsonDict!["convoId"] as? Int {
+                   self.purchaseConvoId = convoId
+                   self.purchasePrompt = jsonDict!["prompt"] as? String
+                   if self.purchase.count  == 0 {
+                       if let _products = jsonDict!["products"] as? [Dictionary<String, Any?>] {
+                           for product in _products {
+                               self.purchase.append(PurchaseViewController.PurchaseItem(
+                                   Productid: product["id"] as? String,
+                                   ProductName: product["productName"] as? String,
+                                   Description: product["description"] as? String,
+                                   Price: product["price"] as? String,
+                                   CoinsPurchased: product["coinsPurchased"] as? String,
+                                   AppleStoreID: product["iTunesProductID"] as? String,
+                                   GoogleStoreID: product["googleProductID"] as? String)
+                               )
+                           }
+                       }
+                   }
+                   
+                if let screenAction = jsonDict!["screenAction"] as? Int {
+                    self.purchaseScreenAction = screenAction
+                    if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue {
+                        
+                        
+                        let purchaseViewController = PurchaseViewController.loadFromNib()
+    //              fhc      purchaseViewController.delegate = self
+                        purchaseViewController.products = self.purchase
+                        purchaseViewController.prompt = self.purchasePrompt
+                        purchaseViewController.convoId = self.purchaseConvoId
+                        purchaseViewController.userId = userTo
+    //                    purchaseViewController.userId = LocalStore.store.getFacebookID()
+                        purchaseViewController.chatListViewController = self
+                        purchaseViewController.profileDelegate = nil
+                        self.doHeaderToBodyAnimation = false
+                        self.navigationController?.pushViewController(purchaseViewController, animated: true)
+    // fhc
+                        
+    //                    let controller = ReservePurchaseViewController.loadFromNib()
+    //                    controller.userId = LocalStore.store.getFacebookID()
+    //                    controller.isPinkName = whichList == 0 ? true : false
+    //                    controller.didGoHandler = {userId in
+    //                        self.DoPurchaseConversation(friend : friend, whichList: whichList)
+    //                    }
+    //                    self.present(controller, animated: true, completion: nil)
+                    }
+                    else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue {
+                        
+                    }
+                }
+                   
+                } else {
+                   Loader.stopLoader()
+                   self.outAlertError(message: "Error: Convo Id is null")
+                   UserDefaults.standard.set(false, forKey: "matchedNotification")
+                }
+           }) { (error) in
+               Loader.stopLoader()
+               self.outAlertError(message: "Error: \(error.debugDescription)")
+               UserDefaults.standard.set(false, forKey: "matchedNotification")
+           }
+       }
         
+
 //MARK:-  UICollection View Data Sources
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -251,136 +330,44 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         //return self.friendsList.count
         return self.headerFriendsList.count
     }
-    @objc func doConvoBeginPurchase(friend : Dictionary<String, Any>, whichList : Int){
-       
-       let userTo = friend["user_fb_id"] as! String
-       
-       var parameters = Dictionary<String, Any>()
-       parameters["userId"] = LocalStore.store.getFacebookID();
-       parameters["otherUserId"] = userTo;
-       
-       Loader.startLoader(true)
-       
-       WebServices.service.webServicePostRequest(.post, .conversation, .doQueryConversationForPurchase, parameters, successHandler: { (response) in
-            Loader.stopLoader()
-            let jsonDict = response
 
-            if let convoId = jsonDict!["convoId"] as? Int {
-               self.purchaseConvoId = convoId
-               self.purchasePrompt = jsonDict!["prompt"] as? String
-               if self.purchase.count  == 0 {
-                   if let _products = jsonDict!["products"] as? [Dictionary<String, Any?>] {
-                       for product in _products {
-                           self.purchase.append(PurchaseViewController.PurchaseItem(
-                               Productid: product["id"] as? String,
-                               ProductName: product["productName"] as? String,
-                               Description: product["description"] as? String,
-                               Price: product["price"] as? String,
-                               CoinsPurchased: product["coinsPurchased"] as? String,
-                               AppleStoreID: product["iTunesProductID"] as? String,
-                               GoogleStoreID: product["googleProductID"] as? String)
-                           )
-                       }
-                   }
-               }
-               
-            if let screenAction = jsonDict!["screenAction"] as? Int {
-                self.purchaseScreenAction = screenAction
-                if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue {
-                    
-                    
-                    let purchaseViewController = PurchaseViewController.loadFromNib()
-//              fhc      purchaseViewController.delegate = self
-                    purchaseViewController.products = self.purchase
-                    purchaseViewController.prompt = self.purchasePrompt
-                    purchaseViewController.convoId = self.purchaseConvoId
-                    purchaseViewController.userId = userTo
-//                    purchaseViewController.userId = LocalStore.store.getFacebookID()
-                    purchaseViewController.chatListViewController = self
-                    purchaseViewController.profileDelegate = nil
-                    self.navigationController?.pushViewController(purchaseViewController, animated: true)
-// fhc
-                    
-//                    let controller = ReservePurchaseViewController.loadFromNib()
-//                    controller.userId = LocalStore.store.getFacebookID()
-//                    controller.isPinkName = whichList == 0 ? true : false
-//                    controller.didGoHandler = {userId in
-//                        self.DoPurchaseConversation(friend : friend, whichList: whichList)
-//                    }
-//                    self.present(controller, animated: true, completion: nil)
-                }
-                else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue {
-                    
-                }
-            }
-               
-            } else {
-               Loader.stopLoader()
-               self.outAlertError(message: "Error: Convo Id is null")
-               UserDefaults.standard.set(false, forKey: "matchedNotification")
-            }
-       }) { (error) in
-           Loader.stopLoader()
-           self.outAlertError(message: "Error: \(error.debugDescription)")
-           UserDefaults.standard.set(false, forKey: "matchedNotification")
-       }
-   }
-    
-//    func DoPurchaseConversation(friend : Dictionary<String, Any>, whichList : Int){
-//      Loader.startLoader(true)
-//
-//      let parameters = [
-//          "userId": LocalStore.store.getFacebookID(),
-//          "convoId": self.purchaseConvoId
-//          ] as [String : Any]
-//
-//      WebServices.service.webServicePostRequest(.post, .conversation, .doPurchaseConversation, parameters, successHandler: { (response) in
-//          Loader.stopLoader()
-//
-//          let jsonDict = response
-//          var isSuccess = false
-//
-//          if let convoId = jsonDict!["convoid"] as? Int {
-//              if let screenAction = jsonDict!["screenAction"] as? Int {
-//                  isSuccess = true
-//                  // in any case we have paid so this goes to the bottom
-//                  var idx = 0
-//                  for h in self.headerFriendsList {
-//                      if h["user_fb_id"] as? String == friend["user_fb_id"] as? String{
-//                          // have the index
-//                          self.bodyFriendsList.append(h)
-//                          self.headerFriendsList.remove(at: idx)
-//                          break
-//                      }
-//                      idx += 1
-//                  }
-//                  self.animationAddItemToTable()
-//
-///*                  switch screenAction {
-//                  case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
-//                        self.animationAddItemToTable()
-//                      break
-//                  case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
-//                      self.openChat()
-//                      break
-//                  default:
-//                      self.outAlertError(message: prompt ?? "Error")
-//                  }*/
-//              }
-//          }
-//
-//          if !isSuccess {
-//              self.outAlertError(message: "Error: doPurchaseConversation failed")
-//          }
-//      }) { (error) in
-//          Loader.stopLoader()
-//          self.outAlertError(message: "Error: \(error.debugDescription)")
-//      }
-//    }
+    func showHeaderToBodyAnimation(cell : NewMatchesCollectionViewCell, indexPath : IndexPath){
+        cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)
+//        self.animationAddItemToTable()
 
+        let copiedView: UIView = cell.circleView.copyView()
+
+        copiedView.center.x = CGFloat((indexPath.item + 1) * 105 - 105 / 2 + 10)
+        copiedView.center.y = 198
+        copiedView.layer.zPosition = 1000
+
+        //                    copiedView.frame.origin = self.view.convert(cell.circleView.frame.origin, to: nil)
+
+        copiedView.isHidden = false
+        self.view.addSubview(copiedView)
+        cell.circleView.isHidden = true
+
+        let item = headerFriendsList[indexPath.item]
+        self.headerFriendsList.remove(at: indexPath.item)
+        self.collectionViewNewMatches.deleteItems(at: [indexPath])
+        UIView.animateKeyframes(withDuration: 1, delay: 0, options: [], animations: {
+          copiedView.center.x = cell.contentView.frame.width / 2
+          copiedView.center.y = 390
+        }, completion: {finished in
+          self.animatingItem = -1
+          self.doHeaderToBodyAnimation = false
+          self.collectionViewNewMatches.reloadData()
+          copiedView.removeFromSuperview()
+          self.isAnimateFirstItemInTable = false
+          self.tableViewMessages.reloadData()
+        })
+
+//        cell.circleView.addCircle(0)
+    }
     // render a single match circle in the top of the view controller
     // this contains 'nobody paid' 3 and 'theypaid' entries 0
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        print(indexPath)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewMatchesCell", for: indexPath) as! NewMatchesCollectionViewCell
 //        let name = friendsList[indexPath.row]["user_name"] as! String
        
@@ -391,110 +378,39 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         }
     
         cell.circleView.tapHandler = nil
-        
+        cell.circleView.indexPath = indexPath
         // 0 they paid, 1 ipaid, 2bothpaid, 3neither paid
         let whichList = friend["which_list"] as! Int
         let match_created_on = friend["match_created_on"] as! String
         switch whichList {
             case 0:
                 cell.circleView.shapeColor = UIColor(red:0.94, green:0.37, blue:0.65, alpha:1.0) // pink, they paid
-                cell.circleView.tapHandler = {circleView in
-                 self.doConvoBeginPurchase(friend: friend, whichList: whichList)
-                }
             case 3:
                 cell.circleView.shapeColor = UIColor(red:0.66, green:0.66, blue:0.66, alpha:1.0) // gray neither paid
-                cell.circleView.tapHandler = {circleView in
-                     self.doConvoBeginPurchase(friend: friend, whichList: whichList)
-                }
             default:
                 NSLog("error bad which value")
         }
         
         cell.circleView.addCircle(getPercentComplete(matchDateStr: match_created_on))
         cell.circleView.tapHandler = {circleView in
+            self.animatingItem = circleView.indexPath!.item // index of item to animate when we return
            circleView.animationClick(completion: {
                self.doConvoBeginPurchase(friend: friend, whichList: whichList)
            })
         }
+        if doHeaderToBodyAnimation {
+            if indexPath.item == animatingItem {
+                // we came back to the chatlist after purchasing
+                // animate to body
+                DispatchQueue.main.async {
+//                    self.animationAddItemToTable()
+                    self.showHeaderToBodyAnimation(cell:cell,  indexPath: indexPath)
+                }
+
+            }
+        }
 //        cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)  //neither paid gray
 
-/*
-            } else if indexPath.item % 2 == 0 {
-                cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)
-                cell.circleView.tapHandler = {circleView in
-                    self.animationAddItemToTable()
-
-                    let copiedView: UIView = cell.circleView.copyView()
-
-                    copiedView.center.x = CGFloat((indexPath.item + 1) * 105 - 105 / 2 + 10)
-                    copiedView.center.y = 198
-                    copiedView.layer.zPosition = 1000
-
-//                    copiedView.frame.origin = self.view.convert(cell.circleView.frame.origin, to: nil)
-
-                    copiedView.isHidden = false
-                    self.view.addSubview(copiedView)
-                    cell.circleView.isHidden = true
-
-                    self.headerFriendsList.remove(at: indexPath.item)
-                    self.collectionViewNewMatches.deleteItems(at: [indexPath])
-
-                    UIView.animateKeyframes(withDuration: 1, delay: 0, options: [], animations: {
-                        copiedView.center.x = cell.contentView.frame.width / 2
-                        copiedView.center.y = 390
-                    }, completion: {finished in
-                        self.collectionViewNewMatches.reloadData()
-                        copiedView.removeFromSuperview()
-                        self.isAnimateFirstItemInTable = false
-                        self.tableViewMessages.reloadData()
-                    })
-                }
-
-                cell.circleView.addCircle(0)
-            } else {
-                // pink
-                cell.circleView.shapeColor = UIColor(red:0.94, green:0.37, blue:0.65, alpha:1.0)
-                cell.circleView.tapHandler = {circleView in
-                    circleView.animationClick(completion: {
-                        let controller = ReservePurchaseViewController.loadFromNib()
-                        controller.userId = LocalStore.store.getFacebookID()
-                        controller.isPinkName = true
-                        controller.didGoHandler = {userId in
-                            self.animationAddItemToTable()
-                        }
-                        self.present(controller, animated: true, completion: nil)
-                    })
-                }
-
-                cell.circleView.addCircle(0)
-            }
- */
-//        }
-        
-        /*if isAnimateFirstItem && indexPath.item == 0 {
-            cell.contentView.isHidden = true
-            
-            cell.contentView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-            cell.contentView.isHidden = false
-            cell.contentView.alpha = 0
-            
-            CustomClass.sharedInstance.playAudio(.blop, .mp3)
-            
-            UIView.animate(withDuration: 0.5, animations: {
-                cell.contentView.transform = CGAffineTransform(scaleX: 1.15, y: 1.15)
-                cell.contentView.alpha = 1
-            }, completion: { (completed: Bool) in
-                UIView.animate(withDuration: 0.25, animations: {
-                    cell.contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
-                }, completion: { (completed: Bool) in
-                    self.isAnimateFirstItem = false
-                    self.collectionViewNewMatches.reloadData()
-                })
-            })
-        } else {
-            cell.contentView.isHidden = false
-        }*/
-        
         return cell
     }
     
@@ -582,6 +498,10 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             }
         case 2:
             cell.circleView.shapeColor = UIColor.white // both paid white // should never see in header!
+            if doHeaderToBodyAnimation {
+                     animationAddItemToTable()
+                     doHeaderToBodyAnimation = false;
+            }
             cell.circleView.tapHandler = {circleView in
             let friendItem = self.friends[indexPath.item]
             self.goToChatController(friendItem, friendItem.id)
@@ -604,19 +524,27 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             cell.circleLabel.text = "Pending "+fname!+"'s activation ..."
         }
         else{ // both paid, official friend
-            if !friends[indexPath.row].online {
-                cell.imgViewNewMessage.backgroundColor = UIColor.gray
+//            let r = indexPath.row.
+            if friends.indices.contains(indexPath.row){
+                if !friends[indexPath.row].online {
+                    cell.imgViewNewMessage.backgroundColor = UIColor.gray
+                }
+                else {
+                    cell.imgViewNewMessage.backgroundColor = UIColor.init(red: 38/255, green: 166/255, blue: 175/255, alpha: 1)
+                }
             }
-            else {
+            else{
                 cell.imgViewNewMessage.backgroundColor = UIColor.init(red: 38/255, green: 166/255, blue: 175/255, alpha: 1)
             }
             cell.lblMessage.font = UIFont.init(name: "OpenSans-Regular", size: 16)
-            if let lastMessageDict = friends[indexPath.row].lastMessage{
-                let lastMessage = lastMessageDict["text"] as? String
-                cell.lblMessage.text = lastMessage
-                if let unread = lastMessageDict["unread"] as? String {
-                    if unread == "1" {
-                        cell.lblMessage.font = UIFont.init(name: "OpenSans-Bold", size: 16)
+            if friends.indices.contains(indexPath.row){
+                if let lastMessageDict = friends[indexPath.row].lastMessage{
+                    let lastMessage = lastMessageDict["text"] as? String
+                    cell.lblMessage.text = lastMessage
+                    if let unread = lastMessageDict["unread"] as? String {
+                        if unread == "1" {
+                            cell.lblMessage.font = UIFont.init(name: "OpenSans-Bold", size: 16)
+                        }
                     }
                 }
             }
@@ -721,21 +649,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         })
     }
     
-    func animationAddItemToTable() {
-        self.isAnimateFirstItemInTable = true
-
-        let friendDict = LocalStore.store.getUserDetails()
-
-        let id = friendDict["user_fb_id"] as! String
-        var name = ""
-        var profilePic = ""
-        if let friendname = friendDict["user_name"] as? String {
-            name = friendname
-        }
-        if let profilePicFriend = friendDict["profile_pic"] as? String {
-            profilePic = profilePicFriend
-        }
-
+    func addToFriends(friendDict : Dictionary<String, Any>){
         let idSelf = self.user_id
         var nameSelf = ""
         var profilePicSelf = ""
@@ -745,20 +659,33 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         if let myProfilePic = personalDetail["profile_pic"] as? String {
             profilePicSelf = myProfilePic
         }
-
+        let id = friendDict["user_fb_id"] as! String
+        var name = ""
+        var profilePic = ""
+        if let friendname = friendDict["user_name"] as? String {
+            name = friendname
+        }
+        if let profilePicFriend = friendDict["profile_pic"] as? String {
+            profilePic = profilePicFriend
+        }
         self.friends.insert(Friend(id: idSelf, name: nameSelf, profilePic: profilePicSelf, lastMessage: nil, online: false), at: 0)
+    }
+    func animationAddItemToTable() {
+        self.isAnimateFirstItemInTable = true
 
-//        self.bottomCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault + 105
-//        UIView.animate(withDuration: 0.75, animations: {
-//            self.view.layoutIfNeeded()
-//        }, completion: {res in
-//            self.leadingCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault
+        let friendDict = LocalStore.store.getUserDetails()
+        addToFriends(friendDict: friendDict)
+        self.bottomCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault + 105
+        UIView.animate(withDuration: 0.75, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: {res in
+            self.leadingCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault
 //            self.collectionViewNewMatches.reloadData()
-//        })
+        })
         
-        self.tableViewMessages.beginUpdates()
-        self.tableViewMessages.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-        self.tableViewMessages.endUpdates()
+//        self.tableViewMessages.beginUpdates()
+//        self.tableViewMessages.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+//        self.tableViewMessages.endUpdates()
     }
 
  
@@ -807,6 +734,9 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                       }
                       else{
                           bodyFriendsList.append(item)
+                        if (whichList == 2){ // full friends
+                            addToFriends(friendDict: item)
+                        }
                       }
                   }
     //              arrayChatListHeaderModals.add(chatListHeaderModal);

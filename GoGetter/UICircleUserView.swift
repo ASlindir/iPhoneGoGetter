@@ -19,6 +19,7 @@ class UICircleUserView: UINibView {
     
     var shapeLayer: CAShapeLayer? = nil
     var tapHandler: ((UICircleUserView) -> Void)? = nil
+    var indexPath : IndexPath? = nil // used for circles in header for animation
     
     @IBInspectable open var shapeColor: UIColor? = UIColor.purple {
         didSet {

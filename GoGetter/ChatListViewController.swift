@@ -547,6 +547,9 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                         }
                     }
                 }
+                else{
+                    cell.circleLabel.text = fname!+" wants to chat!"
+                }
             }
         }
         cell.imgViewProfile.layer.cornerRadius = 42.5
@@ -717,7 +720,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
        }
         return false
     }
-     func LoadHeaderObjects(dict : Dictionary<String, Any>?, collectionName : String, whichList : Int)->Bool{
+     func LoadHeaderObjects(dict : Dictionary<String, Any>?, collectionName : String, whichList : Int)->Unit{
           var cc = false
           if let collFriendList = dict![collectionName] as? [Dictionary<String, String>] {
               for  f in collFriendList  {
@@ -733,7 +736,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                           headerFriendsList.append(item)
                       }
                       else{
-                          bodyFriendsList.append(item)
+                        bodyFriendsList.append(item)
                         if (whichList == 2){ // full friends
                             addToFriends(friendDict: item)
                         }
@@ -743,7 +746,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
               }
               //                chatListAdapter.notifyDataSetChanged();
           }
-          return cc;
       }
 func getFriendsList(){
         
@@ -760,9 +762,11 @@ func getFriendsList(){
         let parameters = ["user_fb_id": user_id, "type":"new"]
 
         Loader.startLoader(true)
-
         WebServices.service.webServicePostRequest(.post, .friend, .fetchFriendList, parameters, successHandler: { (response) in
             Loader.stopLoader()
+            self.bodyFriendsList.removeAll()
+            self.headerFriendsList.removeAll()
+            self.friends.removeAll()
             let jsonDict = response
             let status = jsonDict!["status"] as! String
             self.friendsList.removeAll()

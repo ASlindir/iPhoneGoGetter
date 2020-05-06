@@ -505,8 +505,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             cell.circleView.tapHandler = {circleView in
             let friendItem = self.friends[indexPath.item]
             self.goToChatController(friendItem, friendItem.id)
-                let theFriend = self.friends[indexPath.item]
-                self.goToChatController(theFriend, theFriend.id )
             }
         default:
             NSLog("error bad which value")
@@ -518,6 +516,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         cell.lblName.text = fname
         cell.imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic!)), placeholderImage: UIImage.init(named: "placeholder"))
         cell.lblMessage.text = ""
+        cell.circleLabel.text = ""
         cell.circleView.imageView.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic!)), placeholderImage: UIImage.init(named: "placeholder"))
         cell.circleLabel.textColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)
         if friend["which_list"] as! Int ==  1{
@@ -540,15 +539,12 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             if friends.indices.contains(indexPath.row){
                 if let lastMessageDict = friends[indexPath.row].lastMessage{
                     let lastMessage = lastMessageDict["text"] as? String
-                    cell.lblMessage.text = lastMessage
+                    cell.lblMessage.text = lastMessage?.trimmingCharacters(in: .whitespacesAndNewlines)
                     if let unread = lastMessageDict["unread"] as? String {
                         if unread == "1" {
                             cell.lblMessage.font = UIFont.init(name: "OpenSans-Bold", size: 16)
                         }
                     }
-                }
-                else{
-                    cell.circleLabel.text = fname!+" wants to chat!"
                 }
             }
         }
@@ -720,7 +716,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
        }
         return false
     }
-     func LoadHeaderObjects(dict : Dictionary<String, Any>?, collectionName : String, whichList : Int)->Unit{
+     func LoadHeaderObjects(dict : Dictionary<String, Any>?, collectionName : String, whichList : Int){
           var cc = false
           if let collFriendList = dict![collectionName] as? [Dictionary<String, String>] {
               for  f in collFriendList  {
@@ -746,6 +742,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
               }
               //                chatListAdapter.notifyDataSetChanged();
           }
+        return
       }
 func getFriendsList(){
         

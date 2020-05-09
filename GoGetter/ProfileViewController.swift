@@ -41,6 +41,8 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     public var rotationAngle  = CGFloat(Double.pi) / 10.0
     public var scaleMin: CGFloat = 0.8
     
+    private var currentViewCount = 0
+    
     var videoUrl:String = ""
     @IBOutlet var imgVwVideoThumb: UIImageView!
     @IBOutlet var btnPlayVideo: UIButton!
@@ -796,14 +798,13 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         if !facebookID.isEmpty {
             var parameters = Dictionary<String, Any?>()
             parameters["user_fb_id"] = facebookID
-            
             WebServices.service.webServicePostRequest(.post, .user, .queryViewCount, parameters as Dictionary<String, Any>, successHandler: { (response) in
                 Loader.stopLoader()
                 let jsonData = response
                 let status = jsonData!["status"] as! String
-                let view_next = jsonData!["view_next"] as! Bool
+                self.currentViewCount = jsonData!["view_count"] as! Int
                 if status == "success"{
-                    if !view_next {
+                    if self.currentViewCount <= 0 {
                         success(false)
 //                        self.window?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AlertViewController") as! AlertViewController
                     }
@@ -816,6 +817,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             })
         }
     }
+    
     func outAlert(title: String, message: String, completeHandler: (() -> Void)? = nil) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
@@ -839,7 +841,6 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
            }
        })
     }
-        
     
     func uniqueRandoms(numberOfRandoms: Int, minNum: Int, maxNum: UInt32) -> [Int] {
         var uniqueNumbers = Set<Int>()
@@ -2018,7 +2019,18 @@ extension ProfileViewController: KolodaViewDelegate {
     }
     
     func koloda(_ koloda: KolodaView, shouldDragCardAt index: Int) -> Bool {
-        return true
+        if self.currentViewCount <= 0{
+            DispatchQueue.main.async {
+                self.outAlert(title: "Sorry!", message: "out of views for today, check back in, in 24 hours", completeHandler : {
+                    self.viewInnerSlide.isHidden = false
+                    self.btnUndoCard.isHidden = true
+                })
+            }
+            return false
+        }
+        else{
+            return true
+        }
     }
     
     func koloda(_ koloda: KolodaView, shouldSwipeCardAt index: Int, in direction: SwipeResultDirection) -> Bool {
@@ -2117,7 +2129,9 @@ extension ProfileViewController: KolodaViewDelegate {
                 let jsonDict = response
                 let status = jsonDict!["status"] as! String
                 if status == "success"{
-                    if let requiredData = jsonDict!["requiredData"] as? [String: Any] {
+                    self.currentViewCount = jsonDict!["view_count"] as! Int
+                    let requiredData = jsonDict!["requiredData"] as? [String: Any]
+                    if requiredData != nil {
                /* fhc         Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
                             AnalyticsParameterItemID: "id-Match",
                             AnalyticsParameterItemName: "Match"
@@ -2127,6 +2141,18 @@ extension ProfileViewController: KolodaViewDelegate {
                         UserDefaults.standard.set(true, forKey: "matchedNotification")
                         UserDefaults.standard.synchronize()
                         self.matchNotificationRecived()
+                    }
+                    else{
+                        if self.currentViewCount <= 0{
+                            DispatchQueue.main.async {
+                                self.viewInnerSlide.isHidden = false
+                                self.btnUndoCard.isHidden = true
+                                self.outAlert(title: "Sorry!", message: "out of views for today, check back in, in 24 hours", completeHandler : {
+                                    self.viewInnerSlide.isHidden = false
+                                    self.btnUndoCard.isHidden = true
+                                })
+                            }
+                        }
                     }
                 } else {
                     let message = jsonDict!["message"] as? String
@@ -2144,7 +2170,21 @@ extension ProfileViewController: KolodaViewDelegate {
         let parameters = ["user_fb_id": userId , "dislike_user_fb_id":blocked_user]
         
         WebServices.service.webServicePostRequest(.post, .dislike, .dislikeUser, parameters, successHandler: { (response) in
-            print(response ?? "empty response")
+            let jsonDict = response
+            let status = jsonDict!["status"] as! String
+            if status == "success"{
+                self.currentViewCount = jsonDict!["view_count"] as! Int
+                if self.currentViewCount <= 0{
+                    DispatchQueue.main.async {
+                        self.viewInnerSlide.isHidden = false
+                        self.btnUndoCard.isHidden = true
+                        self.outAlert(title: "Sorry!", message: "out of views for today, check back in, in 24 hours", completeHandler : {
+                            self.viewInnerSlide.isHidden = false
+                            self.btnUndoCard.isHidden = true
+                        })
+                    }
+                }
+            }
         }) { (error) in
         }
     }

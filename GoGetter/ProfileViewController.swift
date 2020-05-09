@@ -252,7 +252,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         viewInnerSlide.isHidden = true
         if showBrainGame {
             //DispatchQueue.global(qos: .background).async {
-                self.getTheMatchingProfiles()
+                self.checkViewCountAndShowMatches()
            // }
             self.viewTopFront.isHidden = true
             self.viewFront.isHidden = true
@@ -288,7 +288,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 self.startProfileViewAnimation()
                 self.view.bringSubviewToFront(self.viewCards)
                 Loader.startLoader(true)
-                self.getTheMatchingProfiles()
+                self.checkViewCountAndShowMatches()
             }else{
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     self.gettingTheSelectedQuiz()
@@ -696,8 +696,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         })
     }
     
-    
-    @objc func getTheMatchingProfiles(){
+    @objc func doMatchingProfiles(){
         let facebookId = LocalStore.store.getFacebookID()
         let parameters = ["user_fb_id":facebookId]
         WebServices.service.webServicePostRequest(.post, .match, .fetchMatchedProfile, parameters, successHandler: { (response) in
@@ -787,6 +786,60 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             print("Error :- ",error!.localizedDescription)
         }
     }
+    
+//      func webServicePostRequest(_ servcieType: ServiceType,_ model: Model, _ methods:Services ,_ parameters: Dictionary<String, Any>?, successHandler success:@escaping (_ response: Dictionary<String, Any>?) -> Void, errorHandler serviceError:@escaping (_ error: Error?) -> Void){
+          
+    
+     func checkDailyLimit(successHandler success:@escaping (_ response: Bool) -> Void) {
+        let facebookID = LocalStore.store.getFacebookID()
+        
+        if !facebookID.isEmpty {
+            var parameters = Dictionary<String, Any?>()
+            parameters["user_fb_id"] = facebookID
+            
+            WebServices.service.webServicePostRequest(.post, .user, .queryViewCount, parameters as Dictionary<String, Any>, successHandler: { (response) in
+                Loader.stopLoader()
+                let jsonData = response
+                let status = jsonData!["status"] as! String
+                let view_next = jsonData!["view_next"] as! Bool
+                if status == "success"{
+                    if !view_next {
+                        success(false)
+//                        self.window?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AlertViewController") as! AlertViewController
+                    }
+                    else{
+                        success(true)
+                    }
+                }
+            }, errorHandler: { (error) in
+                success(true)
+            })
+        }
+    }
+    func outAlert(title: String, message: String, completeHandler: (() -> Void)? = nil) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Okay", comment: ""), style: .default) { (action:UIAlertAction) in
+            completeHandler?()
+        })
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+
+    @objc func checkViewCountAndShowMatches(){
+        // first check view count
+        checkDailyLimit(successHandler: { (response) in
+           if (response == false){
+            self.viewInnerSlide.isHidden = false
+            self.btnUndoCard.isHidden = true
+            self.outAlert(title: "Sorry!", message: "out of views for today, check back in, in 24 hours", completeHandler : nil)
+           }
+           else{
+            self.doMatchingProfiles()
+           }
+       })
+    }
+        
     
     func uniqueRandoms(numberOfRandoms: Int, minNum: Int, maxNum: UInt32) -> [Int] {
         var uniqueNumbers = Set<Int>()
@@ -1406,7 +1459,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             if let status = jsonDict!["status"] as? String{
                 if status == "success"{
                     DispatchQueue.main.async {
-                        self.getTheMatchingProfiles()
+                        self.checkViewCountAndShowMatches()
                     }
                     self.startTitleLogoAnimation()
                 }else{

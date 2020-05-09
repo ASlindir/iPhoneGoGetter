@@ -417,14 +417,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             FirebaseObserver.observer.count = 0
             FirebaseObserver.observer.observeOnline()
             self.startLocationManager()
-            
-            // get counter of daily limit
-            #if DEBUG
-            // test
-            #else
-            self.checkDailyLimit()
-            #endif
-            
         }
     }
 
@@ -486,28 +478,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func secondsToHoursMinutesSeconds (seconds : Int) -> String {
         return String(format:"%d:%d",(seconds % 3600) / 60, (seconds % 3600) % 60)
     }
-    
-    
-    func checkDailyLimit() {
-        let facebookID = LocalStore.store.getFacebookID()
-        
-        if !facebookID.isEmpty {
-            var parameters = Dictionary<String, Any?>()
-            parameters["user_fb_id"] = facebookID
-            
-            WebServices.service.webServicePostRequest(.post, .user, .updateViewCount, parameters as Dictionary<String, Any>, successHandler: { (response) in
-                Loader.stopLoader()
-                let jsonData = response
-                let status = jsonData!["status"] as! String
-                let view_next = jsonData!["view_next"] as! Bool
-                if status == "success"{
-                    if !view_next {
-                        self.window?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AlertViewController") as! AlertViewController
-                    }
-                }
-            }, errorHandler: { (error) in
-                //
-            })
-        }
-    }
+   
 }

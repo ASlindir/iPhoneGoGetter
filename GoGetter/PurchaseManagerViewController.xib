@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -53,16 +51,16 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have 8 coins left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nd-wr-6Uf">
-                    <rect key="frame" x="35" y="160.5" width="344" height="28"/>
+                    <rect key="frame" x="35" y="145.5" width="344" height="28"/>
                     <fontDescription key="fontDescription" name="Barmeno-Bold" family="Barmeno" pointSize="28"/>
                     <color key="textColor" red="0.23137254900000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6zf-nN-0W2">
-                    <rect key="frame" x="8" y="218.5" width="398" height="555.5"/>
+                    <rect key="frame" x="8" y="188.5" width="398" height="605.5"/>
                 </stackView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="COIN STATISTICS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gi7-Lk-J3Q">
-                    <rect key="frame" x="30" y="804" width="354" height="28"/>
+                    <rect key="frame" x="30" y="814" width="354" height="28"/>
                     <fontDescription key="fontDescription" name="Barmeno-Bold" family="Barmeno" pointSize="28"/>
                     <color key="textColor" red="0.23137254900000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -75,17 +73,17 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="2Zw-Nw-7u7" secondAttribute="trailing" id="PWZ-lT-o6y"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="2Zw-Nw-7u7" secondAttribute="bottom" id="RDp-aR-EMk"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Gi7-Lk-J3Q" secondAttribute="trailing" constant="30" id="RbK-Z6-BNf"/>
-                <constraint firstItem="6zf-nN-0W2" firstAttribute="top" secondItem="6nd-wr-6Uf" secondAttribute="bottom" constant="30" id="Rez-fP-jwX"/>
-                <constraint firstItem="6nd-wr-6Uf" firstAttribute="top" secondItem="Yu4-Rx-MiX" secondAttribute="bottom" constant="30" id="SJl-2Q-Rzs"/>
+                <constraint firstItem="6zf-nN-0W2" firstAttribute="top" secondItem="6nd-wr-6Uf" secondAttribute="bottom" constant="15" id="Rez-fP-jwX"/>
+                <constraint firstItem="6nd-wr-6Uf" firstAttribute="top" secondItem="Yu4-Rx-MiX" secondAttribute="bottom" constant="15" id="SJl-2Q-Rzs"/>
                 <constraint firstItem="Yu4-Rx-MiX" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="25" id="SNL-c3-iZ4"/>
-                <constraint firstItem="Gi7-Lk-J3Q" firstAttribute="top" secondItem="6zf-nN-0W2" secondAttribute="bottom" constant="30" id="Sgx-E0-eOF"/>
+                <constraint firstItem="Gi7-Lk-J3Q" firstAttribute="top" secondItem="6zf-nN-0W2" secondAttribute="bottom" constant="20" id="Sgx-E0-eOF"/>
                 <constraint firstItem="6nd-wr-6Uf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="35" id="ff6-W3-BNB"/>
                 <constraint firstItem="2Zw-Nw-7u7" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="198" id="fpe-tJ-5dG"/>
                 <constraint firstItem="gb4-yx-M3E" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="jro-wp-Yug"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6zf-nN-0W2" secondAttribute="trailing" constant="8" id="kKu-5H-ltM"/>
                 <constraint firstItem="Gi7-Lk-J3Q" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="qB6-ds-foH"/>
                 <constraint firstItem="2Zw-Nw-7u7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="rRU-4s-Sp8"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Gi7-Lk-J3Q" secondAttribute="bottom" constant="30" id="u3R-36-JUd"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Gi7-Lk-J3Q" secondAttribute="bottom" constant="20" id="u3R-36-JUd"/>
                 <constraint firstItem="6zf-nN-0W2" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="uwR-Tp-KEM"/>
                 <constraint firstItem="gb4-yx-M3E" firstAttribute="centerY" secondItem="Yu4-Rx-MiX" secondAttribute="centerY" id="zrR-xV-YDg"/>
             </constraints>

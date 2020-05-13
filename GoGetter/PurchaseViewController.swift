@@ -226,7 +226,15 @@ class PurchaseViewController: UIViewController {
                                 let status = jsonDict!["status"] as! String
                                 if status == "success"{
                                     self.dismiss(animated: true, completion: {
-                                        self.delegate?.didSuccessPurchase(userId: self.userId)
+                                        if self.chatListViewController != nil{
+                                            let xrpController = ReservePurchaseViewController.loadFromNib()
+                                            xrpController.userId = self.userId
+                                            xrpController.profileDelegate = self.profileDelegate
+                                            xrpController.purchaseConvoId = self.convoId
+                                            xrpController.chatListViewController = self.chatListViewController
+                                            self.navigationController?.pushViewController(xrpController, animated: true)
+                                        }
+//                                        self.delegate?.didSuccessPurchase(userId: self.userId)
                                     })
                                 }
                                 else{
@@ -340,17 +348,19 @@ class PurchaseViewController: UIViewController {
                     }
                     
                     self.initViews(products: self.items)
+                    if LocalStore.store.coinFreebie! {
                     self.view.isUserInteractionEnabled = false
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                        let freebieVC = FreebieViewController.loadFromNib()
-                        freebieVC.purchaseConvoId = self.convoId
-                        freebieVC.userId = self.userId
-                        freebieVC.profileDelegate = self.profileDelegate
-                        freebieVC.chatListViewController = self.chatListViewController
-                        
-                        self.navigationController?.delegate = self;
-//                        freebieVC.closingDelegate = self
-                        self.navigationController?.pushViewController(freebieVC, animated: true)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                            let freebieVC = FreebieViewController.loadFromNib()
+                            freebieVC.purchaseConvoId = self.convoId
+                            freebieVC.userId = self.userId
+                            freebieVC.profileDelegate = self.profileDelegate
+                            freebieVC.chatListViewController = self.chatListViewController
+                            
+                            self.navigationController?.delegate = self;
+    //                        freebieVC.closingDelegate = self
+                            self.navigationController?.pushViewController(freebieVC, animated: true)
+                        }
                     }
 
 //                    let isFreebie = LocalStore.store.coinFreebie

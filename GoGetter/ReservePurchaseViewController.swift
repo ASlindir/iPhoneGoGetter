@@ -63,16 +63,22 @@ class ReservePurchaseViewController: UIViewController {
         self.notYetButton.isHidden = false
         self.createGradientLayer(self.gradientView)
     }
-    private func openChat(userNewId: String? = nil) {
+    
+    private func verifyChatController(){
+        if (self.chatListViewController == nil){
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            chatListViewController = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ChatListViewController
+        }
+    }
+    private func openChatList(userNewId: String? = nil, doAnimation : Bool) {
 //        self.vwMatch.isHidden = true
 //        self.view.sendSubviewToBack(self.vwMatch)
 //        self.closingDelegate?.childClosing()
-        self.dismiss(animated: false, completion: nil)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let listController = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ChatListViewController
-        listController.userNewId = userNewId
-        self.navigationController?.pushViewController(listController, animated: true)
-        self.dismiss(animated: false, completion: nil)
+        verifyChatController()
+        chatListViewController!.userNewId = userNewId
+        self.chatListViewController!.doHeaderToBodyAnimation = true
+        chatListViewController!.profileDelegate = self.profileDelegate
+        self.navigationController?.pushViewController(self.chatListViewController!, animated: true)
     }
 
     /*
@@ -121,26 +127,25 @@ class ReservePurchaseViewController: UIViewController {
 //                                self.openChat(userNewId: self.userId)
 //                                }
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                    if (self.chatListViewController == nil){
-                                        let profileController = self.profileDelegate?.getCurrentProfileViewController()
-                                        self.navigationController?.popToViewController(profileController!, animated: false)
-                                    }
-                                    else{
-                                        let friendDict = LocalStore.store.getUserDetails()
-                                        self.chatListViewController!.createNewFriendOnFirebase(friendDict, isOpenChat: false)
-//                                        addToFriends
-                                        self.chatListViewController!.doHeaderToBodyAnimation = true
-                                        self.navigationController?.popToViewController(self.chatListViewController!, animated: false)
-                                    }
+//                                    if (self.chatListViewController == nil){
+//                                        let profileController = self.profileDelegate?.getCurrentProfileViewController()
+//                                        self.navigationController?.popToViewController(profileController!, animated: false)
+//                                    }
+//                                    else{
+                                    let friendDict = LocalStore.store.getUserDetails()
+                                    self.verifyChatController()
+                                    self.chatListViewController!.createNewFriendOnFirebase(friendDict, isOpenChat: false)
+                                    self.openChatList(userNewId: self.userId, doAnimation: true)
+//                                    }
                                 }
                              })
                                 
                              break
                          case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
                             let friendDict = LocalStore.store.getUserDetails()
+                            self.verifyChatController()
                             self.chatListViewController!.createNewFriendOnFirebase(friendDict, isOpenChat: false)
-                             self.navigationController?.popToViewController(self.chatListViewController!, animated: false)
-                            self.chatListViewController!.doHeaderToBodyAnimation = true
+                            self.openChatList(userNewId: self.userId, doAnimation: true)
 //                             self.openChat()
                              break
                          default:

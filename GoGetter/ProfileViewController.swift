@@ -1743,7 +1743,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
 //                UserDefaults.standard.synchronize()
     
     @IBAction func btnSayHello(_ sender: Any) {
-        LocalStore.store.coinFreebie = true
+        LocalStore.store.coinFreebie = false
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue && !LocalStore.store.coinFreebie!{
             let controller = ReservePurchaseViewController.loadFromNib()

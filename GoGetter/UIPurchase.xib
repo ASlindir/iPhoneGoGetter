@@ -45,25 +45,25 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FOn-WE-3HR">
-                    <rect key="frame" x="16" y="165" width="331" height="64.5"/>
+                    <rect key="frame" x="16" y="172" width="331" height="64.5"/>
                     <constraints>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="VVd-1z-ojS"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="VVd-1z-ojS"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="Takota" family="Takota" pointSize="50"/>
                     <color key="textColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OXW-WZ-Dt0">
-                    <rect key="frame" x="16" y="249.5" width="331" height="51.5"/>
+                    <rect key="frame" x="16" y="266.5" width="331" height="51.5"/>
                     <constraints>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="uNK-qw-Dfi"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="uNK-qw-Dfi"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="Takota" family="Takota" pointSize="40"/>
                     <color key="textColor" red="0.23137254901960785" green="0.23137254901960785" blue="0.23137254901960785" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u5l-K1-qxa">
-                    <rect key="frame" x="16" y="322" width="331" height="35.5"/>
+                    <rect key="frame" x="16" y="348" width="331" height="35.5"/>
                     <constraints>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="YfE-AB-0g2"/>
                     </constraints>
@@ -72,7 +72,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EdI-9n-xtW">
-                    <rect key="frame" x="16" y="421" width="331" height="46"/>
+                    <rect key="frame" x="16" y="451" width="331" height="46"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="46" id="tcy-z4-PTn"/>
@@ -93,16 +93,16 @@
                 <constraint firstItem="OXW-WZ-Dt0" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="5jr-FW-chq"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="FOn-WE-3HR" secondAttribute="trailing" constant="16" id="C4x-YJ-OQC"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="u5l-K1-qxa" secondAttribute="trailing" constant="16" id="CBo-Me-Ug2"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="EdI-9n-xtW" secondAttribute="bottom" constant="50" id="Dqi-fK-xvm"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="EdI-9n-xtW" secondAttribute="bottom" constant="20" id="Dqi-fK-xvm"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="EdI-9n-xtW" secondAttribute="trailing" constant="16" id="H07-XM-O6Z"/>
                 <constraint firstItem="FOn-WE-3HR" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="RHF-al-Oxp"/>
                 <constraint firstItem="EdI-9n-xtW" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="XPD-hc-3rW"/>
-                <constraint firstItem="FOn-WE-3HR" firstAttribute="top" secondItem="Wll-5F-a5Q" secondAttribute="bottom" constant="15" id="ZIg-rt-Q7i"/>
+                <constraint firstItem="FOn-WE-3HR" firstAttribute="top" secondItem="Wll-5F-a5Q" secondAttribute="bottom" constant="22" id="ZIg-rt-Q7i"/>
                 <constraint firstItem="EdI-9n-xtW" firstAttribute="top" relation="greaterThanOrEqual" secondItem="u5l-K1-qxa" secondAttribute="bottom" constant="20" id="hnq-c6-eQk"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="OXW-WZ-Dt0" secondAttribute="trailing" constant="16" id="p1O-tm-5cV"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="top" secondItem="Xq2-l6-twX" secondAttribute="top" constant="20" id="qEn-Yf-FnS"/>
-                <constraint firstItem="OXW-WZ-Dt0" firstAttribute="top" secondItem="FOn-WE-3HR" secondAttribute="bottom" constant="20" id="sWB-74-1a8"/>
-                <constraint firstItem="u5l-K1-qxa" firstAttribute="top" secondItem="OXW-WZ-Dt0" secondAttribute="bottom" constant="21" id="twh-8g-3o8"/>
+                <constraint firstItem="OXW-WZ-Dt0" firstAttribute="top" secondItem="FOn-WE-3HR" secondAttribute="bottom" constant="30" id="sWB-74-1a8"/>
+                <constraint firstItem="u5l-K1-qxa" firstAttribute="top" secondItem="OXW-WZ-Dt0" secondAttribute="bottom" constant="30" id="twh-8g-3o8"/>
                 <constraint firstItem="Wll-5F-a5Q" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="vhw-hV-b0D"/>
                 <constraint firstItem="u5l-K1-qxa" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="xaX-PC-zHE"/>
                 <constraint firstItem="Xq2-l6-twX" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="zvK-g1-1bs"/>

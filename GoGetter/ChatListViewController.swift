@@ -22,6 +22,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
     var bodyFriendsList = [Dictionary<String, Any>]()
     var friendsList = [[String: Any]]()
     var senderDisplayName: String?
+    var profileDelegate: ProfileViewControllerDelegate?
     
     var newChannelTextField: UITextField?
     
@@ -275,12 +276,17 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                            }
                        }
                    }
-                   
+                     LocalStore.store.coinFreebie = false
                 if let screenAction = jsonDict!["screenAction"] as? Int {
                     self.purchaseScreenAction = screenAction
-                    if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue {
-                        
-                        
+                    if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue && !LocalStore.store.coinFreebie!{
+                        let xrpController = ReservePurchaseViewController.loadFromNib()
+                        xrpController.userId = userTo
+                        xrpController.profileDelegate = self.profileDelegate
+                        xrpController.purchaseConvoId = self.purchaseConvoId
+                        xrpController.chatListViewController = self
+                        self.navigationController?.pushViewController(xrpController, animated: true)
+                    } else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue || LocalStore.store.coinFreebie! {
                         let purchaseViewController = PurchaseViewController.loadFromNib()
     //              fhc      purchaseViewController.delegate = self
                         purchaseViewController.products = self.purchase
@@ -292,18 +298,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                         purchaseViewController.profileDelegate = nil
                         self.doHeaderToBodyAnimation = false
                         self.navigationController?.pushViewController(purchaseViewController, animated: true)
-    // fhc
-                        
-    //                    let controller = ReservePurchaseViewController.loadFromNib()
-    //                    controller.userId = LocalStore.store.getFacebookID()
-    //                    controller.isPinkName = whichList == 0 ? true : false
-    //                    controller.didGoHandler = {userId in
-    //                        self.DoPurchaseConversation(friend : friend, whichList: whichList)
-    //                    }
-    //                    self.present(controller, animated: true, completion: nil)
-                    }
-                    else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue {
-                        
                     }
                 }
                    
@@ -1000,7 +994,13 @@ func getFriendsList(){
     
     @IBAction func btnBack(_ sender: Any?){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-        navigationController?.popViewController(animated: true)
+        if self.profileDelegate != nil{
+            let profileController = self.profileDelegate?.getCurrentProfileViewController()
+            self.navigationController?.popToViewController(profileController!, animated: false)
+        }
+        else{
+            navigationController?.popViewController(animated: true)
+        }
     }
         
     func removeFromNewMatches(_ id:String) {

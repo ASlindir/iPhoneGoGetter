@@ -276,7 +276,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                            }
                        }
                    }
-                     LocalStore.store.coinFreebie = false
+                     LocalStore.store.coinFreebie = true
                 if let screenAction = jsonDict!["screenAction"] as? Int {
                     self.purchaseScreenAction = screenAction
                     if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue && !LocalStore.store.coinFreebie!{
@@ -661,7 +661,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         if let profilePicFriend = friendDict["profile_pic"] as? String {
             profilePic = profilePicFriend
         }
-        self.friends.insert(Friend(id: idSelf, name: nameSelf, profilePic: profilePicSelf, lastMessage: nil, online: false), at: 0)
+        self.friends.insert(Friend(id: id, name: name, profilePic: profilePic, lastMessage: nil, online: false), at: 0)
     }
     func animationAddItemToTable() {
         self.isAnimateFirstItemInTable = true

@@ -1877,9 +1877,14 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     }
     
     @IBAction func btnManageCoins(_ sender: Any) {
-        let controller = PurchaseManagerViewController.loadFromNib()
-        controller.delegateManager = self
-        self.present(controller, animated: true, completion: nil)
+        if LocalStore.store.isQuizDone(){
+            let controller = PurchaseManagerViewController.loadFromNib()
+            controller.delegateManager = self
+            self.present(controller, animated: true, completion: nil)
+        }
+        else{
+              self.outAlert(title: "Thank You!", message: "You must complete setup before purchasing coins, but the good news is the very first coin on your first match is on us!", compliteHandler:nil)
+        }
     }
     
     @IBAction func btnSliderQuizz(_ sender: Any?){

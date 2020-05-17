@@ -78,6 +78,11 @@ class ReservePurchaseViewController: UIViewController {
         chatListViewController!.userNewId = userNewId
         self.chatListViewController!.doHeaderToBodyAnimation = true
         chatListViewController!.profileDelegate = self.profileDelegate
+        
+        let vc = self.navigationController?.viewControllers.first(where: { $0 is ChatListViewController })
+        if vc != nil{
+            vc?.removeFromParent()
+        }
         self.navigationController?.pushViewController(self.chatListViewController!, animated: true)
     }
 
@@ -217,7 +222,8 @@ class ReservePurchaseViewController: UIViewController {
     }
     
     @IBAction func touchNotYet(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        let profileController = self.profileDelegate?.getCurrentProfileViewController()
+        self.navigationController?.popToViewController(profileController!, animated: false)
     }
     
 }

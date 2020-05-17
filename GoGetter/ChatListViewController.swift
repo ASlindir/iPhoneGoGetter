@@ -994,13 +994,19 @@ func getFriendsList(){
     
     @IBAction func btnBack(_ sender: Any?){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-        if self.profileDelegate != nil{
-            let profileController = self.profileDelegate?.getCurrentProfileViewController()
-            self.navigationController?.popToViewController(profileController!, animated: false)
+        for controller in self.navigationController!.viewControllers as Array {
+            if controller.isKind(of: ProfileViewController.self) {
+                self.navigationController!.popToViewController(controller, animated: true)
+                break
+            }
         }
-        else{
-            navigationController?.popViewController(animated: true)
-        }
+//        if self.profileDelegate != nil{
+//            let profileController = self.profileDelegate?.getCurrentProfileViewController()
+//            self.navigationController?.popToViewController(profileController!, animated: false)
+//        }
+//        else{
+//            navigationController?.popViewController(animated: true)
+//        }
     }
         
     func removeFromNewMatches(_ id:String) {

@@ -154,8 +154,8 @@
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="156" id="5d0-4V-oPF"/>
                                                     </constraints>
-                                                    <string key="text">She needs to
- reserved a coin</string>
+                                                    <string key="text">He needs to
+ reserve a coin</string>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" red="0.0039215686269999999" green="0.63529411759999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -211,7 +211,7 @@
                                                         <constraint firstAttribute="width" constant="156" id="4Cl-Md-SiB"/>
                                                     </constraints>
                                                     <string key="text">You need to 
- reserved a coin</string>
+ reserve a coin</string>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" red="0.93725490199999995" green="0.37254901959999998" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -328,7 +328,7 @@
                                                         <constraint firstAttribute="width" constant="156" id="rTo-bC-muD"/>
                                                     </constraints>
                                                     <string key="text">She needs to
- reserved a coin</string>
+ reserve a coin</string>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" red="0.0039215686274509803" green="0.63529411764705879" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -384,7 +384,7 @@
                                                         <constraint firstAttribute="width" constant="156" id="85r-in-is2"/>
                                                     </constraints>
                                                     <string key="text">You need to 
- reserved a coin</string>
+ reserve a coin</string>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" red="0.93725490196078431" green="0.37254901960784315" blue="0.65490196078431373" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>

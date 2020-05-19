@@ -1934,7 +1934,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                     return
                 }
 
-                if arrayKids.count == 0 {
+                if arrayKids[0] == "" || arrayKids[1] == "" {
                     self.showAlertWithOneButton("", "Please select info about kids.", "Ok")
 
                     self.haveKidsYes.layer.borderColor = UIColor.red.cgColor

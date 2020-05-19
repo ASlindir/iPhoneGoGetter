@@ -222,8 +222,14 @@ class ReservePurchaseViewController: UIViewController {
     }
     
     @IBAction func touchNotYet(_ sender: Any) {
-        let profileController = self.profileDelegate?.getCurrentProfileViewController()
-        self.navigationController?.popToViewController(profileController!, animated: false)
+        for controller in self.navigationController!.viewControllers as Array {
+            if controller.isKind(of: ProfileViewController.self) {
+                self.navigationController!.popToViewController(controller, animated: true)
+                break
+            }
+        }
+//        let profileController = self.profileDelegate?.getCurrentProfileViewController()
+//        self.navigationController?.popToViewController(profileController!, animated: false)
     }
     
 }

@@ -161,7 +161,9 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
     @IBOutlet weak var lblAlert: UILabel!
     @IBOutlet weak var btnGotIt: UIButton!
     
-    var matched_user_id = ""
+    var oppUserFBId = ""
+    var oppUserName  = ""
+    var oppUserImg = ""
     var selectedCardScrollVw = UIScrollView()
     var selectedCardVw = CardsView()
     
@@ -553,7 +555,10 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         if let requiredData = NSKeyedUnarchiver.unarchiveObject(with: data as! Data) as? Dictionary<String, Any> {
             let userOtherDict = requiredData["request_to"] as? [String: Any]
             let userCurrentDict = LocalStore.store.getUserDetails()
-            matched_user_id = userOtherDict?["user_fb_id"] as! String
+            oppUserFBId = userOtherDict?["user_fb_id"] as! String
+            oppUserName = userOtherDict?["user_name"] as! String
+            oppUserImg = userOtherDict?["profile_pic"] as! String
+            
             if let username = userOtherDict!["user_name"] as? String {
                 self.lblMatchOther.text = username
             }
@@ -1747,7 +1752,9 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue && !LocalStore.store.coinFreebie!{
             let controller = ReservePurchaseViewController.loadFromNib()
-            controller.userId = matched_user_id
+            controller.oppUserFBId = oppUserFBId
+            controller.oppUserName = oppUserName
+            controller.oppUserImg = oppUserImg
             controller.didGoHandler = {userId in
                 // get
             //    self.openChat(userNewId: userId)
@@ -1768,7 +1775,9 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 purchaseViewController.products = self.purchase
                 purchaseViewController.prompt = self.purchasePrompt
                 purchaseViewController.convoId = self.purchaseConvoId
-                purchaseViewController.userId = self.matched_user_id
+                purchaseViewController.oppUserFBId = self.oppUserFBId
+                purchaseViewController.oppUserImg = self.oppUserImg
+                purchaseViewController.oppUserName = self.oppUserName
                 purchaseViewController.profileDelegate = self.profileDelegate
                 purchaseViewController.chatListViewController = nil
                 self.navigationController?.pushViewController(purchaseViewController, animated: true)
@@ -2073,7 +2082,7 @@ extension ProfileViewController: KolodaViewDelegate {
             break
         case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:*/
             let controller = ReservePurchaseViewController.loadFromNib()
-            controller.userId = userId
+            controller.oppUserFBId = userId
             controller.didGoHandler = {userId in
                 self.purchaseScreenAction = PurchasesConst.ScreenAction.BUY_CONVO.rawValue
                 self.DoPurchaseConversation();

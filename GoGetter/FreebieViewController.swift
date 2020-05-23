@@ -15,7 +15,10 @@ class FreebieViewController: UIViewController {
     @IBOutlet weak var btnNext: UIButton!
     
     @IBOutlet weak var gradientView: UIView!
-    var userId: String? = nil
+    var oppUserFBId: String? = nil
+    var oppUserName: String? = nil
+    var oppUserImg: String? = nil
+
     var isPinkName: Bool = false
     var didGoHandler: ((String?) -> Void)? = nil
     var purchaseConvoId: Int = 0
@@ -47,7 +50,9 @@ class FreebieViewController: UIViewController {
 //        self.dismiss(animated: false, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             let xrpController = ReservePurchaseViewController.loadFromNib()
-            xrpController.userId = self.userId
+            xrpController.oppUserFBId = self.oppUserFBId
+            xrpController.oppUserImg = self.oppUserImg
+            xrpController.oppUserName = self.oppUserName
             xrpController.profileDelegate = self.profileDelegate
             xrpController.purchaseConvoId = self.purchaseConvoId
             xrpController.chatListViewController = self.chatListViewController

@@ -246,11 +246,13 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
 
         @objc func doConvoBeginPurchase(friend : Dictionary<String, Any>, whichList : Int){
            
-           let userTo = friend["user_fb_id"] as! String
-           
+           let oppUserFBId = friend["user_fb_id"] as! String
+           let oppUserName = friend["user_name"] as! String
+           let oppUserImg = friend["profile_pic"] as! String
+
            var parameters = Dictionary<String, Any>()
            parameters["userId"] = LocalStore.store.getFacebookID();
-           parameters["otherUserId"] = userTo;
+           parameters["otherUserId"] = oppUserFBId;
            
            Loader.startLoader(true)
            
@@ -281,7 +283,9 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                     self.purchaseScreenAction = screenAction
                     if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue && !LocalStore.store.coinFreebie!{
                         let xrpController = ReservePurchaseViewController.loadFromNib()
-                        xrpController.userId = userTo
+                        xrpController.oppUserFBId = oppUserFBId
+                        xrpController.oppUserImg = oppUserImg
+                        xrpController.oppUserName = oppUserName
                         xrpController.profileDelegate = self.profileDelegate
                         xrpController.purchaseConvoId = self.purchaseConvoId
                         xrpController.chatListViewController = self
@@ -292,7 +296,9 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                         purchaseViewController.products = self.purchase
                         purchaseViewController.prompt = self.purchasePrompt
                         purchaseViewController.convoId = self.purchaseConvoId
-                        purchaseViewController.userId = userTo
+                        purchaseViewController.oppUserFBId = oppUserFBId
+                        purchaseViewController.oppUserImg = oppUserImg
+                        purchaseViewController.oppUserName = oppUserName
     //                    purchaseViewController.userId = LocalStore.store.getFacebookID()
                         purchaseViewController.chatListViewController = self
                         purchaseViewController.profileDelegate = nil
@@ -368,6 +374,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         let friend = headerFriendsList[indexPath.item] as Dictionary<String, Any>
         
         if let profile_pic = friend["profile_pic"] as? String {
+//            cell.imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic)), placeholderImage: UIImage.init(named: "placeholder"))
             cell.circleView.imageView.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic)), placeholderImage: UIImage.init(named: "placeholder"))
         }
     
@@ -392,6 +399,11 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                self.doConvoBeginPurchase(friend: friend, whichList: whichList)
            })
         }
+        cell.circleView.imageView.layer.borderWidth = 3
+        cell.circleView.imageView.layer.masksToBounds = false
+        cell.circleView.imageView.layer.cornerRadius = cell.circleView.imageView.frame.height/2
+        cell.circleView.imageView.clipsToBounds = true
+        // circular
         if doHeaderToBodyAnimation {
             if indexPath.item == animatingItem {
                 // we came back to the chatlist after purchasing

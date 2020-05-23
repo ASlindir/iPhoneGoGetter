@@ -18,7 +18,9 @@ class ReservePurchaseViewController: UIViewController {
     
     @IBOutlet weak var FemaleStackView: UIStackView!
     @IBOutlet weak var MaleStackView: UIStackView!
-    var userId: String? = nil
+    var oppUserFBId: String? = nil
+    var oppUserName: String? = nil
+    var oppUserImg: String? = nil
     var isPinkName: Bool = false
     var didGoHandler: ((String?) -> Void)? = nil
     var purchaseConvoId: Int = 0
@@ -118,7 +120,7 @@ class ReservePurchaseViewController: UIViewController {
                  let jsonDict = response
                  var isSuccess = false
                  
-                 if let convoId = jsonDict!["convoId"] as? Int {
+                if (jsonDict!["convoId"] as? Int) != nil {
                      let prompt = jsonDict!["prompt"] as? String
                      
                      if let screenAction = jsonDict!["screenAction"] as? Int {
@@ -132,25 +134,21 @@ class ReservePurchaseViewController: UIViewController {
 //                                self.openChat(userNewId: self.userId)
 //                                }
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-//                                    if (self.chatListViewController == nil){
-//                                        let profileController = self.profileDelegate?.getCurrentProfileViewController()
-//                                        self.navigationController?.popToViewController(profileController!, animated: false)
-//                                    }
-//                                    else{
-                                    let friendDict = LocalStore.store.getUserDetails()
                                     self.verifyChatController()
-                                    self.chatListViewController!.createNewFriendOnFirebase(friendDict, isOpenChat: false)
-                                    self.openChatList(userNewId: self.userId, doAnimation: true)
-//                                    }
+                                    self.openChatList(userNewId: self.oppUserFBId, doAnimation: true)
                                 }
                              })
-                                
                              break
                          case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
-                            let friendDict = LocalStore.store.getUserDetails()
                             self.verifyChatController()
+                            var friendDict = Dictionary<String, Any>()
+                            friendDict["user_fb_id"] = self.oppUserFBId
+                            friendDict["user_name"] = self.oppUserName
+                            friendDict["profile_pic"] = self.oppUserImg
                             self.chatListViewController!.createNewFriendOnFirebase(friendDict, isOpenChat: false)
-                            self.openChatList(userNewId: self.userId, doAnimation: true)
+
+                            self.chatListViewController!.createNewFriendOnFirebase(friendDict, isOpenChat: false)
+                            self.openChatList(userNewId: self.oppUserFBId, doAnimation: true)
 //                             self.openChat()
                              break
                          default:
@@ -170,8 +168,8 @@ class ReservePurchaseViewController: UIViewController {
     func loadDetailsOfUser() {
         Loader.startLoader(true)
         
-        if self.userId != nil {
-            let parameters = ["user_fb_id": self.userId!]
+        if self.oppUserFBId != nil {
+            let parameters = ["user_fb_id": self.oppUserFBId!]
             WebServices.service.webServicePostRequest(.post, .user, .userDetails, parameters, successHandler: { (response) in
                 Loader.stopLoader()
                 let jsonData = response
@@ -217,7 +215,7 @@ class ReservePurchaseViewController: UIViewController {
             self.goButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         }, completion: {finished in
             self.goButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            self.didGoHandler?(self.userId)
+            self.didGoHandler?(self.oppUserFBId)
         })
     }
     

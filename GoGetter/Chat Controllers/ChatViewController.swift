@@ -667,7 +667,7 @@ class ChatViewController: JSQMessagesViewController{
         parameters["user2_fb_id"] = self.receiver_id!
         
         WebServices.service.webServicePostRequest(.post, .friend, .moveUserToPermanentList, parameters, successHandler: { (response) in
-            print("Remove Match:",response as Any)
+            print("Move match to permanent:",response as Any)
             Loader.stopLoader()
             
         }) { (error) in

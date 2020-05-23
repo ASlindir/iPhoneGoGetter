@@ -77,7 +77,9 @@ class PurchaseViewController: UIViewController {
     var convoId: Int = 0
     var products: [PurchaseItem] = []
     var items: [Purchase] = []
-    var userId: String = ""
+    var oppUserFBId: String = ""
+    var oppUserName: String = ""
+    var oppUserImg: String = ""
     var currentProduct: Purchase?
     var profileDelegate: ProfileViewControllerDelegate?
     var chatListViewController : ChatListViewController?
@@ -208,7 +210,7 @@ class PurchaseViewController: UIViewController {
 
                             var parameters = Dictionary<String, Any>()
                             parameters["convoId"] = self.convoId
-                            parameters["userId"] = self.userId
+                            parameters["userId"] = LocalStore.store.facebookID
 
                             let productInfo = [
                                 "purchaseStatus": PurchasesConst.PurchaseStatus.PURCHASE_SUCCESS.rawValue,
@@ -228,7 +230,7 @@ class PurchaseViewController: UIViewController {
                                     self.dismiss(animated: true, completion: {
                                         if self.chatListViewController != nil{
                                             let xrpController = ReservePurchaseViewController.loadFromNib()
-                                            xrpController.userId = self.userId
+                                            xrpController.oppUserFBId = self.oppUserFBId
                                             xrpController.profileDelegate = self.profileDelegate
                                             xrpController.purchaseConvoId = self.convoId
                                             xrpController.chatListViewController = self.chatListViewController
@@ -353,7 +355,10 @@ class PurchaseViewController: UIViewController {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                             let freebieVC = FreebieViewController.loadFromNib()
                             freebieVC.purchaseConvoId = self.convoId
-                            freebieVC.userId = self.userId
+                            freebieVC.oppUserFBId = self.oppUserFBId
+                            freebieVC.oppUserImg = self.oppUserImg
+                            freebieVC.oppUserName = self.oppUserName
+                            
                             freebieVC.profileDelegate = self.profileDelegate
                             freebieVC.chatListViewController = self.chatListViewController
                             

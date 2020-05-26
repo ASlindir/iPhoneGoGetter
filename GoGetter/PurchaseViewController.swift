@@ -147,7 +147,7 @@ class PurchaseViewController: UIViewController {
         var viewItems: [UIPurchase] = []
         var maxCoins = 0
         var maxItems = 0
-        
+
         for index in  0..<count {
             let view = UIPurchase(frame: CGRect(x: CGFloat(index) * (width + CGFloat(index <= count - 1 ? space : 0)), y: 0, width: width, height: height))
             viewItems.append(view)
@@ -185,9 +185,11 @@ class PurchaseViewController: UIViewController {
 
                     // original
                     Loader.startLoader(true)
+                    ClientLog.WriteClientLog( msgType: "ios", msg:"purchase view start swifty");
 
                     SwiftyStoreKit.purchaseProduct(id!, quantity: 1, atomically: false) { result in
                         Loader.stopLoader()
+                        ClientLog.WriteClientLog( msgType: "ios", msg:"purchase view swifty back");
 
                         switch result {
                         case .success(let product):
@@ -233,7 +235,6 @@ class PurchaseViewController: UIViewController {
                                             xrpController.oppUserFBId = self.oppUserFBId
                                             xrpController.profileDelegate = self.profileDelegate
                                             xrpController.purchaseConvoId = self.convoId
-                                            xrpController.chatListViewController = self.chatListViewController
                                             self.navigationController?.pushViewController(xrpController, animated: true)
                                         }
 //                                        self.delegate?.didSuccessPurchase(userId: self.userId)
@@ -259,6 +260,8 @@ class PurchaseViewController: UIViewController {
                             case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
                             case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
                             default:
+                                ClientLog.WriteClientLog( msgType: "ios", msg:"purchase view swifty error code");
+
                                 print((error as NSError).localizedDescription)
                             }
 
@@ -358,9 +361,7 @@ class PurchaseViewController: UIViewController {
                             freebieVC.oppUserFBId = self.oppUserFBId
                             freebieVC.oppUserImg = self.oppUserImg
                             freebieVC.oppUserName = self.oppUserName
-                            
                             freebieVC.profileDelegate = self.profileDelegate
-                            freebieVC.chatListViewController = self.chatListViewController
                             
                             self.navigationController?.delegate = self;
     //                        freebieVC.closingDelegate = self

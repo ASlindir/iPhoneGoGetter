@@ -25,7 +25,7 @@ class ReservePurchaseViewController: UIViewController {
     var didGoHandler: ((String?) -> Void)? = nil
     var purchaseConvoId: Int = 0
     var profileDelegate: ProfileViewControllerDelegate?
-     var chatListViewController : ChatListViewController?
+//     var chatListViewController : ChatListViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,26 +66,33 @@ class ReservePurchaseViewController: UIViewController {
         self.createGradientLayer(self.gradientView)
     }
     
-    private func verifyChatController(){
-        if (self.chatListViewController == nil){
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            chatListViewController = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ChatListViewController
-        }
-    }
-    private func openChatList(userNewId: String? = nil, doAnimation : Bool) {
+//    private func verifyChatController(){
+//        if (self.chatListViewController == nil){
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//            chatListViewController = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ChatListViewController
+//        }
+//    }
+    private func openChatList(userNewId: String? = nil, doAnimation : Bool, newFriend : Dictionary<String, Any>?) {
 //        self.vwMatch.isHidden = true
 //        self.view.sendSubviewToBack(self.vwMatch)
 //        self.closingDelegate?.childClosing()
-        verifyChatController()
-        chatListViewController!.userNewId = userNewId
-        self.chatListViewController!.doHeaderToBodyAnimation = true
-        chatListViewController!.profileDelegate = self.profileDelegate
-        
         let vc = self.navigationController?.viewControllers.first(where: { $0 is ChatListViewController })
         if vc != nil{
+            ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  doPurchaseConversation remove prior chat");
             vc?.removeFromParent()
         }
-        self.navigationController?.pushViewController(self.chatListViewController!, animated: true)
+//        verifyChatController()
+        let deadlineTime = DispatchTime.now() + .milliseconds(500)
+        DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
+            ClientLog.WriteClientLog( msgType: "ios", msg:"openChatList");
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let chatListViewController = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ChatListViewController
+            chatListViewController.userNewId = userNewId
+            chatListViewController.newFriendFromReservePurchase = newFriend
+            chatListViewController.doHeaderToBodyAnimation = true
+            chatListViewController.profileDelegate = self.profileDelegate
+            self.navigationController?.pushViewController(chatListViewController, animated: true)
+        }
     }
 
     /*
@@ -113,14 +120,17 @@ class ReservePurchaseViewController: UIViewController {
                  "userId": LocalStore.store.getFacebookID(),
                  "convoId": self.purchaseConvoId
                  ] as [String : Any]
-             
+             ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  doPurchaseConversation");
+
              WebServices.service.webServicePostRequest(.post, .conversation, .doPurchaseConversation, parameters, successHandler: { (response) in
+                 ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  doPurchaseConversation back");
                  Loader.stopLoader()
                  
                  let jsonDict = response
                  var isSuccess = false
                  
                 if (jsonDict!["convoId"] as? Int) != nil {
+                     ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  doPurchaseConversation got valid convid");
                      let prompt = jsonDict!["prompt"] as? String
                      
                      if let screenAction = jsonDict!["screenAction"] as? Int {
@@ -129,29 +139,27 @@ class ReservePurchaseViewController: UIViewController {
                          switch screenAction {
                          case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
                              CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+                             ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  doPurchaseConversation WAIT_FOR_MATCH_TO_PAY");
                              self.outAlert(title: "Good Choice", message: prompt, compliteHandler:{
-//                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-//                                self.openChat(userNewId: self.userId)
-//                                }
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                    self.verifyChatController()
-                                    self.openChatList(userNewId: self.oppUserFBId, doAnimation: true)
+//                                    self.verifyChatController()
+                                    self.openChatList(userNewId: self.oppUserFBId, doAnimation: true, newFriend: nil)
                                 }
                              })
                              break
                          case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
-                            self.verifyChatController()
+//                            self.verifyChatController()
+                            ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  doPurchaseConversation READY_TO_CHAT");
+
                             var friendDict = Dictionary<String, Any>()
                             friendDict["user_fb_id"] = self.oppUserFBId
                             friendDict["user_name"] = self.oppUserName
                             friendDict["profile_pic"] = self.oppUserImg
-                            self.chatListViewController!.createNewFriendOnFirebase(friendDict, isOpenChat: false)
-
-                            self.chatListViewController!.createNewFriendOnFirebase(friendDict, isOpenChat: false)
-                            self.openChatList(userNewId: self.oppUserFBId, doAnimation: true)
+                            self.openChatList(userNewId: self.oppUserFBId, doAnimation: true, newFriend: friendDict)
 //                             self.openChat()
                              break
                          default:
+                             ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  ERROR FROM WEB SERVICE");
                              self.outAlertError(message: prompt ?? "Error")
                          }
                      }
@@ -162,6 +170,7 @@ class ReservePurchaseViewController: UIViewController {
                  }
              }) { (error) in
                  Loader.stopLoader()
+                 ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  EXCEPTION FROM WEB SERVICE");
                  self.outAlertError(message: "Error: \(error.debugDescription)")
              }
     }

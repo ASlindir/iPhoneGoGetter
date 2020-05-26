@@ -21,6 +21,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
     var headerFriendsList = [Dictionary<String, Any>]()
     var bodyFriendsList = [Dictionary<String, Any>]()
     var friendsList = [[String: Any]]()
+    var newFriendFromReservePurchase : Dictionary<String, Any>? = nil
     var senderDisplayName: String?
     var profileDelegate: ProfileViewControllerDelegate?
     
@@ -78,6 +79,10 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             observeOnlineFriends()
             tableViewMessages.reloadData()
             checkMatchNotifications(isCHeckUser: true)
+            if newFriendFromReservePurchase != nil{
+                createNewFriendOnFirebase(newFriendFromReservePurchase!)
+                newFriendFromReservePurchase = nil
+            }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -255,16 +260,19 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
            parameters["otherUserId"] = oppUserFBId;
            
            Loader.startLoader(true)
-           
+           ClientLog.WriteClientLog( msgType: "ios", msg:"clistvc  doQueryConversationForPurchase");
+
            WebServices.service.webServicePostRequest(.post, .conversation, .doQueryConversationForPurchase, parameters, successHandler: { (response) in
                 Loader.stopLoader()
                 let jsonDict = response
 
+                ClientLog.WriteClientLog( msgType: "ios", msg:"clistvc  doQueryConversationForPurchase back");
                 if let convoId = jsonDict!["convoId"] as? Int {
                    self.purchaseConvoId = convoId
                    self.purchasePrompt = jsonDict!["prompt"] as? String
                    if self.purchase.count  == 0 {
                        if let _products = jsonDict!["products"] as? [Dictionary<String, Any?>] {
+                           ClientLog.WriteClientLog( msgType: "ios", msg:"clistvc  setup products");
                            for product in _products {
                                self.purchase.append(PurchaseViewController.PurchaseItem(
                                    Productid: product["id"] as? String,
@@ -282,13 +290,13 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                 if let screenAction = jsonDict!["screenAction"] as? Int {
                     self.purchaseScreenAction = screenAction
                     if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue && !LocalStore.store.coinFreebie!{
+                        ClientLog.WriteClientLog( msgType: "ios", msg:"clistvc  call reserve purchase");
                         let xrpController = ReservePurchaseViewController.loadFromNib()
                         xrpController.oppUserFBId = oppUserFBId
                         xrpController.oppUserImg = oppUserImg
                         xrpController.oppUserName = oppUserName
                         xrpController.profileDelegate = self.profileDelegate
                         xrpController.purchaseConvoId = self.purchaseConvoId
-                        xrpController.chatListViewController = self
                         self.navigationController?.pushViewController(xrpController, animated: true)
                     } else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue || LocalStore.store.coinFreebie! {
                         let purchaseViewController = PurchaseViewController.loadFromNib()
@@ -303,6 +311,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                         purchaseViewController.chatListViewController = self
                         purchaseViewController.profileDelegate = nil
                         self.doHeaderToBodyAnimation = false
+                        ClientLog.WriteClientLog( msgType: "ios", msg:"clistvc  purchase view controller");
                         self.navigationController?.pushViewController(purchaseViewController, animated: true)
                     }
                 }
@@ -486,7 +495,8 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell") as! MessagesTableViewCell
         
-        
+        ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview body");
+
         let friend = bodyFriendsList[indexPath.item] as Dictionary<String, Any>
         
         let profile_pic = friend["profile_pic"] as? String
@@ -498,11 +508,13 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         let match_created_on = friend["match_created_on"] as! String
         switch whichList {
         case 1:
+            ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview which 1");
             cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0) // blue, i paid, no action just waiting
             cell.circleView.tapHandler = {circleView in
 //                self.animationAddItemToTable()
             }
         case 2:
+            ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview which 2");
             cell.circleView.shapeColor = UIColor.white // both paid white // should never see in header!
             if doHeaderToBodyAnimation {
                      animationAddItemToTable()
@@ -516,17 +528,22 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             NSLog("error bad which value")
         
         }
+        ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview A");
+
         cell.circleView.addCircle(getPercentComplete(matchDateStr: match_created_on))
 
         let fname = friend["user_name"] as? String
         cell.lblName.text = fname
         cell.imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic!)), placeholderImage: UIImage.init(named: "placeholder"))
+        ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview B");
         cell.lblMessage.text = ""
         cell.circleLabel.text = ""
         cell.circleView.imageView.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic!)), placeholderImage: UIImage.init(named: "placeholder"))
         cell.circleLabel.textColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)
+        ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview C");
         if friend["which_list"] as! Int ==  1{
-            cell.circleLabel.text = "Pending "+fname!+"'s activation ..."
+            ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview D");
+            cell.circleLabel.text = "YPending "+fname!+"'s activation !!!"
         }
         else{ // both paid, official friend
 //            let r = indexPath.row.
@@ -557,8 +574,10 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         cell.imgViewProfile.layer.cornerRadius = 42.5
         
         if self.isAnimateFirstItemInTable && indexPath.item == 0 {
+            ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview F");
             cell.contentView.isHidden = true
         } else {
+            ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview G");
             cell.contentView.isHidden = false
         }
         
@@ -655,15 +674,14 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
     }
     
     func addToFriends(friendDict : Dictionary<String, Any>){
-        let idSelf = self.user_id
-        var nameSelf = ""
-        var profilePicSelf = ""
-        if let myName = personalDetail["user_name"] as? String {
-            nameSelf = myName
-        }
-        if let myProfilePic = personalDetail["profile_pic"] as? String {
-            profilePicSelf = myProfilePic
-        }
+//        var nameSelf = ""
+//        var profilePicSelf = ""
+//        if let myName = personalDetail["user_name"] as? String {
+//            nameSelf = myName
+//        }
+//        if let myProfilePic = personalDetail["profile_pic"] as? String {
+//            profilePicSelf = myProfilePic
+//        }
         let id = friendDict["user_fb_id"] as! String
         var name = ""
         var profilePic = ""
@@ -723,10 +741,8 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         return false
     }
      func LoadHeaderObjects(dict : Dictionary<String, Any>?, collectionName : String, whichList : Int){
-          var cc = false
           if let collFriendList = dict![collectionName] as? [Dictionary<String, String>] {
               for  f in collFriendList  {
-                  cc = true
                   var item =  Dictionary<String, Any>()
                   item["user_name"] = f["user_name"]
                   item["user_fb_id"] = f["user_fb_id"]
@@ -735,9 +751,11 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                   item["which_list"] = whichList
                   if ( !self.checkMatchExpired(dict : item)){
                       if whichList == 0 || whichList == 3{
+                         ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  add to header list");
                           headerFriendsList.append(item)
                       }
                       else{
+                        ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  add to body list");
                         bodyFriendsList.append(item)
                         if (whichList == 2){ // full friends
                             addToFriends(friendDict: item)
@@ -765,6 +783,7 @@ func getFriendsList(){
         let parameters = ["user_fb_id": user_id, "type":"new"]
 
         Loader.startLoader(true)
+        ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  fetchFriendList");
         WebServices.service.webServicePostRequest(.post, .friend, .fetchFriendList, parameters, successHandler: { (response) in
             Loader.stopLoader()
             self.bodyFriendsList.removeAll()
@@ -779,10 +798,13 @@ func getFriendsList(){
                 self.LoadHeaderObjects(dict: jsonDict, collectionName: "theyPaid", whichList: 0)
                 self.LoadHeaderObjects(dict: jsonDict, collectionName: "neitherPaid", whichList: 3)
             }
+            ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  collectionViewNewMatches reload");
             self.collectionViewNewMatches.reloadData()
-            print(self.friendsList)
+            self.tableViewMessages.reloadData()
+//            print(self.friendsList)
 
         }) { (error) in
+            ClientLog.WriteClientLog( msgType: "ios", msg:"service error fetchfriendlist");
             self.friendsList.removeAll()
             Loader.stopLoader()
             self.collectionViewNewMatches.reloadData()
@@ -1008,7 +1030,8 @@ func getFriendsList(){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         for controller in self.navigationController!.viewControllers as Array {
             if controller.isKind(of: ProfileViewController.self) {
-                self.navigationController!.popToViewController(controller, animated: true)
+                ClientLog.WriteClientLog( msgType: "ios", msg:"pop to profile view");
+                self.navigationController!.popToViewController(controller, animated: false)
                 break
             }
         }

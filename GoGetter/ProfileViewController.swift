@@ -1700,7 +1700,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                            UserDefaults.standard.synchronize()
                            break
                        case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
-                           self.openChat()
+                           self.openChatList()
                            break
                        default:
                            self.outAlertError(message: prompt ?? "Error")
@@ -2096,7 +2096,7 @@ extension ProfileViewController: KolodaViewDelegate {
         }*/
     }
     
-    private func openChat(userNewId: String? = nil) {
+    private func openChatList(userNewId: String? = nil) {
         self.vwMatch.isHidden = true
         self.view.sendSubviewToBack(self.vwMatch)
         

@@ -1748,19 +1748,21 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
 //                UserDefaults.standard.synchronize()
     
     @IBAction func btnSayHello(_ sender: Any) {
-        LocalStore.store.coinFreebie = true
+        LocalStore.store.coinFreebie = false
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue && !LocalStore.store.coinFreebie!{
             let controller = ReservePurchaseViewController.loadFromNib()
             controller.oppUserFBId = oppUserFBId
             controller.oppUserName = oppUserName
             controller.oppUserImg = oppUserImg
+            controller.purchaseConvoId = self.purchaseConvoId
             controller.didGoHandler = {userId in
                 // get
             //    self.openChat(userNewId: userId)
             }
             // go screen
-            self.present(controller, animated: true, completion: nil)
+               self.navigationController?.pushViewController(controller, animated: true)
+//            self.present(controller, animated: true, completion: nil)
 
 //    fhc        self.outAlertError(message: "conv purchased in test Your good!")
             CustomClass.sharedInstance.playAudio(.popGreen, .mp3)

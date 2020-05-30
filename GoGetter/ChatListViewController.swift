@@ -286,7 +286,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                            }
                        }
                    }
-                     LocalStore.store.coinFreebie = true
+                     LocalStore.store.coinFreebie = false
                 if let screenAction = jsonDict!["screenAction"] as? Int {
                     self.purchaseScreenAction = screenAction
                     if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue && !LocalStore.store.coinFreebie!{
@@ -356,7 +356,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         self.view.addSubview(copiedView)
         cell.circleView.isHidden = true
 
-        let item = headerFriendsList[indexPath.item]
+//        let item = headerFriendsList[indexPath.item]
         self.headerFriendsList.remove(at: indexPath.item)
         self.collectionViewNewMatches.deleteItems(at: [indexPath])
         UIView.animateKeyframes(withDuration: 1, delay: 0, options: [], animations: {
@@ -495,7 +495,8 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell") as! MessagesTableViewCell
         
-        ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview body");
+        let r = indexPath.row
+        ClientLog.WriteClientLog( msgType: "ios", msg:String(r));
 
         let friend = bodyFriendsList[indexPath.item] as Dictionary<String, Any>
         
@@ -534,7 +535,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
 
         let fname = friend["user_name"] as? String
         cell.lblName.text = fname
-        cell.imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic!)), placeholderImage: UIImage.init(named: "placeholder"))
+//        cell.imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic!)), placeholderImage: UIImage.init(named: "placeholder"))
         ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview B");
         cell.lblMessage.text = ""
         cell.circleLabel.text = ""
@@ -543,7 +544,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview C");
         if friend["which_list"] as! Int ==  1{
             ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview D");
-            cell.circleLabel.text = "YPending "+fname!+"'s activation !!!"
+            cell.circleLabel.text = "Pending "+fname!+"'s activation"
         }
         else{ // both paid, official friend
 //            let r = indexPath.row.
@@ -614,10 +615,13 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
 //MARK:-  UITableView Delegates
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-        let friend = friends[indexPath.item]
-        goToChatController(friend,friend.id)
+        ClientLog.WriteClientLog( msgType: "ios", msg:String(indexPath.row));
+        if friends.count < indexPath.item{
+            tableView.deselectRow(at: indexPath, animated: true)
+            CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
+            let friend = friends[indexPath.item]
+            goToChatController(friend,friend.id)
+        }
     }
     
     

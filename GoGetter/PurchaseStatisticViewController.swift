@@ -67,11 +67,11 @@ class PurchaseStatisticViewController: UIViewController {
                     self.setCountForTitle(label: self.coinsLeftLabel, title: "You have \(value) coins left", value: value, color: UIColor(red:0.00, green:0.65, blue:0.69, alpha:1.0))
                 }
                 
-                if let value = userCoinRecord["coinsReserved"] as? String {
+                if let value = jsonDict!["userWaiting"]as? String {
                      self.setCountForTitle(label: self.reserveLabel, title: "\(value) coins on reserve", value: value, color: UIColor(red:0.27, green:0.64, blue:0.97, alpha:1.0))
                 }
                 
-                if let value = userCoinRecord["coinsNotReserved"] as? String {
+                if let value = jsonDict!["otherWaiting"]as? String {
                      self.setCountForTitle(label: self.waitingLabel, title: "\(value) matches waiting", value: value, color: UIColor(red:0.87, green:0.42, blue:0.65, alpha:1.0))
                 }
                 

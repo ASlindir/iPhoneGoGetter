@@ -137,7 +137,7 @@ class PurchaseViewController: UIViewController {
     }
 
     // MARK: - User functions
-    
+ 
     func initViews(products: [Purchase]){
         let count = products.count
         let space: CGFloat = 4.0
@@ -209,20 +209,23 @@ class PurchaseViewController: UIViewController {
                                 format.dateFormat = "yyyy-MM-dd HH:mm:ss"
                                 formattedDate = format.string(from: date)
                             }
+                            
+                            
+                             let productInfo = [
+                                 "purchaseStatus": PurchasesConst.PurchaseStatus.PURCHASE_SUCCESS.rawValue,
+                                 "appstore": "A",
+                                 "amount": products[index].item.Price!,
+                                 "transctionID": product.transaction.transactionIdentifier != nil ? (product.transaction.transactionIdentifier)! : "",
+                                 "dateTime": formattedDate,
+                                 "productId": products[index].item.Productid ?? "0"
+                                 ] as [String : Any]
 
-                            var parameters = Dictionary<String, Any>()
-                            parameters["convoId"] = self.convoId
-                            parameters["userId"] = LocalStore.store.facebookID
-
-                            let productInfo = [
-                                "purchaseStatus": PurchasesConst.PurchaseStatus.PURCHASE_SUCCESS.rawValue,
-                                "appstore": "A",
-                                "amount": Double(products[index].item.Price!)!,
-                                "transctionID": product.transaction.transactionIdentifier != nil ? (product.transaction.transactionIdentifier)! : "",
-                                "dateTime": formattedDate,
-                                "productId": Int(products[index].item.Productid ?? "0")!
-                                ] as [String : Any]
-                            parameters["purchaseInfo"] = productInfo
+                            let parameters = [
+                                "convoId" : NSNumber(value: self.convoId),
+                                "userId" : LocalStore.store.getFacebookID(),
+                                "purchaseInfo" : productInfo
+                            ] as [String : Any]
+                            
 
                             WebServices.service.webServicePostRequest(.post, .conversation, .inAppPurchaseComplete, parameters, successHandler: { (response) in
                                 Loader.stopLoader()
@@ -230,14 +233,11 @@ class PurchaseViewController: UIViewController {
                                 let status = jsonDict!["status"] as! String
                                 if status == "success"{
                                     self.dismiss(animated: true, completion: {
-                                        if self.chatListViewController != nil{
-                                            let xrpController = ReservePurchaseViewController.loadFromNib()
-                                            xrpController.oppUserFBId = self.oppUserFBId
-                                            xrpController.profileDelegate = self.profileDelegate
-                                            xrpController.purchaseConvoId = self.convoId
-                                            self.navigationController?.pushViewController(xrpController, animated: true)
-                                        }
-//                                        self.delegate?.didSuccessPurchase(userId: self.userId)
+                                        let xrpController = ReservePurchaseViewController.loadFromNib()
+                                        xrpController.oppUserFBId = self.oppUserFBId
+                                        xrpController.profileDelegate = self.profileDelegate
+                                        xrpController.purchaseConvoId = self.convoId
+                                        self.navigationController?.pushViewController(xrpController, animated: true)
                                     })
                                 }
                                 else{

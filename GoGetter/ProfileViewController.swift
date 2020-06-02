@@ -254,9 +254,10 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         viewScrollContent.addGestureRecognizer(tapGestureBottomView)
         navigationController?.navigationBar.isHidden = true
         viewInnerSlide.isHidden = true
+        ClientLog.WriteClientLog( msgType: "feelgood", msg:"showbraingame");
         if showBrainGame {
             //DispatchQueue.global(qos: .background).async {
-                self.checkViewCountAndShowMatches()
+//                self.checkViewCountAndShowMatches()
            // }
             self.viewTopFront.isHidden = true
             self.viewFront.isHidden = true
@@ -265,7 +266,8 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         }
         else if LocalStore.store.isQuizDone() {
             if isSlindirQuiz{
-                
+                ClientLog.WriteClientLog( msgType: "feelgood", msg:"isslindirquiz");
+
                 constraintTopViewTop.constant = -UIScreen.main.bounds.size.height
                 constraintTopViewBottom.constant = UIScreen.main.bounds.size.height
                 self.view.layoutIfNeeded()
@@ -283,6 +285,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 }
             }
             else if isAlreadyLogin {
+                ClientLog.WriteClientLog( msgType: "feelgood", msg:"already login");
                 self.viewTopFront.isHidden = true
                 self.viewFront.isHidden = true
                 self.viewTop.isHidden = true
@@ -295,15 +298,19 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 self.checkViewCountAndShowMatches()
             }else{
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    ClientLog.WriteClientLog( msgType: "feelgood", msg:"getselecedquiz");
                     self.gettingTheSelectedQuiz()
                 }
             }
         }else{
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                ClientLog.WriteClientLog( msgType: "feelgood", msg:"gettingtheselectedquiz");
+
                 self.gettingTheSelectedQuiz()
             }
             
             if isSlindirQuiz {
+                ClientLog.WriteClientLog( msgType: "feelgood", msg:"isslindirquiz 2");
                 constraintTopViewTop.constant = -UIScreen.main.bounds.size.height
                 constraintTopViewBottom.constant = UIScreen.main.bounds.size.height
                 self.view.layoutIfNeeded()
@@ -1314,17 +1321,20 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             })
            
         }
+         ClientLog.WriteClientLog( msgType: "feelgood", msg:"fg start");
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             UIView.animate(withDuration: 3, animations: {
                 self.lblActive.alpha = 1
                 self.lblFeelingGood.alpha = 1
             }, completion: { (completed:Bool) in
                 UIView.animate(withDuration: 0.5, animations: {
+                    ClientLog.WriteClientLog( msgType: "feelgood", msg:"anim stop");
                     self.lblActive.layer.backgroundColor = UIColor.clear.cgColor
                     self.lblFeelingGood.layer.backgroundColor = UIColor.clear.cgColor
                 })
                 UIView.animate(withDuration: 1.8, animations: {
                     self.blurView.alpha = 0
+                    ClientLog.WriteClientLog( msgType: "feelgood", msg:"hide logo");
                     self.hideTheLogo()
                 })
             })
@@ -1362,14 +1372,22 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                     self.viewTop.alpha = 0
                 }, completion: { (completed: Bool) in
                 })
+                ClientLog.WriteClientLog( msgType: "feelgood", msg:"hide logo - animate");
+
                 DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+                    ClientLog.WriteClientLog( msgType: "feelgood", msg:"hide logo - animate after");
                     self.startSettingIconRotation()
                 })
                 UIView.animate(withDuration: 3, animations: { 
                     
                 }, completion: { (completed: Bool) in
+                    ClientLog.WriteClientLog( msgType: "feelgood", msg:"hide logo - animate complete");
+
                     self.startProfileViewAnimation()
+                    ClientLog.WriteClientLog( msgType: "feelgood", msg:"already logged in");
+
                     if !self.isAlreadyLogin {
+                        ClientLog.WriteClientLog( msgType: "feelgood", msg:"already logged in - anim swipe cards");
                         self.animateSwipeCards(15, 90, self.vwCardRight, (self.vwCardRight.trailingRight)!)
                     }
                 })
@@ -1398,6 +1416,8 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 self.view.layoutIfNeeded()
                 self.blurViewLogo.alpha = 0
             }, completion: { (completed: Bool) in
+                ClientLog.WriteClientLog( msgType: "feelgood", msg:"startProfileViewAnimation complete");
+
                 self.blurViewLogo.isHidden = true
                 self.blurViewLogo.alpha = 1
             })
@@ -2802,7 +2822,8 @@ extension ProfileViewController: KolodaViewDataSource {
                                                     constraint.constant = minimum
                                                     self.view.layoutIfNeeded()
                                                 }, completion: { (completion) in
-                                                    
+                                                    ClientLog.WriteClientLog( msgType: "feelgood", msg:"anim swiped cards complete");
+
                                                 })
                                             })
                                         })

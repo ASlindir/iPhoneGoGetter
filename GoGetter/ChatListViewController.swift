@@ -21,7 +21,8 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
     var headerFriendsList = [Dictionary<String, Any>]()
     var bodyFriendsList = [Dictionary<String, Any>]()
     var friendsList = [[String: Any]]()
-    var newFriendFromReservePurchase : Dictionary<String, Any>? = nil
+    var friendFromReservePurchase : Dictionary<String, Any>? = nil
+    var addToFirebase : Bool = false
     var senderDisplayName: String?
     var profileDelegate: ProfileViewControllerDelegate?
     
@@ -79,9 +80,10 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             observeOnlineFriends()
             tableViewMessages.reloadData()
             checkMatchNotifications(isCHeckUser: true)
-            if newFriendFromReservePurchase != nil{
-                createNewFriendOnFirebase(newFriendFromReservePurchase!)
-                newFriendFromReservePurchase = nil
+            if friendFromReservePurchase != nil && addToFirebase{
+                createNewFriendOnFirebase(friendFromReservePurchase!)
+                friendFromReservePurchase = nil
+                addToFirebase = false
             }
     }
     
@@ -363,12 +365,18 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
           copiedView.center.x = cell.contentView.frame.width / 2
           copiedView.center.y = 390
         }, completion: {finished in
-          self.animatingItem = -1
-          self.doHeaderToBodyAnimation = false
-          self.collectionViewNewMatches.reloadData()
-          copiedView.removeFromSuperview()
-          self.isAnimateFirstItemInTable = false
-          self.tableViewMessages.reloadData()
+        self.animatingItem = -1
+        self.doHeaderToBodyAnimation = false
+        self.friendFromReservePurchase = nil
+        // move from header list to body
+        //            if  (friendFromReservePurchase!["user_fb_id"] as! String == item["user_fb_id"] as! String)
+        //                           {
+        //                               // temporarily append
+        //                               headerFriendsList.append(item)
+        self.collectionViewNewMatches.reloadData()
+        copiedView.removeFromSuperview()
+        self.isAnimateFirstItemInTable = false
+        self.tableViewMessages.reloadData()
         })
 
 //        cell.circleView.addCircle(0)
@@ -412,16 +420,16 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         cell.circleView.imageView.layer.masksToBounds = false
         cell.circleView.imageView.layer.cornerRadius = cell.circleView.imageView.frame.height/2
         cell.circleView.imageView.clipsToBounds = true
+
         // circular
         if doHeaderToBodyAnimation {
-            if indexPath.item == animatingItem {
-                // we came back to the chatlist after purchasing
-                // animate to body
-                DispatchQueue.main.async {
-//                    self.animationAddItemToTable()
-                    self.showHeaderToBodyAnimation(cell:cell,  indexPath: indexPath)
-                }
-
+            if friendFromReservePurchase != nil &&
+                (friendFromReservePurchase!["user_fb_id"] as! String == friend["user_fb_id"] as! String){
+                    // we came back to the chatlist after purchasing
+                    // animate to body
+                    DispatchQueue.main.async {
+                        self.showHeaderToBodyAnimation(cell:cell,  indexPath: indexPath)
+                    }
             }
         }
 //        cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)  //neither paid gray
@@ -754,17 +762,24 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                   item["match_created_on"] = f["match_created_on"]
                   item["which_list"] = whichList
                   if ( !self.checkMatchExpired(dict : item)){
-                      if whichList == 0 || whichList == 3{
-                         ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  add to header list");
-                          headerFriendsList.append(item)
-                      }
-                      else{
+                      // check for friend to animate from header to body
+                    if friendFromReservePurchase != nil &&
+                        (friendFromReservePurchase!["user_fb_id"] as! String == item["user_fb_id"] as! String)
+                    {
+                        // temporarily append
+                        headerFriendsList.append(item)
+                    }
+                    else if whichList == 0 || whichList == 3{
+                        ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  add to header list");
+                        headerFriendsList.append(item)
+                    }
+                    else{
                         ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  add to body list");
                         bodyFriendsList.append(item)
                         if (whichList == 2){ // full friends
                             addToFriends(friendDict: item)
                         }
-                      }
+                    }
                   }
     //              arrayChatListHeaderModals.add(chatListHeaderModal);
               }

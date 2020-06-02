@@ -72,7 +72,7 @@ class ReservePurchaseViewController: UIViewController {
 //            chatListViewController = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ChatListViewController
 //        }
 //    }
-    private func openChatList(userNewId: String? = nil, doAnimation : Bool, newFriend : Dictionary<String, Any>?) {
+    private func openChatList(userNewId: String? = nil, doAnimation : Bool, newFriend : Dictionary<String, Any>?, addToFirebase: Bool) {
 //        self.vwMatch.isHidden = true
 //        self.view.sendSubviewToBack(self.vwMatch)
 //        self.closingDelegate?.childClosing()
@@ -88,7 +88,7 @@ class ReservePurchaseViewController: UIViewController {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let chatListViewController = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ChatListViewController
             chatListViewController.userNewId = userNewId
-            chatListViewController.newFriendFromReservePurchase = newFriend
+            chatListViewController.friendFromReservePurchase = newFriend
             chatListViewController.doHeaderToBodyAnimation = true
             chatListViewController.profileDelegate = self.profileDelegate
             self.navigationController?.pushViewController(chatListViewController, animated: true)
@@ -135,7 +135,11 @@ class ReservePurchaseViewController: UIViewController {
                      
                      if let screenAction = jsonDict!["screenAction"] as? Int {
                          isSuccess = true
-                         
+                         var friendDict = Dictionary<String, Any>()
+                        friendDict["user_fb_id"] = self.oppUserFBId
+                        friendDict["user_name"] = self.oppUserName
+                        friendDict["profile_pic"] = self.oppUserImg
+
                          switch screenAction {
                          case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
                              CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
@@ -143,21 +147,18 @@ class ReservePurchaseViewController: UIViewController {
                              self.outAlert(title: "Good Choice", message: prompt, compliteHandler:{
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 //                                    self.verifyChatController()
-                                    self.openChatList(userNewId: self.oppUserFBId, doAnimation: true, newFriend: nil)
+                                    self.openChatList(userNewId: self.oppUserFBId, doAnimation: true, newFriend: friendDict, addToFirebase:  false)
                                 }
                              })
                              break
+                            
                          case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
 //                            self.verifyChatController()
                             ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  doPurchaseConversation READY_TO_CHAT");
-
-                            var friendDict = Dictionary<String, Any>()
-                            friendDict["user_fb_id"] = self.oppUserFBId
-                            friendDict["user_name"] = self.oppUserName
-                            friendDict["profile_pic"] = self.oppUserImg
-                            self.openChatList(userNewId: self.oppUserFBId, doAnimation: true, newFriend: friendDict)
+                            self.openChatList(userNewId: self.oppUserFBId, doAnimation: true, newFriend: friendDict, addToFirebase:  true)
 //                             self.openChat()
                              break
+                            
                          default:
                              ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  ERROR FROM WEB SERVICE");
                              self.outAlertError(message: prompt ?? "Error")

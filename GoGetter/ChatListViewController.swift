@@ -358,25 +358,26 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         self.view.addSubview(copiedView)
         cell.circleView.isHidden = true
 
-//        let item = headerFriendsList[indexPath.item]
+        let item = headerFriendsList[indexPath.item]
         self.headerFriendsList.remove(at: indexPath.item)
         self.collectionViewNewMatches.deleteItems(at: [indexPath])
         UIView.animateKeyframes(withDuration: 1, delay: 0, options: [], animations: {
           copiedView.center.x = cell.contentView.frame.width / 2
           copiedView.center.y = 390
         }, completion: {finished in
-        self.animatingItem = -1
-        self.doHeaderToBodyAnimation = false
-        self.friendFromReservePurchase = nil
-        // move from header list to body
-        //            if  (friendFromReservePurchase!["user_fb_id"] as! String == item["user_fb_id"] as! String)
-        //                           {
-        //                               // temporarily append
-        //                               headerFriendsList.append(item)
-        self.collectionViewNewMatches.reloadData()
-        copiedView.removeFromSuperview()
-        self.isAnimateFirstItemInTable = false
-        self.tableViewMessages.reloadData()
+            self.animatingItem = -1
+            self.doHeaderToBodyAnimation = false
+            self.friendFromReservePurchase = nil
+            self.bodyFriendsList.append(item)
+            // move from header list to body
+            //            if  (friendFromReservePurchase!["user_fb_id"] as! String == item["user_fb_id"] as! String)
+            //                           {
+            //                               // temporarily append
+            //                               headerFriendsList.append(item)
+            self.collectionViewNewMatches.reloadData()
+            copiedView.removeFromSuperview()
+            self.isAnimateFirstItemInTable = false
+            self.tableViewMessages.reloadData()
         })
 
 //        cell.circleView.addCircle(0)
@@ -514,44 +515,38 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         
         // 0 they paid, 1 ipaid, 2bothpaid, 3neither paid
         let whichList = friend["which_list"] as! Int
-        let match_created_on = friend["match_created_on"] as! String
         switch whichList {
         case 1:
             ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview which 1");
             cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0) // blue, i paid, no action just waiting
             cell.circleView.tapHandler = {circleView in
+            let match_created_on = friend["match_created_on"] as! String
+                cell.circleView.addCircle(self.getPercentComplete(matchDateStr: match_created_on))
 //                self.animationAddItemToTable()
             }
         case 2:
             ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview which 2");
             cell.circleView.shapeColor = UIColor.white // both paid white // should never see in header!
-            if doHeaderToBodyAnimation {
-                     animationAddItemToTable()
-                     doHeaderToBodyAnimation = false;
-            }
+//            if doHeaderToBodyAnimation {
+//                     animationAddItemToTable()
+//                     doHeaderToBodyAnimation = false;
+//            }
             cell.circleView.tapHandler = {circleView in
-            let friendItem = self.friends[indexPath.item]
-            self.goToChatController(friendItem, friendItem.id)
+                let friendItem = self.friends[indexPath.item]
+                self.goToChatController(friendItem, friendItem.id)
             }
         default:
             NSLog("error bad which value")
         
         }
-        ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview A");
-
-        cell.circleView.addCircle(getPercentComplete(matchDateStr: match_created_on))
-
         let fname = friend["user_name"] as? String
         cell.lblName.text = fname
 //        cell.imgViewProfile.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic!)), placeholderImage: UIImage.init(named: "placeholder"))
-        ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview B");
         cell.lblMessage.text = ""
         cell.circleLabel.text = ""
         cell.circleView.imageView.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic!)), placeholderImage: UIImage.init(named: "placeholder"))
         cell.circleLabel.textColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)
-        ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview C");
         if friend["which_list"] as! Int ==  1{
-            ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview D");
             cell.circleLabel.text = "Pending "+fname!+"'s activation"
         }
         else{ // both paid, official friend
@@ -709,7 +704,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         self.isAnimateFirstItemInTable = true
 
         let friendDict = LocalStore.store.getUserDetails()
-        addToFriends(friendDict: friendDict)
+// fhc june        addToFriends(friendDict: friendDict)
         self.bottomCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault + 105
         UIView.animate(withDuration: 0.75, animations: {
             self.view.layoutIfNeeded()
@@ -777,7 +772,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                         ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  add to body list");
                         bodyFriendsList.append(item)
                         if (whichList == 2){ // full friends
-                            addToFriends(friendDict: item)
+  // fhc june                          addToFriends(friendDict: item)
                         }
                     }
                   }
@@ -928,7 +923,7 @@ func getFriendsList(){
                             online = onlineBool
                         }
                         self.friends.append(Friend(id: id, name: name, profilePic: profile_pic,lastMessage: lastMessage, online: online))
-                        self.sortFriendsArray()
+                        self.sortFriendsAndUpdateBody()
                         self.tableViewMessages.reloadData()
                     }else{
                         if let pic = friendData["profilePic"] as? String {
@@ -939,7 +934,7 @@ func getFriendsList(){
                             online = onlineBool
                         }
                         self.friends.append(Friend(id: id, name: name, profilePic: profile_pic,lastMessage: nil, online:online))
-                        self.sortFriendsArray()
+                        self.sortFriendsAndUpdateBody()
                         self.tableViewMessages.reloadData()
                     }
                     DispatchQueue.main.async {
@@ -968,7 +963,7 @@ func getFriendsList(){
                         }){
                             self.friends.remove(at: index)
                         }
-                        self.sortFriendsArray()
+                        self.sortFriendsAndUpdateBody()
                         self.tableViewMessages.reloadData()
                     }
                 }
@@ -1007,7 +1002,7 @@ func getFriendsList(){
                 if index != nil {
                     self.friends.remove(at: index!)
                     self.friends.insert(newFriend, at: index!)
-                    self.sortFriendsArray()
+                    self.sortFriendsAndUpdateBody()
                     DispatchQueue.main.async {
                         self.tableViewMessages.reloadData()
                     }
@@ -1020,7 +1015,8 @@ func getFriendsList(){
         })
     }
     
-    func sortFriendsArray() {
+    func sortFriendsAndUpdateBody() {
+        // first sort
         self.friends = self.friends.sorted(by: { (friend1, friend2) -> Bool in
             if friend1.lastMessage != nil && friend2.lastMessage != nil {
                 let time1 = friend1.lastMessage!["time"] as! String
@@ -1035,6 +1031,35 @@ func getFriendsList(){
             }
             return false
         })
+//         item["user_name"] = f["user_name"]
+//         item["user_fb_id"] = f["user_fb_id"]
+//         item["profile_pic"] = f["profile_pic"]
+//         item["match_created_on"] = f["match_created_on"]
+//         item["which_list"] = whichList
+        // now reconstruct the body list, full friends appear first
+        
+        // remove all the full friends from the body
+        var i = 0
+        for item in self.bodyFriendsList.reversed() {
+            for ff in self.friends{
+                if (ff.id == item["user_fb_id"] as! String){
+                    self.bodyFriendsList.remove(at: i)
+                }
+            }
+            i+=1
+        }
+        
+        // re-insert at top to preseverve message indexing
+        for f in self.friends{
+            var item =  Dictionary<String, Any>()
+            item["user_name"] = f.name
+            item["user_fb_id"] = f.id
+            item["profile_pic"] = f.profilePic
+            item["match_created_on"] = nil
+            item["which_list"] = 2
+            self.bodyFriendsList.index(before: 0)
+        }
+
     }
     
     deinit {

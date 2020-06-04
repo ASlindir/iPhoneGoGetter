@@ -531,8 +531,10 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
 //                     animationAddItemToTable()
 //                     doHeaderToBodyAnimation = false;
 //            }
+            cell.circleView.indexPath = indexPath
             cell.circleView.tapHandler = {circleView in
-                let friendItem = self.friends[indexPath.item]
+                let r = circleView.indexPath?.row
+                let friendItem = self.friends[r!]
                 self.goToChatController(friendItem, friendItem.id)
             }
         default:
@@ -770,9 +772,11 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                     }
                     else{
                         ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  add to body list");
-                        bodyFriendsList.append(item)
                         if (whichList == 2){ // full friends
   // fhc june                          addToFriends(friendDict: item)
+                        }
+                        else{
+                            bodyFriendsList.append(item)
                         }
                     }
                   }
@@ -802,7 +806,7 @@ func getFriendsList(){
             Loader.stopLoader()
             self.bodyFriendsList.removeAll()
             self.headerFriendsList.removeAll()
-            self.friends.removeAll()
+//            self.friends.removeAll()
             let jsonDict = response
             let status = jsonDict!["status"] as! String
             self.friendsList.removeAll()
@@ -1050,16 +1054,15 @@ func getFriendsList(){
         }
         
         // re-insert at top to preseverve message indexing
-        for f in self.friends{
+        for f in self.friends.reversed(){
             var item =  Dictionary<String, Any>()
             item["user_name"] = f.name
             item["user_fb_id"] = f.id
             item["profile_pic"] = f.profilePic
             item["match_created_on"] = nil
             item["which_list"] = 2
-            self.bodyFriendsList.index(before: 0)
+            self.bodyFriendsList.insert(item, at: 0)
         }
-
     }
     
     deinit {

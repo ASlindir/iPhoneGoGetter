@@ -57,7 +57,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6zf-nN-0W2">
-                    <rect key="frame" x="8" y="193.5" width="398" height="580.5"/>
+                    <rect key="frame" x="8" y="223.5" width="398" height="520.5"/>
                 </stackView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="COIN STATISTICS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gi7-Lk-J3Q">
                     <rect key="frame" x="30" y="814" width="354" height="28"/>
@@ -73,10 +73,10 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="2Zw-Nw-7u7" secondAttribute="trailing" id="PWZ-lT-o6y"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="2Zw-Nw-7u7" secondAttribute="bottom" id="RDp-aR-EMk"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Gi7-Lk-J3Q" secondAttribute="trailing" constant="30" id="RbK-Z6-BNf"/>
-                <constraint firstItem="6zf-nN-0W2" firstAttribute="top" secondItem="6nd-wr-6Uf" secondAttribute="bottom" constant="30" id="Rez-fP-jwX"/>
+                <constraint firstItem="6zf-nN-0W2" firstAttribute="top" secondItem="6nd-wr-6Uf" secondAttribute="bottom" constant="60" id="Rez-fP-jwX"/>
                 <constraint firstItem="6nd-wr-6Uf" firstAttribute="top" secondItem="Yu4-Rx-MiX" secondAttribute="bottom" constant="15" id="SJl-2Q-Rzs"/>
                 <constraint firstItem="Yu4-Rx-MiX" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="15" id="SNL-c3-iZ4"/>
-                <constraint firstItem="Gi7-Lk-J3Q" firstAttribute="top" secondItem="6zf-nN-0W2" secondAttribute="bottom" constant="40" id="Sgx-E0-eOF"/>
+                <constraint firstItem="Gi7-Lk-J3Q" firstAttribute="top" secondItem="6zf-nN-0W2" secondAttribute="bottom" constant="70" id="Sgx-E0-eOF"/>
                 <constraint firstItem="6nd-wr-6Uf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="35" id="ff6-W3-BNB"/>
                 <constraint firstItem="2Zw-Nw-7u7" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="198" id="fpe-tJ-5dG"/>
                 <constraint firstItem="gb4-yx-M3E" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="jro-wp-Yug"/>

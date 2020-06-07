@@ -41,16 +41,16 @@
                     <rect key="frame" x="0.0" y="-20" width="375" height="687"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reserve a coin for Andrea" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wqA-ho-Ci5">
-                            <rect key="frame" x="16" y="70" width="343" height="21"/>
+                            <rect key="frame" x="16" y="70" width="343" height="35"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="21" id="Fu6-fD-oIh"/>
+                                <constraint firstAttribute="height" constant="35" id="Fu6-fD-oIh"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="Pacifico-Regular" family="Pacifico" pointSize="24"/>
                             <color key="textColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rWM-4u-I9S">
-                            <rect key="frame" x="123" y="271" width="131" height="25"/>
+                            <rect key="frame" x="123" y="288.5" width="131" height="25"/>
                             <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="131" id="6O5-T5-8AW"/>
@@ -417,7 +417,7 @@
                             </subviews>
                         </stackView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YtC-mP-LvR">
-                            <rect key="frame" x="122.5" y="112.5" width="130" height="130"/>
+                            <rect key="frame" x="122.5" y="130" width="130" height="130"/>
                             <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="130" id="FFY-NM-Ovg"/>
@@ -445,7 +445,7 @@
                         <constraint firstItem="6zK-b2-u8s" firstAttribute="top" secondItem="1uc-St-ewL" secondAttribute="top" id="QYO-7I-qJ8"/>
                         <constraint firstItem="wqA-ho-Ci5" firstAttribute="leading" secondItem="1Zc-zD-al3" secondAttribute="leading" constant="16" id="WKM-T6-p3V"/>
                         <constraint firstItem="rWM-4u-I9S" firstAttribute="centerX" secondItem="1Zc-zD-al3" secondAttribute="centerX" constant="1" id="bzI-PQ-pIE"/>
-                        <constraint firstItem="YtC-mP-LvR" firstAttribute="top" secondItem="wqA-ho-Ci5" secondAttribute="bottom" constant="21.5" id="ddo-MB-hWv"/>
+                        <constraint firstItem="YtC-mP-LvR" firstAttribute="top" secondItem="wqA-ho-Ci5" secondAttribute="bottom" constant="25" id="ddo-MB-hWv"/>
                         <constraint firstItem="DyQ-Wt-YFH" firstAttribute="top" relation="greaterThanOrEqual" secondItem="rWM-4u-I9S" secondAttribute="bottom" constant="15" id="vFS-qJ-LhO"/>
                         <constraint firstItem="6zK-b2-u8s" firstAttribute="leading" secondItem="1uc-St-ewL" secondAttribute="leading" id="vTL-3U-a8g"/>
                         <constraint firstItem="1uc-St-ewL" firstAttribute="top" secondItem="DyQ-Wt-YFH" secondAttribute="bottom" constant="14" id="x0e-vw-jFY"/>

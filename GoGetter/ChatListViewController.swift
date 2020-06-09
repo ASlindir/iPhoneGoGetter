@@ -52,9 +52,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
     var purchaseScreenAction: Int = 0
     var purchaseConvoId: Int = 0
     
-    let ISDEBUGMODE = true
-    // helps with debugging but not for prod
-    var serverFriendsList = [Dictionary<String, Any>]()
     
 
     override func viewDidLoad() {
@@ -66,7 +63,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             self.heightNavigation.constant = 100
             self.view.layoutIfNeeded()
         }
-        
+        tableViewMessages.delegate = self
         getDetails()
         
         // constraints
@@ -90,7 +87,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             tableViewMessages.reloadData()
             checkMatchNotifications(isCHeckUser: true)
             if friendFromReservePurchase != nil {
-                createNewFriendOnFirebase(friendFromReservePurchase!)
+                createNewFriendOnFirebase(friendFromReservePurchase!, isOpenChat: false)
                 friendFromReservePurchase = nil
             }
     }
@@ -543,6 +540,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
 //                     animationAddItemToTable()
 //                     doHeaderToBodyAnimation = false;
 //            }
+            // handled by table row tap
             cell.circleView.indexPath = indexPath
             cell.circleView.tapHandler = {circleView in
                 let r = circleView.indexPath?.row
@@ -561,7 +559,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         cell.circleView.imageView.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic!)), placeholderImage: UIImage.init(named: "placeholder"))
         cell.circleLabel.textColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)
         if friend["which_list"] as! Int ==  1{
-            cell.circleLabel.text = "Pending "+fname!+"'s activation"
+            cell.circleLabel.text = "XPending "+fname!+"'s activation"
         }
         else{ // both paid, official friend
 //            let r = indexPath.row.
@@ -633,7 +631,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         ClientLog.WriteClientLog( msgType: "ios", msg:String(indexPath.row));
-        if friends.count < indexPath.item{
+        if  indexPath.item < friends.count {
             tableView.deselectRow(at: indexPath, animated: true)
             CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
             let friend = friends[indexPath.item]
@@ -770,7 +768,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                   item["profile_pic"] = f["profile_pic"]
                   item["match_created_on"] = f["match_created_on"]
                   item["which_list"] = whichList
-                  self.serverFriendsList.append(item)
                   if ( !self.checkMatchExpired(dict : item)){
                       // check for friend to animate from header to body
                     if friendFromReservePurchase != nil &&
@@ -819,7 +816,6 @@ func getFriendsList(){
             Loader.stopLoader()
             self.bodyFriendsList.removeAll()
             self.headerFriendsList.removeAll()
-            self.serverFriendsList.removeAll()
 //            self.friends.removeAll()
             let jsonDict = response
             let status = jsonDict!["status"] as! String
@@ -937,7 +933,7 @@ func getFriendsList(){
             "profilePic": profilePic
             ] as [String : Any]
         createFriendRef?.setValue(friendItem)
-        goToChatController(friend, id)
+//        goToChatController(friend, id)
     }
     
     private func observeFriendsAdded() {
@@ -948,17 +944,15 @@ func getFriendsList(){
             let friendData = snapshot.value as! Dictionary<String, Any>
             print("Friends :- ",friendData)
             let id = snapshot.key
-            
-            
-            let idx = self.serverFriendsList.index(where: { (friend) -> Bool in
-                friend["user_fb_id"] as! String  == id 
-            })
+            ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  observeFriendsAdded");
+
             // as long as its on the server we are good
-            if idx != nil {
                 if let name = friendData["name"] as! String!, name.count > 0{
                 let user_id = LocalStore.store.getFacebookID()
                 if friendData["id"] as? String == user_id {
                 }else{
+                    ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  adding friend: " + user_id);
+
                     var profile_pic:String = ""
                     if let lastMessage = friendData["lastMessage"] as? [String: Any]{
                         if let pic = friendData["profilePic"] as? String {
@@ -968,10 +962,12 @@ func getFriendsList(){
                         if let onlineBool = friendData["online"] as? Bool {
                             online = onlineBool
                         }
+                        ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  appending friend with messages");
                         self.friends.append(Friend(id: id, name: name, profilePic: profile_pic,lastMessage: lastMessage, online: online))
                         self.sortFriendsAndUpdateBody()
                         self.tableViewMessages.reloadData()
                     }else{
+                        ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  appending friend no messages");
                         if let pic = friendData["profilePic"] as? String {
                             profile_pic = pic
                         }
@@ -987,7 +983,6 @@ func getFriendsList(){
                         self.checkNotifications()
                     }
                 }
-             }
             }
         })
     }
@@ -1114,6 +1109,7 @@ func getFriendsList(){
             item["which_list"] = 2
             self.bodyFriendsList.insert(item, at: 0)
         }
+        ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist sort friends and update body");
     }
     
     deinit {

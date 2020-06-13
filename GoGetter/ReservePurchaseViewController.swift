@@ -78,13 +78,11 @@ class ReservePurchaseViewController: UIViewController {
 //        self.closingDelegate?.childClosing()
         let vc = self.navigationController?.viewControllers.first(where: { $0 is ChatListViewController })
         if vc != nil{
-            ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  doPurchaseConversation remove prior chat");
             vc?.removeFromParent()
         }
 //        verifyChatController()
         let deadlineTime = DispatchTime.now() + .milliseconds(500)
         DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
-            ClientLog.WriteClientLog( msgType: "ios", msg:"openChatList");
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let chatListViewController = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ChatListViewController
             chatListViewController.userNewId = userNewId
@@ -120,30 +118,25 @@ class ReservePurchaseViewController: UIViewController {
                  "userId": LocalStore.store.getFacebookID(),
                  "convoId": self.purchaseConvoId
                  ] as [String : Any]
-             ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  doPurchaseConversation");
 
+        ClientLog.WriteClientLog(msgType: "dopurchase", msg: "starting for convo: " + String(self.purchaseConvoId))
              WebServices.service.webServicePostRequest(.post, .conversation, .doPurchaseConversation, parameters, successHandler: { (response) in
-                 ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  doPurchaseConversation back");
                  Loader.stopLoader()
-                 
+                ClientLog.WriteClientLog(msgType: "dopurchase", msg: "ws return: ")
+                ClientLog.WriteClientLog(msgType: "dopurchase", msg: "ws return: " + response!.description)
                  let jsonDict = response
                  var isSuccess = false
                  
                 if (jsonDict!["convoId"] as? Int) != nil {
-                     ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  doPurchaseConversation got valid convid");
                      let prompt = jsonDict!["prompt"] as? String
                      
                      if let screenAction = jsonDict!["screenAction"] as? Int {
                          isSuccess = true
-                         var friendDict = Dictionary<String, Any>()
-                        friendDict["user_fb_id"] = self.oppUserFBId
-                        friendDict["user_name"] = self.oppUserName
-                        friendDict["profile_pic"] = self.oppUserImg
-
                          switch screenAction {
                          case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
                              CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-                             ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  doPurchaseConversation WAIT_FOR_MATCH_TO_PAY");
+                             let friendDict = ChatListViewController.createFriendDictionary(name: self.oppUserName!, fbid: self.oppUserFBId!, profilePic: self.oppUserImg!,
+                                                                                            createdOn: nil, which_list: 1, lastMessage: nil, online: false)
                              self.outAlert(title: "Good Choice", message: prompt, compliteHandler:{
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 //                                    self.verifyChatController()
@@ -154,19 +147,20 @@ class ReservePurchaseViewController: UIViewController {
                             
                          case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
 //                            self.verifyChatController()
-                            ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  doPurchaseConversation READY_TO_CHAT");
+                            let friendDict = ChatListViewController.createFriendDictionary(name: self.oppUserName!, fbid: self.oppUserFBId!, profilePic: self.oppUserImg!,
+                                                                                           createdOn: nil, which_list: 2, lastMessage: nil, online: false)
                             self.openChatList(userNewId: self.oppUserFBId, doAnimation: true, newFriend: friendDict, addToFirebase:  true)
 //                             self.openChat()
                              break
                             
                          default:
-                             ClientLog.WriteClientLog( msgType: "ios", msg:"rpc  ERROR FROM WEB SERVICE");
                              self.outAlertError(message: prompt ?? "Error")
                          }
                      }
                  }
                  
                  if !isSuccess {
+                     ClientLog.WriteClientLog( msgType: "ERROR", msg:"doPurchaseConversaton failed");
                      self.outAlertError(message: "Error: doPurchaseConversation failed")
                  }
              }) { (error) in

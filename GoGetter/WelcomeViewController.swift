@@ -68,7 +68,6 @@
         
         override func viewDidLoad() {
             super.viewDidLoad()
-            //        ClientLog.WriteClientLog( msgType: "ios", msg:"welcomeloaded");
             
             if UIScreen.main.bounds.size.height >= 736 {
                 self.topTapUntapLbl.constant = 140

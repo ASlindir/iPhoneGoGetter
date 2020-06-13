@@ -131,14 +131,11 @@ class PurchaseManagerViewController: UIViewController, PurchaseStatisticViewCont
         for product in self.products {
             productIDs.insert(product.AppleStoreID!)
         }
-        ClientLog.WriteClientLog( msgType: "ios", msg:"purchase manager load purch");
 
         if productIDs.count > 0 {
             Loader.startLoader(true)
             
-            ClientLog.WriteClientLog( msgType: "ios", msg:"purchase manager call swifty");
             SwiftyStoreKit.retrieveProductsInfo(productIDs) { result in
-                ClientLog.WriteClientLog( msgType: "ios", msg:"purchase manager swifty back");
                 Loader.stopLoader()
                 
                 if result.retrievedProducts.first != nil {

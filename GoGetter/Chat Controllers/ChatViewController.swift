@@ -451,7 +451,7 @@ class ChatViewController: JSQMessagesViewController{
         
         newRefHandle = userRef?.observe(.childRemoved, with: { (snapshot) in
             let friendData = snapshot.value as! Dictionary<String, Any>
-            print("Friends :- ",friendData)
+            print("CV  Friends :- ",friendData)
             let ids = snapshot.key
             if ids == self.receiver_id{
                 let alert = UIAlertController(title:String(format:"This conversation is no longer available.",(self.friend?.name)!), message: nil, preferredStyle: .alert)

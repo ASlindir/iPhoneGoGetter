@@ -90,7 +90,7 @@ class FriendsListViewController: UIViewController, UITableViewDataSource, UITabl
     private func observeFriends(){
         friendRefHandle = friendRef.observe(.childAdded, with: { (snapshot) in
             let friendData = snapshot.value as! Dictionary<String, Any>
-            print("Friends :- ",friendData)
+            print("FLV Friends :- ",friendData)
             let name = friendData["name"] as! String
             if name.count > 0{
                 let user_id = LocalStore.store.getFacebookID()

@@ -235,6 +235,8 @@ class PurchaseViewController: UIViewController {
                                     self.dismiss(animated: true, completion: {
                                         let xrpController = ReservePurchaseViewController.loadFromNib()
                                         xrpController.oppUserFBId = self.oppUserFBId
+                                        xrpController.oppUserName = self.oppUserName
+                                        xrpController.oppUserImg = self.oppUserImg
                                         xrpController.profileDelegate = self.profileDelegate
                                         xrpController.purchaseConvoId = self.convoId
                                         self.navigationController?.pushViewController(xrpController, animated: true)

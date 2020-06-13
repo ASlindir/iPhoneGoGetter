@@ -204,7 +204,7 @@ class FirebaseObserver: NSObject {
         
         newMessageRefHandle = userRef?.observe(.childRemoved, with: { (snapshot) in
             let friendData = snapshot.value as! Dictionary<String, Any>
-            print("Friends :- ",friendData)
+            print("FO OR Friends :- ",friendData)
             if let name = friendData["name"] as! String!, name.count > 0{
                 if friendData["id"] as? String == self.user_id{
                 }else{

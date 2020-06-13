@@ -115,7 +115,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         // see notes below for the meaning of Atomic / Non-Atomic
         SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
-            ClientLog.WriteClientLog( msgType: "ios", msg:"AppDelegate Swifty complete");
 
             for purchase in purchases {
                 switch purchase.transaction.transactionState {

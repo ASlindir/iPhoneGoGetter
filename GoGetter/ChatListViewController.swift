@@ -21,7 +21,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
     var headerFriendsList = [Dictionary<String, Any>]()
     
     var bodyFriendsList = [Dictionary<String, Any>]()
-    var friendsList = [[String: Any]]()
+//    var friendsList = [[String: Any]]()
     var friendFromReservePurchase : Dictionary<String, Any>? = nil
     var senderDisplayName: String?
     var profileDelegate: ProfileViewControllerDelegate?
@@ -271,19 +271,16 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
            parameters["otherUserId"] = oppUserFBId;
            
            Loader.startLoader(true)
-           ClientLog.WriteClientLog( msgType: "ios", msg:"clistvc  doQueryConversationForPurchase");
 
            WebServices.service.webServicePostRequest(.post, .conversation, .doQueryConversationForPurchase, parameters, successHandler: { (response) in
                 Loader.stopLoader()
                 let jsonDict = response
 
-                ClientLog.WriteClientLog( msgType: "ios", msg:"clistvc  doQueryConversationForPurchase back");
                 if let convoId = jsonDict!["convoId"] as? Int {
                    self.purchaseConvoId = convoId
                    self.purchasePrompt = jsonDict!["prompt"] as? String
                    if self.purchase.count  == 0 {
                        if let _products = jsonDict!["products"] as? [Dictionary<String, Any?>] {
-                           ClientLog.WriteClientLog( msgType: "ios", msg:"clistvc  setup products");
                            for product in _products {
                                self.purchase.append(PurchaseViewController.PurchaseItem(
                                    Productid: product["id"] as? String,
@@ -301,7 +298,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                 if let screenAction = jsonDict!["screenAction"] as? Int {
                     self.purchaseScreenAction = screenAction
                     if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue && !LocalStore.store.coinFreebie!{
-                        ClientLog.WriteClientLog( msgType: "ios", msg:"clistvc  call reserve purchase");
                         let xrpController = ReservePurchaseViewController.loadFromNib()
                         xrpController.oppUserFBId = oppUserFBId
                         xrpController.oppUserImg = oppUserImg
@@ -322,7 +318,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                         purchaseViewController.chatListViewController = self
                         purchaseViewController.profileDelegate = nil
                         self.doHeaderToBodyAnimation = false
-                        ClientLog.WriteClientLog( msgType: "ios", msg:"clistvc  purchase view controller");
                         self.navigationController?.pushViewController(purchaseViewController, animated: true)
                     }
                 }
@@ -451,7 +446,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-        let friendDict = friendsList[indexPath.row]
+//        let friendDict = friendsList[indexPath.row]
 //        self.createNewFriendOnFirebase(friendDict)
         
     }
@@ -514,7 +509,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell") as! MessagesTableViewCell
         
         let r = indexPath.row
-        ClientLog.WriteClientLog( msgType: "ios", msg:String(r));
 
         let friend = bodyFriendsList[indexPath.item] as Dictionary<String, Any>
         
@@ -526,7 +520,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         let whichList = friend["which_list"] as! Int
         switch whichList {
         case 1:
-            ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview which 1");
             cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0) // blue, i paid, no action just waiting
             cell.circleView.tapHandler = {circleView in
             let match_created_on = friend["match_created_on"] as! String
@@ -534,7 +527,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
 //                self.animationAddItemToTable()
             }
         case 2:
-            ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview which 2");
             cell.circleView.shapeColor = UIColor.white // both paid white // should never see in header!
 //            if doHeaderToBodyAnimation {
 //                     animationAddItemToTable()
@@ -590,10 +582,8 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         cell.imgViewProfile.layer.cornerRadius = 42.5
         
         if self.isAnimateFirstItemInTable && indexPath.item == 0 {
-            ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview F");
             cell.contentView.isHidden = true
         } else {
-            ClientLog.WriteClientLog( msgType: "ios", msg:"clc tableview G");
             cell.contentView.isHidden = false
         }
         
@@ -630,7 +620,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
 //MARK:-  UITableView Delegates
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        ClientLog.WriteClientLog( msgType: "ios", msg:String(indexPath.row));
         if  indexPath.item < friends.count {
             tableView.deselectRow(at: indexPath, animated: true)
             CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
@@ -656,62 +645,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         }
     }
     
-    func animationAddItemToCollection() {
-        self.isAnimateFirstItem = true
-        self.friendsList.append(LocalStore.store.getUserDetails())
-        
-        self.leadingCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault + 105
-        UIView.animate(withDuration: 0.75, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: {res in
-            self.leadingCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault
-//            self.friendsList = [nil] + self.items
-//            self.collectionViewNewMatches.reloadData()
-//
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                if let cell = self.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? TestPurchaseCollectionViewCell {
-//
-//                    //                      UIView.animate(withDuration: 0.5, delay: 0.5, options: .curveEaseInOut, animations: {
-//                    //                        self.imageVIew.alpha = 0.0
-//                    //                    }) { _ in print("Animation Done") }
-//
-//                    let perc: CGFloat = 10.0
-//
-//                    cell.mainImage.addCircle(perc)
-//                    cell.mainImage.isHidden = false
-//                    cell.layer.zPosition = 1000
-//
-//                    cell.mainImage.animationHide(completion: {
-//                        self.items[0] = perc
-//                        self.collectionView.reloadData()
-//                    })
-//                }
-//            }
-            
-            self.collectionViewNewMatches.reloadData()
-        })
-    }
-    
-    func addToFriends(friendDict : Dictionary<String, Any>){
-//        var nameSelf = ""
-//        var profilePicSelf = ""
-//        if let myName = personalDetail["user_name"] as? String {
-//            nameSelf = myName
-//        }
-//        if let myProfilePic = personalDetail["profile_pic"] as? String {
-//            profilePicSelf = myProfilePic
-//        }
-        let id = friendDict["user_fb_id"] as! String
-        var name = ""
-        var profilePic = ""
-        if let friendname = friendDict["user_name"] as? String {
-            name = friendname
-        }
-        if let profilePicFriend = friendDict["profile_pic"] as? String {
-            profilePic = profilePicFriend
-        }
-        self.friends.insert(Friend(id: id, name: name, profilePic: profilePic, lastMessage: nil, online: false), at: 0)
-    }
     func animationAddItemToTable() {
         self.isAnimateFirstItemInTable = true
 
@@ -749,7 +682,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                     return true // expired
                }
                else {
-                   self.friendsList.append(dict)
+//                   self.friendsList.append(dict)
                }
            }
            else{
@@ -762,12 +695,8 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
      func LoadHeaderObjects(dict : Dictionary<String, Any>?, collectionName : String, whichList : Int){
           if let collFriendList = dict![collectionName] as? [Dictionary<String, String>] {
               for  f in collFriendList  {
-                  var item =  Dictionary<String, Any>()
-                  item["user_name"] = f["user_name"]
-                  item["user_fb_id"] = f["user_fb_id"]
-                  item["profile_pic"] = f["profile_pic"]
-                  item["match_created_on"] = f["match_created_on"]
-                  item["which_list"] = whichList
+                let item =  ChatListViewController.createFriendDictionary(name: f["user_name"]!, fbid: f["user_fb_id"]!, profilePic: f["profile_pic"]!, createdOn: f["match_created_on"], which_list: whichList, lastMessage: nil, online: false)
+
                   if ( !self.checkMatchExpired(dict : item)){
                       // check for friend to animate from header to body
                     if friendFromReservePurchase != nil &&
@@ -777,17 +706,10 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                         headerFriendsList.append(item)
                     }
                     else if whichList == 0 || whichList == 3{
-                        ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  add to header list");
                         headerFriendsList.append(item)
                     }
                     else{
-                        ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  add to body list");
-                        if (whichList == 2){ // full friends
-  // fhc june                          addToFriends(friendDict: item)
-                        }
-                        else{
-                            bodyFriendsList.append(item)
-                        }
+                        bodyFriendsList.append(item)
                     }
                   }
     //              arrayChatListHeaderModals.add(chatListHeaderModal);
@@ -796,7 +718,22 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
           }
         return
       }
-func getFriendsList(){
+    
+    class func createFriendDictionary(name : String, fbid : String, profilePic : String, createdOn:String?,
+                                which_list : Int, lastMessage : [String: Any]?, online:Bool)->Dictionary<String, Any>{
+        var item =  Dictionary<String, Any>()
+
+        item["user_name"] = name
+        item["user_fb_id"] = fbid
+        item["profile_pic"] = profilePic
+        item["match_created_on"] = createdOn
+        item["which_list"] = which_list
+        item["lastMessage"] = lastMessage
+        item["online"] = online
+        return item
+    }
+    
+    func getFriendsList(){
         
         // test
 //        for index in 0..<10 {
@@ -811,7 +748,6 @@ func getFriendsList(){
         let parameters = ["user_fb_id": user_id, "type":"new"]
 
         Loader.startLoader(true)
-        ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  fetchFriendList");
         WebServices.service.webServicePostRequest(.post, .friend, .fetchFriendList, parameters, successHandler: { (response) in
             Loader.stopLoader()
             self.bodyFriendsList.removeAll()
@@ -819,7 +755,7 @@ func getFriendsList(){
 //            self.friends.removeAll()
             let jsonDict = response
             let status = jsonDict!["status"] as! String
-            self.friendsList.removeAll()
+//            self.friendsList.removeAll()
             if status == "success"{
                 self.LoadHeaderObjects(dict: jsonDict, collectionName: "iPaid", whichList: 1)
                 self.LoadHeaderObjects(dict: jsonDict, collectionName: "bothPaid", whichList: 2)
@@ -829,7 +765,6 @@ func getFriendsList(){
             
             // for debug we track stuff that might be on firebase but not in the db to ignore
             
-            ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  collectionViewNewMatches reload");
             self.collectionViewNewMatches.reloadData()
             self.tableViewMessages.reloadData()
             // set the firebase observers if they are not already set
@@ -838,23 +773,28 @@ func getFriendsList(){
                 self.setObservers()
             }
             else{
+                //believed to only hit on return from an actual chat in which case we do nothing here
+                
                 // tricky code, if we already have the friends list, then we need to read to the bodyfriendslist
                 // if we refresh from the db
-                for f in self.friends.reversed(){
-                    var item =  Dictionary<String, Any>()
-                    item["user_name"] = f.name
-                    item["user_fb_id"] = f.id
-                    item["profile_pic"] = f.profilePic
-                    item["match_created_on"] = nil
-                    item["which_list"] = 2
-                    self.bodyFriendsList.insert(item, at: 0)
-                }
-            }
+                // if we have come from the
+                
+//                for f in self.friends.reversed(){
+//                    for var item in self.bodyFriendsList {
+//                        if item["user_fb_id"] as! String! == f.id{
+//                            item["lastMessage"] = f.lastMessage
+//                            item["online"] = f.online
+//                        }
+//                    }
+//                }
+//                let item =  ChatListViewController.createFriendDictionary(name: f.name, fbid: f.id, profilePic: f.profilePic, createdOn: nil, which_list: 2, lastMessage: f.lastMessage, online: false)
+//                self.bodyFriendsList.insert(item, at: 0)
+              }
 //            print(self.friendsList)
 
         }) { (error) in
             ClientLog.WriteClientLog( msgType: "ios", msg:"service error fetchfriendlist");
-            self.friendsList.removeAll()
+//            self.friendsList.removeAll()
             Loader.stopLoader()
             self.collectionViewNewMatches.reloadData()
         }
@@ -916,24 +856,19 @@ func getFriendsList(){
                 }
             }else{
                 //add friend to own friendlist
-                self.createFriends(id, name, profilePic)
+//                self.createFriends(id, name, profilePic)
+                let user_id = LocalStore.store.getFacebookID()
+                print("User ID:- ",user_id)
+                let createFriendRef = self.userRef?.child(id)
+                let friendItem = [
+                    "name": name,
+                    "id":id,
+                    "profilePic": profilePic
+                    ] as [String : Any]
+                createFriendRef?.setValue(friendItem)
             }
         })
         
-    }
-    
-    func createFriends(_ id: String, _ name: String, _ profilePic: String){
-        let friend = Friend(id: id, name: name, profilePic: profilePic, lastMessage: nil, online: false)
-        let user_id = LocalStore.store.getFacebookID()
-        print("User ID:- ",user_id)
-        let createFriendRef = userRef?.child(id)
-        let friendItem = [
-            "name": name,
-            "id":id,
-            "profilePic": profilePic
-            ] as [String : Any]
-        createFriendRef?.setValue(friendItem)
-//        goToChatController(friend, id)
     }
     
     private func observeFriendsAdded() {
@@ -942,42 +877,50 @@ func getFriendsList(){
         
         friendRefHandle = userRef?.observe(.childAdded, with: { (snapshot) in
             let friendData = snapshot.value as! Dictionary<String, Any>
-            print("Friends :- ",friendData)
+            print("OA Friends :- ",friendData)
             let id = snapshot.key
-            ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  observeFriendsAdded");
 
             // as long as its on the server we are good
-                if let name = friendData["name"] as! String!, name.count > 0{
+            if let name = friendData["name"] as! String!, name.count > 0{
                 let user_id = LocalStore.store.getFacebookID()
-                if friendData["id"] as? String == user_id {
-                }else{
-                    ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  adding friend: " + user_id);
-
+                if friendData["id"] as? String != user_id {
+                    // first
                     var profile_pic:String = ""
-                    if let lastMessage = friendData["lastMessage"] as? [String: Any]{
-                        if let pic = friendData["profilePic"] as? String {
-                            profile_pic = pic
+                    if let pic = friendData["profilePic"] as? String {
+                        profile_pic = pic
+                    }
+                    
+                    var online:Bool = false
+                    if let onlineBool = friendData["online"] as? Bool {
+                        online = onlineBool
+                    }	
+                    
+                    var lastMessage : [String: Any]? = nil
+                    if let lm = friendData["lastMessage"] as? [String: Any]{
+                        lastMessage = lm
+                    }
+                    let index = self.friends.index(where: { (friend) -> Bool in
+                        friend.id  == id
+                    })
+                    if index != nil {
+                        if lastMessage != nil{                        // just update the message if need be
+                            DispatchQueue.main.async {
+                            // new message
+                            let newFriend = Friend(id: id, name: name, profilePic: profile_pic,lastMessage: lastMessage, online: online)
+                            self.friends.remove(at: index!)
+                            self.friends.insert(newFriend, at: index!)
+                            self.sortFriendsAndUpdateBody()
+                               self.tableViewMessages.reloadData()
+                            }
                         }
-                        var online:Bool = false
-                        if let onlineBool = friendData["online"] as? Bool {
-                            online = onlineBool
+                    }
+                    else{ // brand new friend added at firebase
+                        DispatchQueue.main.async {
+                           let newFriend = Friend(id: id, name: name, profilePic: profile_pic,lastMessage: lastMessage, online: online)
+                           self.friends.append(Friend(id: id, name: name, profilePic: profile_pic,lastMessage: lastMessage, online: online))
+                           self.sortFriendsAndUpdateBody()
+                           self.tableViewMessages.reloadData()
                         }
-                        ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  appending friend with messages");
-                        self.friends.append(Friend(id: id, name: name, profilePic: profile_pic,lastMessage: lastMessage, online: online))
-                        self.sortFriendsAndUpdateBody()
-                        self.tableViewMessages.reloadData()
-                    }else{
-                        ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist  appending friend no messages");
-                        if let pic = friendData["profilePic"] as? String {
-                            profile_pic = pic
-                        }
-                        var online:Bool = false
-                        if let onlineBool = friendData["online"] as? Bool {
-                            online = onlineBool
-                        }
-                        self.friends.append(Friend(id: id, name: name, profilePic: profile_pic,lastMessage: nil, online:online))
-                        self.sortFriendsAndUpdateBody()
-                        self.tableViewMessages.reloadData()
                     }
                     DispatchQueue.main.async {
                         self.checkNotifications()
@@ -987,13 +930,51 @@ func getFriendsList(){
         })
     }
     
+    private func observeOnlineFriends(){
+        let friendRef: DatabaseReference = Database.database().reference().child("users")
+        userRef = friendRef.child(user_id).child("friends")
+             
+        friendRefHandle = userRef?.queryOrderedByKey().observe(.childChanged, with: { (snapshot) in
+            let data = snapshot.value as! NSDictionary
+            print("OL Friends :- ",data)
+            if let friendData = data as? [String: Any] {
+                let id = String(format:"%@",friendData["id"] as! CVarArg)
+                let index = self.friends.index(where: { (friend) -> Bool in
+                    friend.id  == id
+                })
+                if index != nil {
+                    var profile_pic = ""
+                    if let pic = friendData["profilePic"] as? String {
+                       profile_pic = pic
+                    }
+                    var online = false
+                    if let status = friendData["online"] as? Bool {
+                       online = status
+                    }
+                    var newFriend = Friend(id: id, name: friendData["name"] as! String, profilePic: profile_pic, lastMessage: nil , online: online)
+                    if let lastMessage = friendData["lastMessage"] as? [String: Any] {
+                       newFriend = Friend(id: id, name: friendData["name"] as! String, profilePic: profile_pic, lastMessage: lastMessage , online: online)
+                    }
+                    self.friends.remove(at: index!)
+                    self.friends.insert(newFriend, at: index!)
+                    self.sortFriendsAndUpdateBody()
+                    DispatchQueue.main.async {
+                        self.tableViewMessages.reloadData()
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.checkNotifications()
+                }
+            }
+        })
+    }
     private func observeFriendsRemoved(){
         let friendRef: DatabaseReference = Database.database().reference().child("users")
         userRef = friendRef.child(user_id).child("friends")
         
         friendRefHandle = userRef?.observe(.childRemoved, with: { (snapshot) in
             let friendData = snapshot.value as! Dictionary<String, Any>
-            print("Friends :- ",friendData)
+            print("OR Friends :- ",friendData)
             let id = snapshot.key
             if let name = friendData["name"] as! String!, name.count > 0{
                 let user_id = LocalStore.store.getFacebookID()
@@ -1016,100 +997,61 @@ func getFriendsList(){
         })
     }
     
-    private func observeOnlineFriends(){
-        let friendRef: DatabaseReference = Database.database().reference().child("users")
-        userRef = friendRef.child(user_id).child("friends")
-        
-        friendRefHandle = userRef?.queryOrderedByKey().observe(.childChanged, with: { (snapshot) in
-            let data = snapshot.value as! NSDictionary
-            print("Friends :- ",data)
-            if let friendData = data as? [String: Any] {
-                print("Friends :- ",friendData)
-                let id = String(format:"%@",friendData["id"] as! CVarArg)
-                let index = self.friends.index(where: { (friend) -> Bool in
-                    friend.id  == id
-                })
-                var profile_pic = ""
-                if let pic = friendData["profilePic"] as? String {
-                    profile_pic = pic
-                }
-                var online = false
-                if let status = friendData["online"] as? Bool {
-                    online = status
-                }
-                // the friend coming in, has to be in the db, which we have
-                // in either the bodylist or the header list
-                // in the header list?
-                
-               
-                // if we know about them add to friends, otherwise they are not
-                // in the db, this only should happen during test, where the dev is
-                // manually deleteing matches in the db, but is here to not screw up testing
-                    var newFriend = Friend(id: id, name: friendData["name"] as! String, profilePic: profile_pic, lastMessage: nil , online: online)
-                    if let lastMessage = friendData["lastMessage"] as? [String: Any] {
-                        newFriend = Friend(id: id, name: friendData["name"] as! String, profilePic: profile_pic, lastMessage: lastMessage , online: online)
-                    }
-                    if index != nil {
-                        self.friends.remove(at: index!)
-                        self.friends.insert(newFriend, at: index!)
-                        self.sortFriendsAndUpdateBody()
-                        DispatchQueue.main.async {
-                            self.tableViewMessages.reloadData()
-                        }
-                        
-                    }
-                    DispatchQueue.main.async {
-                        self.checkNotifications()
-                    }
-            }
-        })
-    }
-    
+
     func sortFriendsAndUpdateBody() {
         // first sort
-        self.friends = self.friends.sorted(by: { (friend1, friend2) -> Bool in
-            if friend1.lastMessage != nil && friend2.lastMessage != nil {
-                let time1 = friend1.lastMessage!["time"] as! String
-                let time2 = friend2.lastMessage!["time"] as! String
+        print("sortfriendsandupdatebody")
+        print("friends count: "+String(friends.count))
+        // now reconstruct the body list, full friends appear first
+        
+        // remove all the full friends from the body
+//        var i = 0
+//        for item in self.bodyFriendsList.reversed() {
+//            for ff in self.friends{
+//                if (ff.id == item["user_fb_id"] as! String){
+//                    self.bodyFriendsList.remove(at: i)
+//                }
+//            }
+//            i+=1
+//        }
+        
+        // re-insert at top to preseverve message indexing
+        for f in self.friends{
+            for var item in self.bodyFriendsList {
+                if item["user_fb_id"] as! String! == f.id{
+                    item["lastMessage"] = f.lastMessage
+                    item["online"] = f.online
+                }
+                else{ // its a true add
+                    var item =  Dictionary<String, Any>()
+                    item["user_name"] = f.name
+                    item["user_fb_id"] = f.id
+                    item["profile_pic"] = f.profilePic
+                    item["match_created_on"] = nil
+                    item["which_list"] = 2
+                    item["lastMessage"] = f.lastMessage
+                    self.bodyFriendsList.insert(item, at: 0)
+                }
+            }
+        }
+        self.bodyFriendsList = self.bodyFriendsList.sorted(by: { (friend1, friend2) -> Bool in
+            if friend1["lastMessage"] != nil && friend2["lastMessage"] != nil {
+                // [Dictionary<String, Any>]()
+                let d1 = friend1["lastMessage"]! as! Dictionary<String,Any>
+                let time1 = d1["time"] as! String
+                let d2 = friend2["lastMessage"]! as! Dictionary<String,Any>
+                let time2 = d2["time"] as! String
                 return self.stringToSeconds(time1) > self.stringToSeconds(time2)
             }
-            else if friend2.lastMessage != nil {
+            else if friend2["lastMessage"] != nil {
                 return false
             }
-            else if friend1.lastMessage != nil {
+            else if friend1["lastMessage"] != nil {
                 return true
             }
             return false
         })
-//         item["user_name"] = f["user_name"]
-//         item["user_fb_id"] = f["user_fb_id"]
-//         item["profile_pic"] = f["profile_pic"]
-//         item["match_created_on"] = f["match_created_on"]
-//         item["which_list"] = whichList
-        // now reconstruct the body list, full friends appear first
-        
-        // remove all the full friends from the body
-        var i = 0
-        for item in self.bodyFriendsList.reversed() {
-            for ff in self.friends{
-                if (ff.id == item["user_fb_id"] as! String){
-                    self.bodyFriendsList.remove(at: i)
-                }
-            }
-            i+=1
-        }
-        
-        // re-insert at top to preseverve message indexing
-        for f in self.friends.reversed(){
-            var item =  Dictionary<String, Any>()
-            item["user_name"] = f.name
-            item["user_fb_id"] = f.id
-            item["profile_pic"] = f.profilePic
-            item["match_created_on"] = nil
-            item["which_list"] = 2
-            self.bodyFriendsList.insert(item, at: 0)
-        }
-        ClientLog.WriteClientLog( msgType: "ios", msg:"chatlist sort friends and update body");
+
     }
     
     deinit {
@@ -1124,7 +1066,6 @@ func getFriendsList(){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         for controller in self.navigationController!.viewControllers as Array {
             if controller.isKind(of: ProfileViewController.self) {
-                ClientLog.WriteClientLog( msgType: "ios", msg:"pop to profile view");
                 self.navigationController!.popToViewController(controller, animated: false)
                 break
             }

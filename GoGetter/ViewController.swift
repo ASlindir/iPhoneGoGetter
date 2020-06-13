@@ -306,7 +306,7 @@ class ViewController: UIViewController {
 //                ClientLog.WriteClientLog( msgType: "iosfb", msg:"emailgranted");
                 self.view.sendSubviewToBack(self.vwDemo)
 //                print("token Permission:- \(accessToken.authenticationToken)")
-//                print("Access Token :- ",FBSDKAccessToken.current().tokenString)
+//                print("Access Token :- ",FBSDKAccessToken	.current().tokenString)
                 let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current!.tokenString)
                 
                 let welcomeController = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController

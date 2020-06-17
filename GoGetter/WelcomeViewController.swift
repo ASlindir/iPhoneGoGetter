@@ -507,6 +507,7 @@
                                         self.doLoadUserWithUserDetails(jsonData : jsonData!, doBrains:  false)
                                     }
                                     else {
+                                        LocalStore.store.coinFreebie = true
                                         self.doAnalytics(details: parameters)
                                         let del = UIApplication.shared.delegate as! AppDelegate
                                         if del.latitude != 0.0 && del.longitude != 0.0 {
@@ -559,6 +560,7 @@
                             self.doLoadUserWithUserDetails(jsonData : jsonData!, doBrains:  true)
                         }
                         else {
+                            LocalStore.store.coinFreebie = true
                             self.doAnalytics(details: parameters)
                             let del = UIApplication.shared.delegate as! AppDelegate
                             if del.latitude != 0.0 && del.longitude != 0.0 {

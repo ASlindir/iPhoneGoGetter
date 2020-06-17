@@ -1366,28 +1366,29 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             }, completion: { (completed: Bool) in
                 self.constraintLogoCenter.constant = -UIScreen.main.bounds.height/2
                 self.constraintTopViewHeight.constant = 0
-                
+                ClientLog.WriteClientLog( msgType: "sonar", msg:"before 2 sec animation");
+
                 UIView.animate(withDuration: 2, animations: {
                     self.view.layoutIfNeeded()
                     self.viewTop.alpha = 0
                 }, completion: { (completed: Bool) in
                 })
-                ClientLog.WriteClientLog( msgType: "feelgood", msg:"hide logo - animate");
+//                ClientLog.WriteClientLog( msgType: "feelgood", msg:"hide logo - animate");
 
                 DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-                    ClientLog.WriteClientLog( msgType: "feelgood", msg:"hide logo - animate after");
+//                    ClientLog.WriteClientLog( msgType: "sonar", msg:"hide logo - animate after");
                     self.startSettingIconRotation()
                 })
                 UIView.animate(withDuration: 3, animations: { 
                     
                 }, completion: { (completed: Bool) in
-                    ClientLog.WriteClientLog( msgType: "feelgood", msg:"hide logo - animate complete");
+//                    ClientLog.WriteClientLog( msgType: "sonar", msg:"hide logo - animate complete");
 
                     self.startProfileViewAnimation()
-                    ClientLog.WriteClientLog( msgType: "feelgood", msg:"already logged in");
+//                    ClientLog.WriteClientLog( msgType: "sonar", msg:"already logged in");
 
                     if !self.isAlreadyLogin {
-                        ClientLog.WriteClientLog( msgType: "feelgood", msg:"already logged in - anim swipe cards");
+//                        ClientLog.WriteClientLog( msgType: "feelgood", msg:"already logged in - anim swipe cards");
                         self.animateSwipeCards(15, 90, self.vwCardRight, (self.vwCardRight.trailingRight)!)
                     }
                 })
@@ -1756,7 +1757,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
 //                    self.DoPurchaseConversation();
 //                    // get
 //                //    self.openChat(userNewId: userId)
-//                }
+//                }f
 //                // go screen
 //                self.present(controller, animated: true, completion: nil)
 //
@@ -1768,9 +1769,8 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
 //                UserDefaults.standard.synchronize()
     
     @IBAction func btnSayHello(_ sender: Any) {
-        LocalStore.store.coinFreebie = false
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-        if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue && !LocalStore.store.coinFreebie!{
+        if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue && !LocalStore.store.getCoinFreebie(){
             let controller = ReservePurchaseViewController.loadFromNib()
             controller.oppUserFBId = oppUserFBId
             controller.oppUserName = oppUserName
@@ -1790,7 +1790,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             self.view.sendSubviewToBack(self.vwMatch)
             UserDefaults.standard.set(false, forKey: "matchedNotification")
             UserDefaults.standard.synchronize()
-        } else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue || LocalStore.store.coinFreebie! {
+        } else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue || LocalStore.store.getCoinFreebie(){
             self.dismiss(animated: true, completion:{
                 let purchaseViewController = PurchaseViewController.loadFromNib()
                 purchaseViewController.delegate = self

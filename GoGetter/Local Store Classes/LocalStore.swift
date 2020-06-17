@@ -109,6 +109,10 @@ class LocalStore: NSObject {
         return  userDict
     }
     
+    func getCoinFreebie() -> Bool{
+        return UserDefaults.standard.bool(forKey: UserDetails.coinFreebie.rawValue)
+    }
+
     func getData() -> String{
         return UserDefaults.standard.object(forKey: UserDetails.name.rawValue) as! String
     }

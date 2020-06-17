@@ -87,7 +87,7 @@ class ReservePurchaseViewController: UIViewController {
             let chatListViewController = storyboard.instantiateViewController(withIdentifier: "ListViewController") as! ChatListViewController
             chatListViewController.userNewId = userNewId
             chatListViewController.friendFromReservePurchase = newFriend
-            chatListViewController.doHeaderToBodyAnimation = true
+            chatListViewController.addFriendToFirebase = addToFirebase
             chatListViewController.profileDelegate = self.profileDelegate
             self.navigationController?.pushViewController(chatListViewController, animated: true)
         }
@@ -129,7 +129,7 @@ class ReservePurchaseViewController: UIViewController {
                  
                 if (jsonDict!["convoId"] as? Int) != nil {
                      let prompt = jsonDict!["prompt"] as? String
-                     
+                    LocalStore.store.coinFreebie = false  // done
                      if let screenAction = jsonDict!["screenAction"] as? Int {
                          isSuccess = true
                          switch screenAction {

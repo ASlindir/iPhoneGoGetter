@@ -38,7 +38,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
     private var friendRefHandle: DatabaseHandle?
     private var observersSet : Bool = false; // set 1 time
     
-    var doHeaderToBodyAnimation : Bool = false
+    var addFriendToFirebase : Bool = false
     var animatingItem : Int = -1
 
     var userNewId: String? = nil
@@ -85,11 +85,8 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
             tableViewMessages.reloadData()
+            setObservers()
             checkMatchNotifications(isCHeckUser: true)
-            if friendFromReservePurchase != nil {
-                createNewFriendOnFirebase(friendFromReservePurchase!, isOpenChat: false)
-                friendFromReservePurchase = nil
-            }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -294,10 +291,9 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                            }
                        }
                    }
-                     LocalStore.store.coinFreebie = false
                 if let screenAction = jsonDict!["screenAction"] as? Int {
                     self.purchaseScreenAction = screenAction
-                    if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue && !LocalStore.store.coinFreebie!{
+                    if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_CONVO.rawValue && !LocalStore.store.getCoinFreebie(){
                         let xrpController = ReservePurchaseViewController.loadFromNib()
                         xrpController.oppUserFBId = oppUserFBId
                         xrpController.oppUserImg = oppUserImg
@@ -305,7 +301,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                         xrpController.profileDelegate = self.profileDelegate
                         xrpController.purchaseConvoId = self.purchaseConvoId
                         self.navigationController?.pushViewController(xrpController, animated: true)
-                    } else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue || LocalStore.store.coinFreebie! {
+                    } else if self.purchaseScreenAction == PurchasesConst.ScreenAction.BUY_COINS.rawValue || LocalStore.store.getCoinFreebie() {
                         let purchaseViewController = PurchaseViewController.loadFromNib()
     //              fhc      purchaseViewController.delegate = self
                         purchaseViewController.products = self.purchase
@@ -317,7 +313,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
     //                    purchaseViewController.userId = LocalStore.store.getFacebookID()
                         purchaseViewController.chatListViewController = self
                         purchaseViewController.profileDelegate = nil
-                        self.doHeaderToBodyAnimation = false
                         self.navigationController?.pushViewController(purchaseViewController, animated: true)
                     }
                 }
@@ -362,7 +357,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         self.view.addSubview(copiedView)
         cell.circleView.isHidden = true
 
-        let item = headerFriendsList[indexPath.item]
+        var item = headerFriendsList[indexPath.item]
         self.headerFriendsList.remove(at: indexPath.item)
         self.collectionViewNewMatches.deleteItems(at: [indexPath])
         UIView.animateKeyframes(withDuration: 1, delay: 0, options: [], animations: {
@@ -370,8 +365,13 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
           copiedView.center.y = 390
         }, completion: {finished in
             self.animatingItem = -1
-            self.doHeaderToBodyAnimation = false
-            self.friendFromReservePurchase = nil
+            item["which_list"] = 1
+            if self.addFriendToFirebase{
+                item["which_list"] = 2
+                self.createNewFriendOnFirebase(self.friendFromReservePurchase!, isOpenChat: false)
+                self.addFriendToFirebase = false
+            }
+
             self.bodyFriendsList.append(item)
             // move from header list to body
             //            if  (friendFromReservePurchase!["user_fb_id"] as! String == item["user_fb_id"] as! String)
@@ -427,15 +427,13 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         cell.circleView.imageView.clipsToBounds = true
 
         // circular
-        if doHeaderToBodyAnimation {
-            if friendFromReservePurchase != nil &&
-                (friendFromReservePurchase!["user_fb_id"] as! String == friend["user_fb_id"] as! String){
-                    // we came back to the chatlist after purchasing
-                    // animate to body
-                    DispatchQueue.main.async {
-                        self.showHeaderToBodyAnimation(cell:cell,  indexPath: indexPath)
-                    }
-            }
+        if friendFromReservePurchase != nil &&
+            (friendFromReservePurchase!["user_fb_id"] as! String == friend["user_fb_id"] as! String){
+                // we came back to the chatlist after purchasing
+                // animate to body
+                DispatchQueue.main.async {
+                    self.showHeaderToBodyAnimation(cell:cell,  indexPath: indexPath)
+                }
         }
 //        cell.circleView.shapeColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)  //neither paid gray
 
@@ -536,7 +534,13 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             cell.circleView.indexPath = indexPath
             cell.circleView.tapHandler = {circleView in
                 let r = circleView.indexPath?.row
-                let friendItem = self.friends[r!]
+                let friendBodyDict = self.bodyFriendsList[r!]
+                
+                // find in the friends list to maint 1.0 compat
+                let index = self.friends.index(where: { (friend) -> Bool in
+                    friend.id  == friendBodyDict["user_fb_id"] as? String
+                })
+                let friendItem = self.friends[index!]
                 self.goToChatController(friendItem, friendItem.id)
             }
         default:
@@ -551,7 +555,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         cell.circleView.imageView.sd_setImage(with: URL(string:String(format:"%@%@", mediaUrl, profile_pic!)), placeholderImage: UIImage.init(named: "placeholder"))
         cell.circleLabel.textColor = UIColor(red:0.00, green:0.64, blue:1.00, alpha:1.0)
         if friend["which_list"] as! Int ==  1{
-            cell.circleLabel.text = "XPending "+fname!+"'s activation"
+            cell.circleLabel.text = "Pending "+fname!+"'s activation"
         }
         else{ // both paid, official friend
 //            let r = indexPath.row.
@@ -587,33 +591,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             cell.contentView.isHidden = false
         }
         
-        // test
-//        if self.friends.count > 1 && indexPath.item == 0 {
-//            cell.circleView.isHidden = false
-//            cell.circleLabel.isHidden = false
-//
-//            cell.imgViewProfile.isHidden = true
-//            cell.lblName.isHidden = true
-//            cell.lblMessage.isHidden = true
-//            cell.imgViewNewMessage.isHidden = true
-//            cell.borderLabel.isHidden = true
-//
-//            cell.circleLabel.alpha = 0
-//
-//            UIView.animate(withDuration: 1.0, delay: 0.0, options: [.repeat, .autoreverse], animations: {
-//                cell.circleLabel.alpha = 1
-//            }, completion: nil)
-//        } else {
-//            cell.circleView.isHidden = true
-//            cell.circleLabel.isHidden = true
-//
-//            cell.imgViewProfile.isHidden = false
-//            cell.lblName.isHidden = false
-//            cell.lblMessage.isHidden = false
-//            cell.imgViewNewMessage.isHidden = false
-//            cell.borderLabel.isHidden = false
-//        }
-        
         return cell
     }
     
@@ -644,25 +621,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             self.navigationController?.pushViewController(chatController, animated: true)
         }
     }
-    
-    func animationAddItemToTable() {
-        self.isAnimateFirstItemInTable = true
-
-        let friendDict = LocalStore.store.getUserDetails()
-// fhc june        addToFriends(friendDict: friendDict)
-        self.bottomCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault + 105
-        UIView.animate(withDuration: 0.75, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: {res in
-            self.leadingCollectionViewConstraint.constant = self.leadingCollectionConstraintDefault
-//            self.collectionViewNewMatches.reloadData()
-        })
-        
-//        self.tableViewMessages.beginUpdates()
-//        self.tableViewMessages.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-//        self.tableViewMessages.endUpdates()
-    }
-
+  
  
 //MARK:-  Get Friends List
     // validate that 48 hour time has not expired
@@ -768,28 +727,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             self.collectionViewNewMatches.reloadData()
             self.tableViewMessages.reloadData()
             // set the firebase observers if they are not already set
-            if !self.observersSet{
-                self.observersSet = true
-                self.setObservers()
-            }
-            else{
-                //believed to only hit on return from an actual chat in which case we do nothing here
-                
-                // tricky code, if we already have the friends list, then we need to read to the bodyfriendslist
-                // if we refresh from the db
-                // if we have come from the
-                
-//                for f in self.friends.reversed(){
-//                    for var item in self.bodyFriendsList {
-//                        if item["user_fb_id"] as! String! == f.id{
-//                            item["lastMessage"] = f.lastMessage
-//                            item["online"] = f.online
-//                        }
-//                    }
-//                }
-//                let item =  ChatListViewController.createFriendDictionary(name: f.name, fbid: f.id, profilePic: f.profilePic, createdOn: nil, which_list: 2, lastMessage: f.lastMessage, online: false)
-//                self.bodyFriendsList.insert(item, at: 0)
-              }
 //            print(self.friendsList)
 
         }) { (error) in
@@ -871,6 +808,21 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         
     }
     
+    func dumpFriend(f : Friend ){
+        print ("Friend: " + f.id)
+        if f.lastMessage == nil{
+            print(f.name + " : " + f.profilePic + " : last messge nil")
+        }
+        else{
+            print(f.name + " : " + f.profilePic + " : ",f.lastMessage!["text"] )
+        }
+    }
+    func dumpFriends (){
+        print("dump friends")
+        for f in friends{
+            dumpFriend(f:f)
+        }
+    }
     private func observeFriendsAdded() {
         let friendRef: DatabaseReference = Database.database().reference().child("users")
         userRef = friendRef.child(user_id).child("friends")
@@ -878,6 +830,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         friendRefHandle = userRef?.observe(.childAdded, with: { (snapshot) in
             let friendData = snapshot.value as! Dictionary<String, Any>
             print("OA Friends :- ",friendData)
+            self.dumpFriends()
             let id = snapshot.key
 
             // as long as its on the server we are good
@@ -904,23 +857,29 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                     })
                     if index != nil {
                         if lastMessage != nil{                        // just update the message if need be
-                            DispatchQueue.main.async {
                             // new message
+                            print("OA last message: ",lastMessage!["text"])
                             let newFriend = Friend(id: id, name: name, profilePic: profile_pic,lastMessage: lastMessage, online: online)
                             self.friends.remove(at: index!)
+                            self.dumpFriends()
+                            print("inserting")
                             self.friends.insert(newFriend, at: index!)
+                            self.dumpFriends()
                             self.sortFriendsAndUpdateBody()
-                               self.tableViewMessages.reloadData()
-                            }
+                            
+                            self.tableViewMessages.reloadData()
                         }
                     }
                     else{ // brand new friend added at firebase
-                        DispatchQueue.main.async {
-                           let newFriend = Friend(id: id, name: name, profilePic: profile_pic,lastMessage: lastMessage, online: online)
-                           self.friends.append(Friend(id: id, name: name, profilePic: profile_pic,lastMessage: lastMessage, online: online))
-                           self.sortFriendsAndUpdateBody()
-                           self.tableViewMessages.reloadData()
-                        }
+                        print("OA brand new friend ")
+                       let newFriend = Friend(id: id, name: name, profilePic: profile_pic,lastMessage: lastMessage, online: online)
+                       self.friends.append(Friend(id: id, name: name, profilePic: profile_pic,lastMessage: lastMessage, online: online))
+                        self.dumpFriends()
+                       self.sortFriendsAndUpdateBody()
+                        print("back from sort")
+                        self.dumpFriends()
+                        
+                       self.tableViewMessages.reloadData()
                     }
                     DispatchQueue.main.async {
                         self.checkNotifications()
@@ -929,20 +888,21 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             }
         })
     }
-    
+
     private func observeOnlineFriends(){
         let friendRef: DatabaseReference = Database.database().reference().child("users")
         userRef = friendRef.child(user_id).child("friends")
-             
+             print("observer online")
         friendRefHandle = userRef?.queryOrderedByKey().observe(.childChanged, with: { (snapshot) in
             let data = snapshot.value as! NSDictionary
-            print("OL Friends :- ",data)
+            print("OO Friends :- ",data)
             if let friendData = data as? [String: Any] {
                 let id = String(format:"%@",friendData["id"] as! CVarArg)
                 let index = self.friends.index(where: { (friend) -> Bool in
                     friend.id  == id
                 })
                 if index != nil {
+                    print("oo found friend index id:" + self.friends[index!].id + " " + self.friends[index!].name)
                     var profile_pic = ""
                     if let pic = friendData["profilePic"] as? String {
                        profile_pic = pic
@@ -955,7 +915,9 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                     if let lastMessage = friendData["lastMessage"] as? [String: Any] {
                        newFriend = Friend(id: id, name: friendData["name"] as! String, profilePic: profile_pic, lastMessage: lastMessage , online: online)
                     }
+                    print("oo remove at index:")
                     self.friends.remove(at: index!)
+                    print("oo insere at index:")
                     self.friends.insert(newFriend, at: index!)
                     self.sortFriendsAndUpdateBody()
                     DispatchQueue.main.async {
@@ -1017,23 +979,23 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         
         // re-insert at top to preseverve message indexing
         for f in self.friends{
-            for var item in self.bodyFriendsList {
-                if item["user_fb_id"] as! String! == f.id{
-                    item["lastMessage"] = f.lastMessage
-                    item["online"] = f.online
-                }
-                else{ // its a true add
-                    var item =  Dictionary<String, Any>()
-                    item["user_name"] = f.name
-                    item["user_fb_id"] = f.id
-                    item["profile_pic"] = f.profilePic
-                    item["match_created_on"] = nil
-                    item["which_list"] = 2
-                    item["lastMessage"] = f.lastMessage
-                    self.bodyFriendsList.insert(item, at: 0)
-                }
+            let index = self.bodyFriendsList.firstIndex{$0["user_fb_id"] as! String == f.id}
+            if index != nil{
+                self.bodyFriendsList[index!]["which_list"] = 2
+                self.bodyFriendsList[index!]["lastMessage"] = f.lastMessage
+            }
+            else{
+                var item2 =  Dictionary<String, Any>()
+                item2["user_name"] = f.name
+                item2["user_fb_id"] = f.id
+                item2["profile_pic"] = f.profilePic
+                item2["match_created_on"] = nil
+                item2["which_list"] = 2
+                item2["lastMessage"] = f.lastMessage
+                self.bodyFriendsList.insert(item2, at: 0)
             }
         }
+        
         self.bodyFriendsList = self.bodyFriendsList.sorted(by: { (friend1, friend2) -> Bool in
             if friend1["lastMessage"] != nil && friend2["lastMessage"] != nil {
                 // [Dictionary<String, Any>]()

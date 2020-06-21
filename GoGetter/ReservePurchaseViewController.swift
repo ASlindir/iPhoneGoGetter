@@ -136,7 +136,7 @@ class ReservePurchaseViewController: UIViewController {
                          case PurchasesConst.ScreenAction.WAIT_FOR_MATCH_TO_PAY.rawValue:
                              CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
                              let friendDict = ChatListViewController.createFriendDictionary(name: self.oppUserName!, fbid: self.oppUserFBId!, profilePic: self.oppUserImg!,
-                                                                                            createdOn: nil, which_list: 1, lastMessage: nil, online: false)
+                                                                                            createdOn: nil, which_list: 1, lastMessage: nil, online: false, display: true)
                              self.outAlert(title: "Good Choice", message: prompt, compliteHandler:{
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 //                                    self.verifyChatController()
@@ -148,7 +148,7 @@ class ReservePurchaseViewController: UIViewController {
                          case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
 //                            self.verifyChatController()
                             let friendDict = ChatListViewController.createFriendDictionary(name: self.oppUserName!, fbid: self.oppUserFBId!, profilePic: self.oppUserImg!,
-                                                                                           createdOn: nil, which_list: 2, lastMessage: nil, online: false)
+                                                                                           createdOn: nil, which_list: 2, lastMessage: nil, online: false, display : true)
                             self.openChatList(userNewId: self.oppUserFBId, doAnimation: true, newFriend: friendDict, addToFirebase:  true)
 //                             self.openChat()
                              break

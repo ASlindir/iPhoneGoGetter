@@ -69,7 +69,8 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         // constraints
         self.leadingCollectionConstraintDefault = self.leadingCollectionViewConstraint.constant
         self.bottomCollectionViewConstraintDefault = self.bottomCollectionViewConstraint.constant
-        
+        getFriendsList()
+
         // test
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 //            self.animationAddItemToCollection()
@@ -98,7 +99,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         // firebase will send friend observation messages
         // for testing we want to make sure that we don't accept
         // any firebase messages for people that are not in the db - see observer code below
-        getFriendsList()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -372,6 +372,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                 self.addFriendToFirebase = false
             }
 
+            self.friendFromReservePurchase = nil
             self.bodyFriendsList.append(item)
             // move from header list to body
             //            if  (friendFromReservePurchase!["user_fb_id"] as! String == item["user_fb_id"] as! String)
@@ -382,6 +383,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             copiedView.removeFromSuperview()
             self.isAnimateFirstItemInTable = false
             self.tableViewMessages.reloadData()
+            
         })
 
 //        cell.circleView.addCircle(0)
@@ -498,17 +500,57 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return bodyFriendsList.count
+        var c = 0
+        for b in bodyFriendsList {
+            if b["which_list"] as? Int != 2{
+                c += 1
+            }
+            else{
+                if b["display"] as? String != "true" {
+                    c += 1
+                }
+            }
+        }
+        return c
     }
     
-    
-    // boyd friends are eitehr bothpaid 2 or ipaid 1
+    func doGotoChatOnClick(row : Int){
+        let friendBodyDict = self.bodyFriendsList[row]
+                      
+        // find in the friends list to maint 1.0 compat
+        let index = self.friends.index(where: { (friend) -> Bool in
+          friend.id  == friendBodyDict["user_fb_id"] as? String
+        })
+        let friendItem = self.friends[index!]
+        self.goToChatController(friendItem, friendItem.id)
+    }
+
+    // boyd friends are either bothpaid 2 or ipaid 1
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell") as! MessagesTableViewCell
         
         let r = indexPath.row
 
-        let friend = bodyFriendsList[indexPath.item] as Dictionary<String, Any>
+        // we only want to disply body friends that are either pending or that have
+        // gotten firebase messages and are sorted
+        var c = -1
+        for b in bodyFriendsList {
+            if c == indexPath.row{
+                break
+            }
+            else{
+                if b["which_list"] as? Int != 2{
+                    c += 1
+                }
+                else{
+                    if b["display"] as? String != "true" {
+                        c += 1
+                    }
+               }
+            }
+        }
+        
+        let friend = bodyFriendsList[c] as Dictionary<String, Any>
         
         let profile_pic = friend["profile_pic"] as? String
 
@@ -534,18 +576,10 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             cell.circleView.indexPath = indexPath
             cell.circleView.tapHandler = {circleView in
                 let r = circleView.indexPath?.row
-                let friendBodyDict = self.bodyFriendsList[r!]
-                
-                // find in the friends list to maint 1.0 compat
-                let index = self.friends.index(where: { (friend) -> Bool in
-                    friend.id  == friendBodyDict["user_fb_id"] as? String
-                })
-                let friendItem = self.friends[index!]
-                self.goToChatController(friendItem, friendItem.id)
+                self.doGotoChatOnClick(row: r!)
             }
         default:
             NSLog("error bad which value")
-        
         }
         let fname = friend["user_name"] as? String
         cell.lblName.text = fname
@@ -559,20 +593,17 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         }
         else{ // both paid, official friend
 //            let r = indexPath.row.
-            if friends.indices.contains(indexPath.row){
-                if !friends[indexPath.row].online {
+            let idx = friends.firstIndex{friend["user_fb_id"] as! String == $0.id}
+            if (idx != nil){
+                if !friends[idx!].online {
                     cell.imgViewNewMessage.backgroundColor = UIColor.gray
                 }
                 else {
                     cell.imgViewNewMessage.backgroundColor = UIColor.init(red: 38/255, green: 166/255, blue: 175/255, alpha: 1)
                 }
-            }
-            else{
-                cell.imgViewNewMessage.backgroundColor = UIColor.init(red: 38/255, green: 166/255, blue: 175/255, alpha: 1)
-            }
-            cell.lblMessage.font = UIFont.init(name: "OpenSans-Regular", size: 16)
-            if friends.indices.contains(indexPath.row){
-                if let lastMessageDict = friends[indexPath.row].lastMessage{
+
+                cell.lblMessage.font = UIFont.init(name: "OpenSans-Regular", size: 16)
+                if let lastMessageDict = friends[idx!].lastMessage{
                     let lastMessage = lastMessageDict["text"] as? String
                     cell.lblMessage.text = lastMessage?.trimmingCharacters(in: .whitespacesAndNewlines)
                     if let unread = lastMessageDict["unread"] as? String {
@@ -582,6 +613,10 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                     }
                 }
             }
+            else{
+                cell.imgViewNewMessage.backgroundColor = UIColor.init(red: 38/255, green: 166/255, blue: 175/255, alpha: 1)
+            }
+
         }
         cell.imgViewProfile.layer.cornerRadius = 42.5
         
@@ -600,8 +635,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         if  indexPath.item < friends.count {
             tableView.deselectRow(at: indexPath, animated: true)
             CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-            let friend = friends[indexPath.item]
-            goToChatController(friend,friend.id)
+            self.doGotoChatOnClick(row: indexPath.row)
         }
     }
     
@@ -654,7 +688,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
      func LoadHeaderObjects(dict : Dictionary<String, Any>?, collectionName : String, whichList : Int){
           if let collFriendList = dict![collectionName] as? [Dictionary<String, String>] {
               for  f in collFriendList  {
-                let item =  ChatListViewController.createFriendDictionary(name: f["user_name"]!, fbid: f["user_fb_id"]!, profilePic: f["profile_pic"]!, createdOn: f["match_created_on"], which_list: whichList, lastMessage: nil, online: false)
+                var item =  ChatListViewController.createFriendDictionary(name: f["user_name"]!, fbid: f["user_fb_id"]!, profilePic: f["profile_pic"]!, createdOn: f["match_created_on"], which_list: whichList, lastMessage: nil, online: false, display : true)
 
                   if ( !self.checkMatchExpired(dict : item)){
                       // check for friend to animate from header to body
@@ -668,6 +702,10 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                         headerFriendsList.append(item)
                     }
                     else{
+                        if (whichList == 1){
+                            item["display"] = false /// wait til we hear from firebase
+                        }
+                        
                         bodyFriendsList.append(item)
                     }
                   }
@@ -679,7 +717,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
       }
     
     class func createFriendDictionary(name : String, fbid : String, profilePic : String, createdOn:String?,
-                                which_list : Int, lastMessage : [String: Any]?, online:Bool)->Dictionary<String, Any>{
+                                      which_list : Int, lastMessage : [String: Any]?, online:Bool, display:Bool)->Dictionary<String, Any>{
         var item =  Dictionary<String, Any>()
 
         item["user_name"] = name
@@ -689,6 +727,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         item["which_list"] = which_list
         item["lastMessage"] = lastMessage
         item["online"] = online
+        item["display"] = display
         return item
     }
     
@@ -991,7 +1030,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                 item2["profile_pic"] = f.profilePic
                 item2["match_created_on"] = nil
                 item2["which_list"] = 2
-                item2["lastMessage"] = f.lastMessage
                 self.bodyFriendsList.insert(item2, at: 0)
             }
         }

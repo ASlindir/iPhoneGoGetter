@@ -254,7 +254,6 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         viewScrollContent.addGestureRecognizer(tapGestureBottomView)
         navigationController?.navigationBar.isHidden = true
         viewInnerSlide.isHidden = true
-        ClientLog.WriteClientLog( msgType: "feelgood", msg:"showbraingame");
         if showBrainGame {
             //DispatchQueue.global(qos: .background).async {
 //                self.checkViewCountAndShowMatches()
@@ -266,7 +265,6 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         }
         else if LocalStore.store.isQuizDone() {
             if isSlindirQuiz{
-                ClientLog.WriteClientLog( msgType: "feelgood", msg:"isslindirquiz");
 
                 constraintTopViewTop.constant = -UIScreen.main.bounds.size.height
                 constraintTopViewBottom.constant = UIScreen.main.bounds.size.height
@@ -285,7 +283,6 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 }
             }
             else if isAlreadyLogin {
-                ClientLog.WriteClientLog( msgType: "feelgood", msg:"already login");
                 self.viewTopFront.isHidden = true
                 self.viewFront.isHidden = true
                 self.viewTop.isHidden = true
@@ -298,19 +295,16 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 self.checkViewCountAndShowMatches()
             }else{
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    ClientLog.WriteClientLog( msgType: "feelgood", msg:"getselecedquiz");
                     self.gettingTheSelectedQuiz()
                 }
             }
         }else{
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                ClientLog.WriteClientLog( msgType: "feelgood", msg:"gettingtheselectedquiz");
 
                 self.gettingTheSelectedQuiz()
             }
             
             if isSlindirQuiz {
-                ClientLog.WriteClientLog( msgType: "feelgood", msg:"isslindirquiz 2");
                 constraintTopViewTop.constant = -UIScreen.main.bounds.size.height
                 constraintTopViewBottom.constant = UIScreen.main.bounds.size.height
                 self.view.layoutIfNeeded()
@@ -1312,6 +1306,8 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                 self.imgViewBackground.alpha = 0
             })
         }
+        ClientLog.WriteClientLog( msgType: "feelgood", msg:"before");
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.constraintLogoLeading.constant = 85
             self.constraintLogoTrailing.constant = 85
@@ -1321,14 +1317,12 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             })
            
         }
-         ClientLog.WriteClientLog( msgType: "feelgood", msg:"fg start");
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             UIView.animate(withDuration: 3, animations: {
                 self.lblActive.alpha = 1
                 self.lblFeelingGood.alpha = 1
             }, completion: { (completed:Bool) in
                 UIView.animate(withDuration: 0.5, animations: {
-                    ClientLog.WriteClientLog( msgType: "feelgood", msg:"anim stop");
                     self.lblActive.layer.backgroundColor = UIColor.clear.cgColor
                     self.lblFeelingGood.layer.backgroundColor = UIColor.clear.cgColor
                 })
@@ -1362,11 +1356,12 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
             self.constraintLogoCenter.constant = 20
 
             UIView.animate(withDuration: 1, animations: {
+                ClientLog.WriteClientLog( msgType: "sonar", msg:"post 1 second layout if needed");
                 self.view.layoutIfNeeded()
             }, completion: { (completed: Bool) in
                 self.constraintLogoCenter.constant = -UIScreen.main.bounds.height/2
                 self.constraintTopViewHeight.constant = 0
-                ClientLog.WriteClientLog( msgType: "sonar", msg:"before 2 sec animation");
+                ClientLog.WriteClientLog( msgType: "sonar not seen here", msg:"before 2 sec animation fails if only log");
 
                 UIView.animate(withDuration: 2, animations: {
                     self.view.layoutIfNeeded()

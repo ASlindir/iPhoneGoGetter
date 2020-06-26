@@ -203,7 +203,7 @@ let personalDetail = LocalStore.store.getUserDetails()
     @IBAction func btnSharePerson(_ sender: Any){
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         // text to share
-        let text = "Hey, I’m on this new dating app called GoGetter (for active, like-minded singles)  and I came across this person who I thought would be a great match for you! Check it out.  It’s free to start so you’ve got nothing to lose!  Download the app at: \n http://slindir.com/"
+        let text = "Hey, I’m on this new dating app called GoGetter (for active, like-minded singles)  and I came across this person who I thought would be a great match for you! Check it out.  It’s free to start so you’ve got nothing to lose!  Download the app at: \n http://gogetterdating.com/"
         
         // set up activity view controller
        // let objectsToShare:URL = URL(string: "http://slindir.com/")!

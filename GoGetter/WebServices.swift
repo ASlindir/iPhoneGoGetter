@@ -129,6 +129,9 @@ enum Services: String {
     case doPurchaseConversation             = "doPurchaseConversation"
     
     case doQueryConvoStats             = "doQueryConvoStats"
+    
+    case sendConvoAllPaid               = "send-convo-all-paid";
+
 }
 
 class CommError {

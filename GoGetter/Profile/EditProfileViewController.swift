@@ -1883,7 +1883,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             self.present(controller, animated: true, completion: nil)
         }
         else{
-              self.outAlert(title: "Not Yet!", message: "You must complete setup before purchasing coins, but the good news is the very first coin on your first match is on us!", compliteHandler:nil)
+              self.outAlert(title: "Thanks You!", message: "You must complete setup before purchasing coins, but the good news is the very first coin on your first match is on us!", compliteHandler:nil)
         }
     }
     

@@ -840,7 +840,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
            if (response == false){
             self.viewInnerSlide.isHidden = false
             self.btnUndoCard.isHidden = true
-            self.outAlert(title: "Sorry!", message: "out of views for today, check back in, in 24 hours", completeHandler : nil)
+            self.outAlert(title: "Well Done!", message: "Love your enthusiasm but it’s only 20 swipes per day.  Swipe again in 12 hours. Early bird gets the worm!", completeHandler : nil)
            }
            else{
             self.doMatchingProfiles()
@@ -2047,7 +2047,7 @@ extension ProfileViewController: KolodaViewDelegate {
     func koloda(_ koloda: KolodaView, shouldDragCardAt index: Int) -> Bool {
         if self.currentViewCount <= 0{
             DispatchQueue.main.async {
-                self.outAlert(title: "Sorry!", message: "out of views for today, check back in, in 24 hours", completeHandler : {
+                self.outAlert(title: "Well Done!", message: "Love your enthusiasm but it’s only 20 swipes per day.  Swipe again in 12 hours. Early bird gets the worm!", completeHandler : {
                     self.viewInnerSlide.isHidden = false
                     self.btnUndoCard.isHidden = true
                 })
@@ -2173,7 +2173,7 @@ extension ProfileViewController: KolodaViewDelegate {
                             DispatchQueue.main.async {
                                 self.viewInnerSlide.isHidden = false
                                 self.btnUndoCard.isHidden = true
-                                self.outAlert(title: "Sorry!", message: "out of views for today, check back in, in 24 hours", completeHandler : {
+                                self.outAlert(title: "Well Done!", message: "Love your enthusiasm but it’s only 20 swipes per day.  Swipe again in 12 hours. Early bird gets the worm!", completeHandler : {
                                     self.viewInnerSlide.isHidden = false
                                     self.btnUndoCard.isHidden = true
                                 })
@@ -2204,7 +2204,7 @@ extension ProfileViewController: KolodaViewDelegate {
                     DispatchQueue.main.async {
                         self.viewInnerSlide.isHidden = false
                         self.btnUndoCard.isHidden = true
-                        self.outAlert(title: "Sorry!", message: "out of views for today, check back in, in 24 hours", completeHandler : {
+                        self.outAlert(title: "Well Done!", message: "out of views for today, check back in, in 24 hours", completeHandler : {
                             self.viewInnerSlide.isHidden = false
                             self.btnUndoCard.isHidden = true
                         })

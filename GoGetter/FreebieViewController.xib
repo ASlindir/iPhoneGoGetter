@@ -37,7 +37,7 @@
                     </constraints>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HIe-43-oUJ" userLabel="btnNext">
-                    <rect key="frame" x="164.66666666666666" y="560" width="85" height="36"/>
+                    <rect key="frame" x="164.66666666666666" y="620" width="85" height="36"/>
                     <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="36" id="KdQ-s1-kGS"/>
@@ -75,8 +75,8 @@ IS ON US!</string>
                 <constraint firstItem="Ugu-cF-9Yk" firstAttribute="top" secondItem="fuQ-iL-lEk" secondAttribute="bottom" constant="35" id="Qgv-ao-jjG"/>
                 <constraint firstItem="HIe-43-oUJ" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="ZGR-bE-Ja8"/>
                 <constraint firstItem="fuQ-iL-lEk" firstAttribute="top" secondItem="jfx-mI-JG8" secondAttribute="bottom" constant="15" id="drW-W1-jqS"/>
+                <constraint firstAttribute="bottom" secondItem="HIe-43-oUJ" secondAttribute="bottom" constant="80" id="j1C-Fj-HbS"/>
                 <constraint firstItem="8tt-RH-Owv" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="lJw-rU-QHy"/>
-                <constraint firstItem="HIe-43-oUJ" firstAttribute="top" secondItem="Ugu-cF-9Yk" secondAttribute="bottom" constant="100" id="lhO-Oq-c01"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="8tt-RH-Owv" secondAttribute="trailing" id="nSd-F5-aKk"/>
                 <constraint firstItem="jfx-mI-JG8" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="p41-Xg-9pT"/>
                 <constraint firstItem="8tt-RH-Owv" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="198" id="yuV-G0-9SI"/>

@@ -142,19 +142,26 @@ class PurchaseViewController: UIViewController {
         let count = products.count
         let space: CGFloat = 4.0
         let width = (self.purchaseStackView.frame.width - (space * CGFloat(count - 1))) / CGFloat(count)
-        let height = self.purchaseStackView.frame.height
+        var height = self.purchaseStackView.frame.height
+        
+        var yval = 0
+              let bounds = UIScreen.main.bounds
+              let sheight = bounds.size.height
+              if (sheight > 750){
+                height = height - 150
+                yval = 100
+              }
         
         var viewItems: [UIPurchase] = []
         var maxCoins = 0
         var maxItems = 0
 
         for index in  0..<count {
-            let view = UIPurchase(frame: CGRect(x: CGFloat(index) * (width + CGFloat(index <= count - 1 ? space : 0)), y: 0, width: width, height: height))
+            let view = UIPurchase(frame: CGRect(x: CGFloat(index) * (width + CGFloat(index <= count - 1 ? space : 0)),y: CGFloat(yval), width: width, height: height))
             viewItems.append(view)
             
             view.title1Label.isHidden = true
             view.title2Label.isHidden = true
-            view.title4Label.isHidden = true
             view.buyButton.isHidden = true
             
             view.alpha = 0
@@ -174,8 +181,8 @@ class PurchaseViewController: UIViewController {
             view.set(
                 id: products[index].item.AppleStoreID ?? "",
                 title1: products[index].item.CoinsPurchased,
-                title2: "$ \(Int(Double(products[index].item.Price!)! / Double(products[index].item.CoinsPurchased!)!)) per convo",
-                title3: "$ \(String(describing: products[index].item.Price!))",
+                title2: "US $\(Int(Double(products[index].item.Price!)! / Double(products[index].item.CoinsPurchased!)!)) per convo",
+                title3: "US $\(String(describing: products[index].item.Price!))",
                 title4: "\(products[index].item.CoinsPurchased!) conversation",
                 touch: { id in
                     // test
@@ -319,7 +326,6 @@ class PurchaseViewController: UIViewController {
                     
                     self.showPurchaseAnimation(viewItems[counter].title1Label, duration: 0.3)
                     self.showPurchaseAnimation(viewItems[counter].title2Label, duration: 0.3)
-                    self.showPurchaseAnimation(viewItems[counter].title4Label, duration: 0.3)
                     self.showPurchaseAnimation(viewItems[counter].buyButton, duration: 0.3)
                     
                     // next view
@@ -354,6 +360,8 @@ class PurchaseViewController: UIViewController {
                         }
                     }
                     
+                    let sortedProducts = self.items.sorted { Unicode.CanonicalCombiningClass(rawValue: Unicode.CanonicalCombiningClass.RawValue($0.details.price)) > Unicode.CanonicalCombiningClass(rawValue: Unicode.CanonicalCombiningClass.RawValue($1.details.price))}
+                    self.items = sortedProducts
                     self.initViews(products: self.items)
                     if LocalStore.store.getCoinFreebie() {
                     self.view.isUserInteractionEnabled = false
@@ -405,11 +413,14 @@ class PurchaseViewController: UIViewController {
                 
                 if let _products = jsonDict!["products"] as? [Dictionary<String, Any?>] {
                     for product in _products {
+                        let sp = product["price"] as? String
+                        let sprice = "US $"+sp!
+
                         self.products.append(PurchaseViewController.PurchaseItem(
                             Productid: product["id"] as? String,
                             ProductName: product["productName"] as? String,
                             Description: product["description"] as? String,
-                            Price: product["price"] as? String,
+                            Price: sprice,
                             CoinsPurchased: product["coinsPurchased"] as? String,
                             AppleStoreID: product["iTunesProductID"] as? String,
                             GoogleStoreID: product["googleProductID"] as? String)

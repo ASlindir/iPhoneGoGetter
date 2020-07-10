@@ -111,38 +111,6 @@ class ReservePurchaseViewController: UIViewController {
         self.gradientView.layer.addSublayer(gradientLayer)
     }
     
-    func sendConvoAllPaid(){
-        let userId = LocalStore.store.getFacebookID()
-        let reciver_ID = self.oppUserFBId
-        let parameters = ["user_fb_id": userId , "receiving_user_fb_id":reciver_ID]
-        
-        WebServices.service.webServicePostRequest(.post, .friend, .sendConvoAllPaid, parameters, successHandler: { (response) in
-            DispatchQueue.main.async {
-                let jsonDict = response
-                let status = jsonDict!["status"] as! String
-                if status == "success"{
-                    let requiredData = jsonDict!["requiredData"] as? [String: Any]
-                    if requiredData != nil {
-               /* fhc         Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-                            AnalyticsParameterItemID: "id-Match",
-                            AnalyticsParameterItemName: "Match"
-                            ])*/
-                        let dictData = NSKeyedArchiver.archivedData(withRootObject: requiredData)
-                        UserDefaults.standard.setValue(dictData, forKey: "matchedUser")
-                        UserDefaults.standard.set(true, forKey: "matchedNotification")
-                        UserDefaults.standard.synchronize()
-                    }
-                } else {
-                    let message = jsonDict!["message"] as? String
-                    self.outAlertError(message: message)
-                }
-            }
-        }) { (error) in
-            self.outAlertError(message: error?.localizedDescription)
-        }
-    }
-        
-
     func DoPurchaseConversation(){
              Loader.startLoader(true)
              
@@ -154,7 +122,6 @@ class ReservePurchaseViewController: UIViewController {
         ClientLog.WriteClientLog(msgType: "dopurchase", msg: "starting for convo: " + String(self.purchaseConvoId))
              WebServices.service.webServicePostRequest(.post, .conversation, .doPurchaseConversation, parameters, successHandler: { (response) in
                  Loader.stopLoader()
-                ClientLog.WriteClientLog(msgType: "dopurchase", msg: "ws return: ")
                 ClientLog.WriteClientLog(msgType: "dopurchase", msg: "ws return: " + response!.description)
                  let jsonDict = response
                  var isSuccess = false
@@ -179,7 +146,6 @@ class ReservePurchaseViewController: UIViewController {
                             
                          case PurchasesConst.ScreenAction.READY_TO_CHAT.rawValue:
                             // notify other user
-                            self.sendConvoAllPaid()
 //                          self.verifyChatController()
                             let friendDict = ChatListViewController.createFriendDictionary(name: self.oppUserName!, fbid: self.oppUserFBId!, profilePic: self.oppUserImg!,
                                                                                            createdOn: nil, which_list: 2, lastMessage: nil, online: false, display : true)

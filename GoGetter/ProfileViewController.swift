@@ -717,6 +717,8 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
                     if let matchingFriendsArray = jsonDict!["matchedProfiles"] as? [Dictionary<String, Any>]{
                         if matchingFriendsArray.count > 0 {
                             self.cardsArray = matchingFriendsArray
+                            self.currentViewCount = jsonDict!["view_count"] as! Int
+                            
                             var randomCount = 0
                             if matchingFriendsArray.count > 10 {
                                 randomCount = 3
@@ -2148,6 +2150,7 @@ extension ProfileViewController: KolodaViewDelegate {
 //        }, errorHandler: {error in
 //            print(error)
 //        })
+        self.currentViewCount = self.currentViewCount - 1
         
         // original
         WebServices.service.webServicePostRequest(.post, .friend, .sendFriendRequest, parameters, successHandler: { (response) in
@@ -2155,7 +2158,7 @@ extension ProfileViewController: KolodaViewDelegate {
                 let jsonDict = response
                 let status = jsonDict!["status"] as! String
                 if status == "success"{
-                    self.currentViewCount = jsonDict!["view_count"] as! Int
+                   
                     let requiredData = jsonDict!["requiredData"] as? [String: Any]
                     if requiredData != nil {
                /* fhc         Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
@@ -2194,17 +2197,18 @@ extension ProfileViewController: KolodaViewDelegate {
         let userId = LocalStore.store.getFacebookID()
         let blocked_user = details["user_fb_id"] as! String
         let parameters = ["user_fb_id": userId , "dislike_user_fb_id":blocked_user]
-        
+        self.currentViewCount = self.currentViewCount - 1
+
         WebServices.service.webServicePostRequest(.post, .dislike, .dislikeUser, parameters, successHandler: { (response) in
             let jsonDict = response
             let status = jsonDict!["status"] as! String
             if status == "success"{
-                self.currentViewCount = jsonDict!["view_count"] as! Int
+                
                 if self.currentViewCount <= 0{
                     DispatchQueue.main.async {
                         self.viewInnerSlide.isHidden = false
                         self.btnUndoCard.isHidden = true
-                        self.outAlert(title: "Well Done!", message: "out of views for today, check back in, in 24 hours", completeHandler : {
+                        self.outAlert(title: "Well Done!", message: "Love your enthusiasm but it’s only 20 swipes per day.  Swipe again in 12 hours. Early bird gets the worm!", completeHandler : {
                             self.viewInnerSlide.isHidden = false
                             self.btnUndoCard.isHidden = true
                         })

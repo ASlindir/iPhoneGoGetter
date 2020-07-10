@@ -34,6 +34,7 @@ class PurchaseManagerViewController: UIViewController, PurchaseStatisticViewCont
     override func viewDidLoad() {
         super.viewDidLoad()
 
+
         // buttons
         self.backButton.setImage(UIImage(named: "back")!.withRenderingMode(.alwaysTemplate), for: .normal)
         self.backButton.tintColor = UIColor(red:0.00, green:0.65, blue:0.69, alpha:1.0)
@@ -164,14 +165,22 @@ class PurchaseManagerViewController: UIViewController, PurchaseStatisticViewCont
         let count = products.count
         let space: CGFloat = 4.0
         let width = (self.purchaseStackView.frame.width - (space * CGFloat(count - 1))) / CGFloat(count)
-        let height = self.purchaseStackView.frame.height
-        
+        var height = self.purchaseStackView.frame.height
+
+        var yval = 0
+        let bounds = UIScreen.main.bounds
+        let sheight = bounds.size.height
+        if (sheight > 750){
+          height = height - 150
+          yval = 100
+        }
+      
         var viewItems: [UIPurchase] = []
         var maxCoins = 0
         var maxItem = 0
         
         for index in  0..<count {
-            let view = UIPurchase(frame: CGRect(x: CGFloat(index) * (width + CGFloat(index <= count - 1 ? space : 0)), y: 0, width: width, height: height))
+            let view = UIPurchase(frame: CGRect(x: CGFloat(index) * (width + CGFloat(index <= count - 1 ? space : 0)), y: CGFloat(yval), width: width, height: height))
             viewItems.append(view)
             
             self.purchaseStackView.addSubview(view)
@@ -189,8 +198,8 @@ class PurchaseManagerViewController: UIViewController, PurchaseStatisticViewCont
             view.set(
                 id: products[index].item.AppleStoreID ?? "",
                 title1: products[index].item.CoinsPurchased,
-                title2: "$ \(Int(Double(products[index].item.Price!)! / Double(products[index].item.CoinsPurchased!)!)) per convo",
-                title3: "$ \(String(describing: products[index].item.Price!))",
+                title2: "US $\(Int(Double(products[index].item.Price!)! / Double(products[index].item.CoinsPurchased!)!)) per convo",
+                title3: "US $\(String(describing: products[index].item.Price!))",
                 title4: "\(products[index].item.CoinsPurchased!) conversation",
                 touch: { id in
                     Loader.startLoader(true)

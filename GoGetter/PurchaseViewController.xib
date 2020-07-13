@@ -83,8 +83,8 @@ for just 1 coin</string>
                     <color key="textColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Caa-1q-89h">
-                    <rect key="frame" x="16" y="178" width="343" height="387"/>
+                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Caa-1q-89h">
+                    <rect key="frame" x="16" y="184.5" width="343" height="369.5"/>
                 </stackView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DON'T LET THEM GET AWAY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AgO-wj-oT0">
                     <rect key="frame" x="16" y="584" width="343" height="36"/>
@@ -113,8 +113,7 @@ for just 1 coin</string>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Caa-1q-89h" secondAttribute="trailing" constant="16" id="C0a-X3-rDm"/>
                 <constraint firstItem="fR0-3a-0jS" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="Ge1-Uz-MS6"/>
                 <constraint firstItem="AgO-wj-oT0" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="Haj-Xz-Rdk"/>
-                <constraint firstItem="Caa-1q-89h" firstAttribute="top" relation="lessThanOrEqual" secondItem="ogS-JH-ZcM" secondAttribute="bottom" constant="20" id="LEl-3K-Bmb"/>
-                <constraint firstItem="AgO-wj-oT0" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Caa-1q-89h" secondAttribute="bottom" constant="20" id="M32-md-9GU"/>
+                <constraint firstItem="AgO-wj-oT0" firstAttribute="top" secondItem="Caa-1q-89h" secondAttribute="bottom" constant="30" id="M32-md-9GU"/>
                 <constraint firstItem="Caa-1q-89h" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="Ojb-9l-Z3g"/>
                 <constraint firstItem="NME-qC-lFR" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="198" id="S7p-gI-cgB"/>
                 <constraint firstItem="LLK-3c-xnw" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Sp3-aS-RSb"/>
@@ -128,6 +127,7 @@ for just 1 coin</string>
                 <constraint firstItem="Kw8-7J-WhR" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="l1L-wp-vuq"/>
                 <constraint firstItem="ogS-JH-ZcM" firstAttribute="top" secondItem="Kw8-7J-WhR" secondAttribute="bottom" constant="18.5" id="lEw-Jh-CQ9"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="top" secondItem="fR0-3a-0jS" secondAttribute="top" constant="10" id="nHO-cf-HNL"/>
+                <constraint firstItem="Caa-1q-89h" firstAttribute="top" secondItem="ogS-JH-ZcM" secondAttribute="bottom" constant="25" id="oMO-9i-28r"/>
                 <constraint firstItem="NME-qC-lFR" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="pgW-Pb-h6h"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="AgO-wj-oT0" secondAttribute="trailing" constant="16" id="q6P-ts-nCj"/>
                 <constraint firstItem="ogS-JH-ZcM" firstAttribute="trailing" secondItem="Kw8-7J-WhR" secondAttribute="trailing" id="x0b-Ns-kq4"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
@@ -36,15 +36,15 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NME-qC-lFR">
-                    <rect key="frame" x="0.0" y="198" width="375" height="469"/>
+                    <rect key="frame" x="0.0" y="198" width="375" height="580"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="260" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LLK-3c-xnw">
-                    <rect key="frame" x="16" y="0.0" width="44" height="44"/>
+                    <rect key="frame" x="16" y="44" width="44" height="44"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="44" id="GH3-zt-3DP"/>
                         <constraint firstAttribute="height" constant="44" id="PYb-Pl-0GW"/>
@@ -60,14 +60,14 @@
                     </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gogetterWithS" translatesAutoresizingMaskIntoConstraints="NO" id="fR0-3a-0jS">
-                    <rect key="frame" x="127.5" y="-10" width="120" height="61.5"/>
+                    <rect key="frame" x="127.66666666666669" y="34" width="120" height="61.666666666666657"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="120" id="VPa-fa-Yhq"/>
                         <constraint firstAttribute="height" constant="61.5" id="h6X-3G-spr"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kw8-7J-WhR">
-                    <rect key="frame" x="16" y="67" width="343" height="56"/>
+                    <rect key="frame" x="16" y="111" width="343" height="56"/>
                     <constraints>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="OL0-EP-O7l"/>
                     </constraints>
@@ -78,16 +78,16 @@ for just 1 coin</string>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your coin only activates once they PONY UP as well!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ogS-JH-ZcM">
-                    <rect key="frame" x="16" y="141.5" width="343" height="18"/>
+                    <rect key="frame" x="16" y="185.66666666666666" width="343" height="18"/>
                     <fontDescription key="fontDescription" name="OpenSans-SemiBold" family="Open Sans" pointSize="13"/>
                     <color key="textColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Caa-1q-89h">
-                    <rect key="frame" x="16" y="184.5" width="343" height="369.5"/>
+                    <rect key="frame" x="16" y="233.66666666666666" width="343" height="431.33333333333337"/>
                 </stackView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DON'T LET THEM GET AWAY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AgO-wj-oT0">
-                    <rect key="frame" x="16" y="584" width="343" height="36"/>
+                    <rect key="frame" x="16" y="695" width="343" height="36"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="36" id="iLc-DG-YEq"/>
                     </constraints>
@@ -96,7 +96,7 @@ for just 1 coin</string>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO, THANKS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dGQ-tO-7xc">
-                    <rect key="frame" x="16" y="628" width="343" height="26"/>
+                    <rect key="frame" x="16" y="739" width="343" height="26"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="26" id="OLY-pH-CVN"/>
                     </constraints>
@@ -127,7 +127,7 @@ for just 1 coin</string>
                 <constraint firstItem="Kw8-7J-WhR" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="l1L-wp-vuq"/>
                 <constraint firstItem="ogS-JH-ZcM" firstAttribute="top" secondItem="Kw8-7J-WhR" secondAttribute="bottom" constant="18.5" id="lEw-Jh-CQ9"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="top" secondItem="fR0-3a-0jS" secondAttribute="top" constant="10" id="nHO-cf-HNL"/>
-                <constraint firstItem="Caa-1q-89h" firstAttribute="top" secondItem="ogS-JH-ZcM" secondAttribute="bottom" constant="25" id="oMO-9i-28r"/>
+                <constraint firstItem="Caa-1q-89h" firstAttribute="top" secondItem="ogS-JH-ZcM" secondAttribute="bottom" constant="30" id="oMO-9i-28r"/>
                 <constraint firstItem="NME-qC-lFR" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="pgW-Pb-h6h"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="AgO-wj-oT0" secondAttribute="trailing" constant="16" id="q6P-ts-nCj"/>
                 <constraint firstItem="ogS-JH-ZcM" firstAttribute="trailing" secondItem="Kw8-7J-WhR" secondAttribute="trailing" id="x0b-Ns-kq4"/>
@@ -147,6 +147,6 @@ for just 1 coin</string>
     </objects>
     <resources>
         <image name="close" width="36" height="36"/>
-        <image name="gogetterWithS" width="213" height="72"/>
+        <image name="gogetterWithS" width="213.33332824707031" height="72.333335876464844"/>
     </resources>
 </document>

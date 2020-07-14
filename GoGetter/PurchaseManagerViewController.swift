@@ -170,7 +170,7 @@ class PurchaseManagerViewController: UIViewController, PurchaseStatisticViewCont
         var yval = 0
         let bounds = UIScreen.main.bounds
         let sheight = bounds.size.height
-        if (sheight > 750){
+        if (sheight > 828){
           height = height - 150
           yval = 100
         }

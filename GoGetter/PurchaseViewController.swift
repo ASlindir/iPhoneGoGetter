@@ -147,7 +147,7 @@ class PurchaseViewController: UIViewController {
         var yval = 0
               let bounds = UIScreen.main.bounds
               let sheight = bounds.size.height
-              if (sheight > 750){
+              if (sheight > 828){
                 height = height - 150
                 yval = 100
               }
@@ -364,6 +364,7 @@ class PurchaseViewController: UIViewController {
                     self.items = sortedProducts
                     self.initViews(products: self.items)
                     if LocalStore.store.getCoinFreebie() {
+//                    if true {
                     self.view.isUserInteractionEnabled = false
                         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                             let freebieVC = FreebieViewController.loadFromNib()

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina5_5" orientation="portrait" appearance="light"/>
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
@@ -22,11 +22,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8tt-RH-Owv" userLabel="GradientView">
-                    <rect key="frame" x="0.0" y="198" width="414" height="538"/>
+                    <rect key="frame" x="0.0" y="198" width="414" height="664"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="GoGetterSilverCoin" translatesAutoresizingMaskIntoConstraints="NO" id="Ugu-cF-9Yk">
@@ -37,7 +37,7 @@
                     </constraints>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HIe-43-oUJ" userLabel="btnNext">
-                    <rect key="frame" x="164.66666666666666" y="640" width="85" height="36"/>
+                    <rect key="frame" x="164.66666666666666" y="785" width="85" height="36"/>
                     <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.68627450980000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="36" id="KdQ-s1-kGS"/>
@@ -75,7 +75,7 @@ IS ON US!</string>
                 <constraint firstItem="Ugu-cF-9Yk" firstAttribute="top" secondItem="fuQ-iL-lEk" secondAttribute="bottom" constant="35" id="Qgv-ao-jjG"/>
                 <constraint firstItem="HIe-43-oUJ" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="ZGR-bE-Ja8"/>
                 <constraint firstItem="fuQ-iL-lEk" firstAttribute="top" secondItem="jfx-mI-JG8" secondAttribute="bottom" constant="15" id="drW-W1-jqS"/>
-                <constraint firstAttribute="bottom" secondItem="HIe-43-oUJ" secondAttribute="bottom" constant="60" id="j1C-Fj-HbS"/>
+                <constraint firstAttribute="bottom" secondItem="HIe-43-oUJ" secondAttribute="bottom" constant="75" id="j1C-Fj-HbS"/>
                 <constraint firstItem="8tt-RH-Owv" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="lJw-rU-QHy"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="8tt-RH-Owv" secondAttribute="trailing" id="nSd-F5-aKk"/>
                 <constraint firstItem="jfx-mI-JG8" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="p41-Xg-9pT"/>

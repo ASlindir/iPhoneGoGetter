@@ -423,7 +423,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                self.doConvoBeginPurchase(friend: friend, whichList: whichList)
            })
         }
-        cell.circleView.imageView.layer.borderWidth = 3
+        cell.circleView.imageView.layer.borderWidth = 2
         cell.circleView.imageView.layer.masksToBounds = false
         cell.circleView.imageView.layer.cornerRadius = cell.circleView.imageView.frame.height/2
         cell.circleView.imageView.clipsToBounds = true
@@ -496,6 +496,9 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        ClientLog.WriteClientLog( msgType: "firebase", msg:"SECTIONS")
+        self.sortFriendsAndUpdateBody()
+        self.dumpFriends()
         return 1
     }
     
@@ -549,9 +552,11 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                }
             }
         }
-        
+
         let friend = bodyFriendsList[c] as Dictionary<String, Any>
-        
+        let sdbg = "Row: " + String(c) + " name: " + ((friend["user_name"] as? String)!)
+        ClientLog.WriteClientLog( msgType: "firebase", msg:sdbg)
+
         let profile_pic = friend["profile_pic"] as? String
 
         cell.circleView.tapHandler = nil
@@ -847,21 +852,43 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         
     }
     
+    func dumpBodyFriend(f: Dictionary<String, Any>){
+        var s = ""
+        ClientLog.WriteClientLog( msgType: "firebase", msg:"bodyfriend")
+        s += (f["user_name"] as! String) + " : "
+        s += (f["user_fb_id"] as! String) + " : "
+        s += (f["profile_pic"] as! String) + " : "
+        if (f["lastMessage"] != nil){
+            let lastmessage :  [String: Any] = f["lastMessage"] as! [String : Any]
+            s += (lastmessage["text"] as! String) + " : "
+            s += (lastmessage["time"] as! String)
+        }
+        ClientLog.WriteClientLog( msgType: "firebase", msg:s)
+    }
+    
     func dumpFriend(f : Friend ){
         print ("Friend: " + f.id)
         if f.lastMessage == nil{
             print(f.name + " : " + f.profilePic + " : last messge nil")
         }
         else{
+            let s = "dump friend " + f.name + " : " + (f.lastMessage!["text"] as! String)
+            ClientLog.WriteClientLog( msgType: "firebase", msg:s)
             print(f.name + " : " + f.profilePic + " : ",f.lastMessage!["text"] )
         }
     }
+    
     func dumpFriends (){
-        print("dump friends")
-        for f in friends{
+        ClientLog.WriteClientLog( msgType: "firebase", msg:"dump friends")
+        for f in self.friends{
             dumpFriend(f:f)
         }
+        ClientLog.WriteClientLog( msgType: "firebase", msg:"dump bodyfriends")
+        for f in self.bodyFriendsList{
+            dumpBodyFriend(f:f)
+        }
     }
+    
     private func observeFriendsAdded() {
         let friendRef: DatabaseReference = Database.database().reference().child("users")
         userRef = friendRef.child(user_id).child("friends")
@@ -869,7 +896,6 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         friendRefHandle = userRef?.observe(.childAdded, with: { (snapshot) in
             let friendData = snapshot.value as! Dictionary<String, Any>
             print("OA Friends :- ",friendData)
-            self.dumpFriends()
             let id = snapshot.key
 
             // as long as its on the server we are good
@@ -897,15 +923,14 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                     if index != nil {
                         if lastMessage != nil{                        // just update the message if need be
                             // new message
-                            print("OA last message: ",lastMessage!["text"])
                             let newFriend = Friend(id: id, name: name, profilePic: profile_pic,lastMessage: lastMessage, online: online)
                             self.friends.remove(at: index!)
-                            self.dumpFriends()
                             print("inserting")
                             self.friends.insert(newFriend, at: index!)
-                            self.dumpFriends()
-                            self.sortFriendsAndUpdateBody()
-                            
+  //                          self.sortFriendsAndUpdateBody()
+  //                          ClientLog.WriteClientLog( msgType: "fb", msg:"back from sorteda");
+ //                           self.dumpFriends()
+
                             self.tableViewMessages.reloadData()
                         }
                     }
@@ -913,10 +938,9 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                         print("OA brand new friend ")
                        let newFriend = Friend(id: id, name: name, profilePic: profile_pic,lastMessage: lastMessage, online: online)
                        self.friends.append(Friend(id: id, name: name, profilePic: profile_pic,lastMessage: lastMessage, online: online))
-                        self.dumpFriends()
-                       self.sortFriendsAndUpdateBody()
-                        print("back from sort")
-                        self.dumpFriends()
+//                       self.sortFriendsAndUpdateBody()
+ //                       ClientLog.WriteClientLog( msgType: "fb", msg:"back from sortedb");
+ //                       self.dumpFriends()
                         
                        self.tableViewMessages.reloadData()
                     }
@@ -956,7 +980,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
                     }
                     print("oo remove at index:")
                     self.friends.remove(at: index!)
-                    print("oo insere at index:")
+                    print("oo insert at index:")
                     self.friends.insert(newFriend, at: index!)
                     self.sortFriendsAndUpdateBody()
                     DispatchQueue.main.async {
@@ -1003,33 +1027,24 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
         // first sort
         print("sortfriendsandupdatebody")
         print("friends count: "+String(friends.count))
-        // now reconstruct the body list, full friends appear first
-        
-        // remove all the full friends from the body
-//        var i = 0
-//        for item in self.bodyFriendsList.reversed() {
-//            for ff in self.friends{
-//                if (ff.id == item["user_fb_id"] as! String){
-//                    self.bodyFriendsList.remove(at: i)
-//                }
-//            }
-//            i+=1
-//        }
-        
+      
         // re-insert at top to preseverve message indexing
         for f in self.friends{
             let index = self.bodyFriendsList.firstIndex{$0["user_fb_id"] as! String == f.id}
             if index != nil{
+                ClientLog.WriteClientLog( msgType: "fb", msg:"friend msg updated");
                 self.bodyFriendsList[index!]["which_list"] = 2
                 self.bodyFriendsList[index!]["lastMessage"] = f.lastMessage
             }
             else{
+                ClientLog.WriteClientLog( msgType: "fb", msg:"friend inserted at top");
                 var item2 =  Dictionary<String, Any>()
                 item2["user_name"] = f.name
                 item2["user_fb_id"] = f.id
                 item2["profile_pic"] = f.profilePic
                 item2["match_created_on"] = nil
                 item2["which_list"] = 2
+                item2["lastMessage"] = f.lastMessage
                 self.bodyFriendsList.insert(item2, at: 0)
             }
         }

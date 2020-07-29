@@ -456,13 +456,16 @@ class ChatViewController: JSQMessagesViewController{
             if ids == self.receiver_id{
                 let alert = UIAlertController(title:String(format:"This conversation is no longer available.",(self.friend?.name)!), message: nil, preferredStyle: .alert)
                 let ok = UIAlertAction(title: "Ok", style: .cancel) { (action: UIAlertAction) in
-                    if (self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 2].isKind(of: ChatListViewController.self))! {
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                    else {
-                        let listCont = self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3]
-                        self.navigationController?.popToViewController(listCont!, animated: true)
-                    }
+                    let vc = self.navigationController?.viewControllers.first(where: { $0 is ProfileViewController })
+                    self.navigationController?.popToViewController(vc!, animated: true)
+                    
+//                    if (self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 2].isKind(of: ChatListViewController.self))! {
+//                        self.navigationController?.popViewController(animated: true)
+//                    }
+//                    else {
+//                        let listCont = self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3]
+//                        self.navigationController?.popToViewController(listCont!, animated: true)
+//                    }
                 }
                 alert.addAction(ok)
                 self.present(alert, animated: true, completion: nil)
@@ -804,15 +807,21 @@ class ChatViewController: JSQMessagesViewController{
         
         let userId = LocalStore.store.getFacebookID()
         let report_user = self.receiver_id
-        let parameters = ["user_fb_id": userId , "report_user_fb_id":report_user, "reason":reason, "reporting_to": "slindirapp@gmail.com"]
+//        let parameters = ["user_fb_id": userId , "report_user_fb_id":report_user, "reason":reason, "reporting_to": "slindirapp@gmail.com"]
+        let parameters = ["user_fb_id": userId , "report_user_fb_id":report_user, "reason":reason, "reporting_to": "gogetter@gmail.com"]
         
         WebServices.service.webServicePostRequest(.post, .report, .reportUser, parameters as Dictionary<String, Any>, successHandler: { (response) in
             let jsonDict = response
             let status = jsonDict!["status"] as! String
-            if status == "success"{
-                DispatchQueue.main.async {
-                    self.navigationController?.popViewController(animated: true)
-                }
+            if status == "success"{  // the remove should come in through firebase
+//                DispatchQueue.main.async {
+//                    // cheap fix we have to get the user off the chatlist screen so we pop back to profiles
+//                    let vc = self.navigationController?.viewControllers.first(where: { $0 is ChatListViewController })
+//                    if vc != nil{
+//                       vc?.removeFromParent()
+//                    }
+//                    self.navigationController?.popViewController(animated: true)
+//                }
             }else{
                 //let message = jsonDict!["message"] as! String
                 //self.showAlertWithOneButton("", message, "Ok")

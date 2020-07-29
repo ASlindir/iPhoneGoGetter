@@ -182,7 +182,7 @@ class PurchaseViewController: UIViewController {
                 id: products[index].item.AppleStoreID ?? "",
                 title1: products[index].item.CoinsPurchased,
                 title2: "US $\(Int(Double(products[index].item.Price!)! / Double(products[index].item.CoinsPurchased!)!)) per convo",
-                title3: "US $\(String(describing: products[index].item.Price!))",
+                title3: "US $\(String(describing: products[index].item.Price!.replacingOccurrences(of: ".00", with: "")))",
                 title4: "\(products[index].item.CoinsPurchased!) conversation",
                 touch: { id in
                     // test

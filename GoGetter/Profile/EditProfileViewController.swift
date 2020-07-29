@@ -175,8 +175,8 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     var profileImages:[Any?] = [#imageLiteral(resourceName: "steve"),UIImage(named: ""),UIImage(named: ""),UIImage(named: ""),UIImage(named: ""),UIImage(named: "")]
     var activitiesArray:[String]?
     
-    var selectedIndexPath: IndexPath?
-    var previousIndexPath: IndexPath?
+    var selectedIndexPath: IndexPath = []
+    var previousIndexPath: IndexPath = []
     
     var olderContentOffSet: CGFloat?
     
@@ -874,7 +874,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        
         if player != nil {
             player.replaceCurrentItem(with: nil)
             player = nil
@@ -1678,8 +1677,11 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             let gesture = sender as? UITapGestureRecognizer
             let vw = gesture?.view
             let vwCamera = vw?.superview?.superview
-            let indexPath = IndexPath.init(row: (vwCamera?.tag)!, section: 0)
-            selectedIndexPath  = indexPath
+            let r = (vwCamera?.tag)!
+            print(r)
+            let indexPath = IndexPath.init(row: r, section: 0)
+            print(indexPath)
+            self.selectedIndexPath  = indexPath
         }
     
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
@@ -2469,11 +2471,13 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                     }else{
                         self.imgViewProfile.isHidden = false
                         self.viewVideoProfile.isHidden = true
-                        let vwCamera:UIView = self.scrollVwCamera.viewWithTag((selectedIndexPath?.row)!)!
+                        let vwCamera:UIView = self.scrollVwCamera.viewWithTag((selectedIndexPath.row))!
                         let openViewCamera:OpenCameraView = vwCamera.subviews[0] as! OpenCameraView
                         openViewCamera.imgViewProfile.image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage
                         openViewCamera.lblRecordVideo.text = "CHANGE PHOTO"
-                        if (self.selectedIndexPath?.item)! - 11 == 0 {
+                        openViewCamera.imgViewCamera.isHidden = true
+                        openViewCamera.imgViewProfile.isHidden = false
+                        if (self.selectedIndexPath.item) - 11 == 0 {
                             DispatchQueue.main.async {
                                 self.postImageWithImage(image: info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as! UIImage, fileName: "profile_pic", type: "image")
                                 self.personalDetail["profile_pic"] = ""
@@ -2481,12 +2485,12 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                         }
                         else {
                             DispatchQueue.main.async {
-                                self.postImageWithImage(image: info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as! UIImage, fileName: String(format:"image%d",(self.selectedIndexPath?.item)!-11), type: "image")
-                                self.personalDetail[String(format:"image%d",(self.selectedIndexPath?.item)! - 11)] = ""
+                                self.postImageWithImage(image: info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as! UIImage, fileName: String(format:"image%d",(self.selectedIndexPath.item)-11), type: "image")
+                                self.personalDetail[String(format:"image%d",(self.selectedIndexPath.item) - 12)] = ""
                             }
                         }
                         
-                        profileImages[(selectedIndexPath!.item) - 12] = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as! UIImage
+                        profileImages[(selectedIndexPath.item) - 12] = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as! UIImage
                     }
                 }
             }
@@ -2593,24 +2597,24 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         // 'image' is the newly cropped version of the original image
         let selectedImage = image
-        self.profileImages[(self.selectedIndexPath!.item) - 11] = selectedImage
+        self.profileImages[(self.selectedIndexPath.item) - 12] = selectedImage
         cropViewController.dismiss(animated: true, completion: {
             DispatchQueue.main.async {
                 //                    let cell: SettingCollectionViewCell = self.collectionView.cellForItem(at: self.selectedIndexPath!) as! SettingCollectionViewCell
-                let vwCamera:UIView = self.scrollVwCamera.viewWithTag((self.selectedIndexPath?.row)!)!
+                let vwCamera:UIView = self.scrollVwCamera.viewWithTag((self.selectedIndexPath.row))!
                 let openViewCamera:OpenCameraView = vwCamera.subviews[0] as! OpenCameraView
                 openViewCamera.lblRecordVideo.text = "CHANGE PHOTO"
                 openViewCamera.imgViewProfile.image = selectedImage
                 openViewCamera.imgViewCamera.isHidden = true
                 openViewCamera.imgViewProfile.isHidden = false
                 
-                if (self.selectedIndexPath?.item)! - 11 == 0 {
+                if (self.selectedIndexPath.item) - 11 == 0 {
                     self.postImageWithImage(image: selectedImage, fileName: "profile_pic", type: "image")
                 }
                 else {
-                    self.postImageWithImage(image: selectedImage, fileName: String(format:"image%d",(self.selectedIndexPath?.item)! - 11), type: "image")
+                    self.postImageWithImage(image: selectedImage, fileName: String(format:"image%d",(self.selectedIndexPath.item) - 11), type: "image")
                     
-                    self.personalDetail[String(format:"image%d",(self.selectedIndexPath?.item)!-12)] = ""
+                    self.personalDetail[String(format:"image%d",(self.selectedIndexPath.item)-12)] = ""
                     
                 }
             }

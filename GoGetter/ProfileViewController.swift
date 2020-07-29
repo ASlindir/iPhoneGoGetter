@@ -1586,7 +1586,7 @@ class ProfileViewController: UIViewController,  UICollectionViewDataSource, UICo
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         //https://itunes.apple.com/us/app/slindir-dating-for-active-lifestylers/id1167292687?ls=1&mt=8
         // text to share
-        let text = "I’m on this new dating app called GoGetter and there are great people on here. Check it out… \n http://slindir.com/"
+        let text = "I’m on this new dating app called GoGetter and there are great people on here. Check it out… \n http://gogetterdating.com/"
         
         // set up activity view controller
         

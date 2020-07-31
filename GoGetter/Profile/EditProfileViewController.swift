@@ -2490,7 +2490,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                             }
                         }
                         
-                        profileImages[(selectedIndexPath.item) - 12] = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as! UIImage
+                        profileImages[(selectedIndexPath.item) - 11] = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as! UIImage
                     }
                 }
             }
@@ -2597,7 +2597,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         // 'image' is the newly cropped version of the original image
         let selectedImage = image
-        self.profileImages[(self.selectedIndexPath.item) - 12] = selectedImage
+        self.profileImages[(self.selectedIndexPath.item) - 11] = selectedImage
         cropViewController.dismiss(animated: true, completion: {
             DispatchQueue.main.async {
                 //                    let cell: SettingCollectionViewCell = self.collectionView.cellForItem(at: self.selectedIndexPath!) as! SettingCollectionViewCell

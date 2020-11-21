@@ -423,8 +423,9 @@ extension ViewController : SwiftyGifDelegate {
         
         UIView.animate(withDuration: 1, animations: {
             self.btnFacebook.transform = CGAffineTransform.identity
-            self.btnFacebook.alpha = 1
-            
+            self.btnFacebook.alpha = 0
+            // fhc disable fb        btnFacebook.alpha = 1
+
             self.btnPhoneNumber.transform = CGAffineTransform.identity
             self.btnPhoneNumber.alpha = 1
         }) { (completed: Bool) in

@@ -284,25 +284,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             
             if application.applicationState == .active {
                 let alert = UIAlertController.init(title: "New Match:", message: (requiredData?["message"] as! String), preferredStyle: .alert)
-                let action = UIAlertAction.init(title: "Say Hello", style: .default, handler: { (action) in
-                    if self.currentController.isKind(of: ProfileViewController.self){
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMatchedNotification"), object: nil, userInfo: requiredData)
-                    }
-                    else if self.currentController.isKind(of: ChatListViewController.self) {
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMatchListNotification"), object: nil, userInfo: requiredData)
-                    }
-                    else if self.currentController.isKind(of: EditProfileViewController.self) {
-                        self.currentController.viewWillAppear(true)
-                    }
-                    else {
-                        self.currentController.navigationController?.popToRootViewController(animated: true)
-                    }
-                })
-                let action1 = UIAlertAction.init(title: "Maybe Later", style: .default, handler:{ (action) in
+//                let action = UIAlertAction.init(title: "Say Hello", style: .default, handler: { (action) in
+//                    if self.currentController.isKind(of: ProfileViewController.self){
+//                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMatchedNotification"), object: nil, userInfo: requiredData)
+//                    }
+//                    else if self.currentController.isKind(of: ChatListViewController.self) {
+//                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newMatchListNotification"), object: nil, userInfo: requiredData)
+//                    }
+//                    else if self.currentController.isKind(of: EditProfileViewController.self) {
+//                        self.currentController.viewWillAppear(true)
+//                    }
+//                    else {
+//                        self.currentController.navigationController?.popToRootViewController(animated: true)
+//                    }
+//                })
+                let action1 = UIAlertAction.init(title: "OK", style: .default, handler:{ (action) in
                     UserDefaults.standard.set(false, forKey: "newMatchedNotification")
                     UserDefaults.standard.synchronize()
                 })
-                alert.addAction(action)
+//                alert.addAction(action)
                 alert.addAction(action1)
                     
                 currentController.present(alert, animated: true, completion: nil)

@@ -518,6 +518,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
     }
     
     func doGotoChatOnClick(row : Int){
+     //       ClientLog.WriteClientLog( msgType: "prodcrash-dogoto", msg:"doGotoChatOnClick")
         let friendBodyDict = self.bodyFriendsList[row]
                       
         // find in the friends list to maint 1.0 compat
@@ -580,7 +581,17 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             // handled by table row tap
             cell.circleView.indexPath = indexPath
             cell.circleView.tapHandler = {circleView in
+            //        ClientLog.WriteClientLog( msgType: "prodcrash", msg:"tap")
                 let r = circleView.indexPath?.row
+                var sdbg = "click ";
+                if r == nil{
+                    sdbg = sdbg + " r is nil"
+                }
+                else{
+                    sdbg = sdbg + String(r!)
+                }
+       //         ClientLog.WriteClientLog( msgType: "prodcrash", msg:sdbg)
+
                 self.doGotoChatOnClick(row: r!)
             }
         default:
@@ -695,7 +706,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
               for  f in collFriendList  {
                 var item =  ChatListViewController.createFriendDictionary(name: f["user_name"]!, fbid: f["user_fb_id"]!, profilePic: f["profile_pic"]!, createdOn: f["match_created_on"], which_list: whichList, lastMessage: nil, online: false, display : true)
 
-                  if ( !self.checkMatchExpired(dict : item)){
+                  if (whichList == 2 || !self.checkMatchExpired(dict : item)){
                       // check for friend to animate from header to body
                     if friendFromReservePurchase != nil &&
                         (friendFromReservePurchase!["user_fb_id"] as! String == item["user_fb_id"] as! String)
@@ -834,7 +845,7 @@ class ChatListViewController: UIViewController,  UICollectionViewDataSource, UIC
             if snapshot.hasChild(id){
                 if isOpenChat {
                     self.goToChatController(friend!,id)
-                }
+                }	
             }else{
                 //add friend to own friendlist
 //                self.createFriends(id, name, profilePic)

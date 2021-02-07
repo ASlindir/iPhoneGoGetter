@@ -12,7 +12,7 @@ import FBSDKCoreKit
 import Firebase
 import IQKeyboardManagerSwift
 import Fabric
-import Crashlytics
+//import Crashlytics
 import CoreLocation
 import UserNotifications
 import FacebookCore
@@ -78,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         }
         
         IQKeyboardManager.shared.enable = true
-        Fabric.with([Crashlytics.self])
+  //      Fabric.with([Crashlytics.self])
         
        
         

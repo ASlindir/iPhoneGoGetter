@@ -7,10 +7,11 @@
 //
 
 import UIKit
-import Photos
+//import Photos
+import PhotosUI
 import AVKit
 import MobileCoreServices
-import Crashlytics
+//import Crashlytics
 import FBSDKCoreKit
 //import SDWebImage
 import AVFoundation
@@ -18,7 +19,8 @@ import UIImage_ImageCompress
 import MessageUI
 import CropViewController
 
-class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryViewControllerDelegates, UINavigationControllerDelegate, UIImagePickerControllerDelegate, RecordVideoDelegate, ProfileViewControllerDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, UITextViewDelegate, MFMailComposeViewControllerDelegate, CropViewControllerDelegate, PurchaseManagerViewControllerDelegate, PurchaseViewControllerDelegate {
+class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryViewControllerDelegates, UINavigationControllerDelegate, UIImagePickerControllerDelegate, RecordVideoDelegate, ProfileViewControllerDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, UITextViewDelegate, MFMailComposeViewControllerDelegate, CropViewControllerDelegate, PurchaseManagerViewControllerDelegate, PurchaseViewControllerDelegate, PHPickerViewControllerDelegate {
+   
     
     
 //MARK:-  IBOutlets, Variables and Constants
@@ -1363,9 +1365,22 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         CustomClass.sharedInstance.playAudio(.swipeRight, .mp3)
     }
     
-    
+    @available(iOS 14, *)
+    func doIOS14LimitedVideo(){
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+        configuration.filter = .any(of: [.videos])
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true, completion: nil)
+    }
+
     @objc func gestureRecordVideo(_ gesture: UITapGestureRecognizer?){
-        self.getGalleryImages()
+        if #available(iOS 14, *) {
+        } else {
+            self.getGalleryImages()
+            // Fallback on earlier versions
+        };
         
         self.vwVideo.layer.borderColor = UIColor.clear.cgColor
         self.vwVideo.layer.borderWidth = 1
@@ -1397,14 +1412,30 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         let galleryAction = UIAlertAction(title: "Choose Video", style: .default) { (action) in
             CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
             switch PHPhotoLibrary.authorizationStatus(){
-            case .authorized:
-                print("You can Access Photos.")
-                
+            case .limited:
+                if #available(iOS 14, *) {
+                    self.doIOS14LimitedVideo()
+                } else {
+                    // Fallback on earlier versions
+/*
                 let galleryController = self.storyboard?.instantiateViewController(withIdentifier: "GalleryViewController") as! GalleryViewController!
                 galleryController?.fetchResult = self.allPhotos
                 galleryController?.galleryDelegate = self
                 galleryController?.selectedIndex = 10
                 self.present(galleryController!, animated: true, completion: nil)
+ */
+                }
+            case .authorized:
+                print("You can Access Photos.")
+                if #available(iOS 14, *) {
+                    self.doIOS14LimitedVideo()
+                } else {
+                    let galleryController = self.storyboard?.instantiateViewController(withIdentifier: "GalleryViewController") as! GalleryViewController!
+                    galleryController?.fetchResult = self.allPhotos
+                    galleryController?.galleryDelegate = self
+                    galleryController?.selectedIndex = 10
+                    self.present(galleryController!, animated: true, completion: nil)
+                }
             case .denied:
                 self.showSettingAlert()
             case .notDetermined:
@@ -1668,8 +1699,48 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         }
     }
     
+    @available(iOS 14, *)
+    func doIOS14Limited(){
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+        configuration.filter = .any(of: [.livePhotos, .images])
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true, completion: nil)
+    }
+    @available(iOS 14, *)
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        dismiss(animated: true, completion: nil)
+        guard !results.isEmpty else { return }
+        if results[0].itemProvider.canLoadObject(ofClass: UIImage.self) {
+            results[0].itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                     DispatchQueue.main.async {
+                         if let image = image as? UIImage {
+                            self.setImageIOS14(image)
+                         }
+                     }
+            }
+         }
+        else{
+            // video
+            results[0].itemProvider
+                .loadInPlaceFileRepresentation(forTypeIdentifier: "public.mpeg-4",
+                                               completionHandler: { (url, success, err) in
+                                                if (success){
+                                                    print(url!);
+                                                    self.doCompressAsset(url: url!)
+                                                }
+            })
+        }
+     }
+    
+    
     @IBAction func btnCameraPic(_ sender: Any?){
-        self.getGalleryImages()
+        if #available(iOS 14, *) {
+        } else {
+            self.getGalleryImages()
+            // Fallback on earlier versions
+        };
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
         let isGesture = sender is UITapGestureRecognizer
          
@@ -1685,37 +1756,46 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         }
     
         CustomClass.sharedInstance.playAudio(.popGreen, .mp3)
-        
-        let actionSheet = UIAlertController(title: "Choose profile photo or video or take it.", message: nil, preferredStyle: .actionSheet)
-        let galleryAction = UIAlertAction(title: "Gallery", style: .default) { (action) in
-            
+            let actionSheet = UIAlertController(title: "Choose profile photo or video or take it.", message: nil, preferredStyle: .actionSheet)
+            let galleryAction = UIAlertAction(title: "Gallery", style: .default) { (action) in
             switch PHPhotoLibrary.authorizationStatus(){
+            case .limited:
+                print("You can Access Photos.")
+                if #available(iOS 14, *) {
+                    self.doIOS14Limited()
+                } else {
+                    // Fallback on earlier versions
+                };
             case .authorized:
                 print("You can Access Photos.")
-                
-//                let galleryController = self.storyboard?.instantiateViewController(withIdentifier: "GalleryViewController") as! GalleryViewController!
-//                galleryController?.fetchResult = self.allPhotos
-//                galleryController?.galleryDelegate = self
-//                galleryController?.selectedIndex = self.selectedIndexPath!.item - 11
-//                self.present(galleryController!, animated: true, completion: nil)
-                
-                let pickerController = UIImagePickerController()
-                
-                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary)
-                {
-                    pickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
-//                    pickerController.allowsEditing = true
-                    pickerController.delegate = self
-                    pickerController.mediaTypes = ["public.image"]
-                    self.isOutGallery = true
-                    self.present(pickerController, animated: true , completion: nil)
-                }
+                if #available(iOS 14, *) {
+                    self.doIOS14Limited()
+                } else {
+                    // Fallback on earlier versions
+                    let pickerController = UIImagePickerController()
+                    
+                    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary)
+                    {
+                        pickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
+    //                    pickerController.allowsEditing = true
+                        pickerController.delegate = self
+                        pickerController.mediaTypes = ["public.image"]
+                        self.isOutGallery = true
+                        self.present(pickerController, animated: true , completion: nil)
+                    }
+                };
                 
             case .denied:
                 self.showSettingAlert()
             case .notDetermined:
                 print("Premission Alert Not Open.")
-                self.getGalleryImages()
+                if #available(iOS 14, *) {
+                    self.doIOS14Limited()
+                } else {
+                    self.getGalleryImages()
+                    // Fallback on earlier versions
+                };
+
             case .restricted:
                 print("Premissions Are resticted.")
             }
@@ -1726,12 +1806,12 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             
         }
-        actionSheet.addAction(galleryAction)
-//        if selectedIndexPath?.item != 0{
-            actionSheet.addAction(cameraAction)
-       // }
-        actionSheet.addAction(cancel)
-        present(actionSheet, animated: true, completion: nil)
+            actionSheet.addAction(galleryAction)
+    //        if selectedIndexPath?.item != 0{
+                actionSheet.addAction(cameraAction)
+           // }
+            actionSheet.addAction(cancel)
+            present(actionSheet, animated: true, completion: nil)
     }
     
     @objc func selectImageOrVideo(){
@@ -2402,6 +2482,49 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
         self.isOutGallery = false
     }
     
+    func doCompressAsset(url : URL){
+        let myasset = AVURLAsset(url: url);
+        self.imgViewProfile.image = self.thumbnailForVideoASSet(asset: myasset);
+        DispatchQueue.main.async {
+            self.playView(url);
+            let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".mp4")
+            self.compressVideo(inputURL: url as URL,asset: nil, outputURL: compressedURL) { (exportSession) in
+                guard let session = exportSession else {
+                    return
+                }
+                
+                switch session.status {
+                case .unknown:
+                    break
+                case .waiting:
+                    break
+                case .exporting:
+                    break
+                case .completed:
+                    guard let compressedData = NSData(contentsOf: compressedURL) else {
+                        return
+                    }
+                    print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        // Bounce back to the main thread to update the UI
+                        DispatchQueue.main.async {
+                            self.deleteOldVideoFromDocumentDirectory()
+                            self.writeVideoToDocumentDirectory(compressedData)
+                            self.postVideoWithData(data: compressedData as Data, imageData: self.imgViewProfile.image!.jpegData(compressionQuality: 1.0)!)
+                        }
+                    }
+                    print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
+                case .failed:
+                    break
+                case .cancelled:
+                    break
+                }
+            }
+            
+        }
+
+    }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if (self.isOutGallery) {
             self.isOutGallery = false
@@ -2428,45 +2551,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
                     if stringType == kUTTypeMovie as String{
                         let urlOfVideo =  info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.mediaURL)] as? URL
                         if let url = urlOfVideo{
-                            let myasset = AVURLAsset(url: urlOfVideo!);
-                            self.imgViewProfile.image = self.thumbnailForVideoASSet(asset: myasset);
-                            DispatchQueue.main.async {
-                                self.playView(url);
-                                let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".mp4")
-                                self.compressVideo(inputURL: url as URL,asset: nil, outputURL: compressedURL) { (exportSession) in
-                                    guard let session = exportSession else {
-                                        return
-                                    }
-                                    
-                                    switch session.status {
-                                    case .unknown:
-                                        break
-                                    case .waiting:
-                                        break
-                                    case .exporting:
-                                        break
-                                    case .completed:
-                                        guard let compressedData = NSData(contentsOf: compressedURL) else {
-                                            return
-                                        }
-                                        print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
-                                        DispatchQueue.global(qos: .userInitiated).async {
-                                            // Bounce back to the main thread to update the UI
-                                            DispatchQueue.main.async {
-                                                self.deleteOldVideoFromDocumentDirectory()
-                                                self.writeVideoToDocumentDirectory(compressedData)
-                                                self.postVideoWithData(data: compressedData as Data, imageData: self.imgViewProfile.image!.jpegData(compressionQuality: 1.0)!)
-                                            }
-                                        }
-                                        print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
-                                    case .failed:
-                                        break
-                                    case .cancelled:
-                                        break
-                                    }
-                                }
-                                
-                            }
+                            self.doCompressAsset(url: url)
                         }
                     }else{
                         self.imgViewProfile.isHidden = false
@@ -2573,7 +2658,16 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, GalleryV
             }
         }
     }
-    
+    func setImageIOS14(_ image: UIImage){
+            let cropViewController = CropViewController(image: image)
+            cropViewController.delegate = self
+            cropViewController.aspectRatioPreset = CropViewControllerAspectRatioPreset.presetCustom
+            cropViewController.aspectRatioLockEnabled = true
+            cropViewController.aspectRatioPickerButtonHidden = true
+            cropViewController.customAspectRatio = CGSize(width: 222, height: 233)
+            self.present(cropViewController, animated: true, completion: nil)
+    }
+
     func setImage(_ asset: PHAsset){
         let options = PHImageRequestOptions()
         options.deliveryMode = .fastFormat
